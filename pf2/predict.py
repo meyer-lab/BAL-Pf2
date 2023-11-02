@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression, LogisticRegressionCV
 from sklearn.model_selection import StratifiedKFold
 
-CACHE_DIR = join(dirname((abspath(__file__))), 'output')
+CACHE_DIR = join(dirname((abspath(__file__))), "output")
 OPTIMAL_RANK = 40
 REPO_PATH = dirname(abspath(__file__))
 SKF = StratifiedKFold(n_splits=5)
@@ -36,7 +36,7 @@ def predict_mortality(data, labels, proba=False):
         n_jobs=1,
         cv=SKF,
         max_iter=100000,
-        multi_class='ovr'
+        multi_class="ovr",
     )
     model.fit(data, labels)
 
@@ -47,7 +47,7 @@ def predict_mortality(data, labels, proba=False):
             solver="saga",
             l1_ratio=model.l1_ratio_[0],
             C=model.C_[0],
-            max_iter=100000
+            max_iter=100000,
         )
         for train_index, test_index in SKF.split(data, labels):
             train_data = data.iloc[train_index, :]
