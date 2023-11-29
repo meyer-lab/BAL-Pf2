@@ -1,9 +1,11 @@
 import warnings
 from os.path import abspath, dirname, join
 
+import numpy as np
 import pandas as pd
 import scanpy as sc
 
+DATA_PATH = join('/opt', 'northwest_bal')
 REPO_PATH = dirname(abspath(__file__))
 
 
@@ -42,16 +44,14 @@ def import_data(
         size = "m"
         warnings.warn("'size' parameter not recognized; defaulting to 'medium'")
 
-    if size in ["small", "s"]:
-        fp = "v4_11integrated_cleaned_small.h5ad"
-    elif size in ["medium", "m"]:
-        fp = "v4_11integrated_cleaned_medium.h5ad"
-    else:
-        fp = "v4_11_integrated_cleaned.h5ad"
-
     adata = sc.read_h5ad(
-        join(REPO_PATH, "data", fp),
+        join(DATA_PATH, 'v4_11integrated_cleaned.h5ad'),
     )
+    if size in ["small", "s"]:
+        adata = adata[np.arange(0, adata.shape[0], 10)]
+    elif size in ["medium", "m"]:
+        adata = adata[np.arange(0, adata.shape[0], 4)]
+
     if high_variance_genes:
         adata = adata[:, adata.var.loc[:, "highly_variable"]]
 
