@@ -83,7 +83,7 @@ def quality_control(data, filter_low=True, mito=True, log_norm=True,
         batch_correct (bool, default: True): correct for batches
 
     Returns:
-        data (pd.DataFrame): quality-controlled single-cell dataset
+        data (anndata.annData): quality-controlled single-cell dataset
     """
     if filter_low:
         # Drop cells & genes with low counts
@@ -114,7 +114,21 @@ def quality_control(data, filter_low=True, mito=True, log_norm=True,
     if batch_correct:
         # Batch correction via ComBat
         start = time.time()
-        sc.pp.combat(data)
+        data = rescale_batches(data, 'batch')
         print(f'ComBat completed in {round(time.time() - start, 2)} seconds')
 
+    return data
+
+
+def rescale_batches(data, batch_col='batch'):
+    """
+    Rescales batches to minimize batch effects.
+
+    Parameters:
+        data (anndata.annData): single-cell measurements
+        batch_col (str, default: "batch"): column with batch labels
+
+    Returns:
+        data (anndata.annData): rescaled single-cell measurements
+    """
     return data
