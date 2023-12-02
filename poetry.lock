@@ -994,19 +994,19 @@ tqdm = "^4.65.0"
 
 [package.source]
 type = "git"
-url = "git@github.com:meyer-lab/parafac2.git"
+url = "https://github.com/meyer-lab/parafac2.git"
 reference = "HEAD"
-resolved_reference = "fa9c1598aa74e7f9b3fb96b1aadd7d1f9d2e0a3e"
+resolved_reference = "9419565888c0e4b6bc7b42ba8d82f9bd38333607"
 
 [[package]]
 name = "patsy"
-version = "0.5.3"
+version = "0.5.4"
 description = "A Python package for describing statistical models and for building design matrices."
 optional = false
 python-versions = "*"
 files = [
-    {file = "patsy-0.5.3-py2.py3-none-any.whl", hash = "sha256:7eb5349754ed6aa982af81f636479b1b8db9d5b1a6e957a6016ec0534b5c86b7"},
-    {file = "patsy-0.5.3.tar.gz", hash = "sha256:bdc18001875e319bc91c812c1eb6a10be4bb13cb81eb763f466179dca3b67277"},
+    {file = "patsy-0.5.4-py2.py3-none-any.whl", hash = "sha256:0486413077a527db51ddea8fa94a5234d0feb17a4f4dc01b59b6086c58a70f80"},
+    {file = "patsy-0.5.4.tar.gz", hash = "sha256:7dabc527597308de0e8f188faa20af7e06a89bdaa306756dfc7783693ea16af4"},
 ]
 
 [package.dependencies]
@@ -1624,4 +1624,4 @@ test = ["pytest (>=6.0.0)", "setuptools (>=65)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.12"
-content-hash = "94929ff583155e9b9666431627dd35e22f28f7afe9a254e87a21daf2da71439c"
+content-hash = "dedd3d5edcb8f7694b265ff040f9e453bc4302c362080fa4677de4375b662de3"
