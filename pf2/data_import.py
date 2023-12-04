@@ -1,6 +1,6 @@
 import time
 import warnings
-from os.path import abspath, dirname, join
+from os.path import join
 from scipy.sparse import csr_matrix
 from sklearn.utils.sparsefuncs import inplace_column_scale, mean_variance_axis
 
@@ -9,7 +9,6 @@ import pandas as pd
 import scanpy as sc
 
 DATA_PATH = join('/opt', 'northwest_bal')
-REPO_PATH = dirname(abspath(__file__))
 
 
 def import_meta():
@@ -19,7 +18,7 @@ def import_meta():
     Returns:
          meta (pd.DataFrame): patient metadata
     """
-    meta = pd.read_csv(join(REPO_PATH, "data", "04_external.csv"), index_col=0)
+    meta = pd.read_csv(join(DATA_PATH, "04_external.csv"), index_col=0)
     meta = meta.loc[meta.loc[:, "BAL_performed"], :]
 
     return meta
