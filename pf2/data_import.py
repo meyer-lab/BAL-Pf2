@@ -4,6 +4,7 @@ from os.path import join
 from scipy.sparse import csr_matrix
 from sklearn.utils.sparsefuncs import inplace_column_scale, mean_variance_axis
 
+import anndata
 import numpy as np
 import pandas as pd
 import scanpy as sc
@@ -40,7 +41,7 @@ def import_data(
         size = "m"
         warnings.warn("'size' parameter not recognized; defaulting to 'medium'")
 
-    adata = sc.read_h5ad(
+    adata = anndata.read_h5ad(
         join(DATA_PATH, 'v4_11integrated_cleaned.h5ad'),
     )
     if size in ["small", "s"]:

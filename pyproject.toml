@@ -16,6 +16,7 @@ tensorly = "^0.8.1"
 numpy = "^1.26.2"
 parafac2 = {git = "https://github.com/meyer-lab/parafac2.git"}
 pacmap = "^0.7.1"
+anndata = "^0.10.3"
 
 [build-system]
 requires = ["poetry-core"]
