@@ -1,6 +1,8 @@
 import time
 import warnings
 from os.path import abspath, dirname, join
+from scipy.sparse import csr_matrix
+from sklearn.utils.sparsefuncs import inplace_column_scale, mean_variance_axis
 
 import numpy as np
 import pandas as pd
@@ -114,21 +116,32 @@ def quality_control(data, filter_low=True, mito=True, log_norm=True,
     if batch_correct:
         # Batch correction via ComBat
         start = time.time()
-        data = rescale_batches(data, 'batch')
+        data = rescale_batches(data)
         print(f'ComBat completed in {round(time.time() - start, 2)} seconds')
 
     return data
 
 
-def rescale_batches(data, batch_col='batch'):
+def rescale_batches(data):
     """
     Rescales batches to minimize batch effects.
 
     Parameters:
         data (anndata.annData): single-cell measurements
-        batch_col (str, default: "batch"): column with batch labels
 
     Returns:
         data (anndata.annData): rescaled single-cell measurements
     """
+    cond_labels = data.obs["condition_unique_idxs"]
+
+    for ii in range(np.amax(cond_labels) + 1):
+            xx = csr_matrix(data[cond_labels == ii].X, copy=True)
+
+            # Scale genes by sum
+            readmean = mean_variance_axis(xx, axis=0)[0]
+            readsum = xx.shape[0] * readmean
+            inplace_column_scale(xx, 1.0 / readsum)
+
+            data[cond_labels == ii] = xx
+
     return data
