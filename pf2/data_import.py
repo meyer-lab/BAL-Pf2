@@ -27,9 +27,6 @@ def import_meta():
 
 def import_data(
     high_variance_genes=True,
-    sum_one=False,
-    log_transform=False,
-    normalize=True,
     size="m",
 ):
     """
@@ -37,9 +34,6 @@ def import_data(
 
     Parameters:
         high_variance_genes (bool, default:True): use only high-variance genes
-        sum_one (bool, default:False): sums each gene to 1 across cells
-        log_transform (bool, default:True): log transform data
-        normalize (bool, default:True): zero mean, unit variance genes
         size (str, default:'m'): size of dataset to use; must be one of 'small',
             'medium', 'large', 's', 'm', or 'l'
     """
@@ -58,14 +52,8 @@ def import_data(
     if high_variance_genes:
         adata = adata[:, adata.var.loc[:, "highly_variable"]]
 
-    if sum_one:
-        adata.X /= adata.X.sum(axis=0)
-
-    if log_transform:
-        sc.pp.log1p(adata)
-
-    if normalize:
-        sc.pp.scale(adata)
+    adata.obs.loc[:, "condition_unique_idxs"] = \
+        adata.obs_vector('batch').astype(int)
 
     return adata
 
@@ -98,14 +86,16 @@ def quality_control(data, filter_low=True, mito=True, log_norm=True,
         # Drop cells with high mitochondrial counts
         start = time.time()
         data = data[data.obs.pct_counts_mito < 5, :]
-        print(f'Mitochondrial filtering completed in {round(time.time() - start, 2)} seconds')
+        print(f'Mitochondrial filtering completed in '
+              f'{round(time.time() - start, 2)} seconds')
 
     if log_norm:
         # Log normalize
         start = time.time()
         sc.pp.normalize_total(data, target_sum=1E4)
         sc.pp.log1p(data)
-        print(f'Log-normalization completed in {round(time.time() - start, 2)} seconds')
+        print(f'Log-normalization completed in {round(time.time() - start, 2)} '
+              'seconds')
 
     if scale:
         # Zero mean, unit variance
