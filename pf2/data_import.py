@@ -42,7 +42,7 @@ def import_data(
         warnings.warn("'size' parameter not recognized; defaulting to 'medium'")
 
     adata = anndata.read_h5ad(
-        join(DATA_PATH, 'v4_11integrated_cleaned.h5ad'),
+        join(DATA_PATH, 'v1_01merged_cleaned_qc.h5ad'),
     )
     if size in ["small", "s"]:
         adata = adata[np.arange(0, adata.shape[0], 10)]
