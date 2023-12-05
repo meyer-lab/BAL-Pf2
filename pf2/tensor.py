@@ -2,6 +2,8 @@ import gc
 
 import numpy as np
 import pandas as pd
+from parafac2 import parafac2_nd
+from tensorly.parafac2_tensor import Parafac2Tensor
 from tensorly.decomposition import parafac2
 
 from pf2.data_import import import_data
@@ -40,7 +42,7 @@ def get_variance_explained(pf2, tensor):
     top, bottom = 0, 0
     projected = pf2.to_tensor()
     for index, matrix in enumerate(tensor):
-        projected_matrix = projected[index, : matrix.shape[0], :]
+        projected_matrix = projected[index, :matrix.shape[0], :]
         slice_var = calc_r2x(projected_matrix, matrix)
         top += slice_var[0]
         bottom += slice_var[1]
@@ -72,13 +74,13 @@ def build_tensor(data, drop_low=100):
 
         if drop_low:
             if matrix.shape[0] >= drop_low:
-                tensor.append(matrix.X)
+                tensor.append(matrix.X.todense())
                 labels.loc[index, :] = [
                     matrix.obs.loc[:, "patient_id"].iloc[0],
                     matrix.obs.loc[:, "sample_id"].iloc[0],
                 ]
         else:
-            tensor.append(matrix.X)
+            tensor.append(matrix.X.todense())
             labels.loc[index, :] = [
                 matrix.obs.loc[:, "patient_id"].iloc[0],
                 matrix.obs.loc[:, "sample_id"].iloc[0],
@@ -101,68 +103,10 @@ def run_parafac2(tensor, rank=OPTIMAL_RANK):
     Returns:
         pf2 (tensorly.Parafac2Tensor): PF2 factorization
     """
-    pf2 = parafac2(
+    weights, factors, projections, r2x = parafac2_nd(
         tensor,
         rank=rank,
-        init="svd",
-        svd="randomized_svd",
-        normalize_factors=True,
-        tol=1e-6,
+        tol=1E-6
     )
-    return pf2
-
-
-def pf2_low_memory(data_params=None, drop_low=100, rank=OPTIMAL_RANK):
-    """
-    Combines data import, tensor building, PF2 for reduced memory usage.
-
-    Parameters:
-        data_params (dict, default:None): parameters to pass to import_data
-        drop_low (int, default:100): drops patients with fewer cells than
-            drop_low
-        rank (int, default:DEFAULT_RANK): rank of PF2 decomposition
-
-    Returns:
-        pf2 (tensorly.Parafac2Tensor): PF2 factorization
-        labels (pd.DataFrame): maps tensor indices to patient and sample IDs
-    """
-    if data_params is None:
-        data_params = {}
-
-    data = import_data(**data_params)
-    sample_ids = pd.Series((data.obs.loc[:, "sample_id"].unique()))
-    tensor = []
-    labels = pd.DataFrame(columns=["patient_id", "sample_id"], dtype=object)
-
-    for index, sample_id in enumerate(sample_ids):
-        matrix = data[data.obs.loc[:, "sample_id"] == sample_id, :]
-        data = data[~(data.obs.loc[:, "sample_id"] == sample_id), :]
-        gc.collect()
-
-        if drop_low:
-            if matrix.shape[0] >= drop_low:
-                tensor.append(matrix.X)
-                labels.loc[index, :] = [
-                    matrix.obs.loc[:, "patient_id"].iloc[0],
-                    matrix.obs.loc[:, "sample_id"].iloc[0],
-                ]
-        else:
-            tensor.append(matrix.X)
-            labels.loc[index, :] = [
-                matrix.obs.loc[:, "patient_id"].iloc[0],
-                matrix.obs.loc[:, "sample_id"].iloc[0],
-            ]
-
-    del data
-    gc.collect()
-
-    pf2 = parafac2(
-        tensor,
-        rank=rank,
-        init="svd",
-        svd="randomized_svd",
-        normalize_factors=True,
-        tol=1e-6,
-    )
-
-    return pf2, labels
+    
+    return Parafac2Tensor((weights, factors, projections)), r2x
