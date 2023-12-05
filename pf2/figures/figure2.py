@@ -4,8 +4,7 @@ import pandas as pd
 from tqdm import tqdm
 
 from pf2.figures.common import getSetup
-from pf2.tensor import (build_tensor, get_variance_explained, import_data,
-                        run_parafac2)
+from pf2.tensor import build_tensor, import_data, run_parafac2
 
 
 def makeFigure():
@@ -14,8 +13,8 @@ def makeFigure():
     ranks = np.arange(1, 41)
     r2x = pd.Series(0, dtype=float, index=ranks)
     for rank in tqdm(ranks):
-        pf2 = run_parafac2(tensor, rank)
-        r2x.loc[rank] = get_variance_explained(pf2, tensor)
+        _, r2x = run_parafac2(tensor, rank)
+        r2x.loc[rank] = r2x
 
     axs, fig = getSetup(
         (8, 4),

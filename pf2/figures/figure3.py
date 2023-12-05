@@ -13,7 +13,7 @@ def makeFigure():
     meta = import_meta()
     data = import_data()
     tensor, patients = build_tensor(data)
-    pf2 = run_parafac2(tensor)
+    pf2, _ = run_parafac2(tensor)
 
     patient_factor = pd.DataFrame(
         pf2.factors[0],

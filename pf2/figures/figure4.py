@@ -16,7 +16,7 @@ def makeFigure():
     meta = import_meta()
     adata = import_data()
     tensor, patients = build_tensor(adata)
-    pf2 = run_parafac2(tensor)
+    pf2, _ = run_parafac2(tensor)
 
     patient_factor = pd.DataFrame(
         pf2.factors[0],
