@@ -13,7 +13,7 @@ from pf2.tensor import build_tensor, run_parafac2
 def makeFigure():
     data = import_data()
     tensor, patients = build_tensor(data)
-    pf2 = run_parafac2(tensor)
+    pf2, _ = run_parafac2(tensor)
 
     factors = {}
     dims = ["Patient", "Cell State", "Gene"]
