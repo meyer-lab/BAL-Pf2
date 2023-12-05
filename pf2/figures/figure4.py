@@ -1,20 +1,18 @@
-from os.path import abspath, dirname, join
-
-import matplotlib.pyplot as plt
+"""Figure 4: Component Association Errorbars"""
 import numpy as np
 import pandas as pd
 from sklearn.utils import resample
 from tqdm import tqdm
 
 from pf2.data_import import import_data, import_meta
+from pf2.figures.common import getSetup
 from pf2.predict import predict_mortality
 from pf2.tensor import build_tensor, run_parafac2
 
 TRIALS = 30
-REPO_PATH = dirname(dirname(abspath(__file__)))
 
 
-def main():
+def makeFigure():
     meta = import_meta()
     adata = import_data()
     tensor, patients = build_tensor(adata)
@@ -29,16 +27,28 @@ def main():
 
     meta = meta.loc[~meta.loc[:, "patient_id"].duplicated(), :]
     meta = meta.set_index("patient_id", drop=True)
-    patient_factor = patient_factor.loc[patient_factor.index.isin(meta.index), :]
-    labels = patient_factor.index.to_series().replace(meta.loc[:, "binary_outcome"])
+    patient_factor = patient_factor.loc[
+        patient_factor.index.isin(meta.index),
+        :
+    ]
+    labels = patient_factor.index.to_series().replace(
+        meta.loc[:, "binary_outcome"]
+    )
 
-    coefs = pd.DataFrame(index=np.arange(TRIALS) + 1, columns=patient_factor.columns)
+    coefs = pd.DataFrame(
+        index=np.arange(TRIALS) + 1,
+        columns=patient_factor.columns
+    )
     for trial in tqdm(range(TRIALS)):
         boot_factors, boot_labels = resample(patient_factor, labels)
         _, coef = predict_mortality(boot_factors, boot_labels)
         coefs.iloc[trial, :] = coef
 
-    fig, ax = plt.subplots(1, 1, figsize=(8, 4), constrained_layout=True, dpi=300)
+    axs, fig = getSetup(
+        (8, 4),
+        (1, 1)
+    )
+    ax = axs[0]
 
     ax.errorbar(
         np.arange(coefs.shape[1]) + 1,
@@ -60,9 +70,4 @@ def main():
     ax.set_ylabel("Logistic Regression Coefficient")
     ax.set_xlabel("PARAFAC2 Component")
 
-    plt.savefig(join(REPO_PATH, "output", "component_associations.png"))
-    plt.show()
-
-
-if __name__ == "__main__":
-    main()
+    return fig

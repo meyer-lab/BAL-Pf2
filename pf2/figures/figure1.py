@@ -1,3 +1,4 @@
+"""Figure 1: Factor Heatmaps"""
 import numpy as np
 import pandas as pd
 import seaborn as sns
