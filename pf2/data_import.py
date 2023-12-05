@@ -1,13 +1,15 @@
 import time
 import warnings
-from os.path import abspath, dirname, join
+from os.path import join
+from scipy.sparse import csr_matrix
+from sklearn.utils.sparsefuncs import inplace_column_scale, mean_variance_axis
 
+import anndata
 import numpy as np
 import pandas as pd
 import scanpy as sc
 
 DATA_PATH = join('/opt', 'northwest_bal')
-REPO_PATH = dirname(abspath(__file__))
 
 
 def import_meta():
@@ -17,7 +19,7 @@ def import_meta():
     Returns:
          meta (pd.DataFrame): patient metadata
     """
-    meta = pd.read_csv(join(REPO_PATH, "data", "04_external.csv"), index_col=0)
+    meta = pd.read_csv(join(DATA_PATH, "04_external.csv"), index_col=0)
     meta = meta.loc[meta.loc[:, "BAL_performed"], :]
 
     return meta
@@ -25,9 +27,6 @@ def import_meta():
 
 def import_data(
     high_variance_genes=True,
-    sum_one=False,
-    log_transform=False,
-    normalize=True,
     size="m",
 ):
     """
@@ -35,9 +34,6 @@ def import_data(
 
     Parameters:
         high_variance_genes (bool, default:True): use only high-variance genes
-        sum_one (bool, default:False): sums each gene to 1 across cells
-        log_transform (bool, default:True): log transform data
-        normalize (bool, default:True): zero mean, unit variance genes
         size (str, default:'m'): size of dataset to use; must be one of 'small',
             'medium', 'large', 's', 'm', or 'l'
     """
@@ -45,8 +41,8 @@ def import_data(
         size = "m"
         warnings.warn("'size' parameter not recognized; defaulting to 'medium'")
 
-    adata = sc.read_h5ad(
-        join(DATA_PATH, 'v4_11integrated_cleaned.h5ad'),
+    adata = anndata.read_h5ad(
+        join(DATA_PATH, 'v1_01merged_cleaned_qc.h5ad'),
     )
     if size in ["small", "s"]:
         adata = adata[np.arange(0, adata.shape[0], 10)]
@@ -56,14 +52,8 @@ def import_data(
     if high_variance_genes:
         adata = adata[:, adata.var.loc[:, "highly_variable"]]
 
-    if sum_one:
-        adata.X /= adata.X.sum(axis=0)
-
-    if log_transform:
-        sc.pp.log1p(adata)
-
-    if normalize:
-        sc.pp.scale(adata)
+    adata.obs.loc[:, "condition_unique_idxs"] = \
+        adata.obs_vector('batch').astype(int)
 
     return adata
 
@@ -83,7 +73,7 @@ def quality_control(data, filter_low=True, mito=True, log_norm=True,
         batch_correct (bool, default: True): correct for batches
 
     Returns:
-        data (pd.DataFrame): quality-controlled single-cell dataset
+        data (anndata.annData): quality-controlled single-cell dataset
     """
     if filter_low:
         # Drop cells & genes with low counts
@@ -96,14 +86,16 @@ def quality_control(data, filter_low=True, mito=True, log_norm=True,
         # Drop cells with high mitochondrial counts
         start = time.time()
         data = data[data.obs.pct_counts_mito < 5, :]
-        print(f'Mitochondrial filtering completed in {round(time.time() - start, 2)} seconds')
+        print(f'Mitochondrial filtering completed in '
+              f'{round(time.time() - start, 2)} seconds')
 
     if log_norm:
         # Log normalize
         start = time.time()
         sc.pp.normalize_total(data, target_sum=1E4)
         sc.pp.log1p(data)
-        print(f'Log-normalization completed in {round(time.time() - start, 2)} seconds')
+        print(f'Log-normalization completed in {round(time.time() - start, 2)} '
+              'seconds')
 
     if scale:
         # Zero mean, unit variance
@@ -114,7 +106,32 @@ def quality_control(data, filter_low=True, mito=True, log_norm=True,
     if batch_correct:
         # Batch correction via ComBat
         start = time.time()
-        sc.pp.combat(data)
+        data = rescale_batches(data)
         print(f'ComBat completed in {round(time.time() - start, 2)} seconds')
+
+    return data
+
+
+def rescale_batches(data):
+    """
+    Rescales batches to minimize batch effects.
+
+    Parameters:
+        data (anndata.annData): single-cell measurements
+
+    Returns:
+        data (anndata.annData): rescaled single-cell measurements
+    """
+    cond_labels = data.obs["condition_unique_idxs"]
+
+    for ii in range(np.amax(cond_labels) + 1):
+            xx = csr_matrix(data[cond_labels == ii].X, copy=True)
+
+            # Scale genes by sum
+            readmean = mean_variance_axis(xx, axis=0)[0]
+            readsum = xx.shape[0] * readmean
+            inplace_column_scale(xx, 1.0 / readsum)
+
+            data[cond_labels == ii] = xx
 
     return data

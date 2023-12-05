@@ -74,13 +74,13 @@ def build_tensor(data, drop_low=100):
 
         if drop_low:
             if matrix.shape[0] >= drop_low:
-                tensor.append(matrix.X)
+                tensor.append(matrix.X.todense())
                 labels.loc[index, :] = [
                     matrix.obs.loc[:, "patient_id"].iloc[0],
                     matrix.obs.loc[:, "sample_id"].iloc[0],
                 ]
         else:
-            tensor.append(matrix.X)
+            tensor.append(matrix.X.todense())
             labels.loc[index, :] = [
                 matrix.obs.loc[:, "patient_id"].iloc[0],
                 matrix.obs.loc[:, "sample_id"].iloc[0],
@@ -103,10 +103,10 @@ def run_parafac2(tensor, rank=OPTIMAL_RANK):
     Returns:
         pf2 (tensorly.Parafac2Tensor): PF2 factorization
     """
-    weights, factors, projections, R2X = parafac2_nd(
+    weights, factors, projections, r2x = parafac2_nd(
         tensor,
         rank=rank,
         tol=1E-6
     )
     
-    return Parafac2Tensor((weights, factors, projections))
+    return Parafac2Tensor((weights, factors, projections)), r2x
