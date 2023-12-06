@@ -74,13 +74,13 @@ def build_tensor(data, drop_low=100):
 
         if drop_low:
             if matrix.shape[0] >= drop_low:
-                tensor.append(matrix.X.todense())
+                tensor.append(matrix.X)
                 labels.loc[index, :] = [
                     matrix.obs.loc[:, "patient_id"].iloc[0],
                     matrix.obs.loc[:, "sample_id"].iloc[0],
                 ]
         else:
-            tensor.append(matrix.X.todense())
+            tensor.append(matrix.X)
             labels.loc[index, :] = [
                 matrix.obs.loc[:, "patient_id"].iloc[0],
                 matrix.obs.loc[:, "sample_id"].iloc[0],
