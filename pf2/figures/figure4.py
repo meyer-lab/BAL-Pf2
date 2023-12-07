@@ -4,29 +4,27 @@ import pandas as pd
 from sklearn.utils import resample
 from tqdm import tqdm
 
-from pf2.data_import import import_data, import_meta
+from pf2.data_import import convert_to_patients, import_data, import_meta
 from pf2.figures.common import getSetup
 from pf2.predict import predict_mortality
-from pf2.tensor import build_tensor, run_parafac2
+from pf2.tensor import run_parafac2
 
 TRIALS = 30
 
 
 def makeFigure():
+    data = import_data()
     meta = import_meta()
-    adata = import_data()
-    tensor, patients = build_tensor(adata)
-    pf2, _ = run_parafac2(tensor)
-
-    patient_factor = pd.DataFrame(
-        pf2.factors[0],
-        index=patients.loc[:, "patient_id"],
-        columns=np.arange(pf2.rank) + 1,
-    )
-    patient_factor = patient_factor / patient_factor.max(axis=0)
-
+    data, _ = run_parafac2(data)
     meta = meta.loc[~meta.loc[:, "patient_id"].duplicated(), :]
     meta = meta.set_index("patient_id", drop=True)
+
+    conversions = convert_to_patients(data)
+    patient_factor = pd.DataFrame(
+        data.uns['pf2']['factors'][0],
+        index=conversions,
+        columns=np.arange(data.uns['pf2']['rank']) + 1,
+    )
     patient_factor = patient_factor.loc[
         patient_factor.index.isin(meta.index),
         :

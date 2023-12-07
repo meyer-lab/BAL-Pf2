@@ -3,17 +3,18 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
+from pf2.data_import import import_data
 from pf2.figures.common import getSetup
-from pf2.tensor import build_tensor, import_data, run_parafac2
+from pf2.tensor import run_parafac2
 
 
 def makeFigure():
     data = import_data()
-    tensor, patients = build_tensor(data)
     ranks = np.arange(1, 41)
     r2x = pd.Series(0, dtype=float, index=ranks)
+
     for rank in tqdm(ranks):
-        _, r2x = run_parafac2(tensor, rank)
+        _, r2x = run_parafac2(data, rank)
         r2x.loc[rank] = r2x
 
     axs, fig = getSetup(
