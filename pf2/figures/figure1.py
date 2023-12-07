@@ -1,25 +1,22 @@
-from os.path import abspath, dirname
-
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
 
 from pf2.figures.common import getSetup
 from pf2.data_import import import_data
-from pf2.tensor import build_tensor, run_parafac2
+from pf2.tensor import run_parafac2
 
 
 def makeFigure():
     data = import_data()
-    tensor, patients = build_tensor(data)
-    pf2, _ = run_parafac2(tensor)
+    data, _ = run_parafac2(data)
 
     factors = {}
     dims = ["Patient", "Cell State", "Gene"]
-    for factor, dim in zip(pf2.factors, dims):
+    for factor, dim in zip(data.uns['pf2']['factors'], dims):
         factors[dim] = pd.DataFrame(
-            factor / abs(factor).max(axis=0), columns=np.arange(pf2.rank) + 1
+            factor / abs(factor).max(axis=0),
+            columns=np.arange(data.uns['pf2']['rank']) + 1
         )
 
     axs, fig = getSetup(

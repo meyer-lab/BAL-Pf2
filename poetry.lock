@@ -799,13 +799,13 @@ cupy-cuda12x = "^12.2.0"
 numpy = "^1.26"
 scipy = "^1.11"
 tensorly = "0.8.1"
-tqdm = "^4.65.0"
+tqdm = "^4.66.1"
 
 [package.source]
 type = "git"
 url = "https://github.com/meyer-lab/parafac2.git"
-reference = "HEAD"
-resolved_reference = "9ca3b5a5bc1e449db6bf7009ef8f325b482cd655"
+reference = "67862df"
+resolved_reference = "67862df1810cc75bd3b1f8d564c421a581863b63"
 
 [[package]]
 name = "patsy"
@@ -1286,4 +1286,4 @@ tbb = ["tbb (>=2019.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.12"
-content-hash = "db60e86cdbfe6c03c3ea673796061b1b2f32a6b335d4179ab0b4e4a57edee1d2"
+content-hash = "364d9f2ef8f61ad001cb232bd6c634a47df74978cbe23fcd56c5a082dcdda322"

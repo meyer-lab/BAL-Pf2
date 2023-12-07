@@ -27,7 +27,7 @@ def import_meta():
 
 def import_data(
     high_variance_genes=True,
-    size="m",
+    size="l",
 ):
     """
     Imports and preprocesses single-cell data.
