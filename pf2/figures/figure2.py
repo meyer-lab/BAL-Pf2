@@ -48,7 +48,7 @@ def makeFigure():
 
     # R2X Plots
 
-    axs[0].plot(r2x.index, r2x)
+    axs[0].plot(r2xs.index, r2xs)
     axs[0].grid(True)
 
     axs[0].set_ylabel("R2X")
