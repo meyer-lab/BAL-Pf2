@@ -3,10 +3,6 @@ import gc
 import numpy as np
 import pandas as pd
 from parafac2 import parafac2_nd
-from tensorly.parafac2_tensor import Parafac2Tensor
-from tensorly.decomposition import parafac2
-
-from pf2.data_import import import_data
 
 OPTIMAL_RANK = 40
 
@@ -92,21 +88,27 @@ def build_tensor(data, drop_low=100):
     return tensor, labels
 
 
-def run_parafac2(tensor, rank=OPTIMAL_RANK):
+def run_parafac2(data, rank=OPTIMAL_RANK):
     """
     Runs PARAFAC2 on the provided data.
 
     Parameters:
-        tensor (np.ndarray): PARAFAC2 tensor
+        data (anndata.annData): single-cell dataset
         rank (int, default:DEFAULT_RANK): rank of PF2 decomposition
 
     Returns:
         pf2 (tensorly.Parafac2Tensor): PF2 factorization
     """
-    weights, factors, projections, r2x = parafac2_nd(
-        tensor,
-        rank=rank,
-        tol=1E-6
+    (weights, factors, projections), r2x = parafac2_nd(
+        data,
+        rank=rank
     )
+
+    data.uns['pf2'] = {}
+    data.uns['pf2']['weights'] = weights
+    data.uns['pf2']['factors'] = factors
+    data.uns['pf2']['projections'] = projections
+    data.uns['pf2']['r2x'] = r2x
+    data.uns['pf2']['rank'] = rank
     
-    return Parafac2Tensor((weights, factors, projections)), r2x
+    return data, r2x
