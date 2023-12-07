@@ -3,30 +3,63 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
-from pf2.data_import import import_data
+from pf2.data_import import convert_to_patients, import_data, import_meta
 from pf2.figures.common import getSetup
+from pf2.predict import predict_mortality
 from pf2.tensor import run_parafac2
 
 
 def makeFigure():
+    meta = import_meta()
     data = import_data()
+    data, _ = run_parafac2(data)
+    meta = meta.loc[~meta.loc[:, "patient_id"].duplicated(), :]
+    meta = meta.set_index("patient_id", drop=True)
+    conversions = convert_to_patients(data)
+
     ranks = np.arange(1, 41)
     r2x = pd.Series(0, dtype=float, index=ranks)
-
+    accuracies = pd.Series(0, dtype=float, index=ranks)
+    labels = None
     for rank in tqdm(ranks):
-        _, r2x = run_parafac2(data, rank)
+        data, r2x = run_parafac2(data, rank)
+        patient_factor = pd.DataFrame(
+            data.uns['pf2']['factors'][0],
+            index=conversions,
+            columns=np.arange(data.uns['pf2']['rank']) + 1,
+        )
+        patient_factor = patient_factor.loc[
+            patient_factor.index.isin(meta.index),
+            :
+        ]
+        if labels is None:
+            labels = patient_factor.index.to_series().replace(
+                meta.loc[:, "binary_outcome"]
+            )
+
+        acc, _ = predict_mortality(patient_factor, labels)
         r2x.loc[rank] = r2x
+        accuracies.loc[rank] = acc
 
     axs, fig = getSetup(
-        (8, 4),
-        (1, 1)
+        (6, 6),
+        (2, 1)
     )
-    ax = axs[0]
 
-    ax.plot(r2x.index, r2x)
-    ax.grid(True)
+    # R2X Plots
 
-    ax.set_ylabel("R2X")
-    ax.set_xlabel("Rank")
+    axs[0].plot(r2x.index, r2x)
+    axs[0].grid(True)
+
+    axs[0].set_ylabel("R2X")
+    axs[0].set_xlabel("Rank")
+
+    # Accuracy Plots
+
+    axs[1].plot(accuracies.index, accuracies)
+    axs[1].grid(True)
+
+    axs[1].set_ylabel("Accuracy")
+    axs[1].set_xlabel("Rank")
 
     return fig
