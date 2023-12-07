@@ -18,7 +18,7 @@ def makeFigure():
     conversions = convert_to_patients(data)
 
     ranks = np.arange(1, 41)
-    r2x = pd.Series(0, dtype=float, index=ranks)
+    r2xs = pd.Series(0, dtype=float, index=ranks)
     accuracies = pd.Series(0, dtype=float, index=ranks)
     labels = None
     for rank in tqdm(ranks):
@@ -38,7 +38,7 @@ def makeFigure():
             )
 
         acc, _ = predict_mortality(patient_factor, labels)
-        r2x.loc[rank] = r2x
+        r2xs.loc[rank] = r2x
         accuracies.loc[rank] = acc
 
     axs, fig = getSetup(
