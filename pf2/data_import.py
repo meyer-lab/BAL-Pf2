@@ -52,8 +52,10 @@ def import_data(
     if high_variance_genes:
         adata = adata[:, adata.var.loc[:, "highly_variable"]]
 
-    adata.obs.loc[:, "condition_unique_idxs"] = \
-        adata.obs_vector('batch').astype(int)
+    _, adata.obs.loc[:, "condition_unique_idxs"] = np.unique(
+        adata.obs_vector('batch'),
+        return_inverse=True
+    )
 
     return adata
 
@@ -135,3 +137,22 @@ def rescale_batches(data):
             data[cond_labels == ii] = xx
 
     return data
+
+
+def convert_to_patients(data):
+    """
+    Converts unique IDs to patient IDs.
+
+    Parameters:
+        data (anndata.annData): single-cell measurements
+
+    Returns:
+        conversions (pd.Series): maps unique IDs to patient IDs.
+    """
+    conversions = data.obs.loc[:, ['patient_id', 'condition_unique_idxs']]
+    conversions.set_index('condition_unique_idxs', inplace=True, drop=True)
+    conversions = conversions.loc[~conversions.index.duplicated()]
+    conversions.sort_index(ascending=True, inplace=True)
+    conversions = conversions.squeeze()
+
+    return conversions
