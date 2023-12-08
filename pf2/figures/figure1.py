@@ -3,21 +3,23 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
-from pf2.figures.common import getSetup
 from pf2.data_import import import_data
+from pf2.figures.common import getSetup
 from pf2.tensor import pf2
 
 
 def makeFigure():
     data = import_data()
-    data, _ = pf2(data)
+    data, _ = pf2(data, do_embedding=False)
 
     factors = {}
     dims = ["Patient", "Cell State", "Gene"]
-    for factor, dim in zip(data.uns["pf2"]["factors"], dims):
+    for factor, dim in zip(
+        [data.uns["Pf2_A"], data.uns["Pf2_B"], data.varm["Pf2_C"]], dims
+    ):
         factors[dim] = pd.DataFrame(
-            factor / abs(factor).max(axis=0),
-            columns=np.arange(data.uns["pf2"]["rank"]) + 1,
+            factor,
+            columns=np.arange(data.uns["Pf2_rank"]) + 1,
         )
 
     axs, fig = getSetup((8, 4), (1, len(factors)))

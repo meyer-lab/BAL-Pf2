@@ -1,13 +1,13 @@
 import time
 import warnings
 from os.path import join
-from scipy.sparse import csr_matrix
-from sklearn.utils.sparsefuncs import inplace_column_scale, mean_variance_axis
 
 import anndata
 import numpy as np
 import pandas as pd
 import scanpy as sc
+from scipy.sparse import csr_matrix
+from sklearn.utils.sparsefuncs import inplace_column_scale, mean_variance_axis
 
 DATA_PATH = join("/opt", "northwest_bal")
 

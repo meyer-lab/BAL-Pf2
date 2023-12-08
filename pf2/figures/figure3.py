@@ -12,15 +12,15 @@ from pf2.tensor import pf2
 def makeFigure():
     meta = import_meta()
     data = import_data()
-    data, _ = pf2(data)
+    data, _ = pf2(data, do_embedding=False)
     meta = meta.loc[~meta.loc[:, "patient_id"].duplicated(), :]
     meta = meta.set_index("patient_id", drop=True)
 
     conversions = convert_to_patients(data)
     patient_factor = pd.DataFrame(
-        data.uns["pf2"]["factors"][0],
+        data.uns["Pf2_A"][0],
         index=conversions,
-        columns=np.arange(data.uns["pf2"]["rank"]) + 1,
+        columns=np.arange(data.uns["Pf2_rank"]) + 1,
     )
     patient_factor = patient_factor.loc[
         patient_factor.index.isin(meta.index), :

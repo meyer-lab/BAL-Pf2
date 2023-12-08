@@ -1,14 +1,14 @@
 """
 This file contains functions that are used in multiple figures.
 """
-from string import ascii_letters
 import sys
 import time
-import seaborn as sns
-import matplotlib
-from matplotlib.figure import Figure
-from matplotlib import gridspec, pyplot as plt
 
+import matplotlib
+import seaborn as sns
+from matplotlib import gridspec
+from matplotlib import pyplot as plt
+from matplotlib.figure import Figure
 
 matplotlib.use("AGG")
 
