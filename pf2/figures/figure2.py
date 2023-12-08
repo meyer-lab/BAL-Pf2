@@ -28,7 +28,9 @@ def makeFigure():
             index=conversions,
             columns=np.arange(data.uns["pf2"]["rank"]) + 1,
         )
-        patient_factor = patient_factor.loc[patient_factor.index.isin(meta.index), :]
+        patient_factor = patient_factor.loc[
+            patient_factor.index.isin(meta.index), :
+        ]
         if labels is None:
             labels = patient_factor.index.to_series().replace(
                 meta.loc[:, "binary_outcome"]

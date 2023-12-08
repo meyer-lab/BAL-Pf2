@@ -89,7 +89,8 @@ def quality_control(data, filter_low=True, log_norm=True, batch_correct=True):
         start = time.time()
         sc.pp.normalize_total(data, target_sum=1e4)
         print(
-            f"Log-normalization completed in {round(time.time() - start, 2)} " "seconds"
+            f"Log-normalization completed in {round(time.time() - start, 2)} "
+            "seconds"
         )
 
     if batch_correct:

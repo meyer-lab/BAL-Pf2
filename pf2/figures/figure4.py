@@ -25,10 +25,16 @@ def makeFigure():
         index=conversions,
         columns=np.arange(data.uns["pf2"]["rank"]) + 1,
     )
-    patient_factor = patient_factor.loc[patient_factor.index.isin(meta.index), :]
-    labels = patient_factor.index.to_series().replace(meta.loc[:, "binary_outcome"])
+    patient_factor = patient_factor.loc[
+        patient_factor.index.isin(meta.index), :
+    ]
+    labels = patient_factor.index.to_series().replace(
+        meta.loc[:, "binary_outcome"]
+    )
 
-    coefs = pd.DataFrame(index=np.arange(TRIALS) + 1, columns=patient_factor.columns)
+    coefs = pd.DataFrame(
+        index=np.arange(TRIALS) + 1, columns=patient_factor.columns
+    )
     for trial in tqdm(range(TRIALS)):
         boot_factors, boot_labels = resample(patient_factor, labels)
         _, coef = predict_mortality(boot_factors, boot_labels)
