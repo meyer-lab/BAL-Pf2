@@ -10,3 +10,6 @@ all: $(allOutput)
 output/figure%.svg: pf2/figures/figure%.py
 	@ mkdir -p ./output
 	poetry run fbuild $*
+
+mypy:
+	poetry run mypy --install-types --non-interactive --ignore-missing-imports pf2
