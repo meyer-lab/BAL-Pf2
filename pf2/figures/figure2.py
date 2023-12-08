@@ -6,13 +6,13 @@ from tqdm import tqdm
 from pf2.data_import import convert_to_patients, import_data, import_meta
 from pf2.figures.common import getSetup
 from pf2.predict import predict_mortality
-from pf2.tensor import run_parafac2
+from pf2.tensor import pf2
 
 
 def makeFigure():
     meta = import_meta()
     data = import_data()
-    data, _ = run_parafac2(data)
+    data, _ = pf2(data)
     meta = meta.loc[~meta.loc[:, "patient_id"].duplicated(), :]
     meta = meta.set_index("patient_id", drop=True)
     conversions = convert_to_patients(data)
@@ -22,16 +22,13 @@ def makeFigure():
     accuracies = pd.Series(0, dtype=float, index=ranks)
     labels = None
     for rank in tqdm(ranks):
-        data, r2x = run_parafac2(data, rank)
+        data, r2x = pf2(data, rank)
         patient_factor = pd.DataFrame(
-            data.uns['pf2']['factors'][0],
+            data.uns["pf2"]["factors"][0],
             index=conversions,
-            columns=np.arange(data.uns['pf2']['rank']) + 1,
+            columns=np.arange(data.uns["pf2"]["rank"]) + 1,
         )
-        patient_factor = patient_factor.loc[
-            patient_factor.index.isin(meta.index),
-            :
-        ]
+        patient_factor = patient_factor.loc[patient_factor.index.isin(meta.index), :]
         if labels is None:
             labels = patient_factor.index.to_series().replace(
                 meta.loc[:, "binary_outcome"]
@@ -41,10 +38,7 @@ def makeFigure():
         r2xs.loc[rank] = r2x
         accuracies.loc[rank] = acc
 
-    axs, fig = getSetup(
-        (6, 6),
-        (2, 1)
-    )
+    axs, fig = getSetup((6, 6), (2, 1))
 
     # R2X Plots
 

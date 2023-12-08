@@ -5,35 +5,25 @@ import seaborn as sns
 
 from pf2.figures.common import getSetup
 from pf2.data_import import import_data
-from pf2.tensor import run_parafac2
+from pf2.tensor import pf2
 
 
 def makeFigure():
     data = import_data()
-    data, _ = run_parafac2(data)
+    data, _ = pf2(data)
 
     factors = {}
     dims = ["Patient", "Cell State", "Gene"]
-    for factor, dim in zip(data.uns['pf2']['factors'], dims):
+    for factor, dim in zip(data.uns["pf2"]["factors"], dims):
         factors[dim] = pd.DataFrame(
             factor / abs(factor).max(axis=0),
-            columns=np.arange(data.uns['pf2']['rank']) + 1
+            columns=np.arange(data.uns["pf2"]["rank"]) + 1,
         )
 
-    axs, fig = getSetup(
-        (8, 4),
-        (1, len(factors))
-    )
+    axs, fig = getSetup((8, 4), (1, len(factors)))
     for ax, dim in zip(axs, factors.keys()):
         factor = factors[dim]
-        sns.heatmap(
-            factor,
-            vmin=-1,
-            vmax=1,
-            cmap="coolwarm",
-            cbar=ax == axs[-1],
-            ax=ax
-        )
+        sns.heatmap(factor, vmin=-1, vmax=1, cmap="coolwarm", cbar=ax == axs[-1], ax=ax)
         ax.set_ylabel("")
         ax.set_xlabel("")
         ax.set_yticks([])
