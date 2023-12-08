@@ -60,56 +60,45 @@ def import_data(
     return adata
 
 
-def quality_control(data, filter_low=True, mito=True, log_norm=True, 
-    scale=True, batch_correct=True):
+def quality_control(data, filter_low=True, log_norm=True, batch_correct=True):
     """
     Runs single-cell dataset through quality control.
 
     Parameters:
         data (anndata.annData): single-cell dataset
         filter_low (bool, default: True): filter cells/genes with low counts
-        mito (bool, default: True): remove cells with high mitochondrial
-            transcripts
         log_norm (bool, default: True): log-normalize genes
-        scale (bool, default: True): zero mean, unit variance genes
         batch_correct (bool, default: True): correct for batches
 
     Returns:
         data (anndata.annData): quality-controlled single-cell dataset
     """
+    assert isinstance(data.X, csr_matrix)
+
+    # Drop cells with high mitochondrial counts
+    data = data[data.obs.pct_counts_mito < 5, :]
+
     if filter_low:
         # Drop cells & genes with low counts
         start = time.time()
         sc.pp.filter_cells(data, min_genes=data.n_vars // 1E2)
         sc.pp.filter_genes(data, min_cells=data.n_obs // 1E3)
         print(f'Filtering completed in {round(time.time() - start, 2)} seconds')
-
-    if mito:
-        # Drop cells with high mitochondrial counts
-        start = time.time()
-        data = data[data.obs.pct_counts_mito < 5, :]
-        print(f'Mitochondrial filtering completed in '
-              f'{round(time.time() - start, 2)} seconds')
-
+        
     if log_norm:
         # Log normalize
         start = time.time()
         sc.pp.normalize_total(data, target_sum=1E4)
-        sc.pp.log1p(data)
         print(f'Log-normalization completed in {round(time.time() - start, 2)} '
               'seconds')
-
-    if scale:
-        # Zero mean, unit variance
-        start = time.time()
-        sc.pp.scale(data, max_value=10, zero_center=False)
-        print(f'Z-score completed in {round(time.time() - start, 2)} seconds')
 
     if batch_correct:
         # Batch correction via ComBat
         start = time.time()
         data = rescale_batches(data)
         print(f'ComBat completed in {round(time.time() - start, 2)} seconds')
+        
+    sc.pp.log1p(data)
 
     return data
 
@@ -124,6 +113,7 @@ def rescale_batches(data):
     Returns:
         data (anndata.annData): rescaled single-cell measurements
     """
+    assert isinstance(data.X, csr_matrix)
     cond_labels = data.obs["condition_unique_idxs"]
 
     for ii in range(np.amax(cond_labels) + 1):
