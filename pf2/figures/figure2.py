@@ -22,13 +22,15 @@ def makeFigure():
     accuracies = pd.Series(0, dtype=float, index=ranks)
     labels = None
     for rank in tqdm(ranks):
-        data, r2x = pf2(data, rank)
+        data, r2x = pf2(data, rank, do_embedding=False)
         patient_factor = pd.DataFrame(
-            data.uns["pf2"]["factors"][0],
+            data.uns["Pf2_A"],
             index=conversions,
-            columns=np.arange(data.uns["pf2"]["rank"]) + 1,
+            columns=np.arange(data.uns["Pf2_rank"]) + 1,
         )
-        patient_factor = patient_factor.loc[patient_factor.index.isin(meta.index), :]
+        patient_factor = patient_factor.loc[
+            patient_factor.index.isin(meta.index), :
+        ]
         if labels is None:
             labels = patient_factor.index.to_series().replace(
                 meta.loc[:, "binary_outcome"]
