@@ -92,6 +92,9 @@ def quality_control(data: anndata.AnnData, batch_correct: bool = True):
     # Log transform
     data.X.data = np.log10((1e3 * data.X.data) + 1.0)
 
+    # Pre-compute means
+    data.var["means"], _ = mean_variance_axis(data.X, axis=0)
+
     return data
 
 
