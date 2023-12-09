@@ -24,7 +24,7 @@ def makeFigure():
     for rank in tqdm(ranks):
         data, r2x = pf2(data, rank, do_embedding=False)
         patient_factor = pd.DataFrame(
-            data.uns["Pf2_A"][0],
+            data.uns["Pf2_A"],
             index=conversions,
             columns=np.arange(data.uns["Pf2_rank"]) + 1,
         )

@@ -18,7 +18,7 @@ def makeFigure():
 
     conversions = convert_to_patients(data)
     patient_factor = pd.DataFrame(
-        data.uns["Pf2_A"][0],
+        data.uns["Pf2_A"],
         index=conversions,
         columns=np.arange(data.uns["Pf2_rank"]) + 1,
     )
