@@ -26,12 +26,14 @@ def import_meta():
 
 
 def import_data(
+    high_variance_genes=True,
     size="l",
 ) -> anndata.AnnData:
     """
     Imports and preprocesses single-cell data.
 
     Parameters:
+        high_variance_genes (bool, default:True): use only high-variance genes
         size (str, default:'m'): size of dataset to use; must be one of 'small',
             'medium', 'large', 's', 'm', or 'l'
     """
@@ -46,6 +48,9 @@ def import_data(
         adata = adata[np.arange(0, adata.shape[0], 10)]
     elif size in ["medium", "m"]:
         adata = adata[np.arange(0, adata.shape[0], 4)]
+
+    if high_variance_genes:
+        adata = adata[:, adata.var.loc[:, "highly_variable"]]
 
     _, adata.obs.loc[:, "condition_unique_idxs"] = np.unique(
         adata.obs_vector("batch"), return_inverse=True
