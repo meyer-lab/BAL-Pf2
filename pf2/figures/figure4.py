@@ -4,18 +4,18 @@ import pandas as pd
 from sklearn.utils import resample
 from tqdm import tqdm
 
-from pf2.data_import import convert_to_patients, import_data, import_meta
+from anndata import read_h5ad
+from pf2.data_import import convert_to_patients, import_meta
 from pf2.figures.common import getSetup
 from pf2.predict import predict_mortality
-from pf2.tensor import pf2
 
 TRIALS = 30
 
 
 def makeFigure():
-    data = import_data()
     meta = import_meta()
-    data, _ = pf2(data)
+    data = read_h5ad("factor_cache/factors.h5ad", backed="r")
+
     meta = meta.loc[~meta.loc[:, "patient_id"].duplicated(), :]
     meta = meta.set_index("patient_id", drop=True)
 

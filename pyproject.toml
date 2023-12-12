@@ -30,3 +30,4 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 fbuild = "pf2.figures.common:genFigure"
+factor = "pf2.data_import:factorSave"
