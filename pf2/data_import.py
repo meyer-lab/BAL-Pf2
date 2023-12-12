@@ -149,5 +149,5 @@ def convert_to_patients(data: anndata.AnnData) -> pd.Series:
 
 def factorSave():
     data = import_data()
-    factors = pf2(data)
+    factors, _ = pf2(data)
     factors.write(Path("factor_cache/factors.h5ad"))
