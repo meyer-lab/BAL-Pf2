@@ -19,10 +19,7 @@ def makeFigure():
 
     axs, fig = getSetup((6, 6), (2, 1))
 
-    # Recommend not running this regularly
-    return fig
-
-    ranks = np.arange(1, 3)
+    ranks = np.arange(1, 41)
     r2xs = pd.Series(0, dtype=float, index=ranks)
     accuracies = pd.Series(0, dtype=float, index=ranks)
     labels = None
