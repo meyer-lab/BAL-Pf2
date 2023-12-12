@@ -3,11 +3,12 @@ This file contains functions that are used in multiple figures.
 """
 import sys
 import time
-import seaborn as sns
-import matplotlib
-from matplotlib.figure import Figure
-from matplotlib import gridspec, pyplot as plt
 
+import matplotlib
+import seaborn as sns
+from matplotlib import gridspec
+from matplotlib import pyplot as plt
+from matplotlib.figure import Figure
 
 matplotlib.use("AGG")
 
@@ -57,7 +58,12 @@ def genFigure():
 
     if ff is not None:
         ff.savefig(
-            f"./output/{nameOut}.svg", dpi=300, bbox_inches="tight", pad_inches=0
+            f"./output/{nameOut}.svg",
+            dpi=300,
+            bbox_inches="tight",
+            pad_inches=0,
         )
 
-    print(f"Figure {sys.argv[1]} is done after {time.time() - start} seconds.\n")
+    print(
+        f"Figure {sys.argv[1]} is done after {time.time() - start} seconds.\n"
+    )

@@ -2,14 +2,15 @@ import time
 import warnings
 from pathlib import Path
 from os.path import join
-from scipy.sparse import csr_matrix
-from sklearn.utils.sparsefuncs import inplace_column_scale, mean_variance_axis
 
 import anndata
 import numpy as np
 import pandas as pd
 import scanpy as sc
 from .tensor import pf2
+from scipy.sparse import csr_matrix
+from sklearn.utils.sparsefuncs import inplace_column_scale, mean_variance_axis
+
 
 DATA_PATH = join("/opt", "northwest_bal")
 
@@ -86,7 +87,8 @@ def quality_control(data: anndata.AnnData, filter_low: bool=True, log_norm: bool
         start = time.time()
         sc.pp.normalize_total(data, target_sum=1e4)
         print(
-            f"Log-normalization completed in {round(time.time() - start, 2)} " "seconds"
+            f"Log-normalization completed in {round(time.time() - start, 2)} "
+            "seconds"
         )
 
     if batch_correct:

@@ -18,12 +18,16 @@ def makeFigure():
 
     conversions = convert_to_patients(data)
     patient_factor = pd.DataFrame(
-        data.uns["pf2"]["factors"][0],
+        data.uns["Pf2_A"],
         index=conversions,
-        columns=np.arange(data.uns["pf2"]["rank"]) + 1,
+        columns=np.arange(data.uns["Pf2_rank"]) + 1,
     )
-    patient_factor = patient_factor.loc[patient_factor.index.isin(meta.index), :]
-    labels = patient_factor.index.to_series().replace(meta.loc[:, "binary_outcome"])
+    patient_factor = patient_factor.loc[
+        patient_factor.index.isin(meta.index), :
+    ]
+    labels = patient_factor.index.to_series().replace(
+        meta.loc[:, "binary_outcome"]
+    )
 
     probabilities = predict_mortality(patient_factor, labels, proba=True)
     predicted = [0 if prob < 0.5 else 1 for prob in probabilities]
