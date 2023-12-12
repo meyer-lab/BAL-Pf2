@@ -1,13 +1,9 @@
-from os.path import abspath, dirname, join
-
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression, LogisticRegressionCV
 from sklearn.model_selection import StratifiedKFold
 
-CACHE_DIR = join(dirname((abspath(__file__))), "output")
-OPTIMAL_RANK = 40
-REPO_PATH = dirname(abspath(__file__))
+
 SKF = StratifiedKFold(n_splits=5)
 
 

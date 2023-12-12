@@ -4,13 +4,13 @@ import pandas as pd
 import seaborn as sns
 
 from pf2.data_import import import_data
-from pf2.figures.common import getSetup
 from pf2.tensor import pf2
+from anndata import read_h5ad
+from pf2.figures.common import getSetup
 
 
 def makeFigure():
-    data = import_data()
-    data, _ = pf2(data, do_embedding=False)
+    data = read_h5ad("factor_cache/factors.h5ad", backed="r")
 
     factors = {}
     dims = ["Patient", "Cell State", "Gene"]
