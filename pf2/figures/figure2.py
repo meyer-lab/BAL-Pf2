@@ -17,6 +17,8 @@ def makeFigure():
     meta = meta.set_index("patient_id", drop=True)
     conversions = convert_to_patients(data)
 
+    axs, fig = getSetup((6, 6), (2, 1))
+
     ranks = np.arange(1, 41)
     r2xs = pd.Series(0, dtype=float, index=ranks)
     accuracies = pd.Series(0, dtype=float, index=ranks)
@@ -39,8 +41,6 @@ def makeFigure():
         acc, _ = predict_mortality(patient_factor, labels)
         r2xs.loc[rank] = r2x
         accuracies.loc[rank] = acc
-
-    axs, fig = getSetup((6, 6), (2, 1))
 
     # R2X Plots
 

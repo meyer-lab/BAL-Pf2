@@ -1,18 +1,21 @@
 import time
 import warnings
+from pathlib import Path
 from os.path import join
 
 import anndata
 import numpy as np
 import pandas as pd
 import scanpy as sc
+from .tensor import pf2
 from scipy.sparse import csr_matrix
 from sklearn.utils.sparsefuncs import inplace_column_scale, mean_variance_axis
+
 
 DATA_PATH = join("/opt", "northwest_bal")
 
 
-def import_meta():
+def import_meta() -> pd.DataFrame:
     """
     Imports meta-data.
 
@@ -26,14 +29,12 @@ def import_meta():
 
 
 def import_data(
-    high_variance_genes=True,
     size="l",
 ) -> anndata.AnnData:
     """
     Imports and preprocesses single-cell data.
 
     Parameters:
-        high_variance_genes (bool, default:True): use only high-variance genes
         size (str, default:'m'): size of dataset to use; must be one of 'small',
             'medium', 'large', 's', 'm', or 'l'
     """
@@ -45,12 +46,9 @@ def import_data(
         join(DATA_PATH, "v1_01merged_cleaned_qc_zm.h5ad"),
     )
     if size in ["small", "s"]:
-        adata = adata[np.arange(0, adata.shape[0], 10)]
+        adata = adata[::10]
     elif size in ["medium", "m"]:
-        adata = adata[np.arange(0, adata.shape[0], 4)]
-
-    if high_variance_genes:
-        adata = adata[:, adata.var.loc[:, "highly_variable"]]
+        adata = adata[::4]
 
     _, adata.obs.loc[:, "condition_unique_idxs"] = np.unique(
         adata.obs_vector("batch"), return_inverse=True
@@ -68,7 +66,7 @@ def quality_control(data: anndata.AnnData, batch_correct: bool = True):
         batch_correct (bool, default: True): correct for batches
 
     Returns:
-        data (anndata.annData): quality-controlled single-cell dataset
+        data (anndata.AnnData): quality-controlled single-cell dataset
     """
     assert isinstance(data.X, csr_matrix)
 
@@ -103,15 +101,15 @@ def quality_control(data: anndata.AnnData, batch_correct: bool = True):
     return data
 
 
-def rescale_batches(data):
+def rescale_batches(data: anndata.AnnData) -> anndata.AnnData:
     """
     Rescales batches to minimize batch effects.
 
     Parameters:
-        data (anndata.annData): single-cell measurements
+        data (anndata.AnnData): single-cell measurements
 
     Returns:
-        data (anndata.annData): rescaled single-cell measurements
+        data (anndata.AnnData): rescaled single-cell measurements
     """
     assert isinstance(data.X, csr_matrix)
     cond_labels = data.obs["condition_unique_idxs"]
@@ -129,12 +127,12 @@ def rescale_batches(data):
     return data
 
 
-def convert_to_patients(data):
+def convert_to_patients(data: anndata.AnnData) -> pd.Series:
     """
     Converts unique IDs to patient IDs.
 
     Parameters:
-        data (anndata.annData): single-cell measurements
+        data (anndata.AnnData): single-cell measurements
 
     Returns:
         conversions (pd.Series): maps unique IDs to patient IDs.
@@ -146,3 +144,9 @@ def convert_to_patients(data):
     conversions = conversions.squeeze()
 
     return conversions
+
+
+def factorSave():
+    data = import_data()
+    factors, _ = pf2(data)
+    factors.write(Path("factor_cache/factors.h5ad"))
