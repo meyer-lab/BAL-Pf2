@@ -1,4 +1,3 @@
-import time
 import warnings
 from pathlib import Path
 from os.path import join
@@ -28,36 +27,42 @@ def import_meta() -> pd.DataFrame:
     return meta
 
 
-def import_data(
-    size="l",
-) -> anndata.AnnData:
+def import_data(size="l", high_variance=True) -> anndata.AnnData:
     """
     Imports and preprocesses single-cell data.
 
     Parameters:
         size (str, default:'m'): size of dataset to use; must be one of 'small',
             'medium', 'large', 's', 'm', or 'l'
+        high_variance (bool, default: True): reduce dataset to only high
+            variance genes
     """
     if size not in ["small", "medium", "large", "s", "m", "l"]:
         size = "m"
         warnings.warn("'size' parameter not recognized; defaulting to 'medium'")
 
-    adata = anndata.read_h5ad(
+    data = anndata.read_h5ad(
         join(DATA_PATH, "v1_01merged_cleaned_qc_zm.h5ad"),
     )
-    if size in ["small", "s"]:
-        adata = adata[::10]
-    elif size in ["medium", "m"]:
-        adata = adata[::4]
 
-    _, adata.obs.loc[:, "condition_unique_idxs"] = np.unique(
-        adata.obs_vector("batch"), return_inverse=True
+    if high_variance:
+        data = data[:, data.var.highly_variable]
+
+    if size in ["small", "s"]:
+        data = data[::10]
+    elif size in ["medium", "m"]:
+        data = data[::4]
+
+    _, data.obs.loc[:, "condition_unique_idxs"] = np.unique(
+        data.obs_vector("batch"), return_inverse=True
     )
 
-    return adata
+    return data
 
 
-def quality_control(data: anndata.AnnData, batch_correct: bool = True):
+def quality_control(
+    data: anndata.AnnData, batch_correct: bool = True
+) -> anndata.AnnData:
     """
     Runs single-cell dataset through quality control.
 

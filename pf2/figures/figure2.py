@@ -19,7 +19,7 @@ def makeFigure():
 
     axs, fig = getSetup((6, 6), (2, 1))
 
-    ranks = np.arange(1, 41)
+    ranks = np.arange(1, 61)
     r2xs = pd.Series(0, dtype=float, index=ranks)
     accuracies = pd.Series(0, dtype=float, index=ranks)
     labels = None
@@ -41,6 +41,7 @@ def makeFigure():
         acc, _ = predict_mortality(patient_factor, labels)
         r2xs.loc[rank] = r2x
         accuracies.loc[rank] = acc
+        accuracies.to_csv("/home/jchin/BAL-Pf2/output/acc_v_rank.csv")
 
     # R2X Plots
 
