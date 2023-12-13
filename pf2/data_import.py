@@ -43,7 +43,7 @@ def import_data(
         warnings.warn("'size' parameter not recognized; defaulting to 'medium'")
 
     adata = anndata.read_h5ad(
-        join(DATA_PATH, "v1_01merged_cleaned_qc.h5ad"),
+        join(DATA_PATH, "v1_01merged_cleaned_qc_zm.h5ad"),
     )
     if size in ["small", "s"]:
         adata = adata[::10]
@@ -57,14 +57,12 @@ def import_data(
     return adata
 
 
-def quality_control(data: anndata.AnnData, filter_low: bool=True, log_norm: bool=True, batch_correct: bool=True):
+def quality_control(data: anndata.AnnData, batch_correct: bool = True):
     """
     Runs single-cell dataset through quality control.
 
     Parameters:
-        data (anndata.AnnData): single-cell dataset
-        filter_low (bool, default: True): filter cells/genes with low counts
-        log_norm (bool, default: True): log-normalize genes
+        data (anndata.annData): single-cell dataset
         batch_correct (bool, default: True): correct for batches
 
     Returns:
@@ -75,29 +73,30 @@ def quality_control(data: anndata.AnnData, filter_low: bool=True, log_norm: bool
     # Drop cells with high mitochondrial counts
     data = data[data.obs.pct_counts_mito < 5, :]
 
-    if filter_low:
-        # Drop cells & genes with low counts
-        start = time.time()
-        sc.pp.filter_cells(data, min_genes=data.n_vars // 1e2)
-        sc.pp.filter_genes(data, min_cells=data.n_obs // 1e3)
-        print(f"Filtering completed in {round(time.time() - start, 2)} seconds")
+    # Filter genes with few reads
+    data = data[:, mean_variance_axis(data.X, axis=0)[0] > 0.002]
 
-    if log_norm:
-        # Log normalize
-        start = time.time()
-        sc.pp.normalize_total(data, target_sum=1e4)
-        print(
-            f"Log-normalization completed in {round(time.time() - start, 2)} "
-            "seconds"
-        )
+    # Normalize read depth
+    sc.pp.normalize_total(data, exclude_highly_expressed=False, inplace=True)
+
+    # Scale genes by sum
+    inplace_column_scale(
+        data.X, 1.0 / (mean_variance_axis(data.X, axis=0)[0] * data.shape[0])
+    )
+
+    # Add unique IDs
+    _, data.obs.loc[:, "condition_unique_idxs"] = np.unique(
+        data.obs_vector("batch"), return_inverse=True
+    )
 
     if batch_correct:
-        # Batch correction via ComBat
-        start = time.time()
         data = rescale_batches(data)
-        print(f"ComBat completed in {round(time.time() - start, 2)} seconds")
 
-    sc.pp.log1p(data)
+    # Log transform
+    data.X.data = np.log10((1e3 * data.X.data) + 1.0)
+
+    # Pre-compute means
+    data.var["means"], _ = mean_variance_axis(data.X, axis=0)
 
     return data
 
