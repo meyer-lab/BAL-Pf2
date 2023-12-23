@@ -3,8 +3,6 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
-from pf2.data_import import import_data
-from pf2.tensor import pf2
 from anndata import read_h5ad
 from pf2.figures.common import getSetup
 
@@ -13,9 +11,10 @@ def makeFigure():
     data = read_h5ad("factor_cache/factors.h5ad", backed="r")
 
     factors = {}
-    dims = ["Patient", "Cell State", "Gene"]
+    dims = ["Patient", "Cell State"]
     for factor, dim in zip(
-        [data.uns["Pf2_A"], data.uns["Pf2_B"], data.varm["Pf2_C"]], dims
+
+        [data.uns["Pf2_A"], data.uns["Pf2_B"]], dims
     ):
         factors[dim] = pd.DataFrame(
             factor,

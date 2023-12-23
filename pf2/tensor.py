@@ -1,10 +1,11 @@
+import anndata
 import numpy as np
 from anndata import AnnData
 from pacmap import PaCMAP
 from parafac2 import parafac2_nd
 from tlviz.factor_tools import degeneracy_score
 
-OPTIMAL_RANK = 40
+OPTIMAL_RANK = 43
 
 
 def store_pf2(
@@ -35,9 +36,9 @@ def store_pf2(
 def pf2(
     data: AnnData,
     rank: int = OPTIMAL_RANK,
-    random_state=1,
+    random_state = 1,
     do_embedding: bool = True,
-):
+) -> anndata.AnnData:
     pf_out, r2x = parafac2_nd(data, rank=rank, random_state=random_state)
 
     data = store_pf2(data, pf_out)
@@ -47,5 +48,9 @@ def pf2(
     if do_embedding:
         pcm = PaCMAP(random_state=random_state)
         data.obsm["embedding"] = pcm.fit_transform(data.obsm["projections"])  # type: ignore
+        pcm = PaCMAP(random_state=random_state)
+        data.varm["embedding"] = pcm.fit_transform(data.varm["Pf2_C"]) # type: ignore
+        pcm = PaCMAP(random_state=random_state)
+        data.uns["embedding"] = pcm.fit_transform(data.uns["Pf2_A"]) # type: ignore
 
     return data, r2x
