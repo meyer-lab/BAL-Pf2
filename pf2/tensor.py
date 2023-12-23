@@ -48,7 +48,9 @@ def pf2(
     if do_embedding:
         pcm = PaCMAP(random_state=random_state)
         data.obsm["embedding"] = pcm.fit_transform(data.obsm["projections"])  # type: ignore
+        pcm = PaCMAP(random_state=random_state)
         data.varm["embedding"] = pcm.fit_transform(data.varm["Pf2_C"]) # type: ignore
+        pcm = PaCMAP(random_state=random_state)
         data.uns["embedding"] = pcm.fit_transform(data.uns["Pf2_A"]) # type: ignore
 
     return data, r2x
