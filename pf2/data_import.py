@@ -94,40 +94,11 @@ def quality_control(
         data.obs_vector("batch"), return_inverse=True
     )
 
-    if batch_correct:
-        data = rescale_batches(data)
-
     # Log transform
     data.X.data = np.log10((1e3 * data.X.data) + 1.0)
 
     # Pre-compute means
     data.var["means"], _ = mean_variance_axis(data.X, axis=0)
-
-    return data
-
-
-def rescale_batches(data: anndata.AnnData) -> anndata.AnnData:
-    """
-    Rescales batches to minimize batch effects.
-
-    Parameters:
-        data (anndata.AnnData): single-cell measurements
-
-    Returns:
-        data (anndata.AnnData): rescaled single-cell measurements
-    """
-    assert isinstance(data.X, csr_matrix)
-    cond_labels = data.obs["condition_unique_idxs"]
-
-    for ii in range(np.amax(cond_labels) + 1):
-        xx = csr_matrix(data[cond_labels == ii].X, copy=True)
-
-        # Scale genes by sum
-        readmean = mean_variance_axis(xx, axis=0)[0]
-        readsum = xx.shape[0] * readmean
-        inplace_column_scale(xx, 1.0 / readsum)
-
-        data[cond_labels == ii] = xx
 
     return data
 

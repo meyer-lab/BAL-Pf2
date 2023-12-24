@@ -25,7 +25,7 @@ def makeFigure():
     for ax, dim in zip(axs, factors.keys()):
         factor = factors[dim]
         sns.heatmap(
-            factor, vmin=-1, vmax=1, cmap="coolwarm", cbar=ax == axs[-1], ax=ax
+            factor, cmap="coolwarm", cbar=ax == axs[-1], ax=ax
         )
         ax.set_ylabel("")
         ax.set_xlabel("")
