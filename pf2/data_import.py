@@ -1,15 +1,15 @@
 import warnings
-from pathlib import Path
 from os.path import join
+from pathlib import Path
 
 import anndata
 import numpy as np
 import pandas as pd
 import scanpy as sc
-from .tensor import pf2
 from scipy.sparse import csr_matrix
 from sklearn.utils.sparsefuncs import inplace_column_scale, mean_variance_axis
 
+from .tensor import pf2
 
 DATA_PATH = join("/opt", "northwest_bal")
 

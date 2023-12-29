@@ -9,6 +9,7 @@ import datashader.transfer_functions as tf
 import matplotlib
 import numpy as np
 import seaborn as sns
+import xarray
 from matplotlib import gridspec
 from matplotlib import pyplot as plt
 from matplotlib.figure import Figure
@@ -30,11 +31,7 @@ matplotlib.rcParams["svg.fonttype"] = "none"
 
 DEFAULT_CMAP = sns.color_palette("ch:s=-.2,r=.6", as_cmap=True)
 DIVERGING_CMAP = sns.diverging_palette(
-    250,
-    30,
-    l=65,
-    center="dark",
-    as_cmap=True
+    250, 30, l=65, center="dark", as_cmap=True
 )
 
 
@@ -80,7 +77,8 @@ def genFigure():
         f"Figure {sys.argv[1]} is done after {time.time() - start} seconds.\n"
     )
 
-def ds_show(result, ax):
+
+def ds_show(result: xarray.Image, ax: plt.Axes):
     """Show datashader results."""
     result = tf.dynspread(result, threshold=0.95, max_px=5)
     result = tf.set_background(result, "white")
@@ -89,11 +87,12 @@ def ds_show(result, ax):
         [
             img_rev & 0x0000FF,
             (img_rev & 0x00FF00) >> 8,
-            (img_rev & 0xFF0000) >> 16
+            (img_rev & 0xFF0000) >> 16,
         ]
     )
 
     ax.imshow(mpl_img)
+
 
 def get_canvas(points: np.ndarray) -> ds.Canvas:
     """Compute bounds on a space with appropriate padding"""

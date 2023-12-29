@@ -1,9 +1,9 @@
 """Figure 3: ROC Curves"""
 import numpy as np
 import pandas as pd
+from anndata import read_h5ad
 from sklearn.metrics import accuracy_score, roc_auc_score, roc_curve
 
-from anndata import read_h5ad
 from pf2.data_import import convert_to_patients, import_meta
 from pf2.figures.common import getSetup
 from pf2.predict import predict_mortality

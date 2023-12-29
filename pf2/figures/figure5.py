@@ -1,18 +1,18 @@
 """Figure 5: PacMAP plots"""
 import datashader as ds
 import datashader.transfer_functions as tf
-from matplotlib.lines import Line2D
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from anndata import read_h5ad
+from matplotlib.lines import Line2D
 from sklearn.preprocessing import LabelEncoder
 from sklearn.utils import resample
 from tqdm import tqdm
 
-from anndata import read_h5ad
 from pf2.data_import import convert_to_patients, import_meta
-from pf2.figures.common import DEFAULT_CMAP, DIVERGING_CMAP, ds_show, \
-    get_canvas, getSetup
+from pf2.figures.common import (DEFAULT_CMAP, DIVERGING_CMAP, ds_show,
+                                get_canvas, getSetup)
 from pf2.predict import predict_mortality
 
 META_COLS = {
@@ -23,9 +23,17 @@ META_COLS = {
     "BAL_pct_neutrophils": "numeric",
     "BAL_pct_macrophages": "numeric",
 }
-SCATTER_COLORS = ['#377eb8', '#ff7f00', '#4daf4a',
-                  '#f781bf', '#a65628', '#984ea3',
-                  '#999999', '#e41a1c', '#dede00']
+SCATTER_COLORS = [
+    "#377eb8",
+    "#ff7f00",
+    "#4daf4a",
+    "#f781bf",
+    "#a65628",
+    "#984ea3",
+    "#999999",
+    "#e41a1c",
+    "#dede00",
+]
 
 
 def makeFigure():
@@ -91,43 +99,41 @@ def makeFigure():
                 "category"
             )
             colors = {
-                le.classes_[i]: SCATTER_COLORS[i] for i
-                in range(len(le.classes_))
+                le.classes_[i]: SCATTER_COLORS[i]
+                for i in range(len(le.classes_))
             }
             result = tf.shade(
                 agg=canvas.points(
                     embedding, "x", "y", agg=ds.count_cat("label")
                 ),
                 color_key=SCATTER_COLORS,
-                how='eq_hist',
+                how="eq_hist",
                 alpha=255,
-                min_alpha=255
+                min_alpha=255,
             )
             ds_show(result, ax)
             legend_elements = [
                 Line2D(
-                    [0], [0], marker='o', color=color, label=name,
-                    markerfacecolor=color, markersize=8
-                ) for name, color in colors.items()
+                    [0],
+                    [0],
+                    marker="o",
+                    color=color,
+                    label=name,
+                    markerfacecolor=color,
+                    markersize=8,
+                )
+                for name, color in colors.items()
             ]
             ax.legend(handles=legend_elements)
         elif value == "numeric":
             embedding.loc[:, "label"] = meta.loc[:, key]
             span = (
                 embedding.loc[:, "label"].min(),
-                embedding.loc[:, "label"].max()
+                embedding.loc[:, "label"].max(),
             )
-            psm = plt.pcolormesh(
-                [
-                    span,
-                    span
-                ],
-                cmap=DIVERGING_CMAP
-            )
+            psm = plt.pcolormesh([span, span], cmap=DIVERGING_CMAP)
             result = tf.shade(
-                agg=canvas.points(
-                    embedding, "x", "y", agg=ds.mean("label")
-                ),
+                agg=canvas.points(embedding, "x", "y", agg=ds.mean("label")),
                 cmap=DIVERGING_CMAP,
                 span=span,
                 how="linear",
