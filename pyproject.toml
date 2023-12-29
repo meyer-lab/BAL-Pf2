@@ -18,6 +18,7 @@ parafac2 = { git = "https://github.com/meyer-lab/parafac2.git", rev = "137944d86
 pacmap = "^0.7.1"
 anndata = "^0.10.3"
 tlviz = "^0.1.1"
+datashader = "^0.16.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.4"
