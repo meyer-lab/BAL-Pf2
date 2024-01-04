@@ -3,7 +3,6 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression, LogisticRegressionCV
 from sklearn.model_selection import StratifiedKFold
 
-
 SKF = StratifiedKFold(n_splits=5)
 
 

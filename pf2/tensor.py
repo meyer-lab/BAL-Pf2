@@ -36,7 +36,7 @@ def store_pf2(
 def pf2(
     data: AnnData,
     rank: int = OPTIMAL_RANK,
-    random_state = 1,
+    random_state=1,
     do_embedding: bool = True,
 ) -> anndata.AnnData:
     pf_out, r2x = parafac2_nd(data, rank=rank, random_state=random_state)
@@ -49,8 +49,8 @@ def pf2(
         pcm = PaCMAP(random_state=random_state)
         data.obsm["embedding"] = pcm.fit_transform(data.obsm["projections"])  # type: ignore
         pcm = PaCMAP(random_state=random_state)
-        data.varm["embedding"] = pcm.fit_transform(data.varm["Pf2_C"]) # type: ignore
+        data.varm["embedding"] = pcm.fit_transform(data.varm["Pf2_C"])  # type: ignore
         pcm = PaCMAP(random_state=random_state)
-        data.uns["embedding"] = pcm.fit_transform(data.uns["Pf2_A"]) # type: ignore
+        data.uns["embedding"] = pcm.fit_transform(data.uns["Pf2_A"])  # type: ignore
 
     return data, r2x
