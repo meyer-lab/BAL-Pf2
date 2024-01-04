@@ -9,7 +9,6 @@ import datashader.transfer_functions as tf
 import matplotlib
 import numpy as np
 import seaborn as sns
-import xarray
 from matplotlib import gridspec
 from matplotlib import pyplot as plt
 from matplotlib.figure import Figure
@@ -78,7 +77,7 @@ def genFigure():
     )
 
 
-def ds_show(result: xarray.Image, ax: plt.Axes):
+def ds_show(result: tf.Image, ax: plt.Axes):
     """Show datashader results."""
     result = tf.dynspread(result, threshold=0.95, max_px=5)
     result = tf.set_background(result, "white")
