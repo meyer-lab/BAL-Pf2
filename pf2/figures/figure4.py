@@ -1,10 +1,10 @@
 """Figure 4: Component Association Errorbars"""
 import numpy as np
 import pandas as pd
+from anndata import read_h5ad
 from sklearn.utils import resample
 from tqdm import tqdm
 
-from anndata import read_h5ad
 from pf2.data_import import convert_to_patients, import_meta
 from pf2.figures.common import getSetup
 from pf2.predict import predict_mortality
@@ -54,10 +54,10 @@ def makeFigure():
     )
     ax.plot([0, 41], [0, 0], linestyle="--", color="k", zorder=0)
 
-    ax.set_xticks(np.arange(1, 41))
-    ax.set_xticklabels(np.arange(1, 41), fontsize=8)
+    ax.set_xticks(np.arange(data.uns["Pf2_rank"]) + 1)
+    ax.set_xticklabels(np.arange(data.uns["Pf2_rank"]) + 1, fontsize=8)
 
-    ax.set_xlim([0, 41])
+    ax.set_xlim([0, data.uns["Pf2_rank"] + 1])
     ax.grid(True)
 
     ax.set_ylabel("Logistic Regression Coefficient")
