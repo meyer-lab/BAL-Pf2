@@ -42,7 +42,7 @@ def import_data(size="l", high_variance=True) -> anndata.AnnData:
         warnings.warn("'size' parameter not recognized; defaulting to 'medium'")
 
     data = anndata.read_h5ad(
-        join(DATA_PATH, "v1_01merged_cleaned_qc_zm.h5ad"),
+        join(DATA_PATH, "v1_01merged_cleaned_no_rb.h5ad"),
     )
 
     if high_variance:
