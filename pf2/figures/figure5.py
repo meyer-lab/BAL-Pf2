@@ -17,11 +17,18 @@ from pf2.predict import predict_mortality
 
 META_COLS = {
     "binary_outcome": "categorical",
-    "age": "numeric",
+    # "age": "numeric",
     "episode_etiology": "categorical",
     "immunocompromised_flag": "categorical",
     "BAL_pct_neutrophils": "numeric",
     "BAL_pct_macrophages": "numeric",
+    "covid_status": "categorical",
+    "patient_category": "categorical",
+    "race": "categorical",
+    "ecmo_flag": "categorical",
+    "pathogen_virus_detected": "categorical",
+    "pathogen_bacteria_detected": "categorical",
+    "pathogen_fungi_detected": "categorical"
 }
 SCATTER_COLORS = [
     "#377eb8",
@@ -68,27 +75,32 @@ def makeFigure():
 
         embeddings[index] = embedding
 
-    axs, fig = getSetup((6, 6), (3, 3))
+    axs, fig = getSetup((12, 8), (4, 6))
 
-    # Plot factors
-    for name, embedding, ax in zip(names, embeddings, axs[:3]):
-        canvas = get_canvas(embedding.values)
-        result = tf.shade(
-            agg=canvas.points(embedding, "x", "y", agg=ds.count()),
-            cmap=DEFAULT_CMAP,
-            span=(-1, 1),
-            how="linear",
-            min_alpha=255,
-        )
-        ds_show(result, ax)
-
-        ax.set_xlabel("PaCMAP 1")
-        ax.set_ylabel("PaCMAP 2")
-        ax.set_title(name)
+    # # Plot factors
+    # for name, embedding, ax in zip(names, embeddings, axs[:3]):
+    #     canvas = get_canvas(embedding.values)
+    #     result = tf.shade(
+    #         agg=canvas.points(embedding, "x", "y", agg=ds.count()),
+    #         cmap=DEFAULT_CMAP,
+    #         span=(-1, 1),
+    #         how="linear",
+    #         min_alpha=255,
+    #     )
+    #     ds_show(result, ax)
+    #
+    #     ax.set_xlabel("PaCMAP 1")
+    #     ax.set_ylabel("PaCMAP 2")
+    #     ax.set_title(name)
 
     # Patient variation
     embedding = embeddings[2]
-    for (key, value), ax in zip(META_COLS.items(), axs[3:]):
+    for (key, value), ax_index in zip(META_COLS.items(), range(0, len(axs), 2)):
+        ax = axs[ax_index]
+        axs[ax_index + 1].set_frame_on(False)
+        axs[ax_index + 1].set_yticks([])
+        axs[ax_index + 1].set_xticks([])
+        axs[ax_index + 1].grid(False)
         canvas = get_canvas(embedding.values[:, :2])
         if value == "categorical":
             le = LabelEncoder()
@@ -124,7 +136,12 @@ def makeFigure():
                 )
                 for name, color in colors.items()
             ]
-            ax.legend(handles=legend_elements)
+            axs[ax_index + 1].legend(
+                handles=legend_elements,
+                loc='center left',
+                fontsize=6,
+                labelspacing=1
+            )
         elif value == "numeric":
             embedding.loc[:, "label"] = meta.loc[:, key]
             span = (
@@ -141,7 +158,7 @@ def makeFigure():
                 min_alpha=255,
             )
             ds_show(result, ax)
-            plt.colorbar(psm, ax=ax)
+            plt.colorbar(psm, ax=axs[ax_index + 1], location='left')
 
         ax.set_xlabel("PaCMAP 1")
         ax.set_ylabel("PaCMAP 2")
