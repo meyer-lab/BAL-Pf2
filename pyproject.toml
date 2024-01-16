@@ -19,6 +19,7 @@ pacmap = "^0.7.1"
 anndata = "^0.10.3"
 tlviz = "^0.1.1"
 datashader = "^0.16.0"
+doubletdetection = "^4.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.4"

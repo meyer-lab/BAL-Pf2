@@ -3,11 +3,13 @@ from os.path import join
 from pathlib import Path
 
 import anndata
+import doubletdetection
 import numpy as np
 import pandas as pd
 import scanpy as sc
 from scipy.sparse import csr_matrix
 from sklearn.utils.sparsefuncs import inplace_column_scale, mean_variance_axis
+from tqdm import tqdm
 
 from .tensor import pf2
 
@@ -42,7 +44,7 @@ def import_data(size="l", high_variance=True) -> anndata.AnnData:
         warnings.warn("'size' parameter not recognized; defaulting to 'medium'")
 
     data = anndata.read_h5ad(
-        join(DATA_PATH, "v1_01merged_cleaned_qc_zm.h5ad"),
+        join(DATA_PATH, "v1_01merged_cleaned_db.h5ad"),
     )
 
     if high_variance:
@@ -61,7 +63,9 @@ def import_data(size="l", high_variance=True) -> anndata.AnnData:
 
 
 def quality_control(
-    data: anndata.AnnData, batch_correct: bool = True
+    data: anndata.AnnData,
+    batch_correct: bool = True,
+    remove_doublets : bool = True
 ) -> anndata.AnnData:
     """
     Runs single-cell dataset through quality control.
@@ -81,17 +85,43 @@ def quality_control(
     # Filter genes with few reads
     data = data[:, mean_variance_axis(data.X, axis=0)[0] > 0.002]
 
+    if remove_doublets:
+        data.obs.loc[:, "doublet"] = 0
+        for run in tqdm(data.obs.loc[:, "batch"].unique()):
+            sample = data.X[
+                data.obs.loc[:, "batch"] == run,
+                :
+            ]
+            if sample.shape[0] < 30:
+                data = data[
+                    ~(data.obs.loc[:, "batch"] == run),
+                    :
+                ]
+                continue
+
+            clf = doubletdetection.BoostClassifier(
+                n_iters=10,
+                clustering_algorithm="louvain",
+                standard_scaling=True,
+                pseudocount=0.1,
+                n_jobs=-1,
+            )
+            data.obs.loc[
+                data.obs.loc[:, "batch"] == run,
+                "doublet"
+            ] = clf.fit(sample).predict(p_thresh=1e-16, voter_thresh=0.5)
+
+        data = data[
+            ~data.obs.loc[:, "doublet"].astype(bool),
+            :
+        ]
+
     # Normalize read depth
     sc.pp.normalize_total(data, exclude_highly_expressed=False, inplace=True)
 
     # Scale genes by sum
     inplace_column_scale(
         data.X, 1.0 / (mean_variance_axis(data.X, axis=0)[0] * data.shape[0])
-    )
-
-    # Add unique IDs
-    _, data.obs.loc[:, "condition_unique_idxs"] = np.unique(
-        data.obs_vector("batch"), return_inverse=True
     )
 
     if batch_correct:
