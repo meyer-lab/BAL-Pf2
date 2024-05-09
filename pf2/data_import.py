@@ -27,31 +27,26 @@ def import_meta() -> pd.DataFrame:
     return meta
 
 
-def import_data(size="l", high_variance=True) -> anndata.AnnData:
+def import_data(small=False, high_variance=True) -> anndata.AnnData:
     """
     Imports and preprocesses single-cell data.
 
     Parameters:
-        size (str, default:'m'): size of dataset to use; must be one of 'small',
-            'medium', 'large', 's', 'm', or 'l'
+        small (bool, default: False): uses subset of patients
         high_variance (bool, default: True): reduce dataset to only high
             variance genes
     """
-    if size not in ["small", "medium", "large", "s", "m", "l"]:
-        size = "l"
-        warnings.warn("'size' parameter not recognized; defaulting to 'large'")
+    if small:
+        data = anndata.read_h5ad(
+            join(DATA_PATH, "v1_01merged_cleaned_small_db_high_cells.h5ad"),
+        )
+    else:
+        data = anndata.read_h5ad(
+            join(DATA_PATH, "v1_01merged_cleaned_db_high_cells.h5ad"),
+        )
 
-    data = anndata.read_h5ad(
-        join(DATA_PATH, "v1_01merged_cleaned_db_high_cells.h5ad"),
-    )
-
-    if high_variance:
-        data = data[:, data.var.highly_variable]
-
-    if size in ["small", "s"]:
-        data = data[::10]
-    elif size in ["medium", "m"]:
-        data = data[::4]
+    # if high_variance:
+    #     data = data[:, data.var.highly_variable]
 
     _, data.obs.loc[:, "condition_unique_idxs"] = np.unique(
         data.obs_vector("batch"), return_inverse=True

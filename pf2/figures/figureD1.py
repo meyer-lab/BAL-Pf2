@@ -61,8 +61,9 @@ COLORS = {
 
 def makeFigure():
     start = time.time()
-    data = import_data(size="s")
-    factors, _ = pf2(data)
+    data = import_data(small=True)
+    factors, _ = pf2(data, rank=20)
+    print(f"Factorization Time: {time.time() - start}")
 
     axs, fig = getSetup((12, 4), (1, 4))
 
