@@ -38,11 +38,11 @@ def import_data(size="l", high_variance=True) -> anndata.AnnData:
             variance genes
     """
     if size not in ["small", "medium", "large", "s", "m", "l"]:
-        size = "m"
-        warnings.warn("'size' parameter not recognized; defaulting to 'medium'")
+        size = "l"
+        warnings.warn("'size' parameter not recognized; defaulting to 'large'")
 
     data = anndata.read_h5ad(
-        join(DATA_PATH, "v1_01merged_cleaned_qc_zm.h5ad"),
+        join(DATA_PATH, "v1_01merged_cleaned_db_high_cells.h5ad"),
     )
 
     if high_variance:

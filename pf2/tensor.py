@@ -3,6 +3,8 @@ import numpy as np
 from anndata import AnnData
 from pacmap import PaCMAP
 from parafac2 import parafac2_nd
+from scipy.stats import gmean
+from sklearn.linear_model import LinearRegression
 from tlviz.factor_tools import degeneracy_score
 
 OPTIMAL_RANK = 43
@@ -42,6 +44,7 @@ def pf2(
     pf_out, r2x = parafac2_nd(data, rank=rank, random_state=random_state)
 
     data = store_pf2(data, pf_out)
+    data.uns["Pf2_A"] = correct_conditions(data)
 
     print(f"Degeneracy score: {degeneracy_score((pf_out[0], pf_out[1]))}")
 
@@ -54,3 +57,23 @@ def pf2(
         data.uns["embedding"] = pcm.fit_transform(data.uns["Pf2_A"])  # type: ignore
 
     return data, r2x
+
+
+def correct_conditions(X: anndata.AnnData):
+    """Correct the conditions factors by overall read depth."""
+    sgIndex = X.obs["condition_unique_idxs"]
+    counts = np.zeros((np.amax(sgIndex) + 1, 1))
+
+    cond_mean = gmean(X.uns["Pf2_A"], axis=1)
+
+    x_count = X.X.sum(axis=1)
+
+    for ii in range(counts.size):
+        counts[ii] = np.sum(x_count[X.obs["condition_unique_idxs"] == ii])
+
+    lr = LinearRegression()
+    lr.fit(counts, cond_mean.reshape(-1, 1))
+
+    counts_correct = lr.predict(counts)
+
+    return X.uns["Pf2_A"] / counts_correct
