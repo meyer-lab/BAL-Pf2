@@ -43,7 +43,7 @@ def pf2(
     pf_out, r2x = parafac2_nd(data, rank=rank, random_state=random_state, tol=1e-7)
 
     data = store_pf2(data, pf_out)
-    data.uns["Pf2_A"] = correct_conditions(data)
+    # data.uns["Pf2_A"] = correct_conditions(data)
 
     if do_embedding:
         pcm = PaCMAP(random_state=random_state)
