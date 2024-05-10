@@ -5,7 +5,6 @@ from pacmap import PaCMAP
 from parafac2 import parafac2_nd
 from scipy.stats import gmean
 from sklearn.linear_model import LinearRegression
-from tlviz.factor_tools import degeneracy_score
 
 OPTIMAL_RANK = 43
 
@@ -41,18 +40,14 @@ def pf2(
     random_state=1,
     do_embedding: bool = True,
 ) -> anndata.AnnData:
-    pf_out, r2x = parafac2_nd(data, rank=rank, random_state=random_state)
+    pf_out, r2x = parafac2_nd(data, rank=rank, random_state=random_state, tol=1e-7)
 
     data = store_pf2(data, pf_out)
     data.uns["Pf2_A"] = correct_conditions(data)
 
-    print(f"Degeneracy score: {degeneracy_score((pf_out[0], pf_out[1]))}")
-
     if do_embedding:
         pcm = PaCMAP(random_state=random_state)
         data.obsm["embedding"] = pcm.fit_transform(data.obsm["projections"])  # type: ignore
-        pcm = PaCMAP(random_state=random_state)
-        data.varm["embedding"] = pcm.fit_transform(data.varm["Pf2_C"])  # type: ignore
         pcm = PaCMAP(random_state=random_state)
         data.uns["embedding"] = pcm.fit_transform(data.uns["Pf2_A"])  # type: ignore
 

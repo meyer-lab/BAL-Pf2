@@ -1,13 +1,9 @@
-import warnings
 from os.path import join
 from pathlib import Path
 
 import anndata
-import numpy as np
 import pandas as pd
-import scanpy as sc
-from scipy.sparse import csr_matrix
-from sklearn.utils.sparsefuncs import inplace_column_scale, mean_variance_axis
+from parafac2.normalize import prepare_dataset
 
 from .tensor import pf2
 
@@ -27,7 +23,7 @@ def import_meta() -> pd.DataFrame:
     return meta
 
 
-def import_data(small=False, high_variance=True) -> anndata.AnnData:
+def import_data(small=False) -> anndata.AnnData:
     """
     Imports and preprocesses single-cell data.
 
@@ -45,86 +41,12 @@ def import_data(small=False, high_variance=True) -> anndata.AnnData:
             join(DATA_PATH, "v1_01merged_cleaned_db_high_cells.h5ad"),
         )
 
-    # if high_variance:
-    #     data = data[:, data.var.highly_variable]
-
-    _, data.obs.loc[:, "condition_unique_idxs"] = np.unique(
-        data.obs_vector("batch"), return_inverse=True
-    )
-
-    return data
-
-
-def quality_control(
-    data: anndata.AnnData, batch_correct: bool = True
-) -> anndata.AnnData:
-    """
-    Runs single-cell dataset through quality control.
-
-    Parameters:
-        data (anndata.annData): single-cell dataset
-        batch_correct (bool, default: True): correct for batches
-
-    Returns:
-        data (anndata.AnnData): quality-controlled single-cell dataset
-    """
-    assert isinstance(data.X, csr_matrix)
-
     # Drop cells with high mitochondrial counts
-    data = data[data.obs.pct_counts_mito < 5, :]
+    data = data[data.obs.pct_counts_mito < 5, :] # type: ignore
 
-    # Filter genes with few reads
-    data = data[:, mean_variance_axis(data.X, axis=0)[0] > 0.002]
+    data = data[::2, :]
 
-    # Normalize read depth
-    sc.pp.normalize_total(data, exclude_highly_expressed=False, inplace=True)
-
-    # Scale genes by sum
-    inplace_column_scale(
-        data.X, 1.0 / (mean_variance_axis(data.X, axis=0)[0] * data.shape[0])
-    )
-
-    # Add unique IDs
-    _, data.obs.loc[:, "condition_unique_idxs"] = np.unique(
-        data.obs_vector("batch"), return_inverse=True
-    )
-
-    if batch_correct:
-        data = rescale_batches(data)
-
-    # Log transform
-    data.X.data = np.log10((1e3 * data.X.data) + 1.0)
-
-    # Pre-compute means
-    data.var["means"], _ = mean_variance_axis(data.X, axis=0)
-
-    return data
-
-
-def rescale_batches(data: anndata.AnnData) -> anndata.AnnData:
-    """
-    Rescales batches to minimize batch effects.
-
-    Parameters:
-        data (anndata.AnnData): single-cell measurements
-
-    Returns:
-        data (anndata.AnnData): rescaled single-cell measurements
-    """
-    assert isinstance(data.X, csr_matrix)
-    cond_labels = data.obs["condition_unique_idxs"]
-
-    for ii in range(np.amax(cond_labels) + 1):
-        xx = csr_matrix(data[cond_labels == ii].X, copy=True)
-
-        # Scale genes by sum
-        readmean = mean_variance_axis(xx, axis=0)[0]
-        readsum = xx.shape[0] * readmean
-        inplace_column_scale(xx, 1.0 / readsum)
-
-        data[cond_labels == ii] = xx
-
-    return data
+    return prepare_dataset(data, "batch", 0.1)
 
 
 def convert_to_patients(data: anndata.AnnData) -> pd.Series:

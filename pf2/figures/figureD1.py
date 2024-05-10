@@ -5,11 +5,8 @@ import datashader as ds
 import datashader.transfer_functions as tf
 from matplotlib import colormaps
 from matplotlib.colors import to_hex
-import numpy as np
 import pandas as pd
-import scanpy as sc
 import seaborn as sns
-from anndata import read_h5ad
 
 from pf2.data_import import import_data
 from pf2.figures.common import ds_show, get_canvas, getSetup
@@ -62,7 +59,8 @@ COLORS = {
 def makeFigure():
     start = time.time()
     data = import_data(small=True)
-    factors, _ = pf2(data, rank=20)
+    print(data.shape)
+    factors, _ = pf2(data, rank=40)
     print(f"Factorization Time: {time.time() - start}")
 
     axs, fig = getSetup((12, 4), (1, 4))
@@ -89,19 +87,19 @@ def makeFigure():
 
     ax = axs[1]
 
-    sns.heatmap(
-        factors.varm["Pf2_C"] / abs(factors.varm["Pf2_C"]).max(axis=0),
-        vmin=-1,
-        vmax=1,
-        cmap="coolwarm",
-        ax=ax,
-        cbar=False,
-    )
-    ax.set_ylabel("")
-    ax.set_xlabel("")
-    ax.set_yticks([])
-    ax.set_xticks([])
-    ax.set_title("Gene Factor")
+    # sns.heatmap(
+    #     factors.varm["Pf2_C"] / abs(factors.varm["Pf2_C"]).max(axis=0),
+    #     vmin=-1,
+    #     vmax=1,
+    #     cmap="coolwarm",
+    #     ax=ax,
+    #     cbar=False,
+    # )
+    # ax.set_ylabel("")
+    # ax.set_xlabel("")
+    # ax.set_yticks([])
+    # ax.set_xticks([])
+    # ax.set_title("Gene Factor")
 
     # Cell State factor
 

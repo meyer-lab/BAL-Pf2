@@ -7,7 +7,7 @@ allOutput = $(patsubst pf2/figures/figure%.py, output/figure%.svg, $(flist))
 
 all: $(allOutput)
 
-output/figure%.svg: pf2/figures/figure%.py factor_cache/factors.h5ad
+output/figure%.svg: pf2/figures/figure%.py
 	@ mkdir -p ./output
 	poetry run fbuild $*
 
