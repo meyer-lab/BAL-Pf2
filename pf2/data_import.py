@@ -34,7 +34,7 @@ def import_data(small=False) -> anndata.AnnData:
     """
     if small:
         data = anndata.read_h5ad(
-            join(DATA_PATH, "v1_01merged_cleaned_small_db_high_cells.h5ad"),
+            join(DATA_PATH, "v1_01merged_cleaned_small.h5ad"),
         )
     else:
         data = anndata.read_h5ad(
