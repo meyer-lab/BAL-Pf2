@@ -3,6 +3,7 @@ import numpy as np
 from anndata import AnnData
 from pacmap import PaCMAP
 from parafac2 import parafac2_nd
+import scipy.cluster.hierarchy as sch
 from scipy.stats import gmean
 from sklearn.linear_model import LinearRegression
 
@@ -72,3 +73,10 @@ def correct_conditions(X: anndata.AnnData):
     counts_correct = lr.predict(counts)
 
     return X.uns["Pf2_A"] / counts_correct
+
+
+def reorder_table(projs: np.ndarray) -> np.ndarray:
+    """Reorder a table's rows using heirarchical clustering"""
+    assert projs.ndim == 2
+    Z = sch.linkage(projs, method="complete", metric="cosine", optimal_ordering=True)
+    return sch.leaves_list(Z)

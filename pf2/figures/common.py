@@ -15,7 +15,7 @@ from matplotlib import pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
-from ..utils import reorder_table
+from ..tensor import reorder_table
 
 matplotlib.use("AGG")
 
