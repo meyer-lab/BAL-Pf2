@@ -1,8 +1,8 @@
-import warnings
 from os.path import join
 from pathlib import Path
 
 import anndata
+<<<<<<< HEAD
 import doubletdetection
 import numpy as np
 import pandas as pd
@@ -10,6 +10,10 @@ import scanpy as sc
 from scipy.sparse import csr_matrix
 from sklearn.utils.sparsefuncs import inplace_column_scale, mean_variance_axis
 from tqdm import tqdm
+=======
+import pandas as pd
+from parafac2.normalize import prepare_dataset
+>>>>>>> 96d69ea4ca9293cd177aeb42e42c4d2fc670aa49
 
 from .tensor import pf2
 
@@ -29,16 +33,16 @@ def import_meta() -> pd.DataFrame:
     return meta
 
 
-def import_data(size="l", high_variance=True) -> anndata.AnnData:
+def import_data(small=False) -> anndata.AnnData:
     """
     Imports and preprocesses single-cell data.
 
     Parameters:
-        size (str, default:'m'): size of dataset to use; must be one of 'small',
-            'medium', 'large', 's', 'm', or 'l'
+        small (bool, default: False): uses subset of patients
         high_variance (bool, default: True): reduce dataset to only high
             variance genes
     """
+<<<<<<< HEAD
     if size not in ["small", "medium", "large", "s", "m", "l"]:
         size = "m"
         warnings.warn("'size' parameter not recognized; defaulting to 'medium'")
@@ -78,10 +82,21 @@ def quality_control(
         data (anndata.AnnData): quality-controlled single-cell dataset
     """
     assert isinstance(data.X, csr_matrix)
+=======
+    if small:
+        data = anndata.read_h5ad(
+            join(DATA_PATH, "v1_01merged_cleaned_small.h5ad"),
+        )
+    else:
+        data = anndata.read_h5ad(
+            join(DATA_PATH, "v2_01merged_cleaned.h5ad"),
+        )
+>>>>>>> 96d69ea4ca9293cd177aeb42e42c4d2fc670aa49
 
     # Drop cells with high mitochondrial counts
-    data = data[data.obs.pct_counts_mito < 5, :]
+    data = data[data.obs.pct_counts_mito < 5, :] # type: ignore
 
+<<<<<<< HEAD
     # Filter genes with few reads
     data = data[:, mean_variance_axis(data.X, axis=0)[0] > 0.002]
 
@@ -160,6 +175,9 @@ def rescale_batches(data: anndata.AnnData) -> anndata.AnnData:
         data[cond_labels == ii] = xx
 
     return data
+=======
+    return prepare_dataset(data, "batch", 0.01)
+>>>>>>> 96d69ea4ca9293cd177aeb42e42c4d2fc670aa49
 
 
 def convert_to_patients(data: anndata.AnnData) -> pd.Series:

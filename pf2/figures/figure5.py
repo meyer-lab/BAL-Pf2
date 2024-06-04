@@ -11,8 +11,13 @@ from sklearn.utils import resample
 from tqdm import tqdm
 
 from pf2.data_import import convert_to_patients, import_meta
-from pf2.figures.common import (DEFAULT_CMAP, DIVERGING_CMAP, ds_show,
-                                get_canvas, getSetup)
+from pf2.figures.common import (
+    DEFAULT_CMAP,
+    DIVERGING_CMAP,
+    ds_show,
+    get_canvas,
+    getSetup,
+)
 from pf2.predict import predict_mortality
 
 META_COLS = {
@@ -95,7 +100,7 @@ def makeFigure():
 
             categories = le.fit_transform(meta.loc[:, key])
             embedding.loc[:, "label"] = categories
-            embedding.loc[:, "label"] = embedding.loc[:, "label"].astype(
+            embedding["label"] = embedding.loc[:, "label"].astype(
                 "category"
             )
             colors = {
