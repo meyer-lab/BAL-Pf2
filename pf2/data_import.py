@@ -38,7 +38,7 @@ def import_data(small=False) -> anndata.AnnData:
         )
     else:
         data = anndata.read_h5ad(
-            join(DATA_PATH, "v1_01merged_cleaned_db_high_cells.h5ad"),
+            join(DATA_PATH, "v2_01merged_cleaned.h5ad"),
         )
 
     # Drop cells with high mitochondrial counts

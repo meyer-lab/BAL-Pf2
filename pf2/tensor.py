@@ -6,7 +6,7 @@ from parafac2 import parafac2_nd
 from scipy.stats import gmean
 from sklearn.linear_model import LinearRegression
 
-OPTIMAL_RANK = 43
+OPTIMAL_RANK = 40
 
 
 def store_pf2(

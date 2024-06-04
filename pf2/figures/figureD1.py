@@ -9,7 +9,7 @@ import pandas as pd
 import seaborn as sns
 
 from pf2.data_import import import_data
-from pf2.figures.common import ds_show, get_canvas, getSetup
+from pf2.figures.common import ds_show, get_canvas, getSetup, plot_gene_factors
 from pf2.tensor import pf2
 
 CONVERSIONS = {
@@ -58,7 +58,7 @@ COLORS = {
 
 def makeFigure():
     start = time.time()
-    data = import_data(small=True)
+    data = import_data()
     print(data.shape)
     factors, _ = pf2(data, rank=40)
     print(f"Factorization Time: {time.time() - start}")
@@ -87,19 +87,11 @@ def makeFigure():
 
     ax = axs[1]
 
-    # sns.heatmap(
-    #     factors.varm["Pf2_C"] / abs(factors.varm["Pf2_C"]).max(axis=0),
-    #     vmin=-1,
-    #     vmax=1,
-    #     cmap="coolwarm",
-    #     ax=ax,
-    #     cbar=False,
-    # )
-    # ax.set_ylabel("")
-    # ax.set_xlabel("")
-    # ax.set_yticks([])
-    # ax.set_xticks([])
-    # ax.set_title("Gene Factor")
+    plot_gene_factors(factors, ax, trim=True)
+    ax.set_xticks([])
+    ax.set_xlabel("")
+    ax.set_yticks([])
+    ax.set_title("Gene Factor")
 
     # Cell State factor
 
