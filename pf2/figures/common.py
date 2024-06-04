@@ -14,7 +14,7 @@ from matplotlib import gridspec
 from matplotlib import pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
-
+from string import ascii_letters
 from ..tensor import reorder_table
 
 matplotlib.use("AGG")
@@ -59,6 +59,20 @@ def getSetup(
     ax = [f.add_subplot(gs1[x]) for x in range(gridd[0] * gridd[1])]
 
     return ax, f
+
+
+def subplotLabel(axs: list[plt.Axes]):
+    """Place subplot labels on figure."""
+    for ii, ax in enumerate(axs):
+        ax.text(
+            -0.2,
+            1.2,
+            ascii_letters[ii],
+            transform=ax.transAxes,
+            fontweight="bold",
+            va="top",
+        )
+
 
 
 def genFigure():
