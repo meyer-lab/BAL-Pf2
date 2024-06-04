@@ -24,17 +24,12 @@ def makeFigure():
     start = time.time()
     data = import_data()
     data = sc.pp.subsample(data, fraction=.05, random_state=1, copy=True) 
-    print(data)
-    X, _ = pf2(data, rank=5)
-    print(f"Factorization Time: {time.time() - start}")
-    
-    
-
+    X, _ = pf2(data, rank=3)
+    print(f"Factorization Time: {time.time() - start} sec")
     print(X)
     
-    
     # data.uns["Pf2_A"] = correct_conditions(data)
-    plot_condition_factors(X, ax[0])
+    plot_condition_factors(X, ax[0], cond="sample_id")
     plot_eigenstate_factors(X, ax[1])
     plot_gene_factors(X, ax[2])
     plot_labels_pacmap(X, "cell_type", ax[3])
