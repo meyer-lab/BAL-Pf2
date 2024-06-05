@@ -14,6 +14,7 @@ from matplotlib.axes import Axes
 import anndata
 import pandas as pd
 from pf2.data_import import convert_to_patients, import_meta
+from ..tensor import correct_conditions
 
 
 def makeFigure():
@@ -69,7 +70,7 @@ def pair_logistic_regression(conditions_matrix, labels, ax: Axes):
     sns.heatmap(
         data=acc,
         vmin=0.5,
-        vmax=0.7,
+        vmax=0.8,
         xticklabels=all_comps + 1,
         yticklabels=all_comps + 1,
         mask=mask,

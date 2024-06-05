@@ -14,19 +14,19 @@ def makeFigure():
     subplotLabel(ax)
     
     
-    X = anndata.read_h5ad("balPf240comps_factors.h5ad")
+    # X = anndata.read_h5ad("balPf240comps_factors.h5ad")
 
-    # start = time.time()
-    # data = import_data()
-    # data = sc.pp.subsample(data, fraction=.1, random_state=1, copy=True) 
-    # X, _ = pf2(data, rank=40)
-    # print(f"Factorization Time: {time.time() - start} sec")
+    start = time.time()
+    data = import_data()
+    data = sc.pp.subsample(data, fraction=.1, random_state=1, copy=True) 
+    X, _ = pf2(data, rank=40)
+    print(f"Factorization Time: {time.time() - start} sec")
 
-    # X.write("balPf240comps_factors.h5ad")
-    # print(X)
+    X.write("balPf240comps_factors.h5ad")
+    print(X)
     
     # X.uns["Pf2_A"] = correct_conditions(X)
-    plot_condition_factors(X, ax[0], cond="sample_id")
+    plot_condition_factors(X, ax[0], cond="patient_id")
     plot_eigenstate_factors(X, ax[1])
     plot_gene_factors(X, ax[2])
     plot_labels_pacmap(X, "cell_type", ax[3])

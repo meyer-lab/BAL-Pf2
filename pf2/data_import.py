@@ -44,7 +44,7 @@ def import_data(small=False) -> anndata.AnnData:
     # Drop cells with high mitochondrial counts
     data = data[data.obs.pct_counts_mito < 5, :] # type: ignore
 
-    return prepare_dataset(data, "batch", 0.01)
+    return prepare_dataset(data, "patient_id", 0.01)
 
 
 def convert_to_patients(data: anndata.AnnData) -> pd.Series:
