@@ -21,7 +21,7 @@ def makeFigure():
     # Add subplot labels
     subplotLabel(ax)
 
-    X = read_h5ad("balPf240comps_factors.h5ad")
+    X = read_h5ad("bal_rank40.h5ad")
     patient_id_X = np.unique(X.obs["patient_id"])
     meta = import_meta()
     reduced_meta = meta.loc[meta["patient_id"].isin(patient_id_X)][["patient_id", "binary_outcome"]].drop_duplicates()
