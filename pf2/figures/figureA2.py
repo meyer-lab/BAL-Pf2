@@ -13,7 +13,7 @@ def makeFigure():
     ax, f = getSetup((40, 30), (4, 10))
     subplotLabel(ax)
 
-    X = read_h5ad("bal_rank40.h5ad", backed="r")
+    X = read_h5ad("/opt/andrew/bal_rank40.h5ad", backed="r")
 
     for i in range(1, 41):
         plot_wp_pacmap(X, i, ax[i - 1], cbarMax=0.3)

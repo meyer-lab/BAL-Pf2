@@ -21,7 +21,7 @@ def makeFigure():
     """Get a list of the axis objects and create a figure."""
     ax, f = getSetup((7, 6), (1, 1))
 
-    X = read_h5ad("bal_rank40.h5ad")
+    X = read_h5ad("/opt/andrew/bal_rank40.h5ad")
 
     meta = import_meta()
     meta = meta.loc[~meta.loc[:, "patient_id"].duplicated(), :]

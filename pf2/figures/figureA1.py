@@ -14,7 +14,7 @@ def makeFigure():
     subplotLabel(ax)
     
     
-    X = anndata.read_h5ad("bal_rank40.h5ad")
+    X = anndata.read_h5ad("/opt/andrew/bal_rank40.h5ad")
 
     # start = time.time()
     # data = import_data()
