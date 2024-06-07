@@ -16,7 +16,7 @@ def makeFigure():
     for factor, dim in zip([data.uns["Pf2_A"], data.uns["Pf2_B"]], dims):
         factors[dim] = pd.DataFrame(
             factor,
-            columns=np.arange(data.uns["Pf2_rank"]) + 1,
+            columns=np.arange(data.uns["Pf2_A"].shape[1]) + 1,
         )
 
     axs, fig = getSetup((8, 4), (1, len(factors)))

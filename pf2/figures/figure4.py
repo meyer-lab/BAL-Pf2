@@ -24,7 +24,7 @@ def makeFigure():
     patient_factor = pd.DataFrame(
         data.uns["Pf2_A"],
         index=conversions,
-        columns=np.arange(data.uns["Pf2_rank"]) + 1,
+        columns=np.arange(data.uns["Pf2_A"].shape[1]) + 1,
     )
     patient_factor = patient_factor.loc[patient_factor.index.isin(meta.index), :]
     labels = patient_factor.index.to_series().replace(meta.loc[:, "binary_outcome"])
@@ -49,10 +49,10 @@ def makeFigure():
     )
     ax.plot([0, 41], [0, 0], linestyle="--", color="k", zorder=0)
 
-    ax.set_xticks(np.arange(data.uns["Pf2_rank"]) + 1)
-    ax.set_xticklabels(np.arange(data.uns["Pf2_rank"]) + 1, fontsize=8)
+    ax.set_xticks(np.arange(data.uns["Pf2_A"].shape[1]) + 1)
+    ax.set_xticklabels(np.arange(data.uns["Pf2_A"].shape[1]) + 1, fontsize=8)
 
-    ax.set_xlim([0, data.uns["Pf2_rank"] + 1])
+    ax.set_xlim([0, data.uns["Pf2_A"].shape[1] + 1])
     ax.grid(True)
 
     ax.set_ylabel("Logistic Regression Coefficient")
