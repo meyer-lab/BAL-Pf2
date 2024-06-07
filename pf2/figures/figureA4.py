@@ -1,20 +1,15 @@
-"""
-Lupus: Prediction accuracy for all two
-pair logistic regression combinations
-"""
+"""Figure A4: XX"""
 
-from anndata import read_h5ad
 import itertools
 import numpy as np
 import seaborn as sns
 from sklearn.linear_model import LogisticRegression
-from sklearn import preprocessing
 from .common import subplotLabel, getSetup
 from matplotlib.axes import Axes
 import anndata
 import pandas as pd
 from sklearn.utils import resample
-from pf2.data_import import convert_to_patients, import_meta, add_obs, obs_per_condition
+from pf2.data_import import add_obs, obs_per_condition
 from ..tensor import correct_conditions
 from tqdm import tqdm
 from pf2.predict import predict_mortality
@@ -23,8 +18,9 @@ from pf2.predict import predict_mortality
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
     ax, f = getSetup((8, 12), (2, 1))
+    subplotLabel(ax)
 
-    X = read_h5ad("/opt/andrew/bal_rank40.h5ad")
+    X = anndata.read_h5ad("/opt/andrew/bal_rank40.h5ad")
 
     X = add_obs(X, "binary_outcome")
     labels = obs_per_condition(X, "binary_outcome")

@@ -44,12 +44,12 @@ def import_data(small=False) -> anndata.AnnData:
     # Drop cells with high mitochondrial counts
     data = data[data.obs.pct_counts_mito < 5, :] # type: ignore
     
-    batches_remove = [40, 42, 99, 148, 150, 152, 154, 155, 193, 201, 209]
+    
+    # Drop batch samples with few cell counts
     df = data.obs[["batch"]].reset_index(drop=True)
     df_batch = (
         df.groupby(["batch"], observed=True).size().reset_index(name="Cell Count")
     )
-
     batches_remove = df_batch.loc[df_batch["Cell Count"] <= 100]["batch"].to_numpy()
     for i in batches_remove:
         data = data[data.obs["batch"] !=  i]

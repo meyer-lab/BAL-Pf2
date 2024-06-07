@@ -1,14 +1,11 @@
+"""Figure A6: XX"""
+
 from anndata import read_h5ad
 from .common import (
     subplotLabel,
     getSetup,
 )
-from pf2.data_import import import_data, import_meta
-import numpy as np
 import seaborn as sns
-import pandas as pd
-from .commonFuncs.plotFactors import bot_top_genes
-from .commonFuncs.plotGeneral import plot_avegene_per_status
 from matplotlib.axes import Axes
 import anndata
 
@@ -25,7 +22,6 @@ def makeFigure():
     
     plot_cell_count(X, ax[0])
 
-
     return f
 
     
@@ -33,6 +29,7 @@ def rotate_xaxis(ax, rotation=90):
     """Rotates text by 90 degrees for x-axis"""
     ax.set_xticks(ax.get_xticks())
     ax.set_xticklabels(labels=ax.get_xticklabels(), rotation=rotation)
+    
     
 def plot_cell_count(X: anndata.AnnData, ax: Axes, cond: str = "batch"):
     """Plots overall cell count for Chen et al."""

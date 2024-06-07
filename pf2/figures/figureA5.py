@@ -1,17 +1,14 @@
+"""Figure A5: XX"""
+
 from anndata import read_h5ad
 from .common import (
     subplotLabel,
     getSetup,
 )
-from pf2.data_import import import_data, import_meta
 import numpy as np
-import seaborn as sns
-import pandas as pd
 from .commonFuncs.plotFactors import bot_top_genes
 from .commonFuncs.plotGeneral import plot_avegene_per_status
-from matplotlib.axes import Axes
-from pf2.data_import import convert_to_patients, import_meta, add_obs, obs_per_condition
-import anndata
+from pf2.data_import import add_obs
 
 
 def makeFigure():

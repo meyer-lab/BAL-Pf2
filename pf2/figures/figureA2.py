@@ -1,12 +1,7 @@
-"""
-X
-"""
-
+"""Figure A2: XX"""
 from anndata import read_h5ad
 from .common import subplotLabel, getSetup
-from .commonFuncs.plotPaCMAP import (
-    plot_wp_pacmap,
-)
+from .commonFuncs.plotPaCMAP import plot_wp_pacmap
 
 
 def makeFigure():
