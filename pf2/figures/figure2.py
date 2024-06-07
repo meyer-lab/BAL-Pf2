@@ -1,4 +1,5 @@
 """Figure 2: R2X Curve"""
+
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
@@ -28,11 +29,9 @@ def makeFigure():
         patient_factor = pd.DataFrame(
             data.uns["Pf2_A"],
             index=conversions,
-            columns=np.arange(data.uns["Pf2_rank"]) + 1,
+            columns=np.arange(data.uns["Pf2_A"].shape[1]) + 1,
         )
-        patient_factor = patient_factor.loc[
-            patient_factor.index.isin(meta.index), :
-        ]
+        patient_factor = patient_factor.loc[patient_factor.index.isin(meta.index), :]
         if labels is None:
             labels = patient_factor.index.to_series().replace(
                 meta.loc[:, "binary_outcome"]

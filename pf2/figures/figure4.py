@@ -1,4 +1,5 @@
 """Figure 4: Component Association Errorbars"""
+
 import numpy as np
 import pandas as pd
 from anndata import read_h5ad
@@ -14,7 +15,7 @@ TRIALS = 30
 
 def makeFigure():
     meta = import_meta()
-    data = read_h5ad("factor_cache/factors.h5ad", backed="r")
+    data = read_h5ad("/opt/andrew/bal_partial_fitted.h5ad", backed="r")
 
     meta = meta.loc[~meta.loc[:, "patient_id"].duplicated(), :]
     meta = meta.set_index("patient_id", drop=True)
@@ -23,18 +24,12 @@ def makeFigure():
     patient_factor = pd.DataFrame(
         data.uns["Pf2_A"],
         index=conversions,
-        columns=np.arange(data.uns["Pf2_rank"]) + 1,
+        columns=np.arange(data.uns["Pf2_A"].shape[1]) + 1,
     )
-    patient_factor = patient_factor.loc[
-        patient_factor.index.isin(meta.index), :
-    ]
-    labels = patient_factor.index.to_series().replace(
-        meta.loc[:, "binary_outcome"]
-    )
+    patient_factor = patient_factor.loc[patient_factor.index.isin(meta.index), :]
+    labels = patient_factor.index.to_series().replace(meta.loc[:, "binary_outcome"])
 
-    coefs = pd.DataFrame(
-        index=np.arange(TRIALS) + 1, columns=patient_factor.columns
-    )
+    coefs = pd.DataFrame(index=np.arange(TRIALS) + 1, columns=patient_factor.columns)
     for trial in tqdm(range(TRIALS)):
         boot_factors, boot_labels = resample(patient_factor, labels)
         _, coef = predict_mortality(boot_factors, boot_labels)
@@ -54,10 +49,10 @@ def makeFigure():
     )
     ax.plot([0, 41], [0, 0], linestyle="--", color="k", zorder=0)
 
-    ax.set_xticks(np.arange(data.uns["Pf2_rank"]) + 1)
-    ax.set_xticklabels(np.arange(data.uns["Pf2_rank"]) + 1, fontsize=8)
+    ax.set_xticks(np.arange(data.uns["Pf2_A"].shape[1]) + 1)
+    ax.set_xticklabels(np.arange(data.uns["Pf2_A"].shape[1]) + 1, fontsize=8)
 
-    ax.set_xlim([0, data.uns["Pf2_rank"] + 1])
+    ax.set_xlim([0, data.uns["Pf2_A"].shape[1] + 1])
     ax.grid(True)
 
     ax.set_ylabel("Logistic Regression Coefficient")

@@ -1,9 +1,11 @@
 """
 This file contains functions that are used in multiple figures.
 """
+
 import sys
 import time
 
+from anndata import AnnData
 import datashader as ds
 import datashader.transfer_functions as tf
 import matplotlib
@@ -11,7 +13,10 @@ import numpy as np
 import seaborn as sns
 from matplotlib import gridspec
 from matplotlib import pyplot as plt
+from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+from string import ascii_letters
+from ..tensor import reorder_table
 
 matplotlib.use("AGG")
 
@@ -29,9 +34,8 @@ matplotlib.rcParams["legend.borderpad"] = 0.35
 matplotlib.rcParams["svg.fonttype"] = "none"
 
 DEFAULT_CMAP = sns.color_palette("ch:s=-.2,r=.6", as_cmap=True)
-DIVERGING_CMAP = sns.diverging_palette(
-    250, 30, l=65, center="dark", as_cmap=True
-)
+DIVERGING_CMAP = sns.diverging_palette(250, 30, l=65, center="dark", as_cmap=True)
+LIGHT_DIVERGING = sns.diverging_palette(240, 10, as_cmap=True)
 
 
 def getSetup(
@@ -56,6 +60,19 @@ def getSetup(
     return ax, f
 
 
+def subplotLabel(axs: list[plt.Axes]):
+    """Place subplot labels on figure."""
+    for ii, ax in enumerate(axs):
+        ax.text(
+            -0.2,
+            1.2,
+            ascii_letters[ii],
+            transform=ax.transAxes,
+            fontweight="bold",
+            va="top",
+        )
+
+
 def genFigure():
     """Main figure generation function."""
     start = time.time()
@@ -72,9 +89,7 @@ def genFigure():
             pad_inches=0,
         )
 
-    print(
-        f"Figure {sys.argv[1]} is done after {time.time() - start} seconds.\n"
-    )
+    print(f"Figure {sys.argv[1]} is done after {time.time() - start} seconds.\n")
 
 
 def ds_show(result: tf.Image, ax: plt.Axes):
@@ -110,3 +125,34 @@ def get_canvas(points: np.ndarray) -> ds.Canvas:
     )
 
     return canvas
+
+
+def plot_gene_factors(data: AnnData, ax: Axes, trim=True):
+    """Plots Pf2 gene factors"""
+    rank = data.varm["Pf2_C"].shape[1]
+    X = np.array(data.varm["Pf2_C"])
+    yt = data.var.index.values
+
+    if trim is True:
+        max_weight = np.max(np.abs(X), axis=1)
+        kept_idxs = max_weight > 0.08
+        X = X[kept_idxs]
+        yt = yt[kept_idxs]
+
+    ind = reorder_table(X)
+    X = X[ind]
+    X = X / np.max(np.abs(X))
+    yt = [yt[ii] for ii in ind]
+    xticks = np.arange(1, rank + 1)
+
+    sns.heatmap(
+        data=X,
+        xticklabels=xticks,
+        yticklabels=yt,
+        ax=ax,
+        center=0,
+        cmap=LIGHT_DIVERGING,
+        vmin=-1,
+        vmax=1,
+    )
+    ax.set(xlabel="Component")

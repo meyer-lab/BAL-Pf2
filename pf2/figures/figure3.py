@@ -1,4 +1,5 @@
 """Figure 3: ROC Curves"""
+
 import numpy as np
 import pandas as pd
 from anndata import read_h5ad
@@ -11,7 +12,7 @@ from pf2.predict import predict_mortality
 
 def makeFigure():
     meta = import_meta()
-    data = read_h5ad("factor_cache/factors.h5ad", backed="r")
+    data = read_h5ad("/opt/andrew/bal_partial_fitted.h5ad", backed="r")
 
     meta = meta.loc[~meta.loc[:, "patient_id"].duplicated(), :]
     meta = meta.set_index("patient_id", drop=True)
@@ -20,14 +21,10 @@ def makeFigure():
     patient_factor = pd.DataFrame(
         data.uns["Pf2_A"],
         index=conversions,
-        columns=np.arange(data.uns["Pf2_rank"]) + 1,
+        columns=np.arange(data.uns["Pf2_A"].shape[1]) + 1,
     )
-    patient_factor = patient_factor.loc[
-        patient_factor.index.isin(meta.index), :
-    ]
-    labels = patient_factor.index.to_series().replace(
-        meta.loc[:, "binary_outcome"]
-    )
+    patient_factor = patient_factor.loc[patient_factor.index.isin(meta.index), :]
+    labels = patient_factor.index.to_series().replace(meta.loc[:, "binary_outcome"])
 
     probabilities = predict_mortality(patient_factor, labels, proba=True)
     predicted = [0 if prob < 0.5 else 1 for prob in probabilities]
