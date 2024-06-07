@@ -29,7 +29,7 @@ def makeFigure():
         patient_factor = pd.DataFrame(
             data.uns["Pf2_A"],
             index=conversions,
-            columns=np.arange(data.uns["Pf2_B"].shape[1]) + 1,
+            columns=np.arange(data.uns["Pf2_A"].shape[1]) + 1,
         )
         patient_factor = patient_factor.loc[patient_factor.index.isin(meta.index), :]
         if labels is None:
