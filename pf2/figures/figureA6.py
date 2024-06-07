@@ -40,7 +40,6 @@ def plot_cell_count(X: anndata.AnnData, ax: Axes, cond: str = "batch"):
     dfCond = (
         df.groupby([cond], observed=True).size().reset_index(name="Cell Count")
     )
-
-    print(dfCond.loc[dfCond["Cell Count"] <= 100])
+    
     sns.barplot(data=dfCond, x=cond, y="Cell Count", color="k", ax=ax)
     rotate_xaxis(ax)
