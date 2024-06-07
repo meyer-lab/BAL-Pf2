@@ -117,7 +117,7 @@ def makeFigure():
     ax = axs[3]
 
     embedding = pd.DataFrame(
-        factors.obsm["embedding"], index=data.obs.index, columns=["x", "y"]
+        factors.obsm["X_pf2_PaCMAP"], index=data.obs.index, columns=["x", "y"]
     )
     embedding.loc[:, "label"] = data.obs.loc[:, "cell_type"].values
     embedding.loc[:, "label"] = embedding.loc[:, "label"].replace(CONVERSIONS).values
