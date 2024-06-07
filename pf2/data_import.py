@@ -42,9 +42,8 @@ def import_data(small=False) -> anndata.AnnData:
         )
 
     # Drop cells with high mitochondrial counts
-    data = data[data.obs.pct_counts_mito < 5, :] # type: ignore
-    
-    
+    data = data[data.obs.pct_counts_mito < 5, :]  # type: ignore
+
     # Drop batch samples with few cell counts
     df = data.obs[["batch"]].reset_index(drop=True)
     df_batch = (
@@ -52,7 +51,7 @@ def import_data(small=False) -> anndata.AnnData:
     )
     batches_remove = df_batch.loc[df_batch["Cell Count"] <= 100]["batch"].to_numpy()
     for i in batches_remove:
-        data = data[data.obs["batch"] !=  i]
+        data = data[data.obs["batch"] != i]
 
     return prepare_dataset(data, "batch", 0.01)
 
@@ -80,24 +79,28 @@ def add_obs(X: anndata.annotations, new_obs: str):
     """Adds new observation based on meta and patient to inividual cells"""
     patient_id_X = np.unique(X.obs["patient_id"])
     meta = import_meta()
-    reduced_meta = meta.loc[meta["patient_id"].isin(patient_id_X)][["patient_id", new_obs]].drop_duplicates()
+    reduced_meta = meta.loc[meta["patient_id"].isin(patient_id_X)][
+        ["patient_id", new_obs]
+    ].drop_duplicates()
 
     binary_outcome = np.empty(X.shape[0])
     for i, patient in enumerate(X.obs["patient_id"]):
-        binary_outcome[i] = reduced_meta.loc[reduced_meta["patient_id"] == patient][new_obs].to_numpy()
-        
+        binary_outcome[i] = reduced_meta.loc[reduced_meta["patient_id"] == patient][
+            new_obs
+        ].to_numpy()
+
     X.obs[new_obs] = binary_outcome
-    
+
     return X
+
 
 def obs_per_condition(X: anndata.AnnData, obs_name: str) -> pd.DataFrame:
     """Obtain condition once only with corresponding observations"""
     all_obs = X.obs
     all_obs = all_obs.drop_duplicates(subset="condition_unique_idxs")
     all_obs = all_obs.sort_values("condition_unique_idxs")
-    
-    return all_obs[obs_name]
 
+    return all_obs[obs_name]
 
 
 def factorSave():

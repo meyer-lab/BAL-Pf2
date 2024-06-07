@@ -1,6 +1,7 @@
 """
 This file contains functions that are used in multiple figures.
 """
+
 import sys
 import time
 
@@ -33,9 +34,7 @@ matplotlib.rcParams["legend.borderpad"] = 0.35
 matplotlib.rcParams["svg.fonttype"] = "none"
 
 DEFAULT_CMAP = sns.color_palette("ch:s=-.2,r=.6", as_cmap=True)
-DIVERGING_CMAP = sns.diverging_palette(
-    250, 30, l=65, center="dark", as_cmap=True
-)
+DIVERGING_CMAP = sns.diverging_palette(250, 30, l=65, center="dark", as_cmap=True)
 LIGHT_DIVERGING = sns.diverging_palette(240, 10, as_cmap=True)
 
 
@@ -74,7 +73,6 @@ def subplotLabel(axs: list[plt.Axes]):
         )
 
 
-
 def genFigure():
     """Main figure generation function."""
     start = time.time()
@@ -91,9 +89,7 @@ def genFigure():
             pad_inches=0,
         )
 
-    print(
-        f"Figure {sys.argv[1]} is done after {time.time() - start} seconds.\n"
-    )
+    print(f"Figure {sys.argv[1]} is done after {time.time() - start} seconds.\n")
 
 
 def ds_show(result: tf.Image, ax: plt.Axes):

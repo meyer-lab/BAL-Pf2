@@ -6,9 +6,13 @@ import anndata
 from matplotlib.axes import Axes
 
 
-
 def plot_avegene_per_status(
-    X: anndata.AnnData, gene: str, ax: Axes, condition="patient_id", cellType="cell_type", status="binary_outcome"
+    X: anndata.AnnData,
+    gene: str,
+    ax: Axes,
+    condition="patient_id",
+    cellType="cell_type",
+    status="binary_outcome",
 ):
     """Plots average gene expression across cell types for a category of drugs"""
     genesV = X[:, gene]

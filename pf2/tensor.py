@@ -10,7 +10,6 @@ from sklearn.linear_model import LinearRegression
 OPTIMAL_RANK = 40
 
 
-
 def pf2(
     data: AnnData,
     rank: int = OPTIMAL_RANK,

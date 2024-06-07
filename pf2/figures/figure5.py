@@ -1,4 +1,5 @@
 """Figure 5: PacMAP plots"""
+
 import datashader as ds
 import datashader.transfer_functions as tf
 import matplotlib.pyplot as plt
@@ -43,7 +44,7 @@ SCATTER_COLORS = [
 
 def makeFigure():
     meta = import_meta()
-    data = read_h5ad("factor_cache/factors.h5ad", backed="r")
+    data = read_h5ad("/opt/andrew/bal_partial_fitted.h5ad", backed="r")
 
     meta = meta.set_index("patient_id", drop=True)
     meta = meta.loc[~meta.index.duplicated()]
@@ -100,17 +101,12 @@ def makeFigure():
 
             categories = le.fit_transform(meta.loc[:, key])
             embedding.loc[:, "label"] = categories
-            embedding["label"] = embedding.loc[:, "label"].astype(
-                "category"
-            )
+            embedding["label"] = embedding.loc[:, "label"].astype("category")
             colors = {
-                le.classes_[i]: SCATTER_COLORS[i]
-                for i in range(len(le.classes_))
+                le.classes_[i]: SCATTER_COLORS[i] for i in range(len(le.classes_))
             }
             result = tf.shade(
-                agg=canvas.points(
-                    embedding, "x", "y", agg=ds.count_cat("label")
-                ),
+                agg=canvas.points(embedding, "x", "y", agg=ds.count_cat("label")),
                 color_key=SCATTER_COLORS,
                 how="eq_hist",
                 alpha=255,

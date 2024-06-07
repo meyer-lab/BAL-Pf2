@@ -1,4 +1,5 @@
 """Figure Debug 1: Factor Matrices & Cell Embedding"""
+
 import time
 
 import datashader as ds
@@ -119,9 +120,7 @@ def makeFigure():
         factors.obsm["embedding"], index=data.obs.index, columns=["x", "y"]
     )
     embedding.loc[:, "label"] = data.obs.loc[:, "cell_type"].values
-    embedding.loc[:, "label"] = (
-        embedding.loc[:, "label"].replace(CONVERSIONS).values
-    )
+    embedding.loc[:, "label"] = embedding.loc[:, "label"].replace(CONVERSIONS).values
     colors = COLORS.copy()
 
     canvas = get_canvas(embedding.values[:, :2].astype(float))

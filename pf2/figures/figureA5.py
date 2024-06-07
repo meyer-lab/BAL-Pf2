@@ -19,8 +19,8 @@ def makeFigure():
     # Add subplot labels
     subplotLabel(ax)
 
-    X = read_h5ad("/opt/andrew/bal_rank40.h5ad")
-    
+    X = read_h5ad("/opt/andrew/bal_partial_fitted.h5ad")
+
     X = add_obs(X, "binary_outcome")
 
     genes = bot_top_genes(X, cmp=1, geneAmount=6)
@@ -31,7 +31,7 @@ def makeFigure():
 
     return f
 
-    
+
 def rotate_xaxis(ax, rotation=90):
     """Rotates text by 90 degrees for x-axis"""
     ax.set_xticks(ax.get_xticks())

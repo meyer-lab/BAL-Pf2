@@ -18,25 +18,23 @@ def makeFigure():
     # Add subplot labels
     subplotLabel(ax)
 
-    X = read_h5ad("/opt/andrew/bal_rank40.h5ad")
-    
+    X = read_h5ad("/opt/andrew/bal_partial_fitted.h5ad")
+
     plot_cell_count(X, ax[0])
 
     return f
 
-    
+
 def rotate_xaxis(ax, rotation=90):
     """Rotates text by 90 degrees for x-axis"""
     ax.set_xticks(ax.get_xticks())
     ax.set_xticklabels(labels=ax.get_xticklabels(), rotation=rotation)
-    
-    
+
+
 def plot_cell_count(X: anndata.AnnData, ax: Axes, cond: str = "batch"):
     """Plots overall cell count for Chen et al."""
     df = X.obs[[cond]].reset_index(drop=True)
-    dfCond = (
-        df.groupby([cond], observed=True).size().reset_index(name="Cell Count")
-    )
-    
+    dfCond = df.groupby([cond], observed=True).size().reset_index(name="Cell Count")
+
     sns.barplot(data=dfCond, x=cond, y="Cell Count", color="k", ax=ax)
     rotate_xaxis(ax)
