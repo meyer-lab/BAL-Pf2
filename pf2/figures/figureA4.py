@@ -13,43 +13,32 @@ from .common import subplotLabel, getSetup
 from matplotlib.axes import Axes
 import anndata
 import pandas as pd
-from pf2.data_import import convert_to_patients, import_meta
+from sklearn.utils import resample
+from pf2.data_import import convert_to_patients, import_meta, add_obs, obs_per_condition
 from ..tensor import correct_conditions
+from tqdm import tqdm
+from pf2.predict import predict_mortality
 
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((7, 6), (1, 1))
+    ax, f = getSetup((8, 12), (2, 1))
 
     X = read_h5ad("/opt/andrew/bal_rank40.h5ad")
 
-    meta = import_meta()
-    meta = meta.loc[~meta.loc[:, "patient_id"].duplicated(), :]
-    meta = meta.set_index("patient_id", drop=True)
+    X = add_obs(X, "binary_outcome")
+    labels = obs_per_condition(X, "binary_outcome")
 
-    conversions = convert_to_patients(X)
-    patient_factor = pd.DataFrame(
-        X.uns["Pf2_A"],
-        index=conversions,
-        columns=np.arange(X.uns["Pf2_A"].shape[1]) + 1,
-    )
-
-    patient_factor = patient_factor.loc[
-        patient_factor.index.isin(meta.index), :
-    ]
- 
-    labels = patient_factor.index.to_series().replace(
-        meta.loc[:, "binary_outcome"]
-    )
-
-    # pair_logistic_regression(correct_conditions(X), labels, ax[0])
-    pair_logistic_regression(patient_factor.to_numpy(), labels, ax[0])
+    pair_logistic_regression(X, labels, ax[0])
+    
+    bootstrap_logistic_regression(X, labels, ax[1], trials=3)
 
     return f
 
 
-def pair_logistic_regression(conditions_matrix, labels, ax: Axes):
+def pair_logistic_regression(X: anndata.AnnData, labels, ax: Axes):
     """Plot factor weights for donor SLE prediction"""
+    conditions_matrix = correct_conditions(X)
     lrmodel = LogisticRegression(penalty=None)
    
     all_comps = np.arange(conditions_matrix.shape[1])
@@ -82,6 +71,43 @@ def pair_logistic_regression(conditions_matrix, labels, ax: Axes):
     rotate_xaxis(ax, rotation=0)
     rotate_yaxis(ax, rotation=0)
     
+
+def bootstrap_logistic_regression(X: anndata.AnnData, labels, ax, trials: int = 5):
+    """Bootstrap logistic regression"""
+    conditions_matrix = correct_conditions(X)
+    coefs = pd.DataFrame(
+        index=np.arange(trials) + 1, columns= np.arange(conditions_matrix.shape[1])
+    )
+    
+    all_pred_acc = []
+
+    for trial in tqdm(range(trials)):
+        boot_factors, boot_labels = resample(conditions_matrix, labels)
+        pred_acc, coef = predict_mortality(boot_factors, boot_labels)
+        coefs.iloc[trial, :] = coef
+        all_pred_acc = np.append(all_pred_acc, pred_acc)
+        
+    ax.errorbar(
+        np.arange(coefs.shape[1]) + 1,
+        coefs.mean(axis=0),
+        capsize=2,
+        yerr=1.96 * coefs.std(axis=0) / np.sqrt(trials),
+        linestyle="",
+        marker=".",
+        zorder=3,
+    )
+    
+    ax.plot([0, 41], [0, 0], linestyle="--", color="k", zorder=0)
+    ax.set_xticks(np.arange(conditions_matrix.shape[1]) + 1)
+    ax.set_xticklabels(np.arange(conditions_matrix.shape[1]) + 1, fontsize=8)
+
+    ax.set_xlim([0, conditions_matrix.shape[1] + 1])
+    ax.grid(True)
+
+    ax.set_ylabel("Logistic Regression Coefficient")
+    ax.set_xlabel("PARAFAC2 Component")
+    print("Average Prediction Accuracy: ", np.mean(all_pred_acc))
+    
     
 def rotate_xaxis(ax, rotation=90):
     """Rotates text by 90 degrees for x-axis"""
@@ -93,3 +119,6 @@ def rotate_yaxis(ax, rotation=90):
     """Rotates text by 90 degrees for y-axis"""
     ax.set_yticks(ax.get_yticks())
     ax.set_yticklabels(labels=ax.get_yticklabels(), rotation=rotation)
+    
+    
+    

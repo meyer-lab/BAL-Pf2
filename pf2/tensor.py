@@ -4,7 +4,7 @@ from anndata import AnnData
 from pacmap import PaCMAP
 from parafac2.parafac2 import parafac2_nd, store_pf2
 import scipy.cluster.hierarchy as sch
-from scipy.stats import gmean
+from scipy.stats import tmean
 from sklearn.linear_model import LinearRegression
 
 OPTIMAL_RANK = 40
@@ -33,7 +33,7 @@ def correct_conditions(X: anndata.AnnData):
     sgIndex = X.obs["condition_unique_idxs"]
     counts = np.zeros((np.amax(sgIndex) + 1, 1))
 
-    cond_mean = gmean(X.uns["Pf2_A"], axis=1)
+    cond_mean = tmean(X.uns["Pf2_A"], axis=1)
 
     x_count = X.X.sum(axis=1)
 
