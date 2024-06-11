@@ -1,4 +1,4 @@
-"""Figure A2: XX"""
+"""Figure A2: Weighted projections for each component"""
 
 from anndata import read_h5ad
 from .common import subplotLabel, getSetup
