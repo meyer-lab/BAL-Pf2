@@ -13,10 +13,11 @@ from pf2.figures.commonFuncs.plotFactors import (
     plot_eigenstate_factors,
 )
 from pf2.figures.commonFuncs.plotPaCMAP import plot_labels_pacmap
+from pf2.data_import import combine_cell_types
 
 
 def makeFigure():
-    ax, f = getSetup((18, 6), (1, 4))
+    ax, f = getSetup((18, 12), (2, 3))
     subplotLabel(ax)
 
     # start = time.time()
@@ -32,5 +33,12 @@ def makeFigure():
     plot_eigenstate_factors(X, ax[1])
     plot_gene_factors(X, ax[2])
     plot_labels_pacmap(X, "cell_type", ax[3])
+    plot_labels_pacmap(X, "batch", ax[4])
+    ax[4].legend("off")
+    
+    combine_cell_types(X)
+    plot_labels_pacmap(X, "combined_cell_type", ax[5])
+    
+    
 
     return f

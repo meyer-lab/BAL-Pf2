@@ -99,3 +99,46 @@ def obs_per_condition(X: anndata.AnnData, obs_name: str) -> pd.DataFrame:
     all_obs = all_obs.sort_values("condition_unique_idxs")
 
     return all_obs[obs_name]
+
+
+def combine_cell_types(X: anndata.AnnData): 
+    """Combined high-resolution cell types to low_resolution"""
+    df = pd.DataFrame(data=X.obs["cell_type"].values)
+    df = df.replace(conversion_cell_types)
+    X.obs["combined_cell_type"] = np.ravel(df.values)
+    
+    return X
+    
+
+    
+
+conversion_cell_types = {
+    "CD8 T cells": "T Cells",
+    "Monocytes1": "Monocytes",
+    "Mac3 CXCL10": "Macrophages",
+    "Monocytes2": "Monocytes",
+    "B cells": "B Cells",
+    "CD4 T cells": "T Cells",
+    "CM CD8 T cells": "T Cells",
+    "Tregs": "T-regulatory",
+    "Plasma cells1": "B Cells",
+    "Migratory DC CCR7": "Dendritic Cells",
+    "Proliferating T cells": "Proliferating",
+    "Monocytes3 HSPA6": "Monocytes",
+    "Mac2 FABP4": "Macrophages",
+    "DC2": "Dendritic Cells",
+    "Mac4 SPP1": "Macrophages",
+    "pDC": "Dendritic Cells",
+    "Mac1 FABP4": "Macrophages",
+    "Proliferating Macrophages": "Macrophages",
+    "Mac6 FABP4": "Macrophages",
+    "DC1 CLEC9A": "Dendritic Cells",
+    "IFN resp. CD8 T cells": "T Cells",
+    "NK/gdT cells": "NK Cells",
+    "Mast cells": "Other",
+    "Secretory cells": "Other",
+    "Ciliated cells": "Other",
+    "Epithelial cells": "Other",
+    "Mac5 FABP4": "Macrophages",
+    "Ionocytes": "Other",
+}
