@@ -1,5 +1,6 @@
 """Figure A6: Plots cell count per patient"""
 
+
 from anndata import read_h5ad
 from .common import (
     subplotLabel,
@@ -25,7 +26,7 @@ def makeFigure():
 
     return f
 
-
+  
 def plot_cell_count(X: anndata.AnnData, ax: Axes, cond: str = "batch"):
     """Plots overall cell count for Chen et al."""
     df = X.obs[[cond]].reset_index(drop=True)
