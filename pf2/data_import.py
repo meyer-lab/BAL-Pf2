@@ -1,11 +1,9 @@
 from os.path import join
-from pathlib import Path
 import numpy as np
 import anndata
 import pandas as pd
 from parafac2.normalize import prepare_dataset
 
-from .tensor import pf2
 
 DATA_PATH = join("/opt", "northwest_bal")
 
@@ -102,8 +100,3 @@ def obs_per_condition(X: anndata.AnnData, obs_name: str) -> pd.DataFrame:
 
     return all_obs[obs_name]
 
-
-def factorSave():
-    data = import_data()
-    factors, _ = pf2(data)
-    factors.write(Path("factor_cache/factors.h5ad"))

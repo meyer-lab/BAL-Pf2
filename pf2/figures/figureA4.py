@@ -1,4 +1,4 @@
-"""Figure A4: XX"""
+"""Figure A4: Prediction accuracy for no-penalty 2-pair LogReg and weights for important components for LogReg"""
 
 import itertools
 import numpy as np
@@ -13,6 +13,7 @@ from pf2.data_import import add_obs, obs_per_condition
 from ..tensor import correct_conditions
 from tqdm import tqdm
 from pf2.predict import predict_mortality
+from ..figures.commonFuncs.plotGeneral import rotate_xaxis, rotate_yaxis
 
 
 def makeFigure():
@@ -103,15 +104,3 @@ def bootstrap_logistic_regression(X: anndata.AnnData, labels, ax, trials: int = 
     ax.set_ylabel("Logistic Regression Coefficient")
     ax.set_xlabel("PARAFAC2 Component")
     print("Average Prediction Accuracy: ", np.mean(all_pred_acc))
-
-
-def rotate_xaxis(ax, rotation=90):
-    """Rotates text by 90 degrees for x-axis"""
-    ax.set_xticks(ax.get_xticks())
-    ax.set_xticklabels(labels=ax.get_xticklabels(), rotation=rotation)
-
-
-def rotate_yaxis(ax, rotation=90):
-    """Rotates text by 90 degrees for y-axis"""
-    ax.set_yticks(ax.get_yticks())
-    ax.set_yticklabels(labels=ax.get_yticklabels(), rotation=rotation)

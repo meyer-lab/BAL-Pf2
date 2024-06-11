@@ -1,4 +1,4 @@
-"""Figure A3: XX"""
+"""Figure A3: Most positively/negatively weighted genes for each component"""
 
 import anndata
 from .common import getSetup

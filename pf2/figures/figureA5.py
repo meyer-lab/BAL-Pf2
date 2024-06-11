@@ -1,4 +1,4 @@
-"""Figure A5: XX"""
+"""Figure A5: Plots average gene expression by status and cell type for a component"""
 
 from anndata import read_h5ad
 from .common import (
@@ -9,6 +9,7 @@ import numpy as np
 from .commonFuncs.plotFactors import bot_top_genes
 from .commonFuncs.plotGeneral import plot_avegene_per_status
 from pf2.data_import import add_obs
+from ..figures.commonFuncs.plotGeneral import rotate_xaxis
 
 
 def makeFigure():
@@ -31,8 +32,3 @@ def makeFigure():
 
     return f
 
-
-def rotate_xaxis(ax, rotation=90):
-    """Rotates text by 90 degrees for x-axis"""
-    ax.set_xticks(ax.get_xticks())
-    ax.set_xticklabels(labels=ax.get_xticklabels(), rotation=rotation)

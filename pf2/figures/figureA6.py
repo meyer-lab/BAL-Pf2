@@ -1,4 +1,4 @@
-"""Figure A6: XX"""
+"""Figure A6: Plots cell count per patient"""
 
 from anndata import read_h5ad
 from .common import (
@@ -8,6 +8,7 @@ from .common import (
 import seaborn as sns
 from matplotlib.axes import Axes
 import anndata
+from ..figures.commonFuncs.plotGeneral import rotate_xaxis
 
 
 def makeFigure():
@@ -23,12 +24,6 @@ def makeFigure():
     plot_cell_count(X, ax[0])
 
     return f
-
-
-def rotate_xaxis(ax, rotation=90):
-    """Rotates text by 90 degrees for x-axis"""
-    ax.set_xticks(ax.get_xticks())
-    ax.set_xticklabels(labels=ax.get_xticklabels(), rotation=rotation)
 
 
 def plot_cell_count(X: anndata.AnnData, ax: Axes, cond: str = "batch"):
