@@ -99,4 +99,3 @@ def obs_per_condition(X: anndata.AnnData, obs_name: str) -> pd.DataFrame:
     all_obs = all_obs.sort_values("condition_unique_idxs")
 
     return all_obs[obs_name]
-

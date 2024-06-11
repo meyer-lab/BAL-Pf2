@@ -1,4 +1,4 @@
-"""Figure A1: XX"""
+"""Figure A1: Condition, eigen-state, and gene factors, along with PaCMAP labeled by cell type"""
 
 # import time
 # from pf2.data_import import import_data

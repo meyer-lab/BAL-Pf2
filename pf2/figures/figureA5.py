@@ -31,4 +31,3 @@ def makeFigure():
         rotate_xaxis(ax[i])
 
     return f
-
