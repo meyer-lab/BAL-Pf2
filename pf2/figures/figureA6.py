@@ -8,7 +8,7 @@ from .common import (
 import seaborn as sns
 from matplotlib.axes import Axes
 import anndata
-from ..figures.commonFuncs.plotGeneral import rotate_xaxis
+from pf2.figures.commonFuncs.plotGeneral import rotate_xaxis
 
 
 def makeFigure():

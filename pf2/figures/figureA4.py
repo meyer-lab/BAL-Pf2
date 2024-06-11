@@ -13,7 +13,7 @@ from pf2.data_import import add_obs, obs_per_condition
 from ..tensor import correct_conditions
 from tqdm import tqdm
 from pf2.predict import predict_mortality
-from ..figures.commonFuncs.plotGeneral import rotate_xaxis, rotate_yaxis
+from pf2.figures.commonFuncs.plotGeneral import rotate_xaxis, rotate_yaxis
 
 
 def makeFigure():

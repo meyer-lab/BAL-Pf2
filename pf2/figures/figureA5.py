@@ -9,7 +9,7 @@ import numpy as np
 from .commonFuncs.plotFactors import bot_top_genes
 from .commonFuncs.plotGeneral import plot_avegene_per_status
 from pf2.data_import import add_obs
-from ..figures.commonFuncs.plotGeneral import rotate_xaxis
+from pf2.figures.commonFuncs.plotGeneral import rotate_xaxis
 
 
 def makeFigure():
