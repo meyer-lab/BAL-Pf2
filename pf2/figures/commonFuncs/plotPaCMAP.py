@@ -161,7 +161,7 @@ def plot_labels_pacmap(
 
 
 def plot_wp_per_celltype(
-    X: anndata.AnnData, cmp: int, ax: Axes, outliers: bool=False, cellType="cell_type"
+    X: anndata.AnnData, cmp: int, ax: Axes, outliers: bool = False, cellType="cell_type"
 ):
     """Boxplot of weighted projections for one component across cell types"""
     XX = X.obsm["weighted_projections"][:, cmp - 1]
@@ -177,9 +177,7 @@ def plot_wp_per_celltype(
         ax=ax,
     )
     maxvalue = np.max(np.abs(ax.get_xticks()))
-    ax.set(
-        xticks=np.linspace(-maxvalue, maxvalue, num=5), xlabel="WP Weight"
-    )
+    ax.set(xticks=np.linspace(-maxvalue, maxvalue, num=5), xlabel="WP Weight")
     ax.set_title(cmpName)
 
 

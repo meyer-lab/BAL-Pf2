@@ -101,16 +101,14 @@ def obs_per_condition(X: anndata.AnnData, obs_name: str) -> pd.DataFrame:
     return all_obs[obs_name]
 
 
-def combine_cell_types(X: anndata.AnnData): 
+def combine_cell_types(X: anndata.AnnData):
     """Combined high-resolution cell types to low_resolution"""
     df = pd.DataFrame(data=X.obs["cell_type"].values)
     df = df.replace(conversion_cell_types)
     X.obs["combined_cell_type"] = np.ravel(df.values)
-    
-    return X
-    
 
-    
+    return X
+
 
 conversion_cell_types = {
     "CD8 T cells": "T Cells",
