@@ -1,6 +1,6 @@
 """Figure A6: Plots cell count per patient"""
 
-from anndata import read_h5ad
+import anndata
 from .common import (
     subplotLabel,
     getSetup,
@@ -19,7 +19,7 @@ def makeFigure():
     # Add subplot labels
     subplotLabel(ax)
 
-    X = read_h5ad("/opt/andrew/bal_partial_fitted.h5ad")
+    X = anndata.read_h5ad("/opt/northwest_bal/partial_fitted.h5ad")
 
     plot_cell_count(X, ax[0])
 

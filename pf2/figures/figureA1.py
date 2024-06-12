@@ -26,7 +26,7 @@ def makeFigure():
     # print(f"Factorization Time: {time.time() - start} sec")
     # X.write("bal_fitted.h5ad")
 
-    X = anndata.read_h5ad("/opt/andrew/bal_partial_fitted.h5ad")
+    X = anndata.read_h5ad("/opt/northwest_bal/partial_fitted.h5ad")
     X.uns["Pf2_A"] = correct_conditions(X)
     plot_condition_factors(X, ax[0], cond="batch")
     plot_eigenstate_factors(X, ax[1])

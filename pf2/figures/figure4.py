@@ -2,7 +2,7 @@
 
 import numpy as np
 import pandas as pd
-from anndata import read_h5ad
+import anndata
 from sklearn.utils import resample
 from tqdm import tqdm
 
@@ -15,7 +15,7 @@ TRIALS = 30
 
 def makeFigure():
     meta = import_meta()
-    data = read_h5ad("/opt/andrew/bal_partial_fitted.h5ad", backed="r")
+    data = anndata.read_h5ad("/opt/northwest_bal/partial_fitted.h5ad")
 
     meta = meta.loc[~meta.loc[:, "patient_id"].duplicated(), :]
     meta = meta.set_index("patient_id", drop=True)
