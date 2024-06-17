@@ -26,33 +26,74 @@ def makeFigure():
         index=conversions,
         columns=np.arange(data.uns["Pf2_A"].shape[1]) + 1,
     )
-    patient_factor = patient_factor.loc[patient_factor.index.isin(meta.index), :]
-    labels = patient_factor.index.to_series().replace(meta.loc[:, "binary_outcome"])
+    meta = meta.loc[patient_factor.index, :]
 
-    coefs = pd.DataFrame(index=np.arange(TRIALS) + 1, columns=patient_factor.columns)
+    covid_factors = patient_factor.loc[
+        meta.loc[:, "patient_category"] == "COVID-19",
+        :
+    ]
+    covid_labels = meta.loc[
+        meta.loc[:, "patient_category"] == "COVID-19",
+        "binary_outcome"
+    ]
+    nc_factors = patient_factor.loc[
+        meta.loc[:, "patient_category"] != "COVID-19",
+        :
+    ]
+    nc_labels = meta.loc[
+        meta.loc[:, "patient_category"] != "COVID-19",
+        "binary_outcome"
+    ]
+
+    axs, fig = getSetup((4, 4), (1, 1))
+    ax = axs[0]
+
+    covid_coefficients = pd.DataFrame(
+        0,
+        dtype=float,
+        index=np.arange(TRIALS) + 1,
+        columns=patient_factor.columns
+    )
+    nc_coefficients = covid_coefficients.copy(deep=True)
     for trial in tqdm(range(TRIALS)):
-        boot_factors, boot_labels = resample(patient_factor, labels)
-        _, coef = predict_mortality(boot_factors, boot_labels)
-        coefs.iloc[trial, :] = coef
+        boot_covid, boot_covid_labels = resample(covid_factors, covid_labels)
+        _, covid_coef = predict_mortality(boot_covid, boot_covid_labels)
+        boot_nc, boot_nc_labels = resample(nc_factors, nc_labels)
+        _, nc_coef = predict_mortality(boot_nc, boot_nc_labels)
+
+        covid_coefficients.loc[trial + 1, covid_coef.index] = covid_coef
+        nc_coefficients.loc[trial + 1, nc_coef.index] = nc_coef
 
     axs, fig = getSetup((8, 4), (1, 1))
     ax = axs[0]
 
     ax.errorbar(
-        np.arange(coefs.shape[1]) + 1,
-        coefs.mean(axis=0),
+        np.arange(0, covid_coefficients.shape[1] * 3, 3),
+        covid_coefficients.mean(axis=0),
         capsize=2,
-        yerr=1.96 * coefs.std(axis=0) / np.sqrt(TRIALS),
+        yerr=1.96 * covid_coefficients.std(axis=0) / np.sqrt(TRIALS),
         linestyle="",
         marker=".",
         zorder=3,
+        label="COVID-19"
     )
-    ax.plot([0, 41], [0, 0], linestyle="--", color="k", zorder=0)
+    ax.errorbar(
+        np.arange(1, nc_coefficients.shape[1] * 3, 3),
+        nc_coefficients.mean(axis=0),
+        capsize=2,
+        yerr=1.96 * nc_coefficients.std(axis=0) / np.sqrt(TRIALS),
+        linestyle="",
+        marker=".",
+        zorder=3,
+        label="Non COVID-19"
+    )
+    ax.plot([-1, 200], [0, 0], linestyle="--", color="k", zorder=0)
 
-    ax.set_xticks(np.arange(data.uns["Pf2_A"].shape[1]) + 1)
+    ax.set_xticks(np.arange(0.5, data.uns["Pf2_A"].shape[1] * 3, 3))
     ax.set_xticklabels(np.arange(data.uns["Pf2_A"].shape[1]) + 1, fontsize=8)
 
-    ax.set_xlim([0, data.uns["Pf2_A"].shape[1] + 1])
+    ax.set_xlim([-1, data.uns["Pf2_A"].shape[1] * 3])
+    ax.legend()
     ax.grid(True)
 
     ax.set_ylabel("Logistic Regression Coefficient")

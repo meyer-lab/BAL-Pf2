@@ -23,18 +23,38 @@ def makeFigure():
         index=conversions,
         columns=np.arange(data.uns["Pf2_A"].shape[1]) + 1,
     )
-    patient_factor = patient_factor.loc[patient_factor.index.isin(meta.index), :]
-    labels = patient_factor.index.to_series().replace(meta.loc[:, "binary_outcome"])
+    meta = meta.loc[patient_factor.index, :]
 
-    probabilities = predict_mortality(patient_factor, labels, proba=True)
+    covid_factors = patient_factor.loc[
+        meta.loc[:, "patient_category"] == "COVID-19",
+        :
+    ]
+    covid_labels = meta.loc[
+        meta.loc[:, "patient_category"] == "COVID-19",
+        "binary_outcome"
+    ]
+    nc_factors = patient_factor.loc[
+        meta.loc[:, "patient_category"] != "COVID-19",
+        :
+    ]
+    nc_labels = meta.loc[
+        meta.loc[:, "patient_category"] != "COVID-19",
+        "binary_outcome"
+    ]
+
+    axs, fig = getSetup((4, 4), (1, 1))
+    ax = axs[0]
+
+    covid_proba = predict_mortality(covid_factors, covid_labels, proba=True)
+    nc_proba = predict_mortality(nc_factors, nc_labels, proba=True)
+    probabilities = pd.concat([covid_proba, nc_proba])
+    labels = pd.concat([covid_labels, nc_labels])
+
     predicted = [0 if prob < 0.5 else 1 for prob in probabilities]
     accuracy = accuracy_score(labels, predicted)
 
     fpr, tpr, _ = roc_curve(labels, probabilities)
     auc_roc = roc_auc_score(labels, probabilities)
-
-    axs, fig = getSetup((8, 4), (1, 1))
-    ax = axs[0]
 
     ax.plot([0, 1], [0, 1], linestyle="--", color="k")
     ax.plot(fpr, tpr)
