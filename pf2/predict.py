@@ -26,7 +26,10 @@ def predict_mortality(data, labels, proba=False):
             accuracy (float): prediction accuracy
             coefficients (np.array): LR model coefficients
     """
-    data.loc[:, :] = scale(data)
+    if isinstance(data, np.ndarray):
+        data = pd.DataFrame(data)
+
+    data[:] = scale(data)
     l1_ratios = np.linspace(0, 1, 11)
     rfe_model = LogisticRegression()
 

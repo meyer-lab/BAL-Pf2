@@ -74,7 +74,7 @@ def bootstrap_logistic_regression(X: anndata.AnnData, labels, ax, trials: int = 
     """Bootstrap logistic regression"""
     conditions_matrix = correct_conditions(X)
     coefs = pd.DataFrame(
-        index=np.arange(trials) + 1, columns=np.arange(conditions_matrix.shape[1])
+        index=np.arange(trials) + 1, columns=np.arange(conditions_matrix.shape[1]) + 1
     )
 
     all_pred_acc = []
@@ -82,7 +82,7 @@ def bootstrap_logistic_regression(X: anndata.AnnData, labels, ax, trials: int = 
     for trial in tqdm(range(trials)):
         boot_factors, boot_labels = resample(conditions_matrix, labels)
         pred_acc, coef = predict_mortality(boot_factors, boot_labels)
-        coefs.iloc[trial, :] = coef
+        coefs.loc[trial + 1, coef.index] = coef
         all_pred_acc = np.append(all_pred_acc, pred_acc)
 
     ax.errorbar(
