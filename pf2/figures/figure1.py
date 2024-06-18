@@ -9,7 +9,7 @@ from pf2.figures.common import getSetup
 
 
 def makeFigure():
-    data = read_h5ad("/opt/andrew/bal_partial_fitted.h5ad", backed="r")
+    data = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
 
     factors = {}
     dims = ["Patient", "Cell State"]

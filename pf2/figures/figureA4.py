@@ -22,7 +22,7 @@ def makeFigure():
     ax, f = getSetup((8, 12), (2, 1))
     subplotLabel(ax)
 
-    X = anndata.read_h5ad("/opt/andrew/bal_partial_fitted.h5ad")
+    X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
 
     X = add_obs(X, "binary_outcome")
     labels = obs_per_condition(X, "binary_outcome")

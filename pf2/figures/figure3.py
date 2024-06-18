@@ -12,7 +12,7 @@ from pf2.predict import predict_mortality
 
 def makeFigure():
     meta = import_meta()
-    data = read_h5ad("/opt/andrew/bal_partial_fitted.h5ad", backed="r")
+    data = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
 
     meta = meta.loc[~meta.loc[:, "patient_id"].duplicated(), :]
     meta = meta.set_index("patient_id", drop=True)

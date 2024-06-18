@@ -11,7 +11,7 @@ def makeFigure():
     # Get list of axis objects
     ax, f = getSetup((14, 24), (10, 8))
 
-    X = anndata.read_h5ad("/opt/andrew/bal_partial_fitted.h5ad")
+    X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
 
     for i in range(X.uns["Pf2_A"].shape[1]):
         plot_gene_factors_partial(i + 1, X, ax[2 * i], geneAmount=10, top=True)
