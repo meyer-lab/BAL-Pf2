@@ -1,6 +1,5 @@
 """Figure A1: Condition, eigen-state, and gene factors, along with PaCMAP labeled by cell type"""
 
-
 # import time
 # from pf2.data_import import import_data
 # from pf2.tensor import pf2
@@ -35,10 +34,8 @@ def makeFigure():
     plot_labels_pacmap(X, "cell_type", ax[3])
     plot_labels_pacmap(X, "batch", ax[4])
     ax[4].legend("off")
-    
+
     combine_cell_types(X)
     plot_labels_pacmap(X, "combined_cell_type", ax[5])
-    
-    
 
     return f

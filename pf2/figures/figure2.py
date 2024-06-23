@@ -2,7 +2,6 @@
 
 import numpy as np
 import pandas as pd
-from tqdm import tqdm
 
 from pf2.data_import import convert_to_patients, import_data, import_meta
 from pf2.figures.common import getSetup
@@ -24,7 +23,7 @@ def makeFigure():
     r2xs = pd.Series(0, dtype=float, index=ranks)
     accuracies = pd.Series(0, dtype=float, index=ranks)
     labels = None
-    for rank in tqdm(ranks):
+    for rank in ranks:
         data, r2x = pf2(data, rank, do_embedding=False)
         patient_factor = pd.DataFrame(
             data.uns["Pf2_A"],

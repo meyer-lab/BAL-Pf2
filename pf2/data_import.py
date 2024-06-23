@@ -92,7 +92,7 @@ def add_obs(X: anndata.annotations, new_obs: str):
     return X
 
 
-def obs_per_condition(X: anndata.AnnData, obs_name: str) -> pd.DataFrame:
+def obs_per_condition(X: anndata.AnnData, obs_name: str) -> pd.Series:
     """Obtain condition once only with corresponding observations"""
     all_obs = X.obs
     all_obs = all_obs.drop_duplicates(subset="condition_unique_idxs")
@@ -101,16 +101,11 @@ def obs_per_condition(X: anndata.AnnData, obs_name: str) -> pd.DataFrame:
     return all_obs[obs_name]
 
 
-def combine_cell_types(X: anndata.AnnData): 
+def combine_cell_types(X: anndata.AnnData):
     """Combined high-resolution cell types to low_resolution"""
-    df = pd.DataFrame(data=X.obs["cell_type"].values)
-    df = df.replace(conversion_cell_types)
-    X.obs["combined_cell_type"] = np.ravel(df.values)
-    
+    X.obs["combined_cell_type"] = X.obs["cell_type"].map(conversion_cell_types).astype('category')
     return X
-    
 
-    
 
 conversion_cell_types = {
     "CD8 T cells": "T Cells",

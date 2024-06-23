@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 from anndata import read_h5ad
 from sklearn.utils import resample
-from tqdm import tqdm
 
 from pf2.data_import import convert_to_patients, import_meta
 from pf2.figures.common import getSetup
@@ -30,7 +29,7 @@ def makeFigure():
     labels = patient_factor.index.to_series().replace(meta.loc[:, "binary_outcome"])
 
     coefs = pd.DataFrame(index=np.arange(TRIALS) + 1, columns=patient_factor.columns)
-    for trial in tqdm(range(TRIALS)):
+    for trial in range(TRIALS):
         boot_factors, boot_labels = resample(patient_factor, labels)
         _, coef = predict_mortality(boot_factors, boot_labels)
         coefs.iloc[trial, :] = coef
