@@ -15,7 +15,7 @@ def pf2(
     rank: int = OPTIMAL_RANK,
     random_state=1,
     do_embedding: bool = True,
-) -> anndata.AnnData:
+) -> tuple[anndata.AnnData, float]:
     pf_out, r2x = parafac2_nd(data, rank=rank, random_state=random_state, tol=1e-7)
 
     data = store_pf2(data, pf_out)

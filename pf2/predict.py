@@ -23,15 +23,13 @@ def predict_mortality(data, labels, proba=False):
             accuracy (float): prediction accuracy
             coefficients (np.array): LR model coefficients
     """
-    l1_ratios = np.linspace(0, 1, 11)
     model = LogisticRegressionCV(
-        l1_ratios=l1_ratios,
+        l1_ratios=[0.0, 0.5, 0.8, 1.0],
         solver="saga",
         penalty="elasticnet",
-        n_jobs=1,
+        n_jobs=5,
         cv=SKF,
         max_iter=100000,
-        multi_class="ovr",
     )
     model.fit(data, labels)
 

@@ -11,7 +11,6 @@ import pandas as pd
 from sklearn.utils import resample
 from pf2.data_import import add_obs, obs_per_condition
 from ..tensor import correct_conditions
-from tqdm import tqdm
 from pf2.predict import predict_mortality
 from pf2.figures.commonFuncs.plotGeneral import rotate_xaxis, rotate_yaxis
 
@@ -78,7 +77,7 @@ def bootstrap_logistic_regression(X: anndata.AnnData, labels, ax, trials: int = 
 
     all_pred_acc = []
 
-    for trial in tqdm(range(trials)):
+    for trial in range(trials):
         boot_factors, boot_labels = resample(conditions_matrix, labels)
         pred_acc, coef = predict_mortality(boot_factors, boot_labels)
         coefs.iloc[trial, :] = coef
