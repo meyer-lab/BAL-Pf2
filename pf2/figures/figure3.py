@@ -1,5 +1,4 @@
 """Figure 3: ROC Curves"""
-
 import numpy as np
 import pandas as pd
 from anndata import read_h5ad
@@ -12,29 +11,26 @@ from pf2.predict import predict_mortality
 
 def makeFigure():
     meta = import_meta()
-    data = read_h5ad("/opt/andrew/bal_partial_fitted.h5ad", backed="r")
-
-    meta = meta.loc[~meta.loc[:, "patient_id"].duplicated(), :]
-    meta = meta.set_index("patient_id", drop=True)
-
+    data = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
     conversions = convert_to_patients(data)
+
     patient_factor = pd.DataFrame(
         data.uns["Pf2_A"],
         index=conversions,
         columns=np.arange(data.uns["Pf2_A"].shape[1]) + 1,
     )
-    patient_factor = patient_factor.loc[patient_factor.index.isin(meta.index), :]
-    labels = patient_factor.index.to_series().replace(meta.loc[:, "binary_outcome"])
+    meta = meta.loc[patient_factor.index, :]
 
-    probabilities = predict_mortality(patient_factor, labels, proba=True)
+    axs, fig = getSetup((4, 4), (1, 1))
+    ax = axs[0]
+
+    probabilities, labels = predict_mortality(patient_factor, meta, proba=True)
+
     predicted = [0 if prob < 0.5 else 1 for prob in probabilities]
     accuracy = accuracy_score(labels, predicted)
 
     fpr, tpr, _ = roc_curve(labels, probabilities)
     auc_roc = roc_auc_score(labels, probabilities)
-
-    axs, fig = getSetup((8, 4), (1, 1))
-    ax = axs[0]
 
     ax.plot([0, 1], [0, 1], linestyle="--", color="k")
     ax.plot(fpr, tpr)

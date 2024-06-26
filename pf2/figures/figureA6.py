@@ -19,7 +19,7 @@ def makeFigure():
     # Add subplot labels
     subplotLabel(ax)
 
-    X = read_h5ad("/opt/andrew/bal_partial_fitted.h5ad")
+    X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
 
     plot_cell_count(X, ax[0])
 

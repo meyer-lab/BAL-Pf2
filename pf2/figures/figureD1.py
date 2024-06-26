@@ -7,6 +7,7 @@ import datashader.transfer_functions as tf
 from matplotlib import colormaps
 from matplotlib.colors import to_hex
 import pandas as pd
+import scanpy as sc
 import seaborn as sns
 
 from pf2.data_import import import_data
@@ -58,11 +59,12 @@ COLORS = {
 
 
 def makeFigure():
-    start = time.time()
-    data = import_data()
-    print(data.shape)
-    factors, _ = pf2(data, rank=40)
-    print(f"Factorization Time: {time.time() - start}")
+    factors = sc.read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
+    # start = time.time()
+    # data = import_data()
+    # print(data.shape)
+    # factors, _ = pf2(data, rank=40)
+    # print(f"Factorization Time: {time.time() - start}")
 
     axs, fig = getSetup((12, 4), (1, 4))
 
@@ -117,9 +119,9 @@ def makeFigure():
     ax = axs[3]
 
     embedding = pd.DataFrame(
-        factors.obsm["X_pf2_PaCMAP"], index=data.obs.index, columns=["x", "y"]
+        factors.obsm["X_pf2_PaCMAP"], index=factors.obs.index, columns=["x", "y"]
     )
-    embedding.loc[:, "label"] = data.obs.loc[:, "cell_type"].values
+    embedding.loc[:, "label"] = factors.obs.loc[:, "cell_type"].values
     embedding.loc[:, "label"] = embedding.loc[:, "label"].replace(CONVERSIONS).values
     colors = COLORS.copy()
 

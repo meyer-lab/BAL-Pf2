@@ -7,7 +7,7 @@ import scipy.cluster.hierarchy as sch
 from scipy.stats import tmean
 from sklearn.linear_model import LinearRegression
 
-OPTIMAL_RANK = 40
+OPTIMAL_RANK = 50
 
 
 def pf2(

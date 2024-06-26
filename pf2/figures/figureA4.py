@@ -11,7 +11,7 @@ import pandas as pd
 from sklearn.utils import resample
 from pf2.data_import import add_obs, obs_per_condition
 from ..tensor import correct_conditions
-from pf2.predict import predict_mortality
+from pf2.predict import run_lr
 from pf2.figures.commonFuncs.plotGeneral import rotate_xaxis, rotate_yaxis
 
 
@@ -20,7 +20,7 @@ def makeFigure():
     ax, f = getSetup((8, 12), (2, 1))
     subplotLabel(ax)
 
-    X = anndata.read_h5ad("/opt/andrew/bal_partial_fitted.h5ad")
+    X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
 
     X = add_obs(X, "binary_outcome")
     labels = obs_per_condition(X, "binary_outcome")
@@ -72,15 +72,15 @@ def bootstrap_logistic_regression(X: anndata.AnnData, labels, ax, trials: int = 
     """Bootstrap logistic regression"""
     conditions_matrix = correct_conditions(X)
     coefs = pd.DataFrame(
-        index=np.arange(trials) + 1, columns=np.arange(conditions_matrix.shape[1])
+        index=np.arange(trials) + 1, columns=np.arange(conditions_matrix.shape[1]) + 1
     )
 
     all_pred_acc = []
 
     for trial in range(trials):
         boot_factors, boot_labels = resample(conditions_matrix, labels)
-        pred_acc, coef = predict_mortality(boot_factors, boot_labels)
-        coefs.iloc[trial, :] = coef
+        pred_acc, coef = run_lr(boot_factors, boot_labels)
+        coefs.loc[trial + 1, coef.index] = coef
         all_pred_acc = np.append(all_pred_acc, pred_acc)
 
     ax.errorbar(
