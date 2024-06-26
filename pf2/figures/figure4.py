@@ -16,9 +16,6 @@ def makeFigure():
     meta = import_meta()
     data = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
 
-    meta = meta.loc[~meta.loc[:, "patient_id"].duplicated(), :]
-    meta = meta.set_index("patient_id", drop=True)
-
     conversions = convert_to_patients(data)
     patient_factor = pd.DataFrame(
         data.uns["Pf2_A"],
@@ -26,32 +23,6 @@ def makeFigure():
         columns=np.arange(data.uns["Pf2_A"].shape[1]) + 1,
     )
     meta = meta.loc[patient_factor.index, :]
-
-    patient_factor = patient_factor.loc[
-        meta.loc[:, "patient_category"] != "Non-Pneumonia Control",
-        :
-    ]
-    meta = meta.loc[
-        meta.loc[:, "patient_category"] != "Non-Pneumonia Control",
-        :
-    ]
-
-    covid_factors = patient_factor.loc[
-        meta.loc[:, "patient_category"] == "COVID-19",
-        :
-    ]
-    covid_labels = meta.loc[
-        meta.loc[:, "patient_category"] == "COVID-19",
-        "binary_outcome"
-    ]
-    nc_factors = patient_factor.loc[
-        meta.loc[:, "patient_category"] != "COVID-19",
-        :
-    ]
-    nc_labels = meta.loc[
-        meta.loc[:, "patient_category"] != "COVID-19",
-        "binary_outcome"
-    ]
 
     covid_coefficients = pd.DataFrame(
         0,
@@ -61,13 +32,17 @@ def makeFigure():
     )
     nc_coefficients = covid_coefficients.copy(deep=True)
     for trial in tqdm(range(TRIALS)):
-        boot_covid, boot_covid_labels = resample(covid_factors, covid_labels)
-        _, covid_coef = predict_mortality(boot_covid, boot_covid_labels)
-        boot_nc, boot_nc_labels = resample(nc_factors, nc_labels)
-        _, nc_coef = predict_mortality(boot_nc, boot_nc_labels)
+        boot_index = np.random.choice(
+            patient_factor.shape[0],
+            replace=True,
+            size=patient_factor.shape[0]
+        )
+        boot_factor = patient_factor.iloc[boot_index, :]
+        boot_meta = meta.iloc[boot_index, :]
+        _, coefficients = predict_mortality(boot_factor, boot_meta)
 
-        covid_coefficients.loc[trial + 1, covid_coef.index] = covid_coef
-        nc_coefficients.loc[trial + 1, nc_coef.index] = nc_coef
+        covid_coefficients.loc[trial + 1, :] = coefficients.loc[:, "COVID-19"]
+        nc_coefficients.loc[trial + 1, :] = coefficients.loc[:, "Non-COVID"]
 
     axs, fig = getSetup((8, 4), (1, 1))
     ax = axs[0]

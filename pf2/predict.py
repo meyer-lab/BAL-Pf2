@@ -127,6 +127,8 @@ def predict_mortality(
         predictions.loc[groups == group] = group_predictions
         coefficients.loc[:, group] = group_coefficients
 
+    coefficients.columns = ["Non-COVID", "COVID-19"]
+
     if proba:
         return predictions, labels
     else:
