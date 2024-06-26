@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 from anndata import read_h5ad
 from sklearn.utils import resample
-from tqdm import tqdm
 
 from pf2.data_import import convert_to_patients, import_meta
 from pf2.figures.common import getSetup
@@ -31,7 +30,7 @@ def makeFigure():
         columns=patient_factor.columns
     )
     nc_coefficients = covid_coefficients.copy(deep=True)
-    for trial in tqdm(range(TRIALS)):
+    for trial in range(TRIALS):
         boot_index = np.random.choice(
             patient_factor.shape[0],
             replace=True,

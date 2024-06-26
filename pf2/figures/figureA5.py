@@ -12,7 +12,6 @@ from pf2.data_import import add_obs
 from pf2.figures.commonFuncs.plotGeneral import rotate_xaxis
 
 
-
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
     # Get list of axis objects

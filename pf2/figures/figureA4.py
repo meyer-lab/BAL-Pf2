@@ -1,6 +1,5 @@
 """Figure A4: Prediction accuracy for no-penalty 2-pair LogReg and weights for important components for LogReg"""
 
-
 import itertools
 import numpy as np
 import seaborn as sns
@@ -12,7 +11,6 @@ import pandas as pd
 from sklearn.utils import resample
 from pf2.data_import import add_obs, obs_per_condition
 from ..tensor import correct_conditions
-from tqdm import tqdm
 from pf2.predict import run_lr
 from pf2.figures.commonFuncs.plotGeneral import rotate_xaxis, rotate_yaxis
 
@@ -79,7 +77,7 @@ def bootstrap_logistic_regression(X: anndata.AnnData, labels, ax, trials: int = 
 
     all_pred_acc = []
 
-    for trial in tqdm(range(trials)):
+    for trial in range(trials):
         boot_factors, boot_labels = resample(conditions_matrix, labels)
         pred_acc, coef = run_lr(boot_factors, boot_labels)
         coefs.loc[trial + 1, coef.index] = coef
