@@ -81,20 +81,9 @@ def convert_to_patients(data: anndata.AnnData) -> pd.Series:
 
 
 def add_obs(X: anndata.annotations, new_obs: str):
-    """Adds new observation based on meta and patient to inividual cells"""
-    patient_id_X = np.unique(X.obs["patient_id"])
+    """Adds new observation based on meta and patient to individual cells"""
     meta = import_meta()
-    reduced_meta = meta.loc[meta["patient_id"].isin(patient_id_X)][
-        ["patient_id", new_obs]
-    ].drop_duplicates()
-
-    binary_outcome = np.empty(X.shape[0])
-    for i, patient in enumerate(X.obs["patient_id"]):
-        binary_outcome[i] = reduced_meta.loc[reduced_meta["patient_id"] == patient][
-            new_obs
-        ].to_numpy()
-
-    X.obs[new_obs] = binary_outcome
+    X.obs[new_obs] = X.obs.loc[:, "patient_id"].replace(meta.loc[:, new_obs])
 
     return X
 
