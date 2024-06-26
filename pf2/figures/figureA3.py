@@ -9,7 +9,7 @@ from .commonFuncs.plotFactors import plot_gene_factors_partial
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
     # Get list of axis objects
-    ax, f = getSetup((14, 24), (10, 8))
+    ax, f = getSetup((16, 20), (10, 8))
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
 

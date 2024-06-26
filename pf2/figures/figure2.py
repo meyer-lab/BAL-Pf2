@@ -1,4 +1,5 @@
 """Figure 2: R2X Curve"""
+import gc
 
 import numpy as np
 import pandas as pd
@@ -13,38 +14,35 @@ from pf2.tensor import pf2
 def makeFigure():
     meta = import_meta()
     data = import_data()
-    data, _ = pf2(data)
-    meta = meta.loc[~meta.loc[:, "patient_id"].duplicated(), :]
-    meta = meta.set_index("patient_id", drop=True)
     conversions = convert_to_patients(data)
 
     axs, fig = getSetup((6, 6), (2, 1))
 
-    ranks = np.arange(1, 61)
+    ranks = np.arange(5, 65, 5)
     r2xs = pd.Series(0, dtype=float, index=ranks)
     accuracies = pd.Series(0, dtype=float, index=ranks)
-    labels = None
     for rank in tqdm(ranks):
-        data, r2x = pf2(data, rank, do_embedding=False)
+        fac, r2x = pf2(data, rank, do_embedding=False)
         patient_factor = pd.DataFrame(
-            data.uns["Pf2_A"],
+            fac.uns["Pf2_A"],
             index=conversions,
-            columns=np.arange(data.uns["Pf2_A"].shape[1]) + 1,
+            columns=np.arange(fac.uns["Pf2_A"].shape[1]) + 1,
         )
-        patient_factor = patient_factor.loc[patient_factor.index.isin(meta.index), :]
-        if labels is None:
-            labels = patient_factor.index.to_series().replace(
-                meta.loc[:, "binary_outcome"]
-            )
+        if meta.shape[0] != patient_factor.shape[0]:
+            meta = meta.loc[patient_factor.index, :]
 
-        acc, _ = predict_mortality(patient_factor, labels)
+        acc, _ = predict_mortality(patient_factor, meta)
         r2xs.loc[rank] = r2x
         accuracies.loc[rank] = acc
-        accuracies.to_csv("/home/jchin/BAL-Pf2/output/acc_v_rank.csv")
+        r2xs.to_csv("/home/jchin/BAL-Pf2/output/r2x_v_rank_no_ig.csv")
+        accuracies.to_csv("/home/jchin/BAL-Pf2/output/acc_v_rank_no_ig.csv")
+
+        gc.collect()
 
     # R2X Plots
 
-    axs[0].plot(r2xs.index, r2xs)
+    axs[0].plot(r2xs.index.astype(int), r2xs)
+    axs[0].set_xticks(r2xs.index.astype(int))
     axs[0].grid(True)
 
     axs[0].set_ylabel("R2X")
@@ -53,6 +51,7 @@ def makeFigure():
     # Accuracy Plots
 
     axs[1].plot(accuracies.index, accuracies)
+    axs[1].set_xticks(accuracies.index.astype(int))
     axs[1].grid(True)
 
     axs[1].set_ylabel("Accuracy")

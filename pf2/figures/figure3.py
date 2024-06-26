@@ -1,5 +1,4 @@
 """Figure 3: ROC Curves"""
-
 import numpy as np
 import pandas as pd
 from anndata import read_h5ad
@@ -13,11 +12,8 @@ from pf2.predict import predict_mortality
 def makeFigure():
     meta = import_meta()
     data = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
-
-    meta = meta.loc[~meta.loc[:, "patient_id"].duplicated(), :]
-    meta = meta.set_index("patient_id", drop=True)
-
     conversions = convert_to_patients(data)
+
     patient_factor = pd.DataFrame(
         data.uns["Pf2_A"],
         index=conversions,
@@ -25,30 +21,10 @@ def makeFigure():
     )
     meta = meta.loc[patient_factor.index, :]
 
-    covid_factors = patient_factor.loc[
-        meta.loc[:, "patient_category"] == "COVID-19",
-        :
-    ]
-    covid_labels = meta.loc[
-        meta.loc[:, "patient_category"] == "COVID-19",
-        "binary_outcome"
-    ]
-    nc_factors = patient_factor.loc[
-        meta.loc[:, "patient_category"] != "COVID-19",
-        :
-    ]
-    nc_labels = meta.loc[
-        meta.loc[:, "patient_category"] != "COVID-19",
-        "binary_outcome"
-    ]
-
     axs, fig = getSetup((4, 4), (1, 1))
     ax = axs[0]
 
-    covid_proba = predict_mortality(covid_factors, covid_labels, proba=True)
-    nc_proba = predict_mortality(nc_factors, nc_labels, proba=True)
-    probabilities = pd.concat([covid_proba, nc_proba])
-    labels = pd.concat([covid_labels, nc_labels])
+    probabilities, labels = predict_mortality(patient_factor, meta, proba=True)
 
     predicted = [0 if prob < 0.5 else 1 for prob in probabilities]
     accuracy = accuracy_score(labels, predicted)

@@ -1,5 +1,4 @@
 """Figure 4: Component Association Errorbars"""
-
 import numpy as np
 import pandas as pd
 from anndata import read_h5ad
@@ -28,6 +27,15 @@ def makeFigure():
     )
     meta = meta.loc[patient_factor.index, :]
 
+    patient_factor = patient_factor.loc[
+        meta.loc[:, "patient_category"] != "Non-Pneumonia Control",
+        :
+    ]
+    meta = meta.loc[
+        meta.loc[:, "patient_category"] != "Non-Pneumonia Control",
+        :
+    ]
+
     covid_factors = patient_factor.loc[
         meta.loc[:, "patient_category"] == "COVID-19",
         :
@@ -44,9 +52,6 @@ def makeFigure():
         meta.loc[:, "patient_category"] != "COVID-19",
         "binary_outcome"
     ]
-
-    axs, fig = getSetup((4, 4), (1, 1))
-    ax = axs[0]
 
     covid_coefficients = pd.DataFrame(
         0,

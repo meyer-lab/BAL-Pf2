@@ -59,7 +59,7 @@ COLORS = {
 
 
 def makeFigure():
-    factors = sc.read_h5ad("/opt/northwest_bal/partial_fitted.h5ad", backed="r")
+    factors = sc.read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
     # start = time.time()
     # data = import_data()
     # print(data.shape)
