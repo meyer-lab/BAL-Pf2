@@ -8,15 +8,22 @@ from parafac2.normalize import prepare_dataset
 DATA_PATH = join("/opt", "northwest_bal")
 
 
-def import_meta() -> pd.DataFrame:
+def import_meta(drop_duplicates: bool = True) -> pd.DataFrame:
     """
     Imports meta-data.
 
+    Parameters:
+        drop_duplicates (bool, default:True): remove duplicate patients
+
     Returns:
-         meta (pd.DataFrame): patient metadata
+        meta (pd.DataFrame): patient metadata
     """
     meta = pd.read_csv(join(DATA_PATH, "04_external.csv"), index_col=0)
     meta = meta.loc[meta.loc[:, "BAL_performed"], :]
+
+    if drop_duplicates:
+        meta = meta.loc[~meta.loc[:, "patient_id"].duplicated(), :]
+        meta = meta.set_index("patient_id", drop=True)
 
     return meta
 
