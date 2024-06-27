@@ -7,6 +7,8 @@ import scipy.cluster.hierarchy as sch
 from scipy.stats import tmean
 from sklearn.linear_model import LinearRegression
 
+from .data_import import import_data
+
 OPTIMAL_RANK = 50
 
 
@@ -52,3 +54,9 @@ def reorder_table(projs: np.ndarray) -> np.ndarray:
     assert projs.ndim == 2
     Z = sch.linkage(projs, method="complete", metric="cosine", optimal_ordering=True)
     return sch.leaves_list(Z)
+
+
+def make_factors():
+    data = import_data()
+    factors, _ = pf2(data)
+    factors.write("factor_cache/factors.h5ad")
