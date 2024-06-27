@@ -12,15 +12,12 @@ from pf2.figures.commonFuncs.plotFactors import (
     plot_eigenstate_factors,
 )
 from pf2.figures.commonFuncs.plotPaCMAP import plot_labels_pacmap
-from pf2.data_import import combine_cell_types, import_meta
+from pf2.data_import import combine_cell_types
 
 
 def makeFigure():
     ax, f = getSetup((18, 12), (2, 3))
     subplotLabel(ax)
-    a = import_meta()
-    print(a.columns)
-    
 
     # start = time.time()
     # data = import_data()
@@ -29,16 +26,16 @@ def makeFigure():
     # print(f"Factorization Time: {time.time() - start} sec")
     # X.write("bal_fitted.h5ad")
 
-    # X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
-    # X.uns["Pf2_A"] = correct_conditions(X)
-    # plot_condition_factors(X, ax[0], cond="batch")
-    # plot_eigenstate_factors(X, ax[1])
-    # plot_gene_factors(X, ax[2])
-    # plot_labels_pacmap(X, "cell_type", ax[3])
-    # plot_labels_pacmap(X, "batch", ax[4])
-    # ax[4].legend("off")
+    X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
+    X.uns["Pf2_A"] = correct_conditions(X)
+    plot_condition_factors(X, ax[0], cond="batch")
+    plot_eigenstate_factors(X, ax[1])
+    plot_gene_factors(X, ax[2])
+    plot_labels_pacmap(X, "cell_type", ax[3])
+    plot_labels_pacmap(X, "batch", ax[4])
+    ax[4].legend("off")
 
-    # combine_cell_types(X)
-    # plot_labels_pacmap(X, "combined_cell_type", ax[5])
+    combine_cell_types(X)
+    plot_labels_pacmap(X, "combined_cell_type", ax[5])
 
     return f
