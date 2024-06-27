@@ -1,5 +1,6 @@
 from os.path import join
 import anndata
+import doubletdetection
 import numpy as np
 import pandas as pd
 from parafac2.normalize import prepare_dataset
@@ -147,3 +148,37 @@ def combine_cell_types(X: anndata.AnnData):
         "cell_type"
     ].map(CONVERSION_CELL_TYPES).astype('category')
     return X
+
+
+def remove_doublets(data: anndata.AnnData) -> anndata.AnnData:
+    """Removes doublets."""
+    data.obs.loc[:, "doublet"] = 0
+    for run in data.obs.loc[:, "batch"].unique():
+        sample = data.X[
+                 data.obs.loc[:, "batch"] == run,
+                 :
+                 ]
+        if sample.shape[0] < 30:
+            data = data[
+                   ~(data.obs.loc[:, "batch"] == run),
+                   :
+                   ]
+            continue
+
+        clf = doubletdetection.BoostClassifier(
+            n_iters=10,
+            clustering_algorithm="louvain",
+            standard_scaling=True,
+            pseudocount=0.1,
+            n_jobs=-1,
+        )
+        data.obs.loc[
+            data.obs.loc[:, "batch"] == run,
+            "doublet"
+        ] = clf.fit(sample).predict(p_thresh=1e-16, voter_thresh=0.5)
+
+    data = data[
+           ~data.obs.loc[:, "doublet"].astype(bool),
+           :
+           ]
+    return data
