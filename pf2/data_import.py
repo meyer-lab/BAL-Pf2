@@ -61,17 +61,25 @@ def import_data(small=False) -> anndata.AnnData:
     return prepare_dataset(data, "batch", 0.01)
 
 
-def convert_to_patients(data: anndata.AnnData) -> pd.Series:
+def convert_to_patients(
+    data: anndata.AnnData,
+    sample: bool = False
+) -> pd.Series:
     """
     Converts unique IDs to patient IDs.
 
     Parameters:
         data (anndata.AnnData): single-cell measurements
+        sample (bool): return sample ID conversion
 
     Returns:
         conversions (pd.Series): maps unique IDs to patient IDs.
     """
-    conversions = data.obs.loc[:, ["patient_id", "condition_unique_idxs"]]
+    if sample:
+        conversions = data.obs.loc[:, ["sample_id", "condition_unique_idxs"]]
+    else:
+        conversions = data.obs.loc[:, ["patient_id", "condition_unique_idxs"]]
+
     conversions.set_index("condition_unique_idxs", inplace=True, drop=True)
     conversions = conversions.loc[~conversions.index.duplicated()]
     conversions.sort_index(ascending=True, inplace=True)
