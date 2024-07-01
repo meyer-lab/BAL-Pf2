@@ -34,7 +34,7 @@ def correct_conditions(X: anndata.AnnData):
 
     cond_mean = tmean(X.uns["Pf2_A"], axis=1)
 
-    x_count = X.X.sum(axis=1)
+    x_count = X.X.to_memory().sum(axis=1)
 
     for ii in range(counts.size):
         counts[ii] = np.sum(x_count[X.obs["condition_unique_idxs"] == ii])
