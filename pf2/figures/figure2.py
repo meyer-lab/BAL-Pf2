@@ -1,4 +1,5 @@
 """Figure 2: R2X Curve"""
+
 import gc
 
 import numpy as np

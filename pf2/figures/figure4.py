@@ -1,4 +1,5 @@
 """Figure 4: Component Association Errorbars"""
+
 import numpy as np
 import pandas as pd
 from anndata import read_h5ad
@@ -24,17 +25,12 @@ def makeFigure():
     meta = meta.loc[patient_factor.index, :]
 
     covid_coefficients = pd.DataFrame(
-        0,
-        dtype=float,
-        index=np.arange(TRIALS) + 1,
-        columns=patient_factor.columns
+        0, dtype=float, index=np.arange(TRIALS) + 1, columns=patient_factor.columns
     )
     nc_coefficients = covid_coefficients.copy(deep=True)
     for trial in range(TRIALS):
         boot_index = np.random.choice(
-            patient_factor.shape[0],
-            replace=True,
-            size=patient_factor.shape[0]
+            patient_factor.shape[0], replace=True, size=patient_factor.shape[0]
         )
         boot_factor = patient_factor.iloc[boot_index, :]
         boot_meta = meta.iloc[boot_index, :]
@@ -54,7 +50,7 @@ def makeFigure():
         linestyle="",
         marker=".",
         zorder=3,
-        label="COVID-19"
+        label="COVID-19",
     )
     ax.errorbar(
         np.arange(1, nc_coefficients.shape[1] * 3, 3),
@@ -64,7 +60,7 @@ def makeFigure():
         linestyle="",
         marker=".",
         zorder=3,
-        label="Non COVID-19"
+        label="Non COVID-19",
     )
     ax.plot([-1, 200], [0, 0], linestyle="--", color="k", zorder=0)
 

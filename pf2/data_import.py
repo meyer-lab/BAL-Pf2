@@ -61,10 +61,7 @@ def import_data(small=False) -> anndata.AnnData:
     return prepare_dataset(data, "batch", 0.01)
 
 
-def convert_to_patients(
-    data: anndata.AnnData,
-    sample: bool = False
-) -> pd.Series:
+def convert_to_patients(data: anndata.AnnData, sample: bool = False) -> pd.Series:
     """
     Converts unique IDs to patient IDs.
 
@@ -107,8 +104,31 @@ def obs_per_condition(X: anndata.AnnData, obs_name: str) -> pd.Series:
 
 def combine_cell_types(X: anndata.AnnData):
     """Combined high-resolution cell types to low_resolution"""
-    X.obs["combined_cell_type"] = X.obs["cell_type"].map(conversion_cell_types).astype('category')
+    X.obs["combined_cell_type"] = (
+        X.obs["cell_type"].map(conversion_cell_types).astype("category")
+    )
     return X
+
+
+def condition_factors_meta(X, condition_factors):
+    """Combines condition factors with meta data"""
+    meta = import_meta(drop_duplicates=False)
+    meta = meta.set_index("sample_id", drop=True)
+    meta = meta.loc[~meta.index.duplicated(), :]
+
+    sample_conversions = convert_to_patients(X, sample=True)
+    meta = meta.loc[meta.index.isin(sample_conversions)]
+    meta = meta.reindex(sample_conversions).dropna(axis=0, how="all")
+    condition_factors = condition_factors[sample_conversions.isin(meta.index), :]
+    condition_factors_df = pd.DataFrame(
+        index=meta.index,
+        data=condition_factors,
+        columns=[f"Cmp. {i}" for i in np.arange(1, condition_factors.shape[1] + 1)],
+    )
+
+    merged_df = pd.concat([condition_factors_df, meta], axis=1)
+
+    return merged_df
 
 
 conversion_cell_types = {
