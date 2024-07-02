@@ -6,36 +6,6 @@ import pandas as pd
 from parafac2.normalize import prepare_dataset
 
 DATA_PATH = join("/opt", "northwest_bal")
-CONVERSION_CELL_TYPES = {
-    "CD8 T cells": "T Cells",
-    "Monocytes1": "Monocytes",
-    "Mac3 CXCL10": "Macrophages",
-    "Monocytes2": "Monocytes",
-    "B cells": "B Cells",
-    "CD4 T cells": "T Cells",
-    "CM CD8 T cells": "T Cells",
-    "Tregs": "T-regulatory",
-    "Plasma cells1": "B Cells",
-    "Migratory DC CCR7": "Dendritic Cells",
-    "Proliferating T cells": "Proliferating",
-    "Monocytes3 HSPA6": "Monocytes",
-    "Mac2 FABP4": "Macrophages",
-    "DC2": "Dendritic Cells",
-    "Mac4 SPP1": "Macrophages",
-    "pDC": "Dendritic Cells",
-    "Mac1 FABP4": "Macrophages",
-    "Proliferating Macrophages": "Macrophages",
-    "Mac6 FABP4": "Macrophages",
-    "DC1 CLEC9A": "Dendritic Cells",
-    "IFN resp. CD8 T cells": "T Cells",
-    "NK/gdT cells": "NK Cells",
-    "Mast cells": "Other",
-    "Secretory cells": "Other",
-    "Ciliated cells": "Other",
-    "Epithelial cells": "Other",
-    "Mac5 FABP4": "Macrophages",
-    "Ionocytes": "Other",
-}
 
 
 def import_meta(drop_duplicates: bool = True) -> pd.DataFrame:
