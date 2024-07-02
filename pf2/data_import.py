@@ -1,11 +1,41 @@
 from os.path import join
-import numpy as np
 import anndata
+import doubletdetection
+import numpy as np
 import pandas as pd
 from parafac2.normalize import prepare_dataset
 
-
 DATA_PATH = join("/opt", "northwest_bal")
+CONVERSION_CELL_TYPES = {
+    "CD8 T cells": "T Cells",
+    "Monocytes1": "Monocytes",
+    "Mac3 CXCL10": "Macrophages",
+    "Monocytes2": "Monocytes",
+    "B cells": "B Cells",
+    "CD4 T cells": "T Cells",
+    "CM CD8 T cells": "T Cells",
+    "Tregs": "T-regulatory",
+    "Plasma cells1": "B Cells",
+    "Migratory DC CCR7": "Dendritic Cells",
+    "Proliferating T cells": "Proliferating",
+    "Monocytes3 HSPA6": "Monocytes",
+    "Mac2 FABP4": "Macrophages",
+    "DC2": "Dendritic Cells",
+    "Mac4 SPP1": "Macrophages",
+    "pDC": "Dendritic Cells",
+    "Mac1 FABP4": "Macrophages",
+    "Proliferating Macrophages": "Macrophages",
+    "Mac6 FABP4": "Macrophages",
+    "DC1 CLEC9A": "Dendritic Cells",
+    "IFN resp. CD8 T cells": "T Cells",
+    "NK/gdT cells": "NK Cells",
+    "Mast cells": "Other",
+    "Secretory cells": "Other",
+    "Ciliated cells": "Other",
+    "Epithelial cells": "Other",
+    "Mac5 FABP4": "Macrophages",
+    "Ionocytes": "Other",
+}
 
 
 def import_meta(drop_duplicates: bool = True) -> pd.DataFrame:
@@ -43,8 +73,11 @@ def import_data(small=False) -> anndata.AnnData:
         )
     else:
         data = anndata.read_h5ad(
-            join(DATA_PATH, "v2_01merged_cleaned.h5ad"),
+            join(DATA_PATH, "v3_doublet_removed.h5ad"),
         )
+
+    # Remove immunoglobulin genes
+    data = data[:, ~data.var_names.str[:3].isin(["IGH", "IGK", "IGL"])]
 
     # Drop cells with high mitochondrial counts
     data = data[data.obs.pct_counts_mito < 5, :]  # type: ignore
@@ -52,13 +85,25 @@ def import_data(small=False) -> anndata.AnnData:
     # Drop batch samples with few cell counts
     df = data.obs[["batch"]].reset_index(drop=True)
     df_batch = (
-        df.groupby(["batch"], observed=True).size().reset_index(name="Cell Count")
+        df.groupby(
+            ["batch"],
+            observed=True
+        ).size().reset_index(name="Cell Count")
     )
-    batches_remove = df_batch.loc[df_batch["Cell Count"] <= 100]["batch"].to_numpy()
+    batches_remove = df_batch.loc[
+        df_batch["Cell Count"] <= 100
+    ]["batch"].to_numpy()
     for i in batches_remove:
         data = data[data.obs["batch"] != i]
 
-    return prepare_dataset(data, "batch", 0.01)
+    data = prepare_dataset(data, "batch", 0.01)
+
+    _, data.obs["condition_unique_idxs"] = np.unique(
+        data.obs_vector("sample_id"),
+        return_inverse=True
+    )
+
+    return data
 
 
 def convert_to_patients(data: anndata.AnnData, sample: bool = False) -> pd.Series:
@@ -162,3 +207,37 @@ conversion_cell_types = {
     "Mac5 FABP4": "Macrophages",
     "Ionocytes": "Other",
 }
+
+def remove_doublets(data: anndata.AnnData) -> anndata.AnnData:
+    """Removes doublets."""
+    data.obs.loc[:, "doublet"] = 0
+    for run in data.obs.loc[:, "batch"].unique():
+        sample = data.X[
+                 data.obs.loc[:, "batch"] == run,
+                 :
+                 ]
+        if sample.shape[0] < 30:
+            data = data[
+                   ~(data.obs.loc[:, "batch"] == run),
+                   :
+                   ]
+            continue
+
+        clf = doubletdetection.BoostClassifier(
+            n_iters=10,
+            clustering_algorithm="louvain",
+            standard_scaling=True,
+            pseudocount=0.1,
+            n_jobs=-1,
+        )
+        data.obs.loc[
+            data.obs.loc[:, "batch"] == run,
+            "doublet"
+        ] = clf.fit(sample).predict(p_thresh=1e-16, voter_thresh=0.5)
+
+    data = data[
+           ~data.obs.loc[:, "doublet"].astype(bool),
+           :
+           ]
+    return data
+
