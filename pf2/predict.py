@@ -10,9 +10,7 @@ SKF = StratifiedKFold(n_splits=10)
 
 
 def run_lr(
-    data: pd.DataFrame,
-    labels: pd.Series,
-    proba: bool = False
+    data: pd.DataFrame, labels: pd.Series, proba: bool = False
 ) -> tuple[pd.Series, pd.Series]:
     """
     Predicts labels via logistic regression cross-validation.
@@ -43,11 +41,7 @@ def run_lr(
     rfe_cv.fit(data, labels)
     data = data.loc[:, rfe_cv.support_]
 
-    probabilities = pd.Series(
-        0,
-        dtype=float,
-        index=data.index
-    )
+    probabilities = pd.Series(0, dtype=float, index=data.index)
     for train_index, test_index in SKF.split(data, labels):
         train_group_data = data.iloc[train_index, :]
         train_labels = labels.iloc[train_index]
@@ -66,11 +60,7 @@ def run_lr(
         return predicted, coefficients
 
 
-def predict_mortality(
-    data: pd.DataFrame,
-    meta: pd.DataFrame,
-    proba: bool = False
-):
+def predict_mortality(data: pd.DataFrame, meta: pd.DataFrame, proba: bool = False):
     """
     Predicts mortality via cross-validation.
 
@@ -92,37 +82,21 @@ def predict_mortality(
     if not isinstance(data, pd.DataFrame):
         data = pd.DataFrame(data)
 
-    data = data.loc[
-        meta.loc[:, "patient_category"] != "Non-Pneumonia Control",
-        :
-    ]
-    meta = meta.loc[
-        meta.loc[:, "patient_category"] != "Non-Pneumonia Control",
-        :
-    ]
+    data = data.loc[meta.loc[:, "patient_category"] != "Non-Pneumonia Control", :]
+    meta = meta.loc[meta.loc[:, "patient_category"] != "Non-Pneumonia Control", :]
     labels = data.index.to_series().replace(meta.loc[:, "binary_outcome"])
     groups = meta.loc[:, "patient_category"] == "COVID-19"
     groups = groups.astype(int)
 
     predictions = pd.Series(index=data.index)
-    coefficients = pd.DataFrame(
-        index=data.columns,
-        columns=np.unique(groups)
-    )
+    coefficients = pd.DataFrame(index=data.columns, columns=np.unique(groups))
 
     for group in groups.unique():
-        group_data = data.loc[
-            groups == group,
-            :
-        ]
-        group_labels = labels.loc[
-            groups == group
-        ]
+        group_data = data.loc[groups == group, :]
+        group_labels = labels.loc[groups == group]
 
         group_predictions, group_coefficients = run_lr(
-            group_data,
-            group_labels,
-            proba=proba
+            group_data, group_labels, proba=proba
         )
         predictions.loc[groups == group] = group_predictions
         coefficients.loc[:, group] = group_coefficients
