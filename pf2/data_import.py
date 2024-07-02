@@ -110,8 +110,9 @@ def combine_cell_types(X: anndata.AnnData):
     return X
 
 
-def condition_factors_meta(X, condition_factors):
+def condition_factors_meta(X: anndata.AnnData):
     """Combines condition factors with meta data"""
+    condition_factors = X.uns["Pf2_A"]
     meta = import_meta(drop_duplicates=False)
     meta = meta.set_index("sample_id", drop=True)
     meta = meta.loc[~meta.index.duplicated(), :]
