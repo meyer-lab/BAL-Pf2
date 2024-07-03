@@ -17,7 +17,7 @@ from pf2.figures.commonFuncs.plotGeneral import rotate_xaxis, rotate_yaxis
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((8, 12), (2, 1))
+    ax, f = getSetup((10, 12), (2, 1))
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
