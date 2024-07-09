@@ -15,18 +15,20 @@ from pf2.figures.commonFuncs.plotGeneral import rotate_xaxis
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
     # Get list of axis objects
-    ax, f = getSetup((20, 10), (4, 5))
+    ax, f = getSetup((24, 10), (4, 5))
 
     # Add subplot labels
     subplotLabel(ax)
 
     X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
-    X = add_obs(X, "binary_outcome")
-    X = add_obs(X, "patient_category")
+    print(X)
+    print(len(np.unique(X.obs["sample_id"])))
+    # X = add_obs(X, "binary_outcome")
+    # X = add_obs(X, "patient_category")
     
 
 
-    genes = bot_top_genes(X, cmp=1, geneAmount=10)
+    # genes = bot_top_genes(X, cmp=42, geneAmount=10)
     
     # print("BOT GENES")
     # for i in genes[:30]: 
@@ -38,8 +40,9 @@ def makeFigure():
     #     print(i)
         
 
-    for i, gene in enumerate(np.ravel(genes)):
-        plot_avegene_per_status(X, gene, ax[i])
-        rotate_xaxis(ax[i])
+
+    # for i, gene in enumerate(np.ravel(genes)):
+    #     plot_avegene_per_status(X, gene, ax[i])
+    #     rotate_xaxis(ax[i])
 
     return f

@@ -16,7 +16,7 @@ from pf2.data_import import combine_cell_types, add_obs
 
 
 def makeFigure():
-    ax, f = getSetup((20, 20), (2, 3))
+    ax, f = getSetup((50, 50), (2, 3))
     subplotLabel(ax)
 
     # start = time.time()
@@ -29,15 +29,15 @@ def makeFigure():
     print(X)
     
     
-    X.uns["Pf2_A"] = correct_conditions(X)
-    plot_condition_factors(X, ax[0], cond="sample_id")
-    plot_eigenstate_factors(X, ax[1])
-    plot_gene_factors(X, ax[2])
+    # X.uns["Pf2_A"] = correct_conditions(X)
+    # plot_condition_factors(X, ax[0], cond="sample_id")
+    # plot_eigenstate_factors(X, ax[1])
+    # plot_gene_factors(X, ax[2])
     plot_labels_pacmap(X, "cell_type", ax[3])
-    add_obs(X, "patient_category")
-    plot_labels_pacmap(X, "patient_category", ax[4])
+    # add_obs(X, "patient_category")
+    # plot_labels_pacmap(X, "patient_category", ax[4])
 
-    combine_cell_types(X)
-    plot_labels_pacmap(X, "combined_cell_type", ax[5])
+    # combine_cell_types(X)
+    # plot_labels_pacmap(X, "combined_cell_type", ax[5])
 
     return f

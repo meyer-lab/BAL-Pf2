@@ -25,6 +25,7 @@ def makeFigure():
     """Get a list of the axis objects and create a figure."""
     # Get list of axis objects
     ax, f = getSetup((30, 30), (5, 10))
+    ax, f = getSetup((12, 10), (2, 2))
     
 
     # Add subplot labels
@@ -32,27 +33,28 @@ def makeFigure():
     
     X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     X = add_obs(X, "binary_outcome")
+    X = add_obs(X, "patient_category")
     X.uns["Pf2_A"] = correct_conditions(X)
 
     celltype_count_perc_df = cell_count_perc_df(X, celltype="cell_type")
-    # celltype = np.unique(celltype_count_perc_df["Cell Type"])
-    # sns.boxplot(
-    #     data=celltype_count_perc_df,
-    #     x="Cell Type",
-    #     y="Cell Type Percentage",
-    #     hue="binary_outcome",
-    #     order=celltype,
-    #     showfliers=False,
-    #     ax=ax[0],
-    # )
-    # rotate_xaxis(ax[0])
+    celltype = np.unique(celltype_count_perc_df["Cell Type"])
+    sns.boxplot(
+        data=celltype_count_perc_df,
+        x="Cell Type",
+        y="Cell Type Percentage",
+        hue="binary_outcome",
+        order=celltype,
+        showfliers=False,
+        ax=ax[0],
+    )
+    rotate_xaxis(ax[0])
 
-    for i in range(50):
-        idx = len(np.unique(celltype_count_perc_df["Cell Type"]))
-        plot_correlation_cmp_cell_count_perc(
-            X, i+1, celltype_count_perc_df, ax[i], cellPerc=True
-        )
-        print(i)
+    # for i in range(1):
+    #     idx = len(np.unique(celltype_count_perc_df["Cell Type"]))
+    #     plot_correlation_cmp_cell_count_perc(
+    #         X, i+1, celltype_count_perc_df, ax[i+1], cellPerc=True
+    #     )
+    #     print(i)
 
     return f
 
@@ -60,9 +62,18 @@ def makeFigure():
 def cell_count_perc_df(X, celltype="Cell Type"):
     """Returns DF with cell counts and percentages for experiment"""
 
-    grouping = [celltype, "sample_id", "binary_outcome"]
+    grouping = [celltype, "sample_id", "binary_outcome", "patient_category"]
 
     df = X.obs[grouping].reset_index(drop=True)
+
+    
+    df = df.replace({'binary_outcome': {0: "Died", 
+                                1: "Lived"}})
+    
+    df = df.replace({'patient_category': {"Non-Pneumonia Control": "Non-COVID", 
+                                "Other Pneumonia": "Non-COVID",
+                                "Other Viral Pneumonia": "Non-COVID"}})
+    df["binary_outcome"] = df["binary_outcome"] + df["patient_category"]
 
     dfCond = (
         df.groupby(["sample_id"], observed=True).size().reset_index(name="Cell Count")
@@ -124,6 +135,10 @@ def plot_correlation_cmp_cell_count_perc(
             totaldf = pd.concat([totaldf, smalldf])
 
         df = totaldf.loc[totaldf["Cell Type"] == celltype]
+        
+        print("Cell Type:", celltype)
+        print("Cell Count:", df["Cell Count"].mean())
+        print("Cell Type Percentage:", df["Cell Type Percentage"].mean())
         pearson = pearsonr(df["Cmp"], df[cellPerc])[0]
 
         correl = [pearson]

@@ -26,10 +26,11 @@ def makeFigure():
     return f
 
 
-def plot_cell_count(X: anndata.AnnData, ax: Axes, cond: str = "batch"):
+def plot_cell_count(X: anndata.AnnData, ax: Axes, cond: str = "sample_id"):
     """Plots overall cell count for Chen et al."""
     df = X.obs[[cond]].reset_index(drop=True)
     dfCond = df.groupby([cond], observed=True).size().reset_index(name="Cell Count")
 
+    print(dfCond.sort_values("Cell Count"))
     sns.barplot(data=dfCond, x=cond, y="Cell Count", color="k", ax=ax)
     rotate_xaxis(ax)

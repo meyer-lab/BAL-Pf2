@@ -118,7 +118,7 @@ def plot_labels_pacmap(
     labelType: str,
     ax: Axes,
     condition=None,
-    cmap="tab20",
+    cmap="tab20c",
     color_key=None,
 ):
     """Scatterplot of UMAP visualization weighted by condition or cell type"""
