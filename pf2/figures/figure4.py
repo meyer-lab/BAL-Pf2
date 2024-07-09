@@ -17,12 +17,16 @@ def makeFigure():
     data = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
 
     conversions = convert_to_patients(data)
+    print(conversions)
     patient_factor = pd.DataFrame(
         data.uns["Pf2_A"],
         index=conversions,
         columns=np.arange(data.uns["Pf2_A"].shape[1]) + 1,
     )
+    print(patient_factor)
     meta = meta.loc[patient_factor.index, :]
+    print(meta)
+    a
 
     covid_coefficients = pd.DataFrame(
         0, dtype=float, index=np.arange(TRIALS) + 1, columns=patient_factor.columns

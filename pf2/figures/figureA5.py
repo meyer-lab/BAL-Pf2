@@ -22,21 +22,24 @@ def makeFigure():
 
     X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     X = add_obs(X, "binary_outcome")
-
-    genes = bot_top_genes(X, cmp=42, geneAmount=30)
+    X = add_obs(X, "patient_category")
     
-    print("BOT GENES")
-    for i in genes[:30]: 
-        print(i)
-        
-    print("TOP GENES")
+
+
+    genes = bot_top_genes(X, cmp=1, geneAmount=10)
     
-    for i in genes[30:]: 
-        print(i)
+    # print("BOT GENES")
+    # for i in genes[:30]: 
+    #     print(i)
+        
+    # print("TOP GENES")
+    
+    # for i in genes[30:]: 
+    #     print(i)
         
 
-    # for i, gene in enumerate(np.ravel(genes)):
-    #     plot_avegene_per_status(X, gene, ax[i])
-    #     rotate_xaxis(ax[i])
+    for i, gene in enumerate(np.ravel(genes)):
+        plot_avegene_per_status(X, gene, ax[i])
+        rotate_xaxis(ax[i])
 
     return f
