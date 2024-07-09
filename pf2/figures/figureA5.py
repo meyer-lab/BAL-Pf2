@@ -23,7 +23,7 @@ def makeFigure():
     X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     X = add_obs(X, "binary_outcome")
 
-    genes = bot_top_genes(X, cmp=4, geneAmount=30)
+    genes = bot_top_genes(X, cmp=42, geneAmount=30)
     
     print("BOT GENES")
     for i in genes[:30]: 
