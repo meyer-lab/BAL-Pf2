@@ -28,13 +28,13 @@ def makeFigure():
     
 
 
-    genes = bot_top_genes(X, cmp=9, geneAmount=30)
+    genes = bot_top_genes(X, cmp=10, geneAmount=30)
     
-    print("BOT GENES")
+    print("BOT GENES-------")
     for i in genes[:30]: 
         print(i)
         
-    print("TOP GENES")
+    print("TOP GENES-------")
     
     for i in genes[30:]: 
         print(i)
