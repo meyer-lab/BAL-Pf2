@@ -10,7 +10,7 @@ def plot_avegene_per_status(
     X: anndata.AnnData,
     gene: str,
     ax: Axes,
-    condition="patient_id",
+    condition="sample_id",
     cellType="cell_type",
     status="binary_outcome",
     status2="patient_category"
