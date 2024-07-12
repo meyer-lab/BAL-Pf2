@@ -24,15 +24,18 @@ def plot_avegene_per_status(
     dataDF["Cell Type"] = genesV.obs[cellType].values
     
     
-    dataDF = dataDF.replace({'Status': {0: "Died", 
-                                1: "Lived"}})
+    dataDF = dataDF.replace({'Status': {0: "Lived", 
+                                1: "Dec."}})
+    
+    
+    
+    
     
     dataDF["Status2"] = genesV.obs[status2].values
     dataDF = dataDF.replace({'Status2': {"Non-Pneumonia Control": "Non-COVID", 
                                 "Other Pneumonia": "Non-COVID",
                                 "Other Viral Pneumonia": "Non-COVID"}})
     dataDF["Status"] = dataDF["Status2"] + dataDF["Status"]
-    # dataDF["Status"] = dataDF[["Status", "Status2"]].agg("-".join, axis=1)
 
     
 
