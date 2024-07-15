@@ -19,7 +19,7 @@ anndata = "^0.10.3"
 tlviz = "^0.1.1"
 datashader = "^0.16.2"
 dask = {extras = ["dataframe"], version = "^2024.5.0"}
-setuptools = "^69.5"
+setuptools = "^70.0"
 doubletdetection = "^4.2"
 
 [tool.poetry.dev-dependencies]
