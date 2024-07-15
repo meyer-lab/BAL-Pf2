@@ -21,28 +21,24 @@ def makeFigure():
     subplotLabel(ax)
 
     X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
-    print(X)
-    print(len(np.unique(X.obs["sample_id"])))
-    # X = add_obs(X, "binary_outcome")
-    # X = add_obs(X, "patient_category")
+    X = add_obs(X, "binary_outcome")
+    X = add_obs(X, "patient_category")
     
-
-
-    genes = bot_top_genes(X, cmp=10, geneAmount=30)
+    genes = bot_top_genes(X, cmp=4, geneAmount=10)
     
-    print("BOT GENES-------")
-    for i in genes[:30]: 
-        print(i)
+    # print("BOT GENES-------")
+    # for i in genes[:30]: 
+    #     print(i)
         
-    print("TOP GENES-------")
+    # print("TOP GENES-------")
     
-    for i in genes[30:]: 
-        print(i)
+    # for i in genes[30:]: 
+    #     print(i)
         
 
 
-    # for i, gene in enumerate(np.ravel(genes)):
-    #     plot_avegene_per_status(X, gene, ax[i])
-    #     rotate_xaxis(ax[i])
+    for i, gene in enumerate(np.ravel(genes)):
+        plot_avegene_per_status(X, gene, ax[i])
+        rotate_xaxis(ax[i])
 
     return f
