@@ -2,7 +2,7 @@
 
 from anndata import read_h5ad
 from .common import subplotLabel, getSetup
-from .commonFuncs.plotPaCMAP import plot_wp_pacmap
+from .commonFuncs.plotPaCMAP import plot_wp_pacmap, plot_wp_per_celltype 
 
 
 def makeFigure():
@@ -13,5 +13,6 @@ def makeFigure():
 
     for i in range(1, 41):
         plot_wp_pacmap(X, i, ax[i - 1], cbarMax=0.3)
+        # plot_wp_per_celltype(X, i, ax[i-1])
 
     return f

@@ -55,22 +55,16 @@ def import_data(small=False) -> anndata.AnnData:
     # Drop batch samples with few cell counts
     df = data.obs[["batch"]].reset_index(drop=True)
     df_batch = (
-        df.groupby(
-            ["batch"],
-            observed=True
-        ).size().reset_index(name="Cell Count")
+        df.groupby(["batch"], observed=True).size().reset_index(name="Cell Count")
     )
-    batches_remove = df_batch.loc[
-        df_batch["Cell Count"] <= 100
-    ]["batch"].to_numpy()
+    batches_remove = df_batch.loc[df_batch["Cell Count"] <= 100]["batch"].to_numpy()
     for i in batches_remove:
         data = data[data.obs["batch"] != i]
 
     data = prepare_dataset(data, "batch", 0.01)
 
     _, data.obs["condition_unique_idxs"] = np.unique(
-        data.obs_vector("sample_id"),
-        return_inverse=True
+        data.obs_vector("sample_id"), return_inverse=True
     )
 
     return data
@@ -178,19 +172,14 @@ conversion_cell_types = {
     "Ionocytes": "Other",
 }
 
+
 def remove_doublets(data: anndata.AnnData) -> anndata.AnnData:
     """Removes doublets."""
     data.obs.loc[:, "doublet"] = 0
     for run in data.obs.loc[:, "batch"].unique():
-        sample = data.X[
-                 data.obs.loc[:, "batch"] == run,
-                 :
-                 ]
+        sample = data.X[data.obs.loc[:, "batch"] == run, :]
         if sample.shape[0] < 30:
-            data = data[
-                   ~(data.obs.loc[:, "batch"] == run),
-                   :
-                   ]
+            data = data[~(data.obs.loc[:, "batch"] == run), :]
             continue
 
         clf = doubletdetection.BoostClassifier(
@@ -200,14 +189,9 @@ def remove_doublets(data: anndata.AnnData) -> anndata.AnnData:
             pseudocount=0.1,
             n_jobs=-1,
         )
-        data.obs.loc[
-            data.obs.loc[:, "batch"] == run,
-            "doublet"
-        ] = clf.fit(sample).predict(p_thresh=1e-16, voter_thresh=0.5)
+        data.obs.loc[data.obs.loc[:, "batch"] == run, "doublet"] = clf.fit(
+            sample
+        ).predict(p_thresh=1e-16, voter_thresh=0.5)
 
-    data = data[
-           ~data.obs.loc[:, "doublet"].astype(bool),
-           :
-           ]
+    data = data[~data.obs.loc[:, "doublet"].astype(bool), :]
     return data
-

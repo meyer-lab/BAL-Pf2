@@ -13,5 +13,5 @@ def makeFigure():
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     X.uns["Pf2_A"] = correct_conditions(X)
     cond_factors_df = condition_factors_meta(X)
-  
+
     return f
