@@ -10,9 +10,10 @@ def plot_avegene_per_status(
     X: anndata.AnnData,
     gene: str,
     ax: Axes,
-    condition="patient_id",
+    condition="sample_id",
     cellType="cell_type",
     status="binary_outcome",
+    status2="patient_category"
 ):
     """Plots average gene expression across cell types for a category of drugs"""
     genesV = X[:, gene]
@@ -28,6 +29,15 @@ def plot_avegene_per_status(
 
     df = df.groupby(["Status", "Cell Type", "Gene", "Condition"], observed=False).mean()
     df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
+    
+    dataDF = dataDF.replace({'Status': {0: "Lived", 
+                                1: "Dec."}})
+
+    dataDF["Status2"] = genesV.obs[status2].values
+    dataDF = dataDF.replace({'Status2': {"Non-Pneumonia Control": "Non-COVID", 
+                                "Other Pneumonia": "Non-COVID",
+                                "Other Viral Pneumonia": "Non-COVID"}})
+    dataDF["Status"] = dataDF["Status2"] + dataDF["Status"]
 
     sns.boxplot(
         data=df.loc[df["Gene"] == gene],
