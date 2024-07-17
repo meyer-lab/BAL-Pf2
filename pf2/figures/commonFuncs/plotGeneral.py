@@ -12,16 +12,19 @@ def plot_avegene_per_status(
     ax: Axes,
     condition="sample_id",
     cellType="cell_type",
-    status="binary_outcome",
+    status1="binary_outcome",
     status2="patient_category"
 ):
     """Plots average gene expression across cell types for a category of drugs"""
     genesV = X[:, gene]
     dataDF = genesV.to_df()
     dataDF = dataDF.subtract(genesV.var["means"].values)
-    dataDF["Status"] = genesV.obs[status].values
+    dataDF[status1] = genesV.obs[status1].values
     dataDF["Condition"] = genesV.obs[condition].values
     dataDF["Cell Type"] = genesV.obs[cellType].values
+    dataDF[status2] = genesV.obs[status2].values
+    
+    df = bal_combine_bo_covid(df)
 
     df = pd.melt(
         dataDF, id_vars=["Status", "Cell Type", "Condition"], value_vars=gene
@@ -29,15 +32,6 @@ def plot_avegene_per_status(
 
     df = df.groupby(["Status", "Cell Type", "Gene", "Condition"], observed=False).mean()
     df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
-    
-    dataDF = dataDF.replace({'Status': {0: "Lived", 
-                                1: "Dec."}})
-
-    dataDF["Status2"] = genesV.obs[status2].values
-    dataDF = dataDF.replace({'Status2': {"Non-Pneumonia Control": "Non-COVID", 
-                                "Other Pneumonia": "Non-COVID",
-                                "Other Viral Pneumonia": "Non-COVID"}})
-    dataDF["Status"] = dataDF["Status2"] + dataDF["Status"]
 
     sns.boxplot(
         data=df.loc[df["Gene"] == gene],
@@ -62,3 +56,18 @@ def rotate_yaxis(ax, rotation=90):
     """Rotates text by 90 degrees for y-axis"""
     ax.set_yticks(ax.get_yticks())
     ax.set_yticklabels(labels=ax.get_yticklabels(), rotation=rotation)
+    
+
+def bal_combine_bo_covid(df, status1: str = "binary_outcome", status2: str = "patient_category"):
+    """Combines binary outcome and covid status columns"""
+    df = df.replace({status1: {0: "Lived", 
+                                1: "Dec."}})
+
+    df = df.replace({status2: {"Non-Pneumonia Control": "Non-COVID", 
+                                "Other Pneumonia": "Non-COVID",
+                                "Other Viral Pneumonia": "Non-COVID"}})
+    df["Status"] = df[status1] + df[status2]
+    
+    return df
+    
+    
