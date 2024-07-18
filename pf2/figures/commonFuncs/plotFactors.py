@@ -7,9 +7,12 @@ from matplotlib import pyplot as plt
 import scipy.cluster.hierarchy as sch
 from matplotlib.patches import Patch
 from matplotlib.axes import Axes
+import matplotlib.colors
 
 cmap = sns.diverging_palette(240, 10, as_cmap=True)
 
+def _to_hex(arr):
+    return [matplotlib.colors.to_hex(c) for c in arr]
 
 def plot_condition_factors(
     data: AnnData,
@@ -28,38 +31,40 @@ def plot_condition_factors(
     X -= np.median(XX, axis=0)
     X /= np.std(XX, axis=0)
 
-    # ind = reorder_table(X)
-    # X = X[ind]
-    # yt = yt.iloc[ind]
+    ind = reorder_table(X)
+    print(len(ind))
+    X = X[ind]
+    yt = yt.iloc[ind]
 
-    # if cond_group_labels is not None:
-    #     cond_group_labels = cond_group_labels.iloc[ind]
-    #     ax.tick_params(axis="y", which="major", pad=20, length=0)
-    #     # extra padding to leave room for the row colors
-    #     # get list of colors for each label:
-    #     colors = sns.color_palette(
-    #         n_colors=pd.Series(cond_group_labels).nunique()
-    #     ).as_hex()
-    #     lut = {}
-    #     legend_elements = []
-    #     for index, group in enumerate(pd.Series(cond_group_labels).unique()):
-    #         lut[group] = colors[index]
-    #         legend_elements.append(Patch(color=colors[index], label=group))
-    #     row_colors = pd.Series(cond_group_labels).map(lut)
-    #     for iii, color in enumerate(row_colors):
-    #         ax.add_patch(
-    #             plt.Rectangle(
-    #                 xy=(-0.05, iii),
-    #                 width=0.05,
-    #                 height=1,
-    #                 color=color,
-    #                 lw=0,
-    #                 transform=ax.get_yaxis_transform(),
-    #                 clip_on=False,
-    #             )
-    #         )
-    #     # add a little legend
-    #     ax.legend(handles=legend_elements, bbox_to_anchor=(0.18, 1.07))
+    if cond_group_labels is not None:
+        print(cond_group_labels)
+        cond_group_labels = cond_group_labels.iloc[ind]
+        ax.tick_params(axis="y", which="major", pad=20, length=0)
+        # colors = sns.color_palette(
+        #     n_colors=pd.Series(cond_group_labels).nunique()
+        # ).as_hex()
+        unique_labels = np.unique(cond_group_labels)
+        num_labels = unique_labels.shape[0]
+        colors = _to_hex(plt.get_cmap(cmap)(np.linspace(0, 1, num_labels)))
+        lut = {}
+        legend_elements = []
+        for index, group in enumerate(pd.Series(cond_group_labels).unique()):
+            lut[group] = colors[index]
+            legend_elements.append(Patch(color=colors[index], label=group))
+        row_colors = pd.Series(cond_group_labels).map(lut)
+        for iii, color in enumerate(row_colors):
+            ax.add_patch(
+                plt.Rectangle(
+                    xy=(-0.05, iii),
+                    width=0.05,
+                    height=1,
+                    color=color,
+                    lw=0,
+                    transform=ax.get_yaxis_transform(),
+                    clip_on=False,
+                )
+            )
+        ax.legend(handles=legend_elements, bbox_to_anchor=(0.18, 1.07))
 
     xticks = np.arange(1, X.shape[1] + 1)
     sns.heatmap(

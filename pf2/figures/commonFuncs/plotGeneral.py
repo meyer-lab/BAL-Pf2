@@ -60,12 +60,13 @@ def rotate_yaxis(ax, rotation=90):
 
 def bal_combine_bo_covid(df, status1: str = "binary_outcome", status2: str = "patient_category"):
     """Combines binary outcome and covid status columns"""
-    df = df.replace({status1: {0: "Lived", 
-                                1: "Dec."}})
+    df = df.replace({status1: {0: "L-", 
+                                1: "D-"}})
 
-    df = df.replace({status2: {"Non-Pneumonia Control": "Non-COVID", 
-                                "Other Pneumonia": "Non-COVID",
-                                "Other Viral Pneumonia": "Non-COVID"}})
+    df = df.replace({status2: {"COVID-19": "C19",
+                                "Non-Pneumonia Control": "nC19", 
+                                "Other Pneumonia": "nC19",
+                                "Other Viral Pneumonia": "nC19"}})
     df["Status"] = df[status1] + df[status2]
     
     return df
