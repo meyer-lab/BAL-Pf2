@@ -29,6 +29,7 @@ def makeFigure():
     plot_sample_count(cond_fact_meta_df, ax[1], ax[2])
     plot_sample_count(cond_fact_meta_df, ax[3], ax[4], combine=False)
     
+    
     # celltype_count_perc_df = cell_count_perc_df(X, celltype="cell_type")
     # celltype = np.unique(celltype_count_perc_df["Cell Type"])
     # sns.boxplot(
@@ -68,8 +69,8 @@ def plot_sample_count(df: pd.DataFrame, ax1: Axes, ax2: Axes,
         df = bal_combine_bo_covid(df)
         
     else:
-        df = df.replace({status1: {0: "Lived", 
-                                1: "Dec."}})
+        df = df.replace({status1: {0: "L-", 
+                                1: "D-."}})
         df["Status"] = df[status1] + df[status2]
         
         

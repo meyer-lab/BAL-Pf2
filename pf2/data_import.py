@@ -122,6 +122,7 @@ def combine_cell_types(X: anndata.AnnData):
 def condition_factors_meta(X: anndata.AnnData):
     """Combines condition factors with meta data"""
     condition_factors = X.uns["Pf2_A"]
+    print(np.shape(condition_factors))
     meta = import_meta(drop_duplicates=False)
     meta = meta.set_index("sample_id", drop=True)
     meta = meta.loc[~meta.index.duplicated(), :]
@@ -130,13 +131,17 @@ def condition_factors_meta(X: anndata.AnnData):
     meta = meta.loc[meta.index.isin(sample_conversions)]
     meta = meta.reindex(sample_conversions).dropna(axis=0, how="all")
     condition_factors = condition_factors[sample_conversions.isin(meta.index), :]
+    
+    
     condition_factors_df = pd.DataFrame(
         index=meta.index,
         data=condition_factors,
         columns=[f"Cmp. {i}" for i in np.arange(1, condition_factors.shape[1] + 1)],
     )
 
+    
     merged_df = pd.concat([condition_factors_df, meta], axis=1)
+    print(np.shape(merged_df))
 
     return merged_df
 
