@@ -25,29 +25,32 @@ def makeFigure():
     
     add_obs(X, "binary_outcome")
     add_obs(X, "patient_category")
-    bo_only = np.empty(len(pd.unique(X.obs["sample_id"])))
+    bo_only = ["" for x in range(len(pd.unique(X.obs["sample_id"])))]
     pc_only = ["" for x in range(len(pd.unique(X.obs["sample_id"])))]
+    labels_samples = ["" for x in range(len(pd.unique(X.obs["sample_id"])))]
     
     for i, sample in enumerate(pd.unique(X.obs["sample_id"])):
-        bo_only[i] = pd.unique(X[X.obs.sample_id.isin([sample])].obs["binary_outcome"])
-        # print(pd.unique(X[X.obs.sample_id.isin([sample])].obs["binary_outcome"]))
-        pc = pd.unique(X[X.obs.sample_id.isin([sample])].obs["patient_category"]) 
+        bo = pd.unique(X[X.obs.sample_id.isin([sample])].obs["binary_outcome"])
+        if bo == 0:
+            bo = "L-" 
+        else:
+            bo = "D-"
+        bo_only[i] = bo
         
+        pc = pd.unique(X[X.obs.sample_id.isin([sample])].obs["patient_category"]) 
         if pc == "COVID-19":
             pc = "C19"
-        else:
-            pc = "nC10"
-    
+        else: 
+            pc = "nc19"
+            
         pc_only[i] = pc
-        
-    
-        
-    
-    # plot_condition_factors(X, ax[0], cond="sample_id", cond_group_labels=pd.Series(cond_factors_df["Status"].to_numpy()))
-    # plot_condition_factors(X, ax[0], cond="sample_id")
-    
-    
 
+    for i in range(len(labels_samples)):
+        labels_samples[i] = bo_only[i]+pc_only[i]
+    
+    
+    plot_condition_factors(X, ax[0], cond="sample_id", cond_group_labels=pd.Series(labels_samples))
+    
     # plot_eigenstate_factors(X, ax[1])
     # plot_gene_factors(X, ax[2])
     # plot_labels_pacmap(X, "cell_type", ax[3])
