@@ -141,7 +141,7 @@ def plot_labels_pacmap(
     data["label"] = pd.Categorical(labels)
     aggregation = canvas.points(data, "x", "y", agg=ds.count_cat("label"))
 
-    unique_labels = np.unique(labels)
+    unique_labels = pd.unique(labels)
     num_labels = unique_labels.shape[0]
     if color_key is None:
         color_key = _to_hex(plt.get_cmap(cmap)(np.linspace(0, 1, num_labels)))

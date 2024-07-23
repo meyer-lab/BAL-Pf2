@@ -16,6 +16,7 @@ import pandas as pd
 import numpy as np
 
 
+
 def makeFigure():
     ax, f = getSetup((20, 20), (3, 3))
     subplotLabel(ax)
@@ -41,9 +42,11 @@ def makeFigure():
         if pc == "COVID-19":
             pc = "C19"
         else: 
-            pc = "nc19"
+            pc = "nC19"
             
         pc_only[i] = pc
+        
+        
 
     for i in range(len(labels_samples)):
         labels_samples[i] = bo_only[i]+pc_only[i]
@@ -54,14 +57,15 @@ def makeFigure():
     # plot_eigenstate_factors(X, ax[1])
     # plot_gene_factors(X, ax[2])
     # plot_labels_pacmap(X, "cell_type", ax[3])
-    # add_obs(X, "patient_category")
-    # add_obs(X, "binary_outcome")
+    add_obs(X, "patient_category")
+    add_obs(X, "binary_outcome")
     
-    # df = X.obs[["patient_category", "binary_outcome"]].reset_index(drop=True)
-    # df = bal_combine_bo_covid(df)
-    # X.obs["Status"] = df["Status"].to_numpy()
+    df = X.obs[["patient_category", "binary_outcome"]].reset_index(drop=True)
+    df = bal_combine_bo_covid(df)
+    X.obs["Status"] = df["Status"].to_numpy()
     
-    # plot_labels_pacmap(X, "Status", ax[4])
+    
+    plot_labels_pacmap(X, "Status", ax[4])
     # combine_cell_types(X)
     # plot_labels_pacmap(X, "combined_cell_type", ax[5])
 

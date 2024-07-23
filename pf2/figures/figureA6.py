@@ -9,14 +9,14 @@ import seaborn as sns
 from matplotlib.axes import Axes
 import anndata
 from pf2.figures.commonFuncs.plotGeneral import rotate_xaxis, bal_combine_bo_covid
-from ..data_import import add_obs, condition_factors_meta
+from ..data_import import add_obs, condition_factors_meta, combine_cell_types
 import pandas as pd
 import numpy as np
 
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((10, 10), (3, 3))
+    ax, f = getSetup((16, 10), (3, 3))
     subplotLabel(ax)
 
     X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
@@ -28,21 +28,34 @@ def makeFigure():
     cond_fact_meta_df = condition_factors_meta(X)
     plot_sample_count(cond_fact_meta_df, ax[1], ax[2])
     plot_sample_count(cond_fact_meta_df, ax[3], ax[4], combine=False)
+    combine_cell_types(X)
+
+    celltype_count_perc_df = cell_count_perc_df(X, celltype="cell_type")
+    celltype = np.unique(celltype_count_perc_df["Cell Type"])
+    sns.boxplot(
+        data=celltype_count_perc_df,
+        x="Cell Type",
+        y="Cell Type Percentage",
+        hue="Status",
+        order=celltype,
+        showfliers=False,
+        ax=ax[5],
+    )
+    rotate_xaxis(ax[5])
     
     
-    # celltype_count_perc_df = cell_count_perc_df(X, celltype="cell_type")
-    # celltype = np.unique(celltype_count_perc_df["Cell Type"])
-    # sns.boxplot(
-    #     data=celltype_count_perc_df,
-    #     x="Cell Type",
-    #     y="Cell Type Percentage",
-    #     hue="Status",
-    #     order=celltype,
-    #     showfliers=False,
-    #     ax=ax[2],
-    # )
-    # rotate_xaxis(ax[2])
-    
+    celltype_count_perc_df = cell_count_perc_df(X, celltype="combined_cell_type")
+    celltype = np.unique(celltype_count_perc_df["Cell Type"])
+    sns.boxplot(
+        data=celltype_count_perc_df,
+        x="Cell Type",
+        y="Cell Type Percentage",
+        hue="Status",
+        order=celltype,
+        showfliers=False,
+        ax=ax[6],
+    )
+    rotate_xaxis(ax[6])
 
     return f
 

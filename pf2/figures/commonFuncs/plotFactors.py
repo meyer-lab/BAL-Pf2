@@ -9,10 +9,11 @@ from matplotlib.patches import Patch
 from matplotlib.axes import Axes
 import matplotlib.colors
 
-cmap = sns.diverging_palette(240, 10, as_cmap=True)
+cmap = sns.color_palette("Paired")
 
 def _to_hex(arr):
     return [matplotlib.colors.to_hex(c) for c in arr]
+
 
 def plot_condition_factors(
     data: AnnData,
@@ -40,15 +41,15 @@ def plot_condition_factors(
         print(cond_group_labels)
         cond_group_labels = cond_group_labels.iloc[ind]
         ax.tick_params(axis="y", which="major", pad=20, length=0)
-        # colors = sns.color_palette(
-        #     n_colors=pd.Series(cond_group_labels).nunique()
-        # ).as_hex()
-        unique_labels = np.unique(cond_group_labels)
+        colors = sns.color_palette("Paired",
+            n_colors=pd.Series(cond_group_labels).nunique()
+        ).as_hex()
+        unique_labels = pd.unique(cond_group_labels)
         num_labels = unique_labels.shape[0]
         colors = _to_hex(plt.get_cmap(cmap)(np.linspace(0, 1, num_labels)))
         lut = {}
         legend_elements = []
-        for index, group in enumerate(pd.Series(cond_group_labels).unique()):
+        for index, group in enumerate(pd.unique(pd.Series(cond_group_labels))):
             lut[group] = colors[index]
             legend_elements.append(Patch(color=colors[index], label=group))
         row_colors = pd.Series(cond_group_labels).map(lut)
