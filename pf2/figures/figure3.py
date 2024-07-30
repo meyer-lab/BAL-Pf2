@@ -12,7 +12,7 @@ from pf2.predict import predict_mortality
 
 def makeFigure():
     meta = import_meta()
-    data = read_h5ad("factor_cache/factors_uncorrected.h5ad", backed="r")
+    data = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
     conversions = convert_to_patients(data)
 
     patient_factor = pd.DataFrame(
