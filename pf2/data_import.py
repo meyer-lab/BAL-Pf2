@@ -66,6 +66,9 @@ def import_data(small=False) -> anndata.AnnData:
     _, data.obs["condition_unique_idxs"] = np.unique(
         data.obs_vector("sample_id"), return_inverse=True
     )
+    data.obs["condition_unique_idxs"] = data.obs[
+        "condition_unique_idxs"
+    ].astype("category")
 
     return data
 

@@ -1,7 +1,8 @@
-import numpy as np
+from typing import Tuple
+
 import pandas as pd
+from sklearn.cross_decomposition import PLSRegression
 from sklearn.feature_selection import RFECV
-from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import StratifiedKFold
 from sklearn.preprocessing import scale
@@ -9,11 +10,14 @@ from sklearn.preprocessing import scale
 SKF = StratifiedKFold(n_splits=10)
 
 
-def run_lr(
-    data: pd.DataFrame, labels: pd.Series, proba: bool = False
-) -> tuple[pd.Series, pd.Series]:
+def run_plsr(
+    data: pd.DataFrame,
+    labels: pd.Series,
+    proba: bool = False,
+    n_components: int = 2
+) -> tuple[pd.Series, PLSRegression]:
     """
-    Predicts labels via logistic regression cross-validation.
+    Predicts labels via PLSR cross-validation.
 
     Args:
         data (pd.DataFrame): data to predict
@@ -21,23 +25,20 @@ def run_lr(
         proba (bool, default:False): return probability of prediction
 
     Returns:
-        if proba:
-            probabilities (pd.Series): predicted probability of mortality for
-                patients; shares index with labels
-            coefficients (pd.Series): LR model coefficients
-        else:
-            probabilities (pd.Series): predicted mortality outcome for patients;
-                shares index with labels
-            coefficients (pd.Series): LR model coefficients
+        predicted (pd.Series): predicted mortality for patients; if proba is
+            True, returns probabilities of mortality
+        plsr (PLSRegression): fitted PLSR model
     """
     if not isinstance(data, pd.DataFrame):
         data = pd.DataFrame(data)
 
     data[:] = scale(data)
-    lr_model = LogisticRegression()
-    coefficients = pd.Series(0, index=data.columns, dtype=float)
-
-    rfe_cv = RFECV(lr_model, step=1, cv=SKF)
+    plsr = PLSRegression(
+        n_components=n_components,
+        scale=False,
+        max_iter=int(1E5)
+    )
+    rfe_cv = RFECV(plsr, step=1, cv=SKF, min_features_to_select=n_components)
     rfe_cv.fit(data, labels)
     data = data.loc[:, rfe_cv.support_]
 
@@ -46,21 +47,28 @@ def run_lr(
         train_group_data = data.iloc[train_index, :]
         train_labels = labels.iloc[train_index]
         test_group_data = data.iloc[test_index]
-        lr_model.fit(train_group_data, train_labels)
-        predicted = lr_model.predict_proba(test_group_data)
-        probabilities.iloc[test_index] = predicted[:, 1]
+        plsr.fit(train_group_data, train_labels)
+        probabilities.iloc[test_index] = plsr.predict(test_group_data)
 
-    lr_model.fit(data, labels)
-    coefficients.loc[rfe_cv.support_] = lr_model.coef_.squeeze()
+    plsr.fit(data, labels)
+    plsr.coef_ = pd.Series(
+        plsr.coef_.squeeze(),
+        index=data.columns
+    )
 
     if proba:
-        return probabilities, coefficients
+        return probabilities, plsr
     else:
         predicted = probabilities.round().astype(int)
-        return predicted, coefficients
+        return predicted, plsr
 
 
-def predict_mortality(data: pd.DataFrame, meta: pd.DataFrame, proba: bool = False):
+def predict_mortality(
+    data: pd.DataFrame,
+    meta: pd.DataFrame,
+    proba: bool = False,
+    n_components = 2
+):
     """
     Predicts mortality via cross-validation.
 
@@ -76,35 +84,44 @@ def predict_mortality(data: pd.DataFrame, meta: pd.DataFrame, proba: bool = Fals
             labels (pd.Series): classification targets
         else:
             accuracy (float): prediction accuracy
-            coefficients (pd.DataFrame): LR model coefficients; columns
-                correspond to unique models for COVID/non-COVID patients
+            models (tuple[COVID, Non-COVID]): fitted PLSR models
     """
     if not isinstance(data, pd.DataFrame):
         data = pd.DataFrame(data)
 
-    data = data.loc[meta.loc[:, "patient_category"] != "Non-Pneumonia Control", :]
-    meta = meta.loc[meta.loc[:, "patient_category"] != "Non-Pneumonia Control", :]
+    data = data.loc[
+        meta.loc[:, "patient_category"] != "Non-Pneumonia Control",
+        :
+    ]
+    meta = meta.loc[
+        meta.loc[:, "patient_category"] != "Non-Pneumonia Control",
+        :
+    ]
     labels = data.index.to_series().replace(meta.loc[:, "binary_outcome"])
-    groups = meta.loc[:, "patient_category"] == "COVID-19"
-    groups = groups.astype(int)
+
+    covid_data = data.loc[meta.loc[:, "patient_category"] == "COVID-19", :]
+    covid_labels = meta.loc[
+        meta.loc[:, "patient_category"] == "COVID-19",
+        "binary_outcome"
+    ]
+    nc_data = data.loc[meta.loc[:, "patient_category"] != "COVID-19", :]
+    nc_labels = meta.loc[
+        meta.loc[:, "patient_category"] != "COVID-19",
+        "binary_outcome"
+    ]
 
     predictions = pd.Series(index=data.index)
-    coefficients = pd.DataFrame(index=data.columns, columns=np.unique(groups))
-
-    for group in groups.unique():
-        group_data = data.loc[groups == group, :]
-        group_labels = labels.loc[groups == group]
-
-        group_predictions, group_coefficients = run_lr(
-            group_data, group_labels, proba=proba
+    predictions.loc[meta.loc[:, "patient_category"] == "COVID-19"], c_plsr = \
+        run_plsr(
+            covid_data, covid_labels, proba=proba, n_components=n_components
         )
-        predictions.loc[groups == group] = group_predictions
-        coefficients.loc[:, group] = group_coefficients
-
-    coefficients.columns = ["Non-COVID", "COVID-19"]
+    predictions.loc[meta.loc[:, "patient_category"] != "COVID-19"], nc_plsr = \
+        run_plsr(
+            nc_data, nc_labels, proba=proba, n_components=n_components
+        )
 
     if proba:
         return predictions, labels
     else:
         predicted = predictions.round().astype(int)
-        return accuracy_score(labels, predicted), coefficients
+        return accuracy_score(labels, predicted), (c_plsr, nc_plsr)
