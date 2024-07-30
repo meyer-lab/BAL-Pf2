@@ -51,6 +51,19 @@ def plot_avegene_per_status(
 
     return df
 
+def bal_combine_bo_covid(df, status1: str = "binary_outcome", status2: str = "patient_category"):
+    """Combines binary outcome and covid status columns"""
+    df = df.replace({status1: {0: "L-", 
+                                1: "D-"}})
+
+    df = df.replace({status2: {"COVID-19": "C19",
+                                "Non-Pneumonia Control": "nC19", 
+                                "Other Pneumonia": "nC19",
+                                "Other Viral Pneumonia": "nC19"}})
+    df["Status"] = df[status1] + df[status2]
+
+    return df
+
 
 def rotate_xaxis(ax, rotation=90):
     """Rotates text by 90 degrees for x-axis"""
