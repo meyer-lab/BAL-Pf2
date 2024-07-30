@@ -60,7 +60,6 @@ def plot_gene_pacmap(gene: str, decompType: str, X: anndata.AnnData, ax: Axes):
     canvas = _get_canvas(points)
     data = pd.DataFrame(points, columns=("x", "y"))
 
-    # Color by values
     values -= np.min(values)
     values /= np.max(values)
     data["val_cat"] = values
@@ -92,7 +91,6 @@ def plot_wp_pacmap(X: anndata.AnnData, cmp: int, ax: Axes, cbarMax: float = 1.0)
     canvas = _get_canvas(points)
     data = pd.DataFrame(points, columns=("x", "y"))
 
-    # Color by values
     values /= np.max(np.abs(values))
 
     data["val_cat"] = values
