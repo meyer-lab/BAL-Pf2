@@ -3,7 +3,6 @@
 import numpy as np
 import pandas as pd
 from anndata import read_h5ad
-from sklearn.utils import resample
 
 from pf2.data_import import convert_to_patients, import_meta
 from pf2.figures.common import getSetup
@@ -14,7 +13,7 @@ TRIALS = 30
 
 def makeFigure():
     meta = import_meta()
-    data = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
+    data = read_h5ad("factor_cache/factors.h5ad", backed="r")
 
     conversions = convert_to_patients(data)
     patient_factor = pd.DataFrame(
@@ -34,10 +33,12 @@ def makeFigure():
         )
         boot_factor = patient_factor.iloc[boot_index, :]
         boot_meta = meta.iloc[boot_index, :]
-        _, coefficients = predict_mortality(boot_factor, boot_meta)
+        _, (covid_plsr, nc_plsr) = predict_mortality(boot_factor, boot_meta)
 
-        covid_coefficients.loc[trial + 1, :] = coefficients.loc[:, "COVID-19"]
-        nc_coefficients.loc[trial + 1, :] = coefficients.loc[:, "Non-COVID"]
+        covid_coefficients.loc[trial + 1, covid_plsr.coef_.index] = \
+            covid_plsr.coef_
+        nc_coefficients.loc[trial + 1, nc_plsr.coef_.index] = \
+            nc_plsr.coef_
 
     axs, fig = getSetup((8, 4), (1, 1))
     ax = axs[0]

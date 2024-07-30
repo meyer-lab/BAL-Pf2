@@ -12,7 +12,7 @@ from pf2.predict import predict_mortality
 
 def makeFigure():
     meta = import_meta()
-    data = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
+    data = read_h5ad("factor_cache/factors_uncorrected.h5ad", backed="r")
     conversions = convert_to_patients(data)
 
     patient_factor = pd.DataFrame(
@@ -46,5 +46,8 @@ def makeFigure():
 
     ax.set_xlim([0, 1])
     ax.set_ylim([0, 1])
+
+    ax.set_ylabel("True Positive Rate")
+    ax.set_xlabel("False Positive Rate")
 
     return fig
