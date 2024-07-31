@@ -157,6 +157,34 @@ def plot_labels_pacmap(
     ax.legend(handles=legend_elements)
     ax = assign_labels(ax)
 
+def plot_pair_wp_pacmap(
+    X: anndata.AnnData,
+    cmp1,
+    cmp2,
+    ax: Axes,
+):
+    """Scatterplot of UMAP visualization weighted by condition or cell type"""
+
+
+    points = np.concatenate(
+        ([X.obsm["weighted_projections"][:, cmp1 - 1]], [X.obsm["weighted_projections"][:, cmp2 - 1]])
+    ).transpose()
+
+    canvas = _get_canvas(points)
+    data = pd.DataFrame(points, columns=("x", "y"))
+
+    aggregation = canvas.points(data, "x", "y")
+    
+    result = tf.shade(
+        aggregation,
+        how="eq_hist",
+        min_alpha=255,
+    )
+
+    ds_show(result, ax)
+    # ax = assign_labels(ax)
+
+
 
 def plot_wp_per_celltype(
     X: anndata.AnnData, cmp: int, ax: Axes, outliers: bool = False, cellType="cell_type"

@@ -48,7 +48,9 @@ def partial_correlation_matrix(df: pd.DataFrame, f):
     pCorr_DF = pd.DataFrame(pCor, columns=cov_DF.columns, index=cov_DF.columns)
 
     cmap = sns.color_palette("vlag", as_cmap=True)
-    f = sns.clustermap(pCorr_DF, robust=True, vmin=-1, vmax=1, row_cluster=True, col_cluster=True, 
+    f = sns.clustermap(pCorr_DF, robust=True, vmin=-1, vmax=1, 
+                    #    row_cluster=True, 
+                    #    col_cluster=True, 
                     #    annot=True, 
                        cmap=cmap, figsize=(25, 25))
     
