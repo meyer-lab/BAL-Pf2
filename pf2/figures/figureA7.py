@@ -1,6 +1,5 @@
 """
-Lupus: Cell type percentage between status (with stats comparison) and
-correlation between component and cell count/percentage for each cell type
+XX
 """
 import anndata
 import numpy as np
