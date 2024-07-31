@@ -7,7 +7,7 @@ from .commonFuncs.plotPaCMAP import plot_wp_pacmap, plot_wp_per_celltype
 
 def makeFigure():
     ax, f = getSetup((40, 30), (4, 10))
-    subplotLabel(ax)
+    # subplotLabel(ax)
 
     X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
 
