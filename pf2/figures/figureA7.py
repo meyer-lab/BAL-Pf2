@@ -26,7 +26,7 @@ def makeFigure():
 
     celltype_count_perc_df = cell_count_perc_df(X, celltype="cell_type")
     
-    for i in range(5):
+    for i in range(4):
         plot_correlation_cmp_cell_count_perc(
             X, i+1, celltype_count_perc_df, ax[i], cellPerc=True
         )
