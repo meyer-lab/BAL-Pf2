@@ -33,6 +33,8 @@ def makeFigure():
     sns.stripplot(data=pat_df, x="patient_id", y="icu_day", ax=ax[0], jitter=False)
     rotate_xaxis(ax[0])
     
+    print(np.shape(pat_df.groupby("patient_id").count()))
+    
     sns.barplot(data = pat_df.groupby("patient_id").count(), x="patient_id", y="icu_day", ax=ax[1])
     rotate_xaxis(ax[1])
     # plot_sample_count(cond_fact_meta_df, ax[1], ax[2])
