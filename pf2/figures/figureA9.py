@@ -19,12 +19,12 @@ from .commonFuncs.plotGeneral import rotate_xaxis
 from matplotlib.axes import Axes
 import anndata
 from scipy.cluster.hierarchy import linkage
-
+from matplotlib import colormaps
 import networkx as nx
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((15, 15), (1, 1))
+    ax, f = getSetup((8, 8), (1, 1))
 
     X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     X.uns["Pf2_A"] = correct_conditions(X)
@@ -46,18 +46,29 @@ def makeFigure():
     
     print(df)
     df = df.stack().reset_index()
-    print(df)
 
     df.columns = ["Var1", "Var2", "Weight"]
+    
+    df = df.loc[df["Weight"] > 0.25]
+    
+    print(df)
+
     
     G = nx.from_pandas_edgelist(df=df, source="Var1", target="Var2", edge_attr="Weight", create_using=nx.Graph())
     node_size = df["Weight"].to_numpy()
     
         
+    # cm = sns.cubehelix_palette(as_cmap=True)
     # nx.draw_networkx_edges(G, pos=nx.circular_layout(G), node_size=node_size, alpha=np.abs(df["Weight"].to_numpy()), ax=ax[0], label="Legend")
     
-    nx.draw_networkx(G, pos=nx.circular_layout(G), with_labels=True, width=np.abs(df["Weight"].to_numpy()), ax=ax[0])
+    nx.draw_networkx(G, pos=nx.circular_layout(G), with_labels=True, edge_cmap='Purples',edge_vmin = .5,edge_vmax = 1,  width=np.abs(df["Weight"].to_numpy()), ax=ax[0], label="Legend")
     columns= [f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)]
+    ax[0].legend()
+    
+    
+    # nx.draw_networkx(G, pos=nx.spring_layout(G), with_labels=True, edge_cmap='Greys',edge_vmin = .5,edge_vmax = 1, width=np.abs(df["Weight"].to_numpy()), ax=ax[1], label="Legend")
+    # columns= [f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)]
+    # ax[1].legend()
     # nx.draw_networkx_labels(G, pos=nx.circular_layout(G), labels=columns)
     # nx.draw_networkx_nodes(G, pos=nx.circular_layout(G), node_size=node_size, ax=ax[0])
 
