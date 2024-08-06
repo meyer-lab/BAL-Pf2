@@ -31,7 +31,7 @@ def pf2(
 
 def correct_conditions(X: anndata.AnnData):
     """Correct the conditions factors by overall read depth."""
-    sgIndex = X.obs["condition_unique_idxs"]
+    sgIndex = X.obs["condition_unique_idxs"].astype(int).values
     counts = np.zeros((np.amax(sgIndex) + 1, 1))
 
     cond_mean = tmean(X.uns["Pf2_A"], axis=1)

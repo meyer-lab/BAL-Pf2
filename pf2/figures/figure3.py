@@ -47,4 +47,7 @@ def makeFigure():
     ax.set_xlim([0, 1])
     ax.set_ylim([0, 1])
 
+    ax.set_ylabel("True Positive Rate")
+    ax.set_xlabel("False Positive Rate")
+
     return fig
