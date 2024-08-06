@@ -36,34 +36,56 @@ def makeFigure():
     
     df = partial_correlation_matrix(condition_factors_df, f)
     
+    
+    
+    
+    
 
     
-    df = df.where(np.triu(np.ones(df.shape)).astype(bool))
-    # df.values[[np.arange(df.shape[0])]*2] = np.NaN
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    # df = df.where(np.triu(np.ones(df.shape)).astype(bool))
+    # # df.values[[np.arange(df.shape[0])]*2] = np.NaN
     
    
-    df = df.where(np.identity(df.shape[0]) != 1,np.NaN)
+    # df = df.where(np.identity(df.shape[0]) != 1,np.NaN)
     
-    print(df)
-    df = df.stack().reset_index()
+    # print(df)
+    # df = df.stack().reset_index()
 
-    df.columns = ["Var1", "Var2", "Weight"]
+    # df.columns = ["Var1", "Var2", "Weight"]
     
-    df = df.loc[df["Weight"] > 0.25]
+    # df = df.loc[df["Weight"] > 0.25]
     
-    print(df)
+    # print(df)
 
     
-    G = nx.from_pandas_edgelist(df=df, source="Var1", target="Var2", edge_attr="Weight", create_using=nx.Graph())
-    node_size = df["Weight"].to_numpy()
+    # G = nx.from_pandas_edgelist(df=df, source="Var1", target="Var2", edge_attr="Weight", create_using=nx.Graph())
+    # node_size = df["Weight"].to_numpy()
     
         
-    # cm = sns.cubehelix_palette(as_cmap=True)
-    # nx.draw_networkx_edges(G, pos=nx.circular_layout(G), node_size=node_size, alpha=np.abs(df["Weight"].to_numpy()), ax=ax[0], label="Legend")
+    # # cm = sns.cubehelix_palette(as_cmap=True)
+    # # nx.draw_networkx_edges(G, pos=nx.circular_layout(G), node_size=node_size, alpha=np.abs(df["Weight"].to_numpy()), ax=ax[0], label="Legend")
     
-    nx.draw_networkx(G, pos=nx.circular_layout(G), with_labels=True, edge_cmap='Purples',edge_vmin = .5,edge_vmax = 1,  width=np.abs(df["Weight"].to_numpy()), ax=ax[0], label="Legend")
-    columns= [f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)]
-    ax[0].legend()
+    # nx.draw_networkx(G, pos=nx.circular_layout(G), with_labels=True, edge_cmap='Purples',edge_vmin = .5,edge_vmax = 1,  width=np.abs(df["Weight"].to_numpy()), ax=ax[0], label="Legend")
+    # columns= [f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)]
+    # ax[0].legend()
     
     
     # nx.draw_networkx(G, pos=nx.spring_layout(G), with_labels=True, edge_cmap='Greys',edge_vmin = .5,edge_vmax = 1, width=np.abs(df["Weight"].to_numpy()), ax=ax[1], label="Legend")
@@ -90,7 +112,9 @@ def partial_correlation_matrix(df: pd.DataFrame, f):
     pCorr_DF = pd.DataFrame(pCor, columns=cov_DF.columns, index=cov_DF.columns)
     
     
-
+    pval = calculate_pvalues(pCorr_DF)
+    print(pval)
+    print(np.shape(pval))
     # cmap = sns.color_palette("vlag", as_cmap=True)
     # f = sns.clustermap(pCorr_DF, robust=True, vmin=-1, vmax=1, 
     #                 #    row_cluster=True, 
@@ -101,3 +125,17 @@ def partial_correlation_matrix(df: pd.DataFrame, f):
     return pCorr_DF
     
 
+
+
+def calculate_pvalues(df):
+    dfcols = pd.DataFrame(columns=df.columns)
+    pvalues = dfcols.transpose().join(dfcols, how='outer')
+    
+    pvalues = df.copy()
+    for r in df.columns:
+        for c in df.columns:
+            tmp = df[df[r].notnull() & df[c].notnull()]
+            pvalues[r][c] = round(pearsonr(tmp[r], tmp[c])[1], 4)
+            
+
+    return pvalues
