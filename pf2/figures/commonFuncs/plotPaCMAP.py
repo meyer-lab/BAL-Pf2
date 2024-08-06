@@ -60,7 +60,6 @@ def plot_gene_pacmap(gene: str, decompType: str, X: anndata.AnnData, ax: Axes):
     canvas = _get_canvas(points)
     data = pd.DataFrame(points, columns=("x", "y"))
 
-    # Color by values
     values -= np.min(values)
     values /= np.max(values)
     data["val_cat"] = values
@@ -92,7 +91,6 @@ def plot_wp_pacmap(X: anndata.AnnData, cmp: int, ax: Axes, cbarMax: float = 1.0)
     canvas = _get_canvas(points)
     data = pd.DataFrame(points, columns=("x", "y"))
 
-    # Color by values
     values /= np.max(np.abs(values))
 
     data["val_cat"] = values
@@ -158,6 +156,34 @@ def plot_labels_pacmap(
     ds_show(result, ax)
     ax.legend(handles=legend_elements)
     ax = assign_labels(ax)
+
+def plot_pair_wp_pacmap(
+    X: anndata.AnnData,
+    cmp1,
+    cmp2,
+    ax: Axes,
+):
+    """Scatterplot of UMAP visualization weighted by condition or cell type"""
+
+
+    points = np.concatenate(
+        ([X.obsm["weighted_projections"][:, cmp1 - 1]], [X.obsm["weighted_projections"][:, cmp2 - 1]])
+    ).transpose()
+
+    canvas = _get_canvas(points)
+    data = pd.DataFrame(points, columns=("x", "y"))
+
+    aggregation = canvas.points(data, "x", "y")
+    
+    result = tf.shade(
+        aggregation,
+        how="eq_hist",
+        min_alpha=255,
+    )
+
+    ds_show(result, ax)
+    # ax = assign_labels(ax)
+
 
 
 def plot_wp_per_celltype(
