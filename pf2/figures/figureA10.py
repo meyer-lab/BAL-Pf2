@@ -23,15 +23,19 @@ def makeFigure():
     combine_cell_types(X)
     add_obs(X, "patient_category")
     add_obs(X, "binary_outcome")
-  
 
 
-    genes = ["EDN1", "PADI4"]
+
+    genes = ["EDN1", "KIF20A"]
+    genes = ["C11orf96", "FAM111B"]
     df_total = pd.DataFrame([])
     for i, gene in enumerate(np.ravel(genes)):
         df = avegene_per_status(X, gene, cellType="combined_cell_type")
         df_total = pd.concat([df, df_total])
 
+
+    df_total = df_total.dropna()
+    print(df_total)
     plot_ave2genes_per_status(df_total, genes[0], genes[1], ax[0])
 
     return f
@@ -59,7 +63,7 @@ def plot_ave2genes_per_status(df_total, gene1, gene2, ax):
     )
 
     colors = sns.color_palette("hls", len(np.unique(df_mean["Cell Type"])))
-    fmt = ["o", "*"]
+    fmt = ["o", "*", ".", "x"]
 
     for i, status in enumerate(np.unique(df_mean["Status"])):
         for j, celltype in enumerate(np.unique(df_mean["Cell Type"])):
@@ -69,6 +73,7 @@ def plot_ave2genes_per_status(df_total, gene1, gene2, ax):
             df_mini_std = df_std.loc[
                 (df_std["Status"] == status) & (df_std["Cell Type"] == celltype)
             ]
+
             ax.errorbar(
                 df_mini_mean[gene1],
                 df_mini_mean[gene2],
@@ -81,4 +86,4 @@ def plot_ave2genes_per_status(df_total, gene1, gene2, ax):
             )
 
     ax.set(xlabel=f"Average {gene1}", ylabel=f"Average {gene2}")
-    ax.legend()
+    # ax.legend()
