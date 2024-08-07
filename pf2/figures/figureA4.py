@@ -26,6 +26,17 @@ def makeFigure():
 
     X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     X.uns["Pf2_A"] = correct_conditions(X)
+    
+    print(np.min(X.uns["Pf2_A"], axis=0))
+    X.uns["Pf2_A"] -= np.min(X.uns["Pf2_A"], axis=0)
+    X.uns["Pf2_A"] += np.median(X.uns["Pf2_A"], axis=0)
+    
+    print(np.min(X.uns["Pf2_A"], axis=0))
+
+    X.uns["Pf2_A"] = np.log(X.uns["Pf2_A"])
+
+
+
 
     condition_factors_df = pd.DataFrame(
         data=X.uns["Pf2_A"],
@@ -49,9 +60,9 @@ def partial_correlation_matrix(df: pd.DataFrame, f):
 
     cmap = sns.color_palette("vlag", as_cmap=True)
     f = sns.clustermap(pCorr_DF, robust=True, vmin=-1, vmax=1, 
-                    #    row_cluster=True, 
-                    #    col_cluster=True, 
-                    #    annot=True, 
+                       row_cluster=True, 
+                       col_cluster=True, 
+                       annot=True, 
                        cmap=cmap, figsize=(25, 25))
     
     return f
