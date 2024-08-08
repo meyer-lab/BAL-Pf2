@@ -22,13 +22,6 @@ def plot_avegene_per_status(
     dataDF["Status"] = genesV.obs[status].values
     dataDF["Condition"] = genesV.obs[condition].values
     dataDF["Cell Type"] = genesV.obs[cellType].values
-
-    df = pd.melt(
-        dataDF, id_vars=["Status", "Cell Type", "Condition"], value_vars=gene
-    ).rename(columns={"variable": "Gene", "value": "Value"})
-
-    df = df.groupby(["Status", "Cell Type", "Gene", "Condition"], observed=False).mean()
-    df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
     
     dataDF = dataDF.replace({'Status': {0: "Lived", 
                                 1: "Dec."}})
@@ -38,6 +31,15 @@ def plot_avegene_per_status(
                                 "Other Pneumonia": "Non-COVID",
                                 "Other Viral Pneumonia": "Non-COVID"}})
     dataDF["Status"] = dataDF["Status2"] + dataDF["Status"]
+
+    df = pd.melt(
+        dataDF, id_vars=["Status", "Cell Type", "Condition"], value_vars=gene
+    ).rename(columns={"variable": "Gene", "value": "Value"})
+
+    df = df.groupby(["Status", "Cell Type", "Gene", "Condition"], observed=False).mean()
+    df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
+    
+
 
     sns.boxplot(
         data=df.loc[df["Gene"] == gene],

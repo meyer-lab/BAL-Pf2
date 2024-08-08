@@ -15,10 +15,11 @@ from pf2.figures.commonFuncs.plotGeneral import rotate_xaxis, bal_combine_bo_cov
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((18, 16), (5, 4))
+    ax, f = getSetup((60, 60), (2, 2))
     subplotLabel(ax)
     
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
+    print(X)
     
     combine_cell_types(X)
     add_obs(X, "patient_category")
@@ -26,15 +27,15 @@ def makeFigure():
 
 
 
-    genes = ["EDN1", "KIF20A"]
-    genes = ["C11orf96", "FAM111B"]
+
+    genes = ["C11orf96", "EDN1"]
     df_total = pd.DataFrame([])
     for i, gene in enumerate(np.ravel(genes)):
-        df = avegene_per_status(X, gene, cellType="combined_cell_type")
+        df = avegene_per_status(X, gene)
         df_total = pd.concat([df, df_total])
 
 
-    df_total = df_total.dropna()
+    # df_total = df_total.dropna()
     print(df_total)
     plot_ave2genes_per_status(df_total, genes[0], genes[1], ax[0])
 
@@ -73,6 +74,17 @@ def plot_ave2genes_per_status(df_total, gene1, gene2, ax):
             df_mini_std = df_std.loc[
                 (df_std["Status"] == status) & (df_std["Cell Type"] == celltype)
             ]
+            
+            if df_mini_std.empty is True:
+                df_mini_std = pd.DataFrame(
+                    {
+                        "Status": [status],
+                        "Cell Type": [celltype],
+                        gene1: 0,
+                        gene2: 0,
+                    }
+                )
+
 
             ax.errorbar(
                 df_mini_mean[gene1],
@@ -86,4 +98,4 @@ def plot_ave2genes_per_status(df_total, gene1, gene2, ax):
             )
 
     ax.set(xlabel=f"Average {gene1}", ylabel=f"Average {gene2}")
-    # ax.legend()
+    ax.legend()
