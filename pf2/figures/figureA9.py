@@ -4,7 +4,7 @@ Figure A4: XXX
 import anndata
 from pf2.figures.common import getSetup, subplotLabel
 from pf2.tensor import correct_conditions
-
+import matplotlib.ticker as mticker
 from pf2.data_import import  add_obs
 from anndata import read_h5ad
 from .common import (
@@ -42,15 +42,17 @@ def makeFigure():
     df.columns = ["Var1", "Var2", "Weight"]
     df["Weight"] = np.abs(df["Weight"]) 
     df = df.loc[df["Weight"] > 0.5]
-    df["Weight"] = (np.max(df["Weight"]) - df["Weight"]) / (np.max(df["Weight"]) - np.min(df["Weight"]))
+    print(df)
+    # df["Weight"] = (1- df["Weight"]) / (1 -.5)
+    # df["Weight"] = (np.max(df["Weight"])- df["Weight"]) /( np.max(df["Weight"])- np.min(df["Weight"]))
     
-    print(df["Weight"].sum())
+    print(df)
     
     import matplotlib as mpl
     import matplotlib.pyplot as plt
     G = nx.from_pandas_edgelist(df=df, source="Var1", target="Var2", edge_attr="Weight", create_using=nx.Graph())
     cmap = plt.cm.plasma
-    cmap = plt.cm.Purples
+    # cmap = plt.cm.Purples
             
     M = G.number_of_edges()
     edge_colors = range(2, M + 2)
@@ -72,7 +74,11 @@ def makeFigure():
 )
     # print(edges)
     
-    plt.colorbar(edges)
+    cbar = plt.colorbar(edges)
+    # labels = cbar.ax.get_yticklabels()
+    # labels[0].set_verticalalignment('top')
+    # labels[-1].set_verticalalignment('bottom')
+    # cbar.ax.set_yticklabels(['< -1', '0', '> 1']) 
     
     
     
