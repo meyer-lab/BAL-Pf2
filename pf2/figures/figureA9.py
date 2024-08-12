@@ -24,7 +24,7 @@ import networkx as nx
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((8, 8), (1, 1))
+    ax, f = getSetup((12, 12), (1, 1))
 
     X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     X.uns["Pf2_A"] = correct_conditions(X)
@@ -35,45 +35,84 @@ def makeFigure():
     )
     
     df = partial_correlation_matrix(condition_factors_df, f)
+    df = df.where(np.triu(np.ones(df.shape)).astype(bool))
+    df = df.where(np.identity(df.shape[0]) != 1,np.NaN)
+    df = df.stack().reset_index()
+
+    df.columns = ["Var1", "Var2", "Weight"]
+    df["Weight"] = np.abs(df["Weight"]) 
+    df = df.loc[df["Weight"] > 0.5]
+    df["Weight"] = (np.max(df["Weight"]) - df["Weight"]) / (np.max(df["Weight"]) - np.min(df["Weight"]))
+    
+    print(df["Weight"].sum())
+    
+    import matplotlib as mpl
+    import matplotlib.pyplot as plt
+    G = nx.from_pandas_edgelist(df=df, source="Var1", target="Var2", edge_attr="Weight", create_using=nx.Graph())
+    cmap = plt.cm.plasma
+    cmap = plt.cm.Purples
+            
+    M = G.number_of_edges()
+    edge_colors = range(2, M + 2)
+    edge_alphas = [(5 + i) / (M + 4) for i in range(M)]
+    
+    nodes = nx.draw_networkx_nodes(G, nx.circular_layout(G), node_color="lightgrey", label="Legend",
+                                   node_size=2500)
+    nx.draw_networkx_labels(G, nx.circular_layout(G))
     
     
+    edges = nx.draw_networkx_edges(
+    G,
+    nx.circular_layout(G),
+    edge_cmap=cmap,
+    width=10,
+    # alpha=np.abs(df["Weight"].to_numpy()),
+    edge_color=edge_colors,
+    # edge_vmin=30
+)
+    # print(edges)
+    
+    plt.colorbar(edges)
     
     
     
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    # df = df.where(np.triu(np.ones(df.shape)).astype(bool))
-    # # df.values[[np.arange(df.shape[0])]*2] = np.NaN
-    
-   
-    # df = df.where(np.identity(df.shape[0]) != 1,np.NaN)
-    
-    # print(df)
-    # df = df.stack().reset_index()
 
-    # df.columns = ["Var1", "Var2", "Weight"]
+#     for i in range(M):
+#         print(edges)
+#         print(edges[1])
+#         edges[1].set_alpha(edge_alphas[i])
     
-    # df = df.loc[df["Weight"] > 0.25]
+        
+    # pc = mpl.collections.PatchCollection(edges, cmap=cmap)
+    # pc.set_array(edge_colors)
     
-    # print(df)
+    # plt.colorbar(G, ax=ax[0])
+    # plt.show()
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     
     # G = nx.from_pandas_edgelist(df=df, source="Var1", target="Var2", edge_attr="Weight", create_using=nx.Graph())
@@ -112,9 +151,9 @@ def partial_correlation_matrix(df: pd.DataFrame, f):
     pCorr_DF = pd.DataFrame(pCor, columns=cov_DF.columns, index=cov_DF.columns)
     
     
-    pval = calculate_pvalues(pCorr_DF)
-    print(pval)
-    print(np.shape(pval))
+    # pval = calculate_pvalues(pCorr_DF)
+    # print(pval)
+    # print(np.shape(pval))
     # cmap = sns.color_palette("vlag", as_cmap=True)
     # f = sns.clustermap(pCorr_DF, robust=True, vmin=-1, vmax=1, 
     #                 #    row_cluster=True, 
