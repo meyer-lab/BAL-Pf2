@@ -15,6 +15,10 @@ def makeFigure():
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     X.uns["Pf2_A"] = correct_conditions(X)
+    
+    X.uns["Pf2_A"] -= np.min(X.uns["Pf2_A"], axis=0)
+    X.uns["Pf2_A"] += np.median(X.uns["Pf2_A"], axis=0)
+    X.uns["Pf2_A"] = np.log(X.uns["Pf2_A"])
 
     condition_factors_df = pd.DataFrame(
         data=X.uns["Pf2_A"],

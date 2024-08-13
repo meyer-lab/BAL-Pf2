@@ -14,49 +14,44 @@ from ..tensor import correct_conditions
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((8, 8), (4, 4))
+    ax, f = getSetup((15, 9), (3, 6))
     subplotLabel(ax)
     
+    
+    threshold = 0.56
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     X.uns["Pf2_A"] = correct_conditions(X)
-
     
-    # plot_pair_gene_factors(X, 28, 45, ax[0])
-    # plot_pair_cond_factors(X, 28, 45, ax[1])
-    # plot_pair_wp(X, 28, 45, ax[2], frac=.001)
-    # plot_pair_wp_pacmap(X, 28, 45, ax[3])
+    X.uns["Pf2_A"] -= np.min(X.uns["Pf2_A"], axis=0)
+    X.uns["Pf2_A"] += np.median(X.uns["Pf2_A"], axis=0)
+    X.uns["Pf2_A"] = np.log(X.uns["Pf2_A"])
     
-    # plot_pair_gene_factors(X, 25, 49, ax[4])
-    # plot_pair_cond_factors(X, 25, 29, ax[5])
-    # plot_pair_wp(X, 25, 49, ax[6], frac=.001)
-    # plot_pair_wp_pacmap(X, 25, 49, ax[7])
+    condition_factors_df = pd.DataFrame(
+        data=X.uns["Pf2_A"],
+        columns=[f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)],
+    )
     
-    # plot_pair_gene_factors(X, 2, 5, ax[8])
-    # plot_pair_cond_factors(X, 2, 5, ax[9])
-    # plot_pair_wp(X, 2, 5, ax[10], frac=.001)
-    # # plot_pair_wp_pacmap(X, 2, 5, ax[11])
+    pc_df = partial_correlation_matrix(condition_factors_df)
     
-    # plot_pair_gene_factors(X, 45, 47, ax[12])
-    # plot_pair_cond_factors(X, 45, 47, ax[13])
-    # plot_pair_wp(X, 45, 47, ax[14], frac=.001)
-
+    pc_df = pc_df.sort_values("Weight")
     
-    # ax[0].set(xlim=(-.05, .15), ylim=(-.05, .15))
-    # ax[1].set(xlim=(-1, 10), ylim=(-1, 20))
-    # ax[2].set(xlim=(-.15, .15), ylim=(-.1, .15))
+    pc_df_top = pc_df.loc[pc_df["Weight"] > threshold]
+    pc_df_bot = pc_df.loc[pc_df["Weight"] < -threshold]
+    pc_df = pd.concat([pc_df_top, pc_df_bot])
+    
+    pc_df["Var1"] = pc_df["Var1"].map(lambda x: x.lstrip("Cmp. ")).astype(int)
+    pc_df["Var2"] = pc_df["Var2"].map(lambda x: x.lstrip("Cmp. ")).astype(int)
+    
+    print(pc_df)
+    
+    for i in range(pc_df.shape[0]):
+        cmp1 = pc_df.iloc[i, 0]
+        cmp2 = pc_df.iloc[i, 1]
+        plot_pair_gene_factors(X, cmp1, cmp2, ax[(3*i)])
+        plot_pair_cond_factors(X, cmp1, cmp2, ax[(3*i)+1])
+        plot_pair_wp(X, cmp1, cmp2, ax[(3*i)+2], frac=.001)
    
-    # ax[4].set(xlim=(-.3, .4), ylim=(-.4, .4))
-    # ax[5].set(xlim=(-1, 20), ylim=(-1, 20))
-    # ax[6].set(xlim=(-.4, .4), ylim=(-.4, .2))
     
-    # plot_y_x_line(ax[0], pos=True)
-    # plot_y_x_line(ax[1], pos=True)
-    # plot_y_x_line(ax[2], pos=False)
-    
-    # plot_y_x_line(ax[4], pos=True)
-    # plot_y_x_line(ax[5], pos=True)
-    # plot_y_x_line(ax[6], pos=False)
-
 
     return f
 
@@ -113,3 +108,22 @@ def plot_y_x_line(ax: Axes, pos=True):
         ax.plot(lims, np.flip(lims), 'k-')
         
         print(lims)
+        
+def partial_correlation_matrix(df: pd.DataFrame):
+    """Plots partial correlation matrix"""
+    cov_DF = df.cov()
+    Vi = np.linalg.pinv(cov_DF, hermitian=True) 
+    Vi_diag = Vi.diagonal()
+    D = np.diag(np.sqrt(1 / Vi_diag))
+    pCor = -1 * (D @ Vi @ D) 
+    pCor[np.diag_indices_from(pCor)] = 1
+    df = pd.DataFrame(pCor, columns=cov_DF.columns, index=cov_DF.columns)
+    
+    df = df.where(np.triu(np.ones(df.shape)).astype(bool))
+    df = df.where(np.identity(df.shape[0]) != 1,np.NaN)
+    df = df.stack().reset_index()
+
+    df.columns = ["Var1", "Var2", "Weight"]
+
+    
+    return df
