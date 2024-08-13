@@ -11,7 +11,7 @@ from .common import getSetup
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((12, 12), (1, 1))
+    ax, f = getSetup((9, 9), (1, 1))
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     X.uns["Pf2_A"] = correct_conditions(X)
@@ -27,7 +27,7 @@ def makeFigure():
     
     pc_df = partial_correlation_matrix(condition_factors_df)
     
-    plot_network_graph(pc_df)
+    plot_network_graph(pc_df, threshold=.4)
 
 
     return f
@@ -56,12 +56,16 @@ def plot_network_graph(df: pd.DataFrame, threshold: float = 0.5, cmap = plt.cm.p
     df.columns = ["Var1", "Var2", "Weight"]
     df["Weight"] = np.abs(df["Weight"]) 
     df = df.loc[df["Weight"] > threshold]
-  
-    G = nx.from_pandas_edgelist(df=df, source="Var1", target="Var2", edge_attr="Weight", create_using=nx.Graph()) 
-    M = G.number_of_edges()
-    edge_colors = range(2, M + 2)
     
-    nx.draw_networkx_nodes(G, nx.circular_layout(G), node_color="lightgrey", node_size=2500)
+    df = df.sort_values("Weight")
+    
+    print(df)
+  
+    G = nx.from_pandas_edgelist(df=df, source="Var1", target="Var2", edge_attr="Weight") 
+    M = G.number_of_edges()
+    edge_colors = df["Weight"].to_numpy()
+    
+    nx.draw_networkx_nodes(G, nx.circular_layout(G), node_color="lightgrey", node_size=1800)
     nx.draw_networkx_labels(G, nx.circular_layout(G))
     
     edges = nx.draw_networkx_edges(

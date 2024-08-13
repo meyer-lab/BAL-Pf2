@@ -18,7 +18,7 @@ def makeFigure():
     subplotLabel(ax)
     
     
-    threshold = 0.56
+    threshold = 0.4
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     X.uns["Pf2_A"] = correct_conditions(X)
     
@@ -39,17 +39,18 @@ def makeFigure():
     pc_df_bot = pc_df.loc[pc_df["Weight"] < -threshold]
     pc_df = pd.concat([pc_df_top, pc_df_bot])
     
-    pc_df["Var1"] = pc_df["Var1"].map(lambda x: x.lstrip("Cmp. ")).astype(int)
-    pc_df["Var2"] = pc_df["Var2"].map(lambda x: x.lstrip("Cmp. ")).astype(int)
-    
     print(pc_df)
+    # pc_df["Var1"] = pc_df["Var1"].map(lambda x: x.lstrip("Cmp. ")).astype(int)
+    # pc_df["Var2"] = pc_df["Var2"].map(lambda x: x.lstrip("Cmp. ")).astype(int)
     
-    for i in range(pc_df.shape[0]):
-        cmp1 = pc_df.iloc[i, 0]
-        cmp2 = pc_df.iloc[i, 1]
-        plot_pair_gene_factors(X, cmp1, cmp2, ax[(3*i)])
-        plot_pair_cond_factors(X, cmp1, cmp2, ax[(3*i)+1])
-        plot_pair_wp(X, cmp1, cmp2, ax[(3*i)+2], frac=.001)
+    # print(pc_df)
+    
+    # for i in range(pc_df.shape[0]):
+    #     cmp1 = pc_df.iloc[i, 0]
+    #     cmp2 = pc_df.iloc[i, 1]
+    #     plot_pair_gene_factors(X, cmp1, cmp2, ax[(3*i)])
+    #     plot_pair_cond_factors(X, cmp1, cmp2, ax[(3*i)+1])
+    #     plot_pair_wp(X, cmp1, cmp2, ax[(3*i)+2], frac=.001)
    
     
 
