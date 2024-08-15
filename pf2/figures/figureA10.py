@@ -21,32 +21,17 @@ def makeFigure():
         columns=[f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)],
     )
     
-    wProjs = X.obsm["weighted_projections"]
-    
-
+    wprojs = X.obsm["weighted_projections"]
     thres_value = 5
-    threshold = np.percentile(wProjs, thres_value, axis=0) 
-    news = wProjs < threshold
-    print(np.shape(news))
-    
-    a
+    threshold = np.percentile(wprojs, thres_value, axis=0) 
 
-    new_projs = np.zeros((wProjs[:]))
+    wprojs_subset = np.zeros((wprojs[wprojs[:, 0] < threshold[0], :].shape[0], wprojs.shape[1]))
+
     for i in range(len(threshold)):
-        new_projs = wProjs[wProjs[:, i] < threshold[i], :]
-        print(np.shape(new_projs))
+        wprojs_subset[:, i] = wprojs[wprojs[:, i] < threshold[i], i]
         
         
-    # newx = s[:, s[0,:] < threshold]
-
-#     print(newx)
-#     print(np.shape(newx))
-
-
-#    X = X[ind[:, cmp-1], :]
-
-
-
+    print
 
     return f
 
