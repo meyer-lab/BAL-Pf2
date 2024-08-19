@@ -23,20 +23,35 @@ def makeFigure():
     X.uns["Pf2_A"] = correct_conditions(X)
     add_obs(X, "patient_category")
     add_obs(X, "binary_outcome")
-    plot_condition_factors(X, ax[0], cond="sample_id", cond_group_labels=pd.Series(label_all_samples(X)))
-    ax[0].yaxis.set_ticklabels([])
-    plot_eigenstate_factors(X, ax[1])
-    plot_gene_factors(X, ax[2])
-    ax[2].yaxis.set_ticklabels([])
- 
+    
     df = X.obs[["patient_category", "binary_outcome"]].reset_index(drop=True)
     df = bal_combine_bo_covid(df)
     X.obs["Status"] = df["Status"].to_numpy()
-    plot_labels_pacmap(X, "Status", ax[3])
+    
+    for i in range(X.uns["Pf2_A"].shape[1]):
+           X.obs["WP_Cmp" + str(i)] = X.obsm["weighted_projections"][:, i]
+    print(X)
+    
+    X.write("newanndata.h5ad")
+    
+    
+    
+    
+    
+    # plot_condition_factors(X, ax[0], cond="sample_id", cond_group_labels=pd.Series(label_all_samples(X)))
+    # ax[0].yaxis.set_ticklabels([])
+    # plot_eigenstate_factors(X, ax[1])
+    # plot_gene_factors(X, ax[2])
+    # ax[2].yaxis.set_ticklabels([])
+ 
+    # df = X.obs[["patient_category", "binary_outcome"]].reset_index(drop=True)
+    # df = bal_combine_bo_covid(df)
+    # X.obs["Status"] = df["Status"].to_numpy()
+    # plot_labels_pacmap(X, "Status", ax[3])
 
-    combine_cell_types(X)
-    plot_labels_pacmap(X, "cell_type", ax[4])
-    plot_labels_pacmap(X, "combined_cell_type", ax[5])
+    # combine_cell_types(X)
+    # plot_labels_pacmap(X, "cell_type", ax[4])
+    # plot_labels_pacmap(X, "combined_cell_type", ax[5])
 
     return f
 
