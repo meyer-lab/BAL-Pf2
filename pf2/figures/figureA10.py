@@ -29,11 +29,12 @@ def makeFigure():
     
     wprojs = X.obsm["weighted_projections"]
     # thres_value = 1
-    thres_value= 99
+    thres_value= 99.5
     threshold = np.percentile(wprojs, thres_value, axis=0) 
     # subsetX = X[wprojs[:, cmp-1] < threshold[cmp-1], :]
     
     subsetX = X[wprojs[:, cmp-1] > threshold[cmp-1], :]
+    print(subsetX)
     
     sns.violinplot(subsetX.obsm["weighted_projections"][:, cmp-1], ax=ax[0])
     
