@@ -31,64 +31,81 @@ def makeFigure():
     # )
     combine_cell_types(X)
 
-    cmp1 = 26
+    cmp1 = 28
+    
+    # Need to change threshold and inequalites for eveyr component 
     
     wprojs = X.obsm["weighted_projections"]
     thres_value= 99
     threshold1 = np.percentile(wprojs, thres_value, axis=0) 
     # subsetX = X[wprojs[:, cmp-1] < threshold[cmp-1], :]
     #  subsetX = X[wprojs[:, cmp-1] > threshold[cmp-1], :]
+    # idx = wprojs[:, cmp1-1] > threshold1[cmp1-1]
     idx = wprojs[:, cmp1-1] > threshold1[cmp1-1]
     X.obs[f"Cmp{cmp1}"] = idx
     
-    cmp2 = 3
-    thres_value= 99
-    threshold = np.percentile(wprojs, thres_value, axis=0) 
-    idx = wprojs[:, cmp2-1] > threshold[cmp2-1]
+    cmp2 = 45
+    thres_value=1
+    threshold2 = np.percentile(wprojs, thres_value, axis=0) 
+    idx = wprojs[:, cmp2-1] < threshold2[cmp2-1]
+    # idx = wprojs[:, cmp1-1] < threshold1[cmp2-1]
     X.obs[f"Cmp{cmp2}"] = idx
     
     
-    
-    idx = (wprojs[:, cmp1-1] > threshold[cmp1-1]) & (wprojs[:, cmp2-1] > threshold1[cmp2-1])
+    # Need to change threshold and inequalites for eveyr component 
+    idx = (wprojs[:, cmp1-1] > threshold1[cmp1-1]) & (wprojs[:, cmp2-1] < threshold2[cmp2-1])
     X.obs["Both"] = idx
     
-    
+
         # print(X)
     
      
-    # df = plot_avegene_per_status_both(
-    # X, 
-    # "KIF20A",
-    # ax[0])
-    # df = plot_avegene_per_status_sep(
-    # X, 
-    # "KIF20A",
-    # ax[1])
     df = plot_avegene_per_status_both(
     X, 
-    "FAM111B",
-    ax[0])
+    "AGER",
+    ax[0],
+     cmp1,
+    cmp2)
     df = plot_avegene_per_status_sep(
     X, 
-    "FAM111B",
-    ax[1])
+    "AGER",
+    ax[1],
+     cmp1,
+    cmp2)
     df = plot_avegene_per_status_both(
     X, 
-    "CD3E",
-    ax[4])
+    "SFN",
+    ax[2],
+    cmp1,
+    cmp2)
     df = plot_avegene_per_status_sep(
     X, 
-    "CD3E",
-    ax[5])
+    "SFN",
+    ax[3],
+      cmp1,
+    cmp2)
+    df = plot_avegene_per_status_both(
+    X, 
+    "TM4SF1",
+    ax[4],
+      cmp1,
+    cmp2)
+    df = plot_avegene_per_status_sep(
+    X, 
+    "TM4SF1",
+    ax[5],
+    cmp1,
+    cmp2)
     
     
+    print(X[X.obs["Both"] == True])
+    print(X[X.obs[f"Cmp{cmp1}"] == True])
     
-    print(X[X.obs["Cmp3"] == True])
     
-    plot_cell_count(X[X.obs["Cmp3"] == True], ax[6])
-    ax[6].set(title="Cmp3")
-    plot_cell_count(X[X.obs["Cmp26"] == True], ax[7])
-    ax[7].set(title="Cmp26")
+    plot_cell_count(X[X.obs[f"Cmp{cmp1}"] == True], ax[6])
+    ax[6].set(title=f"Cmp{cmp1}")
+    plot_cell_count(X[X.obs[f"Cmp{cmp2}"] == True], ax[7])
+    ax[7].set(title=f"Cmp{cmp2}")
     plot_cell_count(X[X.obs["Both"] == True], ax[8])
     ax[8].set(title="Both")
         
@@ -135,6 +152,8 @@ def plot_avegene_per_status_both(
     X: anndata.AnnData,
     gene: str,
     ax,
+    cmp1,
+    cmp2,
     condition="sample_id",
     cellType="cell_type",
     status="binary_outcome",
@@ -149,13 +168,13 @@ def plot_avegene_per_status_both(
     # dataDF["Cell Type"] = genesV.obs[cellType].values
     
     
-    dataDF["Cmp3"] = genesV.obs["Cmp3"].values
-    dataDF["Cmp26"] = genesV.obs["Cmp26"].values
+    dataDF[f"Cmp{cmp1}"] = genesV.obs[f"Cmp{cmp1}"].values
+    dataDF[f"Cmp{cmp2}"] = genesV.obs[f"Cmp{cmp2}"].values
     dataDF["Both"] = genesV.obs["Both"].values
     
-    dataDF.loc[(dataDF["Cmp3"] == True) & (dataDF["Cmp26"] == True), "Label"] = "Both"
-    dataDF.loc[((dataDF["Cmp3"] == True) & (dataDF["Cmp26"] == False), "Label")] = "Cmp3"
-    dataDF.loc[(dataDF["Cmp3"] == False) & (dataDF["Cmp26"] == True), "Label"] = "Cmp26"
+    dataDF.loc[(dataDF[f"Cmp{cmp1}"] == True) & (dataDF[f"Cmp{cmp2}"] == True), "Label"] = "Both"
+    dataDF.loc[((dataDF[f"Cmp{cmp1}"] == True) & (dataDF[f"Cmp{cmp2}"] == False), "Label")] = f"Cmp{cmp1}"
+    dataDF.loc[(dataDF[f"Cmp{cmp1}"] == False) & (dataDF[f"Cmp{cmp2}"] == True), "Label"] = f"Cmp{cmp2}"
 
     dataDF = dataDF.dropna(subset="Label")
     
@@ -185,6 +204,8 @@ def plot_avegene_per_status_sep(
     X: anndata.AnnData,
     gene: str,
     ax,
+    cmp1,
+    cmp2,
     condition="sample_id",
     cellType="cell_type",
     status="binary_outcome",
@@ -199,34 +220,34 @@ def plot_avegene_per_status_sep(
     # dataDF["Cell Type"] = genesV.obs[cellType].values
     
     
-    dataDF["Cmp3"] = genesV.obs["Cmp3"].values
-    dataDF["Cmp26"] = genesV.obs["Cmp26"].values
+    dataDF[f"Cmp{cmp1}"] = genesV.obs[f"Cmp{cmp1}"].values
+    dataDF[f"Cmp{cmp2}"] = genesV.obs[f"Cmp{cmp2}"].values
 
 
     df1 = pd.melt(
-        dataDF, id_vars=["Condition", "Cmp3"], value_vars=gene
+        dataDF, id_vars=["Condition", f"Cmp{cmp1}"], value_vars=gene
     ).rename(columns={"variable": "Gene", "value": "Value"})
 
-    df1 = df1.groupby(["Gene", "Condition", "Cmp3"], observed=False).mean()
+    df1 = df1.groupby(["Gene", "Condition", f"Cmp{cmp1}"], observed=False).mean()
     df1 = df1.rename(columns={"Value": "Average Gene Expression"}).reset_index()
     
-    df1 = df1.loc[df1["Cmp3"] == True]
-    df1["Label"] = "Cmp3"
+    df1 = df1.loc[df1[f"Cmp{cmp1}"] == True]
+    df1["Label"] = f"Cmp{cmp1}"
       
 
     
     df2 = pd.melt(
-        dataDF, id_vars=["Condition", "Cmp26"], value_vars=gene
+        dataDF, id_vars=["Condition", f"Cmp{cmp2}"], value_vars=gene
     ).rename(columns={"variable": "Gene", "value": "Value"})
 
-    df2 = df2.groupby(["Gene", "Condition", "Cmp26"], observed=False).mean()
+    df2 = df2.groupby(["Gene", "Condition", f"Cmp{cmp2}"], observed=False).mean()
     df2 = df2.rename(columns={"Value": "Average Gene Expression"}).reset_index()
     
-    df2 = df2.loc[df2["Cmp26"] == True]
-    df2["Label"] = "Cmp26"
+    df2 = df2.loc[df2[f"Cmp{cmp2}"] == True]
+    df2["Label"] = f"Cmp{cmp2}"
     
     df = pd.concat([df1, df2])
-    df = df.drop(columns=["Cmp3", "Cmp26"]).dropna()
+    df = df.drop(columns=[f"Cmp{cmp1}", f"Cmp{cmp2}"]).dropna()
     
     sns.boxplot(
         data=df,
