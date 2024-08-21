@@ -16,7 +16,7 @@ from ..figures.figureA6 import cell_count_perc_df
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((10, 10), (2, 2))
+    ax, f = getSetup((40, 20), (5, 10))
     # subplotLabel(ax)
     
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
@@ -26,7 +26,7 @@ def makeFigure():
 
     celltype_count_perc_df = cell_count_perc_df(X, celltype="cell_type")
     
-    for i in range(4):
+    for i in range(50):
         plot_correlation_cmp_cell_count_perc(
             X, i+1, celltype_count_perc_df, ax[i], cellPerc=True
         )
