@@ -28,14 +28,14 @@ def makeFigure():
     cmp1 = 1
     cmp2 = 13
     threshold = .5
-    X = add_cmp_both_label(X, cmp1, cmp2, pos1=False, pos2=False, top_perc=threshold)
+    X = add_cmp_both_label(X, cmp1, cmp2, pos1=True, pos2=True, top_perc=threshold)
     
     celltype_count_perc_df = cell_count_perc_df(X[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs["Both"] == False)], celltype="combined_cell_type")
     celltype = np.unique(celltype_count_perc_df["Cell Type"])
     sns.boxplot(
         data=celltype_count_perc_df,
         x="Cell Type",
-        y="Cell Count",
+        y="Cell Type Percentage",
         hue="Status",
         order=celltype,
         showfliers=False,
@@ -50,7 +50,7 @@ def makeFigure():
     sns.boxplot(
         data=celltype_count_perc_df,
         x="Cell Type",
-        y="Cell Count",
+        y="Cell Type Percentage",
         hue="Status",
         order=celltype,
         showfliers=False,
@@ -65,7 +65,7 @@ def makeFigure():
     sns.boxplot(
         data=celltype_count_perc_df,
         x="Cell Type",
-        y="Cell Count",
+        y="Cell Type Percentage",
         hue="Status",
         order=celltype,
         showfliers=False,
@@ -74,18 +74,17 @@ def makeFigure():
     rotate_xaxis(ax[2])
     ax[2].set(title=f"Both - Threshold: {threshold}")
     
-    
-    
-    
 
-    # plot_cell_count(X[X.obs[f"Cmp{cmp1}"] == True], ax[4])
-    # ax[4].set(title=f"Cmp{cmp1}")
-    # plot_cell_count(X[X.obs[f"Cmp{cmp2}"] == True], ax[5])
-    # ax[5].set(title=f"Cmp{cmp2}")
-    # plot_cell_count(X[X.obs["Both"] == True], ax[6])
-    # ax[6].set(title="Both")
+    # plot_cell_count(X[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs["Both"] == False)], ax[0])
+    # ax[0].set(title=f"Both - Threshold: {threshold}")
+    # plot_cell_count(X[(X.obs[f"Cmp{cmp2}"] == True) & (X.obs["Both"] == False)], ax[1])
+    # ax[1].set(title=f"Cmp{cmp2} - Threshold: {threshold}")
+    # plot_cell_count(X[X.obs["Both"] == True], ax[2])
+    # ax[2].set(title=f"Both - Threshold: {threshold}")
 
-    # genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=3)
+    # genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=30)
+    # for i in genes1:
+    #     prin
     # genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=3)
     
     # genes = np.concatenate([genes1, genes2])
