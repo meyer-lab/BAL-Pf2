@@ -1,7 +1,5 @@
-import numpy as np
 import pandas as pd
 import seaborn as sns
-import scanpy as sc
 import anndata
 from matplotlib.axes import Axes
 
@@ -12,32 +10,27 @@ def plot_avegene_per_status(
     ax: Axes,
     condition="sample_id",
     cellType="cell_type",
-    status="binary_outcome",
+    status1="binary_outcome",
     status2="patient_category"
 ):
     """Plots average gene expression across cell types for a category of drugs"""
     genesV = X[:, gene]
     dataDF = genesV.to_df()
     dataDF = dataDF.subtract(genesV.var["means"].values)
-    dataDF["Status"] = genesV.obs[status].values
+    dataDF[status1] = genesV.obs[status1].values
+    dataDF[status2] = genesV.obs[status2].values
     dataDF["Condition"] = genesV.obs[condition].values
     dataDF["Cell Type"] = genesV.obs[cellType].values
+    
+    df = bal_combine_bo_covid(dataDF, status1, status2)
 
     df = pd.melt(
-        dataDF, id_vars=["Status", "Cell Type", "Condition"], value_vars=gene
+        df, id_vars=["Status", "Cell Type", "Condition"], value_vars=gene
     ).rename(columns={"variable": "Gene", "value": "Value"})
 
     df = df.groupby(["Status", "Cell Type", "Gene", "Condition"], observed=False).mean()
     df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
     
-    dataDF = dataDF.replace({'Status': {0: "Lived", 
-                                1: "Dec."}})
-
-    dataDF["Status2"] = genesV.obs[status2].values
-    dataDF = dataDF.replace({'Status2': {"Non-Pneumonia Control": "Non-COVID", 
-                                "Other Pneumonia": "Non-COVID",
-                                "Other Viral Pneumonia": "Non-COVID"}})
-    dataDF["Status"] = dataDF["Status2"] + dataDF["Status"]
 
     sns.boxplot(
         data=df.loc[df["Gene"] == gene],

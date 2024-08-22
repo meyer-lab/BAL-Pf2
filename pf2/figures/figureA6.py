@@ -1,17 +1,17 @@
 """Figure A6: Plots cell count per patient"""
 
-from anndata import read_h5ad
+import anndata
+import pandas as pd
+import numpy as np
+import seaborn as sns
+from matplotlib.axes import Axes
 from .common import (
     subplotLabel,
     getSetup,
 )
-import seaborn as sns
-from matplotlib.axes import Axes
-import anndata
-from pf2.figures.commonFuncs.plotGeneral import rotate_xaxis, bal_combine_bo_covid
+from ..figures.commonFuncs.plotGeneral import rotate_xaxis, bal_combine_bo_covid
 from ..data_import import add_obs, condition_factors_meta, combine_cell_types
-import pandas as pd
-import numpy as np
+
 
 
 def makeFigure():
@@ -19,7 +19,7 @@ def makeFigure():
     ax, f = getSetup((10, 10), (3, 3))
     subplotLabel(ax)
 
-    X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
+    X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     add_obs(X, "binary_outcome")
     add_obs(X, "patient_category")
     
