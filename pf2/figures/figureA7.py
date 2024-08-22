@@ -1,5 +1,5 @@
 """
-XX
+Figure A7:
 """
 import anndata
 import numpy as np
@@ -7,9 +7,9 @@ import seaborn as sns
 import pandas as pd
 from scipy.stats import pearsonr
 from matplotlib.axes import Axes
-from pf2.figures.common import getSetup, subplotLabel
-from pf2.tensor import correct_conditions
-from pf2.data_import import add_obs
+from ..figures.common import getSetup
+from ..tensor import correct_conditions
+from ..data_import import add_obs
 from .commonFuncs.plotGeneral import rotate_xaxis
 from ..figures.figureA6 import cell_count_perc_df
 
@@ -17,7 +17,6 @@ from ..figures.figureA6 import cell_count_perc_df
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
     ax, f = getSetup((10, 10), (2, 2))
-    # subplotLabel(ax)
     
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     X = add_obs(X, "binary_outcome")

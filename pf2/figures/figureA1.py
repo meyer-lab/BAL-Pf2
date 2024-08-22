@@ -3,16 +3,16 @@ along with PaCMAP labeled by cell type"""
 
 import anndata
 import pandas as pd
-from pf2.figures.common import getSetup, subplotLabel
-from pf2.tensor import correct_conditions
-from pf2.figures.commonFuncs.plotFactors import (
+from ..tensor import correct_conditions
+from ..data_import import combine_cell_types, add_obs
+from ..figures.common import getSetup, subplotLabel
+from ..figures.commonFuncs.plotFactors import (
     plot_condition_factors,
     plot_gene_factors,
     plot_eigenstate_factors,
 )
-from pf2.figures.commonFuncs.plotPaCMAP import plot_labels_pacmap
-from pf2.figures.commonFuncs.plotGeneral import bal_combine_bo_covid
-from pf2.data_import import combine_cell_types, add_obs
+from ..figures.commonFuncs.plotPaCMAP import plot_labels_pacmap
+from ..figures.commonFuncs.plotGeneral import bal_combine_bo_covid
 
 
 def makeFigure():
