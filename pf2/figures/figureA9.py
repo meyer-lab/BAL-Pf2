@@ -61,7 +61,7 @@ def makeFigure():
     ax[1].set(title=f"Cmp{cmp2} - Threshold: {threshold}")
     
     
-    celltype_count_perc_df = cell_count_perc_df(X[X.obs[f"Cmp{cmp1}"] == True], celltype="combined_cell_type")
+    celltype_count_perc_df = cell_count_perc_df(X[X.obs["Both"] == True], celltype="combined_cell_type")
     celltype = np.unique(celltype_count_perc_df["Cell Type"])
     sns.boxplot(
         data=celltype_count_perc_df,
@@ -79,21 +79,21 @@ def makeFigure():
     
     
 
-    # plot_cell_count(X[X.obs[f"Cmp{cmp1}"] == True], ax[0])
-    # ax[0].set(title=f"Cmp{cmp1}")
-    # plot_cell_count(X[X.obs[f"Cmp{cmp2}"] == True], ax[1])
-    # ax[1].set(title=f"Cmp{cmp2}")
-    # plot_cell_count(X[X.obs["Both"] == True], ax[2])
-    # ax[2].set(title="Both")
+    # plot_cell_count(X[X.obs[f"Cmp{cmp1}"] == True], ax[4])
+    # ax[4].set(title=f"Cmp{cmp1}")
+    # plot_cell_count(X[X.obs[f"Cmp{cmp2}"] == True], ax[5])
+    # ax[5].set(title=f"Cmp{cmp2}")
+    # plot_cell_count(X[X.obs["Both"] == True], ax[6])
+    # ax[6].set(title="Both")
 
-    # genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=3)
-    # genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=3)
+    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=3)
+    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=3)
     
-    # genes = np.concatenate([genes1, genes2])
+    genes = np.concatenate([genes1, genes2])
     
-    # for i, gene in enumerate(genes):
-    #     plot_avegene_per_cmp(X, gene, ax[(2*i)+4], cmp1, cmp2, both_cmp = True, cell_type=True)
-    #     plot_avegene_per_cmp(X, gene, ax[((2*i)+1)+4], cmp1, cmp2, both_cmp = False, cell_type=True)
+    for i, gene in enumerate(genes):
+        plot_avegene_per_cmp(X, gene, ax[(2*i)+4], cmp1, cmp2, both_cmp = True, cell_type=True)
+        plot_avegene_per_cmp(X, gene, ax[((2*i)+1)+4], cmp1, cmp2, both_cmp = False, cell_type=True)
 
 
     return f
