@@ -20,6 +20,7 @@ from pf2.figures.common import getSetup
 from pf2.predict import predict_mortality, run_plsr
 
 
+
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
     ax, f = getSetup((8, 8), (2, 2))
@@ -40,6 +41,7 @@ def makeFigure():
         patient_factor,
         meta
     )
+    
 
 
     names = ["COVID-19", "Non-COVID 19"]
@@ -53,6 +55,9 @@ def makeFigure():
             s=150,
             c="tab:red"
         )
+        
+        print(plsr.x_loadings_[:, 0])
+        print(plsr.x_loadings_[:, 1])
         x_ax.scatter(
             plsr.x_loadings_[:, 0],
             plsr.x_loadings_[:, 1],
@@ -75,12 +80,21 @@ def makeFigure():
 
         x_ax.plot([-100, 100], [0, 0], linestyle="--", color="k", zorder=-3)
         x_ax.plot([0, 0], [-100, 100], linestyle="--", color="k", zorder=-3)
-        x_ax.set_xlim(x_lims)
-        x_ax.set_ylim(y_lims)
+        # x_ax.set_xlim(x_lims)
+        # x_ax.set_ylim(y_lims)
+        
+        if ax_index == 0: 
+            x_ax.set_ylim([-.6, .6])
+            x_ax.set_xlim([-.6, .6])
+        else:
+            x_ax.set_ylim([-1, 1])
+            x_ax.set_xlim([-1, 1])
 
         x_ax.set_xlabel("PLSR 1")
         x_ax.set_ylabel("PLSR 2")
         x_ax.set_title(f"{name}: X-loadings")
+
+
 
 
     return f

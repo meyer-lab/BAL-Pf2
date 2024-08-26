@@ -36,7 +36,7 @@ def run_plsr(
     plsr = PLSRegression(
         n_components=n_components,
         scale=False,
-        max_iter=int(1E5)
+        max_iter=int(1E15)
     )
     rfe_cv = RFECV(plsr, step=1, cv=SKF, min_features_to_select=n_components)
     rfe_cv.fit(data, labels)
@@ -55,6 +55,7 @@ def run_plsr(
         plsr.coef_.squeeze(),
         index=data.columns
     )
+    print(plsr.coef_)
 
     if proba:
         return probabilities, plsr
