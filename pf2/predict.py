@@ -35,12 +35,12 @@ def run_plsr(
     data[:] = scale(data)
     plsr = PLSRegression(
         n_components=n_components,
-        scale=True,
+        scale=False,
         max_iter=int(1E15)
     )
-    rfe_cv = RFECV(plsr, step=1, cv=SKF, min_features_to_select=n_components)
-    rfe_cv.fit(data, labels)
-    data = data.loc[:, rfe_cv.support_]
+    # rfe_cv = RFECV(plsr, step=1, cv=SKF, min_features_to_select=n_components)
+    # rfe_cv.fit(data, labels)
+    # data = data.loc[:, rfe_cv.support_]
 
     probabilities = pd.Series(0, dtype=float, index=data.index)
     for train_index, test_index in SKF.split(data, labels):

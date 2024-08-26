@@ -25,10 +25,11 @@ def makeFigure():
     ax, f = getSetup((4, 4), (1, 1))
     subplotLabel(ax)
     
-    X = anndata.read_h5ad("/opt/northwest_bal/full_fitted_uncorrected.h5ad")
+    # X = anndata.read_h5ad("/opt/northwest_bal/full_fitted_uncorrected.h5ad")
 
-    # X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
+    X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     
+    X.uns["Pf2_A"] = correct_conditions(X)
     # print(np.ravel(X.uns["Pf2_A"]))
     # print(np.ravel(XX.uns["Pf2_A"]))
     

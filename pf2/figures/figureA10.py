@@ -27,7 +27,8 @@ def makeFigure():
     subplotLabel(ax)
     
     meta = import_meta()
-    data = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
+    data = read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
+    data.uns["Pf2_A"] = correct_conditions(data)
     conversions = convert_to_patients(data)
 
     patient_factor = pd.DataFrame(
@@ -42,6 +43,13 @@ def makeFigure():
         meta
     )
     
+    
+    
+
+
+
+
+
 
 
     names = ["COVID-19", "Non-COVID 19"]
