@@ -27,7 +27,7 @@ def makeFigure():
     subplotLabel(ax)
     
     meta = import_meta()
-    data = read_h5ad("/opt/northwest_bal/full_fitted_uncorrected.h5ad", backed="r")
+    data = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
     conversions = convert_to_patients(data)
 
     patient_factor = pd.DataFrame(
@@ -80,19 +80,20 @@ def makeFigure():
 
         x_ax.plot([-100, 100], [0, 0], linestyle="--", color="k", zorder=-3)
         x_ax.plot([0, 0], [-100, 100], linestyle="--", color="k", zorder=-3)
-        # x_ax.set_xlim(x_lims)
-        # x_ax.set_ylim(y_lims)
+        x_ax.set_xlim(x_lims)
+        x_ax.set_ylim(y_lims)
         
-        if ax_index == 0: 
-            x_ax.set_ylim([-.6, .6])
-            x_ax.set_xlim([-.6, .6])
-        else:
-            x_ax.set_ylim([-1, 1])
-            x_ax.set_xlim([-1, 1])
+        # if ax_index == 0: 
+        #     x_ax.set_ylim([-.6, .6])
+        #     x_ax.set_xlim([-.6, .6])
+        # else:
+        #     x_ax.set_ylim([-1, 1])
+        #     x_ax.set_xlim([-1, 1])
 
         x_ax.set_xlabel("PLSR 1")
         x_ax.set_ylabel("PLSR 2")
         x_ax.set_title(f"{name}: X-loadings")
+
 
 
 

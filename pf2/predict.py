@@ -35,7 +35,7 @@ def run_plsr(
     data[:] = scale(data)
     plsr = PLSRegression(
         n_components=n_components,
-        scale=False,
+        scale=True,
         max_iter=int(1E15)
     )
     rfe_cv = RFECV(plsr, step=1, cv=SKF, min_features_to_select=n_components)
