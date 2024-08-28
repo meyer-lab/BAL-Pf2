@@ -56,6 +56,7 @@ def makeFigure():
     meta = meta.loc[patient_factor.index, :]
 
 
+
     accuracies = pd.DataFrame(
         columns=["Overall", "C19", "nC19"]
     )
