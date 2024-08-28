@@ -33,6 +33,8 @@ from sklearn.metrics import accuracy_score, roc_auc_score, roc_curve
 
 from pf2.data_import import convert_to_patients, import_meta
 from pf2.figures.common import getSetup
+
+from sklearn.model_selection import GridSearchCV
 # from pf2.predict import predict_mortality, run_plsr
 
 SKF = StratifiedKFold(n_splits=10)
@@ -126,10 +128,12 @@ def run_plsr(
         
     
     from sklearn import svm
-    plsr = svm.SVC(kernel = "linear")
-
-        
-        
+    
+    from sklearn.model_selection import GridSearchCV
+    svc = svm.SVC(kernel = "linear")
+    param_grid = {"C": [.1, 1, 10, 100, 1000],
+                    "gamma": [1, .1, .01, .001, .0001]}
+    plsr = GridSearchCV(svc, param_grid, refit=True)
 
     probabilities = pd.Series(0, dtype=float, index=data.index)
     for train_index, test_index in SKF.split(data, labels):

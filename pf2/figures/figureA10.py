@@ -130,8 +130,16 @@ def run_plsr(
     
         
     
+    # from sklearn import svm
+    # plsr = svm.SVC(kernel = "linear")
+    
     from sklearn import svm
-    plsr = svm.SVC(kernel = "linear")
+    
+    from sklearn.model_selection import GridSearchCV
+    svc = svm.SVC(kernel = "linear")
+    param_grid = {"C": [.1, 1, 10, 100, 1000],
+                    "gamma": [1, .1, .01, .001, .0001]}
+    plsr = GridSearchCV(svc, param_grid, refit=True)
 
         
         
@@ -145,7 +153,7 @@ def run_plsr(
         probabilities.iloc[test_index] = plsr.predict(test_group_data)
 
     plsr.fit(data, labels)
-    coef =  plsr.coef_.squeeze()
+    coef =  plsr.best_estimator_.coef_.squeeze()
     
     if proba:
         return probabilities, plsr, coef
