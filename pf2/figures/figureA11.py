@@ -33,9 +33,13 @@ def makeFigure():
     
     df = add_label(X, "KIF20A", ax[0], cmp1, cmp2)
     
+  
+    
+    # X[(X.obs[f"Cell Type"] == True) or (X.obs[f"Cmp{cmp2}"] == True)]
+    
     X.obs["Label"] = df["Cell Type"].astype(str) + df["Label"].astype(str)
-
-    sc.tl.rank_genes_groups(X, "Label", method="wilcoxon")
+    print(X.obs["Label"])
+    sc.tl.rank_genes_groups(X, "Label", method="wilcoxon", groups=["MacrophagesCmp3", "MacrophagesCmp26"], reference="MacrophagesNoLabel")
     sc.pl.rank_genes_groups(X, n_genes=30, save="Cmp_3_26.png")
 
     return f
