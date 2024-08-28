@@ -61,6 +61,8 @@ def makeFigure():
         columns=["Overall", "C19", "nC19"]
     )
 
+
+
     probabilities, labels = predict_mortality(
         patient_factor,
         meta,

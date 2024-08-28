@@ -32,6 +32,8 @@ def makeFigure():
     return f
 
 
+
+
 def calculateFMS(A: anndata.AnnData, B: anndata.AnnData):
     """Calculates FMS between 2 factors"""
     factors = [A.uns["Pf2_A"], A.uns["Pf2_B"], A.varm["Pf2_C"]]
