@@ -22,11 +22,18 @@ def makeFigure():
 
     # X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     X = import_data()
-    percentList = np.arange(0.0, 10, 0.5)
-    plot_fms_percent_drop(X, ax[0], percentList=percentList, runs=3)
+    # percentList = np.arange(0.0, 10, 0.5)
+    # plot_fms_percent_drop(sc.pp.subsample(
+    #             X, fraction=.1, copy=True
+    #         ), ax[0], percentList=percentList, runs=3)
 
-    ranks = list([1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70])
-    plot_fms_diff_ranks(X, ax[1], ranksList=ranks, runs=3)
+    print(X)
+    ranks = list([5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70])
+    XX = sc.pp.subsample(
+                X, fraction=.02, copy=True, random_state=1
+            )
+    print(XX)
+    plot_fms_diff_ranks(XX, ax[1], ranksList=ranks, runs=3)
 
 
     return f
@@ -123,9 +130,9 @@ def plot_fms_diff_ranks(
     for j in range(0, runs, 1):
         scores = []
         for i in ranksList:
-            dataX = pf2(X, rank=i, random_state=j, do_embedding=False)
+            dataX, _  = pf2(X, rank=i, random_state=j, do_embedding=False)
 
-            sampledX = pf2(resample(X), rank=i, random_state=j, do_embedding=False)
+            sampledX, _ = pf2(resample(X), rank=i, random_state=j, do_embedding=False)
 
             fmsScore = calculateFMS(dataX, sampledX)
             scores.append(fmsScore)
