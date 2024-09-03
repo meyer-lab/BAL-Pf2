@@ -37,8 +37,15 @@ def makeFigure():
     X.obs["Label"] = df["Cell Type"].astype(str) + df["Label"].astype(str)
     
     print(X)
-    # sc.tl.rank_genes_groups(X, "Label", method="wilcoxon", groups=["MacrophagesCmp3", "MacrophagesCmp26"], reference="MacrophagesNoLabel")
-    # sc.pl.rank_genes_groups(X, n_genes=30, save="Cmp_3_26.png")
+    
+    XX = X[(X.obs["Label"] == "MacrophagesCmp3") & (X.obs["Label"] == "MacrophagesCmp26") & (X.obs["Label"] == "MacrophagesNoLabel")]
+    
+    sc.tl.rank_genes_groups(X, "Label", method="wilcoxon", groups="MacrophagesCmp3", reference="MacrophagesCmp26")
+    sc.pl.rank_genes_groups(X, n_genes=30, save="Cmp_3_26_wilcoxon.png")
+    
+    
+    # sc.tl.rank_genes_groups(X, "Label", method="'t-test", groups=["MacrophagesCmp3", "MacrophagesCmp26"], reference="MacrophagesNoLabel")
+    # sc.pl.rank_genes_groups(X, n_genes=30, save="Cmp_3_26_test.png")
 
     return f
 

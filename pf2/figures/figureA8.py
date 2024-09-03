@@ -46,8 +46,8 @@ def makeFigure():
 
     # for i in range(6):
     # for i in range(1):
-    cmp1 = pc_abs_df.iloc[-(3+1), 0]
-    cmp2 = pc_abs_df.iloc[-(3+1), 1]
+    cmp1 = pc_abs_df.iloc[-(3+2), 0]
+    cmp2 = pc_abs_df.iloc[-(3+2), 1]
     plot_pair_gene_factors(X, cmp1, cmp2, ax[(3*3)])
     plot_pair_cond_factors(cond_fact_meta_df, cmp1, cmp2, ax[(3*3)+1], "Status")
     # plot_pair_wp(X, cmp1, cmp2, ax[(3*3)+2], frac=.001)

@@ -14,18 +14,18 @@ def makeFigure():
 
     X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
     
-    cmp1 = 3
-    cmp2 = 26
+    cmp1 = 1
+    cmp2 = 13
     threshold = .5
-    X = add_cmp_both_label(X, cmp1, cmp2, pos1=True, pos2=True, top_perc=threshold)
+    X = add_cmp_both_label(X, cmp1, cmp2, pos1=False, pos2=False, top_perc=threshold)
     
     
 
-    X_cmp1 = X[(X.obs[f"Cmp{cmp1}"] == True)]
-    X_cmp2 = X[(X.obs[f"Cmp{cmp2}"] == True)]
+    # X_cmp1 = X[(X.obs[f"Cmp{cmp1}"] == True)]
+    # X_cmp2 = X[(X.obs[f"Cmp{cmp2}"] == True)]
     # for i in range(1, 51):
-    plot_wp_pacmap(X_cmp1, cmp1, ax[0], cbarMax=0.3)
-    plot_wp_pacmap(X_cmp2, cmp2, ax[1], cbarMax=0.3)
+    plot_wp_pacmap(X, cmp1, ax[0], cbarMax=0.3)
+    plot_wp_pacmap(X, cmp2, ax[1], cbarMax=0.3)
         # plot_wp_per_celltype(X, i, ax[i-1])
 
     return f

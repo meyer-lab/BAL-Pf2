@@ -25,8 +25,8 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
     
-    cmp1 = 3
-    cmp2 = 26
+    cmp1 = 1
+    cmp2 = 13
     threshold = .5
     X = add_cmp_both_label(X, cmp1, cmp2, pos1=False, pos2=False, top_perc=threshold)
 
@@ -35,7 +35,7 @@ def makeFigure():
     
     # genes = np.concatenate([genes1, genes2])
     
-    genes = ["KIF20A", "NEK2", "FAM111B", "RAD54L"]
+    genes = ["PADI4", "EDN1", "CRYAB", "C11orf96"]
     for i, gene in enumerate(genes):
         plot_avegene_per_cmp(X, gene, ax[i], cmp1, cmp2, both_cmp = False, cell_type=True)
         rotate_xaxis(ax[i])

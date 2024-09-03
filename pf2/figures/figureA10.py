@@ -28,9 +28,9 @@ def makeFigure():
     #         ), ax[0], percentList=percentList, runs=3)
 
     print(X)
-    ranks = list([5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70])
+    ranks = list([10, 20, 30, 40, 50, 60, 70])
     XX = sc.pp.subsample(
-                X, fraction=.02, copy=True, random_state=1
+                X, fraction=.1, copy=True, random_state=1
             )
     print(XX)
     plot_fms_diff_ranks(XX, ax[1], ranksList=ranks, runs=3)
@@ -85,6 +85,7 @@ def plot_fms_percent_drop(
 
             fmsScore = calculateFMS(dataX, sampledX)
             scores.append(fmsScore)
+            print(i)
 
         fmsLists.append(scores)
 
