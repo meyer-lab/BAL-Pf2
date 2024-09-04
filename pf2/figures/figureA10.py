@@ -67,6 +67,10 @@ def makeFigure():
             
             accuracy_plsr(patient_factor, meta, ax[ax_numb], ax[ax_numb+1], type_of_meta=i, type_of_data=j, threshold=1)
             ax_numb +=2
+            ax[ax_numb]
+            
+        #     break
+        # break
             # accuracies_df = accuracies_df.melt(value_vars=["Overall", "C19", "nC19"],var_name="Status", value_name="Accuracy")
             # if j == "Factors":
             #     ax[ax_numb].set(title=j+" S:"+str(samples)+" Var:" + str(var))
@@ -124,8 +128,8 @@ def accuracy_plsr(patient_factor, meta, ax1, ax2, type_of_meta="Float", type_of_
     
     for i in range(2):
         ax[i].scatter(
-            both_plsr[i].y_loadings_[0, 0],
-            both_plsr[i].y_loadings_[0, 1],
+            np.abs(both_plsr[i].y_loadings_[0, 0]),
+            np.abs(both_plsr[i].y_loadings_[0, 1]),
             c="tab:red"
         )
         ax[i].scatter(
