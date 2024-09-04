@@ -38,10 +38,12 @@ from ..data_import import condition_factors_meta
 
 SKF = StratifiedKFold(n_splits=10)
 
+
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((10, 3), (1, 1))
+    ax, f = getSetup((50, 50), (4, 4))
     subplotLabel(ax)
+    
     
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
 
@@ -59,30 +61,32 @@ def makeFigure():
     type_of_data = ["Combine", "Meta", "Factors"]
     
     total_df = pd.DataFrame([])
+    ax_numb = 0 
     for j in type_of_data:
         for i in type_of_meta:
-            accuracies_df, samples, var = accuracy_plsr(patient_factor, meta, type_of_meta=i, type_of_data=j, threshold=1)
-            accuracies_df = accuracies_df.melt(value_vars=["Overall", "C19", "nC19"],var_name="Status", value_name="Accuracy")
-            if j == "Factors":
-                accuracies_df["DataType"] = j+" S:"+str(samples)+" Var:" + str(var)
-            else:
-                accuracies_df["DataType"] = j+i+" S:"+str(samples)+" Var:" + str(var)
+            
+            accuracy_plsr(patient_factor, meta, ax[ax_numb], ax[ax_numb+1], type_of_meta=i, type_of_data=j, threshold=1)
+            ax_numb +=2
+            # accuracies_df = accuracies_df.melt(value_vars=["Overall", "C19", "nC19"],var_name="Status", value_name="Accuracy")
+            # if j == "Factors":
+            #     ax[ax_numb].set(title=j+" S:"+str(samples)+" Var:" + str(var))
+            # else:
+                # accuracies_df["DataType"] = j+i+" S:"+str(samples)+" Var:" + str(var)
                 
-            total_df = pd.concat([total_df, accuracies_df])
+            # total_df = pd.concat([total_df, accuracies_df])
             if j == "Factors":
                 break
             
             
-            
-    print(total_df)
-    sns.barplot(total_df, x="DataType", y="Accuracy", hue="Status")
+    
+    # sns.barplot(total_df, x="DataType", y="Accuracy", hue="Status")
 
     return f
 
     
 
 
-def accuracy_plsr(patient_factor, meta, type_of_meta="Float", type_of_data="Combine", threshold=.9):
+def accuracy_plsr(patient_factor, meta, ax1, ax2, type_of_meta="Float", type_of_data="Combine", threshold=.9):
     """Run PLSR depending on the type of data"""
 
     patient_factor = pd.concat([patient_factor, meta], axis=1)
@@ -109,38 +113,37 @@ def accuracy_plsr(patient_factor, meta, type_of_meta="Float", type_of_data="Comb
         combined_factors = combined_factors.iloc[:, :50]
 
         
-
-    accuracies = pd.DataFrame(
-        columns=["Overall", "C19", "nC19"]
-    )
-
-
-    probabilities, labels = predict_mortality(
+    
+    accuracies, (covid_plsr, nc_plsr) = predict_mortality(
         combined_factors,
         meta,
-        proba=True
     )
-    probabilities = probabilities.round().astype(int)
-    _meta = meta.loc[~meta.index.duplicated()].loc[labels.index]
-
-    covid_acc = accuracy_score(
-        labels.loc[_meta.loc[:, "patient_category"] == "COVID-19"],
-        probabilities.loc[_meta.loc[:, "patient_category"] == "COVID-19"]
-    )
-    nc_acc = accuracy_score(
-        labels.loc[_meta.loc[:, "patient_category"] != "COVID-19"],
-        probabilities.loc[_meta.loc[:, "patient_category"] != "COVID-19"]
-    )
-    acc = accuracy_score(labels, probabilities)
-
-    accuracies.loc[
-        0,
-        :
-        ] = [acc, covid_acc, nc_acc]
-        
-        
-    return accuracies, combined_factors.shape[0], combined_factors.shape[1]
-
+    both_plsr = [covid_plsr, nc_plsr]
+    ax = [ax1, ax2]
+    
+    
+    for i in range(2):
+        ax[i].scatter(
+            both_plsr[i].y_loadings_[0, 0],
+            both_plsr[i].y_loadings_[0, 1],
+            c="tab:red"
+        )
+        ax[i].scatter(
+                both_plsr[i].x_loadings_[:, 0],
+                both_plsr[i].x_loadings_[:, 1],
+                facecolors="white",
+                edgecolors="k"
+            )
+        for index, component in enumerate(both_plsr[i].coef_.index):
+                ax[i].text(
+                    both_plsr[i].x_loadings_[index, 0],
+                    both_plsr[i].x_loadings_[index, 1] - 0.001,
+                    ha="center",
+                    ma="center",
+                    va="center",
+                    s=component
+            )
+    
 
 def run_plsr(
     data: pd.DataFrame,
@@ -178,6 +181,11 @@ def run_plsr(
         probabilities.iloc[test_index] = plsr.predict(test_group_data)
 
     plsr.fit(data, labels)
+    
+    plsr.coef_ = pd.Series(
+        plsr.coef_.squeeze(),
+        index=data.columns
+    )
     
     if proba:
         return probabilities, plsr
@@ -244,6 +252,8 @@ def predict_mortality(
         run_plsr(
             nc_data, nc_labels, proba=proba, n_components=n_components
         )
+        
+        
 
     if proba:
         return predictions, labels

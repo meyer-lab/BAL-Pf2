@@ -47,6 +47,9 @@ def run_plsr(
         train_group_data = data.iloc[train_index, :]
         train_labels = labels.iloc[train_index]
         test_group_data = data.iloc[test_index]
+
+        train_group_data[:] = scale(train_group_data)
+        test_group_data[:] = scale(test_group_data)
         plsr.fit(train_group_data, train_labels)
         probabilities.iloc[test_index] = plsr.predict(test_group_data)
 
