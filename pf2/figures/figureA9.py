@@ -61,7 +61,7 @@ def makeFigure():
     total_df = pd.DataFrame([])
     for j in type_of_data:
         for i in type_of_meta:
-            accuracies_df, samples, var = accuracy_plsr(patient_factor, meta, type_of_meta=i, type_of_data=j, threshold=1)
+            accuracies_df, samples, var = accuracy_plsr(patient_factor, meta, type_of_meta=i, type_of_data=j, threshold=.9)
             accuracies_df = accuracies_df.melt(value_vars=["Overall", "C19", "nC19"],var_name="Status", value_name="Accuracy")
             if j == "Factors":
                 accuracies_df["DataType"] = j+" S:"+str(samples)+" Var:" + str(var)
@@ -166,7 +166,7 @@ def run_plsr(
 
     plsr = PLSRegression(
         n_components=n_components,
-        scale=False,
+        scale=True,
         max_iter=int(1E5))
     
     probabilities = pd.Series(0, dtype=float, index=data.index)

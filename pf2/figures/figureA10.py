@@ -173,7 +173,7 @@ def run_plsr(
 
     plsr = PLSRegression(
         n_components=n_components,
-        scale=False,
+        scale=True,
         max_iter=int(1E5))
     
     probabilities = pd.Series(0, dtype=float, index=data.index)
