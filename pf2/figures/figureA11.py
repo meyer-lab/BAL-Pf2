@@ -35,17 +35,30 @@ def makeFigure():
     df = add_label(X, "KIF20A", ax[0], cmp1, cmp2)
     
     X.obs["Label"] = df["Cell Type"].astype(str) + df["Label"].astype(str)
+    print(np.unique(X.obs["Label"]))
+ 
+    XX = X[(X.obs["Label"] == "MacrophagesCmp3")]
+    XXXX = X[(X.obs["Label"] == "MacrophagesCmp26")]
+    XXX = X[(X.obs["Label"] == "MacrophagesNoLabel")]
+    newX = sc.pp.subsample(XXX, fraction=.1, copy=True) 
     
-    print(X)
+    print(np.unique(XX.obs["Label"]))
+    print(np.unique(newX.obs["Label"]))
+ 
+    finalX = anndata.concat([newX, XX, XXXX])
+
     
-    XX = X[(X.obs["Label"] == "MacrophagesCmp3") & (X.obs["Label"] == "MacrophagesCmp26") & (X.obs["Label"] == "MacrophagesNoLabel")]
-    
-    sc.tl.rank_genes_groups(X, "Label", method="wilcoxon", groups="MacrophagesCmp3", reference="MacrophagesCmp26")
-    sc.pl.rank_genes_groups(X, n_genes=30, save="Cmp_3_26_wilcoxon.png")
+    print(np.unique(finalX.obs["Label"]))
     
     
-    # sc.tl.rank_genes_groups(X, "Label", method="'t-test", groups=["MacrophagesCmp3", "MacrophagesCmp26"], reference="MacrophagesNoLabel")
-    # sc.pl.rank_genes_groups(X, n_genes=30, save="Cmp_3_26_test.png")
+    
+    # print(X)
+    # sc.tl.rank_genes_groups(X, "Label", method="wilcoxon", groups="MacrophagesCmp3", reference="MacrophagesCmp26")
+    # sc.pl.rank_genes_groups(X, n_genes=30, save="Cmp_3_26_wilcoxon.png")
+    
+    
+    sc.tl.rank_genes_groups(finalX, "Label", method="wilcoxon", groups=["MacrophagesCmp3", "MacrophagesCmp26"], reference="MacrophagesNoLabel")
+    sc.pl.rank_genes_groups(finalX, n_genes=30, save="Cmp_3_26_test.png")
 
     return f
 
