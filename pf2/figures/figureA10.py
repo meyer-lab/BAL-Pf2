@@ -92,7 +92,6 @@ def plot_plsr_scores(plsr_results, meta_data, labels, ax1, ax2):
     ax = [ax1, ax2]
     type_of_data = ["C19", "nC19"]
     
-    
     meta_data = meta_data.loc[
         meta_data.loc[:, "patient_category"] != "Non-Pneumonia Control",
         :
@@ -107,7 +106,7 @@ def plot_plsr_scores(plsr_results, meta_data, labels, ax1, ax2):
         sns.scatterplot(
                 x=plsr_results[i].x_scores_[:, 0],
                 y=plsr_results[i].x_scores_[:, 1],
-                hue=score_labels,
+                hue=score_labels.to_numpy(),
                 ax=ax[i]
             )
     
