@@ -14,7 +14,7 @@ from sklearn.metrics import RocCurveDisplay
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((8, 8), (2, 2))
+    ax, f = getSetup((6, 6), (2, 2))
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
@@ -31,14 +31,14 @@ def makeFigure():
 
     labels, plsr_results_both = plsr_acc(patient_factor, meta)
 
-    plot_plsr_loadings(plsr_results_both, ax[0], ax[1], text=False)
-    ax[0].set(xlim=[-.4, .4], ylim=[-.4, .4])
-    ax[1].set(xlim=[-.4, .4], ylim=[-.4, .4])
+    # plot_plsr_loadings(plsr_results_both, ax[0], ax[1], text=False)
+    # ax[0].set(xlim=[-.4, .4], ylim=[-.4, .4])
+    # ax[1].set(xlim=[-.4, .4], ylim=[-.4, .4])
     
-    # plot_plsr_loadings(plsr_results_both, ax[2], ax[3], text=True)
-    plot_plsr_scores(plsr_results_both, meta, labels, ax[2], ax[3])
-    ax[2].set(xlim=[-9, 9], ylim=[-9, 9])
-    ax[3].set(xlim=[-8, 8], ylim=[-8, 8])
+    plot_plsr_loadings(plsr_results_both, ax[2], ax[3], text=True)
+    # plot_plsr_scores(plsr_results_both, meta, labels, ax[2], ax[3])
+    # ax[2].set(xlim=[-9, 9], ylim=[-9, 9])
+    # ax[3].set(xlim=[-8, 8], ylim=[-8, 8])
     
     return f
     
