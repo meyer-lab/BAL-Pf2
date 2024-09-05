@@ -47,12 +47,14 @@ def run_plsr(
         plsr.coef_.squeeze(),
         index=data.columns
     )
-
+    
     if proba:
         return probabilities, plsr
+
     else:
         predicted = probabilities.round().astype(int)
         return predicted, plsr
+    
 
 
 def predict_mortality(
@@ -101,7 +103,7 @@ def predict_mortality(
         meta.loc[:, "patient_category"] != "COVID-19",
         "binary_outcome"
     ]
-
+    
     predictions = pd.Series(index=data.index)
     predictions.loc[meta.loc[:, "patient_category"] == "COVID-19"], c_plsr = \
         run_plsr(
@@ -114,6 +116,7 @@ def predict_mortality(
 
     if proba:
         return predictions, labels
+    
     else:
         predicted = predictions.round().astype(int)
         return accuracy_score(labels, predicted), (c_plsr, nc_plsr)
