@@ -25,7 +25,7 @@ def makeFigure():
         columns=[f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)],
     )
     
-    pc_df = partial_correlation_matrix(condition_factors_df, f)
+    pc_df = partial_correlation_matrix(condition_factors_df)
 
     f = plot_partial_correlation_matrix(pc_df, f)
     

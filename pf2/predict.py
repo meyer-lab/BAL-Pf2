@@ -1,11 +1,7 @@
-from typing import Tuple
-
 import pandas as pd
 from sklearn.cross_decomposition import PLSRegression
-from sklearn.feature_selection import RFECV
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import StratifiedKFold
-from sklearn.preprocessing import scale
 
 SKF = StratifiedKFold(n_splits=10)
 
@@ -32,15 +28,11 @@ def run_plsr(
     if not isinstance(data, pd.DataFrame):
         data = pd.DataFrame(data)
 
-    data[:] = scale(data)
     plsr = PLSRegression(
         n_components=n_components,
-        scale=False,
+        scale=True,
         max_iter=int(1E5)
     )
-    rfe_cv = RFECV(plsr, step=1, cv=SKF, min_features_to_select=n_components)
-    rfe_cv.fit(data, labels)
-    data = data.loc[:, rfe_cv.support_]
 
     probabilities = pd.Series(0, dtype=float, index=data.index)
     for train_index, test_index in SKF.split(data, labels):
