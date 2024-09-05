@@ -29,7 +29,7 @@ def makeFigure():
     )
     meta = meta.loc[patient_factor.index, :]
 
-    plsr_acc_df = plsr_acc(patient_factor, meta)
+    plsr_acc_df = plsr_acc_proba(patient_factor, meta)
 
     sns.barplot(data=plsr_acc_df, ax=ax[0])
     ax[0].set(ylim=[0, 1], ylabel="Accuracy")
@@ -39,7 +39,7 @@ def makeFigure():
     return f
     
     
-def plsr_acc(patient_factor_matrix, meta_data):
+def plsr_acc_proba(patient_factor_matrix, meta_data):
     """Runs PLSR and obtains average prediction accuracy"""
     
     acc_df = pd.DataFrame(columns=["Overall", "C19", "nC19"])
@@ -83,26 +83,13 @@ def plot_plsr_auc_roc(patient_factor_matrix, meta_data, ax):
     probabilities = probabilities.round().astype(int)
     meta_data = meta_data.loc[~meta_data.index.duplicated()].loc[labels.index]
 
-    # covid_acc = accuracy_score(
-    #     labels.loc[meta_data.loc[:, "patient_category"] == "COVID-19"],
-    #     probabilities.loc[meta_data.loc[:, "patient_category"] == "COVID-19"]
-    # )
-    # nc_acc = accuracy_score(
-    #     labels.loc[meta_data.loc[:, "patient_category"] != "COVID-19"],
-    #     probabilities.loc[meta_data.loc[:, "patient_category"] != "COVID-19"]
-    # )
-    # acc = 
-    # # c19, nc19 = predict_mortality(
-    # #     patient_factor_matrix,
-    # #     meta_data,
-    # #     auc_roc=True
-    # # )
-    # print(c19[0])
-    # print(c19[1])
     RocCurveDisplay.from_predictions(labels.loc[meta_data.loc[:, "patient_category"] == "COVID-19"], 
                                      probabilities.loc[meta_data.loc[:, "patient_category"] == "COVID-19"],
                                      ax=ax, name="C19")
     RocCurveDisplay.from_predictions(labels.loc[meta_data.loc[:, "patient_category"] != "COVID-19"],
                                      probabilities.loc[meta_data.loc[:, "patient_category"] != "COVID-19"], 
                                      ax=ax, name="nC19")
+    RocCurveDisplay.from_predictions(labels,
+                                     probabilities, plot_chance_level=True,
+                                     ax=ax, name="Overall")
 
