@@ -10,6 +10,8 @@ import anndata
 from .common import subplotLabel, getSetup
 from ..tensor import correct_conditions
 from .figureA4 import partial_correlation_matrix
+from ..data_import import condition_factors_meta
+from ..figures.commonFuncs.plotGeneral import bal_combine_bo_covid
 
 
 def makeFigure():
@@ -23,13 +25,13 @@ def makeFigure():
     X.uns["Pf2_A"] += np.median(X.uns["Pf2_A"], axis=0)
     X.uns["Pf2_A"] = np.log(X.uns["Pf2_A"])
 
-    condition_factors_df = pd.DataFrame(
-        data=X.uns["Pf2_A"],
-        columns=[f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)],
-    )
-    
-    pc_df = partial_correlation_matrix(condition_factors_df)
-    pc_df = remove_low_pc_cmp(pc_df, abs_threshold=0.2)
+    cmp_columns = [f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)]
+
+    cond_fact_meta_df = condition_factors_meta(X)
+    cond_fact_meta_df = bal_combine_bo_covid(cond_fact_meta_df)
+
+    pc_df = partial_correlation_matrix(cond_fact_meta_df[cmp_columns])
+    pc_df = remove_low_pc_cmp(pc_df, abs_threshold=0.4)
 
     pc_df["Var1"] = pc_df["Var1"].map(lambda x: x.lstrip("Cmp. ")).astype(int)
     pc_df["Var2"] = pc_df["Var2"].map(lambda x: x.lstrip("Cmp. ")).astype(int)
@@ -42,7 +44,7 @@ def makeFigure():
         cmp1 = pc_abs_df.iloc[-(i+1), 0]
         cmp2 = pc_abs_df.iloc[-(i+1), 1]
         plot_pair_gene_factors(X, cmp1, cmp2, ax[(3*i)])
-        plot_pair_cond_factors(X, cmp1, cmp2, ax[(3*i)+1])
+        plot_pair_cond_factors(cond_fact_meta_df, cmp1, cmp2, ax[(3*i)+1], label="Status")
         plot_pair_wp(X, cmp1, cmp2, ax[(3*i)+2], frac=.001)
 
 
@@ -57,20 +59,14 @@ def plot_pair_gene_factors(X: anndata.AnnData, cmp1: int, cmp2: int, ax: Axes):
     df = pd.DataFrame(
         data=cmpWeights.transpose(), columns=[f"Cmp. {cmp1}", f"Cmp. {cmp2}"]
     )
-    sns.scatterplot(data=df, x=f"Cmp. {cmp1}", y=f"Cmp. {cmp2}", ax=ax)
+    sns.scatterplot(data=df, x=f"Cmp. {cmp1}", y=f"Cmp. {cmp2}", ax=ax, color="k")
     ax.set(title="Gene Factors")
     
     
 
-def plot_pair_cond_factors(X: anndata.AnnData, cmp1: int, cmp2: int, ax: Axes):
+def plot_pair_cond_factors(df: pd.DataFrame, cmp1: int, cmp2: int, ax: Axes, label: str):
     """Plots two condition components weights"""
-    cmpWeights = np.concatenate(
-        ([X.uns["Pf2_A"][:, cmp1 - 1]], [X.uns["Pf2_A"][:, cmp2 - 1]])
-    )
-    df = pd.DataFrame(
-        data=cmpWeights.transpose(), columns=[f"Cmp. {cmp1}", f"Cmp. {cmp2}"]
-    )
-    sns.scatterplot(data=df, x=f"Cmp. {cmp1}", y=f"Cmp. {cmp2}", ax=ax)
+    sns.scatterplot(data=df, x=f"Cmp. {cmp1}", y=f"Cmp. {cmp2}", hue=label, ax=ax)
     ax.set(title="Condition Factors")
     
     
@@ -84,7 +80,7 @@ def plot_pair_wp(X: anndata.AnnData, cmp1: int, cmp2: int, ax: Axes, frac: float
     )
     df = df.sample(frac=frac)
     
-    sns.scatterplot(data=df, x=f"Cmp. {cmp1}", y=f"Cmp. {cmp2}", ax=ax)
+    sns.scatterplot(data=df, x=f"Cmp. {cmp1}", y=f"Cmp. {cmp2}", ax=ax, color="k")
     ax.set(title=f"WP {frac*100}% of Cells")
     
 
