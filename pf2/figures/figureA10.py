@@ -29,13 +29,16 @@ def makeFigure():
     )
     meta = meta.loc[patient_factor.index, :]
 
-    plsr_results_both = plsr_acc(patient_factor, meta)
+    labels, plsr_results_both = plsr_acc(patient_factor, meta)
 
     plot_plsr_loadings(plsr_results_both, ax[0], ax[1], text=False)
     ax[0].set(xlim=[-.4, .4], ylim=[-.4, .4])
     ax[1].set(xlim=[-.4, .4], ylim=[-.4, .4])
     
     # plot_plsr_loadings(plsr_results_both, ax[2], ax[3], text=True)
+    plot_plsr_scores(plsr_results_both, meta, labels, ax[2], ax[3])
+    ax[2].set(xlim=[-9, 9], ylim=[-9, 9])
+    ax[3].set(xlim=[-8, 8], ylim=[-8, 8])
     
     return f
     
@@ -43,21 +46,19 @@ def makeFigure():
 def plsr_acc(patient_factor_matrix, meta_data):
     """Runs PLSR and obtains average prediction accuracy"""
 
-    acc, [c19_plsr, nc19_plsr] = predict_mortality(
+    labels, [c19_plsr, nc19_plsr] = predict_mortality(
         patient_factor_matrix,
         meta_data,
+        proba=False
     )
     
-    return [c19_plsr, nc19_plsr]
+    return labels, [c19_plsr, nc19_plsr]
 
 
 def plot_plsr_loadings(plsr_results, ax1, ax2, text=False):
     """Runs PLSR and plots ROC AUC based on actual and prediction labels"""
-    
-
     ax = [ax1, ax2]
     type_of_data = ["C19", "nC19"]
-
 
     for i in range(2):
         ax[i].scatter(
@@ -83,11 +84,33 @@ def plot_plsr_loadings(plsr_results, ax1, ax2, text=False):
                 )
     
         ax[i].set(xlabel="PLSR 1", ylabel="PLSR 2", title = f"{type_of_data[i]}-loadings")
-
-
+        
+        
+        
+def plot_plsr_scores(plsr_results, meta_data, labels, ax1, ax2):
+    """Runs PLSR and plots ROC AUC based on actual and prediction labels"""
+    ax = [ax1, ax2]
+    type_of_data = ["C19", "nC19"]
     
-
-
-
+    
+    meta_data = meta_data.loc[
+        meta_data.loc[:, "patient_category"] != "Non-Pneumonia Control",
+        :
+    ]
+    
+    for i in range(2):
+        if i == 0: 
+            score_labels = labels.loc[meta_data.loc[:, "patient_category"] == "COVID-19"]
+        else: 
+            score_labels = labels.loc[meta_data.loc[:, "patient_category"] != "COVID-19"]
+            
+        sns.scatterplot(
+                x=plsr_results[i].x_scores_[:, 0],
+                y=plsr_results[i].x_scores_[:, 1],
+                hue=score_labels,
+                ax=ax[i]
+            )
+    
+        ax[i].set(xlabel="PLSR 1", ylabel="PLSR 2", title = f"{type_of_data[i]}-loadings")
 
 
