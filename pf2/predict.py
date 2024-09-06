@@ -61,6 +61,7 @@ def predict_mortality(
     data: pd.DataFrame,
     meta: pd.DataFrame,
     proba: bool = False,
+    overall: bool = False,
     n_components = 2
 ):
     """
@@ -105,6 +106,7 @@ def predict_mortality(
     ]
     
     predictions = pd.Series(index=data.index)
+    predictions_overall = pd.Series(index=data.index)
     predictions.loc[meta.loc[:, "patient_category"] == "COVID-19"], c_plsr = \
         run_plsr(
             covid_data, covid_labels, proba=proba, n_components=n_components
@@ -113,10 +115,16 @@ def predict_mortality(
         run_plsr(
             nc_data, nc_labels, proba=proba, n_components=n_components
         )
+        
+    predictions_overall.iloc[:], overall_plsr = \
+        run_plsr(
+            data, labels, proba=proba, n_components=n_components
+        )
 
-    if proba:
-        return predictions, labels
-    
+    if overall: 
+        return labels, overall_plsr
+    elif proba:
+        return predictions, labels 
     else:
         predicted = predictions.round().astype(int)
         return labels, (c_plsr, nc_plsr)
