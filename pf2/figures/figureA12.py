@@ -5,17 +5,19 @@ Figure 12:
 import seaborn as sns
 import pandas as pd
 import anndata
+import numpy as np
 from .common import subplotLabel, getSetup
 from ..figures.commonFuncs.plotGeneral import rotate_xaxis
 from .figureA6 import cell_count_perc_df
 from .figureA11 import add_cmp_both_label
 from ..data_import import add_obs, combine_cell_types
+from ..figures.commonFuncs.plotPaCMAP import plot_gene_pacmap
+from .commonFuncs.plotFactors import bot_top_genes
 
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    # ax, f = getSetup((8, 12), (7, 4))
-    ax, f = getSetup((6, 4), (1, 2))
+    ax, f = getSetup((12, 12), (4, 4))
     
     subplotLabel(ax)
     
@@ -27,42 +29,55 @@ def makeFigure():
     cmp1 = 9
     cmp2 = 32
     threshold = .5
-    X = add_cmp_both_label(X, cmp1, cmp2, pos1=True, pos2=True, top_perc=threshold)
+    # X = add_cmp_both_label(X, cmp1, cmp2, pos1=True, pos2=True, top_perc=threshold)
     
-    celltype_count_perc_df_1 = cell_count_perc_df(X[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs["Both"] == False)], celltype="combined_cell_type")
-    celltype_count_perc_df_1["Label"] = f"Cmp{cmp1}"
-    celltype_count_perc_df_2 = cell_count_perc_df(X[(X.obs[f"Cmp{cmp2}"] == True) & (X.obs["Both"] == False)], celltype="combined_cell_type")
-    celltype_count_perc_df_2["Label"] = f"Cmp{cmp2}"
-    celltype_count_perc_df_3 = cell_count_perc_df(X[X.obs["Both"] == True], celltype="combined_cell_type")
-    celltype_count_perc_df_3["Label"] = "Both"
-    # celltype_count_perc_df_4 = cell_count_perc_df(X[(X.obs[f"Cmp{cmp2}"] == False) & (X.obs[f"Cmp{cmp2}"] == False)], celltype="combined_cell_type")
-    # celltype_count_perc_df_4["Label"] = "NoLabel"
+    # celltype_count_perc_df_1 = cell_count_perc_df(X[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs["Both"] == False)], celltype="combined_cell_type")
+    # celltype_count_perc_df_1["Label"] = f"Cmp{cmp1}"
+    # celltype_count_perc_df_2 = cell_count_perc_df(X[(X.obs[f"Cmp{cmp2}"] == True) & (X.obs["Both"] == False)], celltype="combined_cell_type")
+    # celltype_count_perc_df_2["Label"] = f"Cmp{cmp2}"
+    # celltype_count_perc_df_3 = cell_count_perc_df(X[X.obs["Both"] == True], celltype="combined_cell_type")
+    # celltype_count_perc_df_3["Label"] = "Both"
+    # # celltype_count_perc_df_4 = cell_count_perc_df(X[(X.obs[f"Cmp{cmp2}"] == False) & (X.obs[f"Cmp{cmp2}"] == False)], celltype="combined_cell_type")
+    # # celltype_count_perc_df_4["Label"] = "NoLabel"
     
+    # # celltype_count_perc_df = pd.concat([celltype_count_perc_df_1, celltype_count_perc_df_2, 
+    # #                                     celltype_count_perc_df_3, celltype_count_perc_df_4], axis=0)
     # celltype_count_perc_df = pd.concat([celltype_count_perc_df_1, celltype_count_perc_df_2, 
-    #                                     celltype_count_perc_df_3, celltype_count_perc_df_4], axis=0)
-    celltype_count_perc_df = pd.concat([celltype_count_perc_df_1, celltype_count_perc_df_2, 
-                                        celltype_count_perc_df_3, ], axis=0)
+    #                                     celltype_count_perc_df_3, ], axis=0)
 
-    sns.boxplot(
-        data=celltype_count_perc_df,
-        x="Label",
-        y="Cell Count",
-        hue="Cell Type",
-        showfliers=False,
-        ax=ax[0],
-    )
-    rotate_xaxis(ax[0])
+    # sns.boxplot(
+    #     data=celltype_count_perc_df,
+    #     x="Label",
+    #     y="Cell Count",
+    #     hue="Cell Type",
+    #     showfliers=False,
+    #     ax=ax[0],
+    # )
+    # rotate_xaxis(ax[0])
         
+     
+     
         
-    sns.boxplot(
-        data=celltype_count_perc_df,
-        x="Label",
-        y="Cell Count",
-        hue="Status",
-        showfliers=False,
-        ax=ax[1],
-    )
-    rotate_xaxis(ax[1])
+    # sns.boxplot(
+    #     data=celltype_count_perc_df,
+    #     x="Label",
+    #     y="Cell Count",
+    #     hue="Status",
+    #     showfliers=False,
+    #     ax=ax[1],
+    # )
+    # rotate_xaxis(ax[1])
+    
+    
+    
+    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
+    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
+    genes = np.concatenate([genes1, genes2])
+    
+    for i, gene in enumerate(genes):
+        plot_gene_pacmap(gene, X, ax[i+2])
+
+
 
 
     return f

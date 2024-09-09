@@ -44,42 +44,6 @@ def ds_show(result, ax):
     ax.imshow(mpl_img)
 
 
-def plot_gene_pacmap(gene: str, decompType: str, X: anndata.AnnData, ax: Axes):
-    """Scatterplot of PaCMAP visualization weighted by gene"""
-    geneList = X[:, gene].X
-    if isinstance(geneList, spmatrix):
-        geneList = geneList.toarray()
-
-    geneList = np.clip(geneList, None, np.quantile(geneList, 0.99))
-    cmap = sns.color_palette("ch:s=-.2,r=.6", as_cmap=True)
-
-    values = geneList
-
-    points = np.array(X.obsm["X_pf2_PaCMAP"])
-
-    canvas = _get_canvas(points)
-    data = pd.DataFrame(points, columns=("x", "y"))
-
-    values -= np.min(values)
-    values /= np.max(values)
-    data["val_cat"] = values
-    result = tf.shade(
-        agg=canvas.points(data, "x", "y", agg=ds.mean("val_cat")),
-        cmap=cmap,
-        span=(0, 1),
-        how="linear",
-        min_alpha=255,
-    )
-
-    ds_show(result, ax)
-
-    psm = plt.pcolormesh([[0, 1], [0, 1]], cmap=cmap)
-    plt.colorbar(psm, ax=ax)
-
-    ax = assign_labels(ax)
-    ax.set(title=f"{gene}-{decompType}-Based Decomposition")
-
-
 def plot_wp_pacmap(X: anndata.AnnData, cmp: int, ax: Axes, cbarMax: float = 1.0):
     """Scatterplot of UMAP visualization weighted by
     projections for a component and eigenstate"""
@@ -156,6 +120,7 @@ def plot_labels_pacmap(
     ds_show(result, ax)
     ax.legend(handles=legend_elements)
     ax = assign_labels(ax)
+    
 
 def plot_pair_wp_pacmap(
     X: anndata.AnnData,
@@ -207,6 +172,39 @@ def plot_wp_per_celltype(
         xticks=np.linspace(-maxvalue, maxvalue, num=5), xlabel="WP Weight"
     )
     ax.set_title(cmpName)
+
+
+def plot_gene_pacmap(gene: str, X: anndata.AnnData, ax: Axes):
+    """Scatterplot of PaCMAP visualization weighted by gene"""
+    geneList = X[:, gene].to_df().values
+    
+    cmap = sns.color_palette("ch:s=-.2,r=.6", as_cmap=True)
+
+    values = geneList
+
+    points = np.array(X.obsm["X_pf2_PaCMAP"])
+
+    canvas = _get_canvas(points)
+    data = pd.DataFrame(points, columns=("x", "y"))
+
+    values -= np.min(values)
+    values /= np.max(values)
+    data["val_cat"] = values
+    result = tf.shade(
+        agg=canvas.points(data, "x", "y", agg=ds.mean("val_cat")),
+        cmap=cmap,
+        span=(0, 1),
+        how="linear",
+        min_alpha=255,
+    )
+
+    ds_show(result, ax)
+
+    psm = plt.pcolormesh([[0, 1], [0, 1]], cmap=cmap)
+    plt.colorbar(psm, ax=ax)
+
+    ax = assign_labels(ax)
+    ax.set(title=f"{gene}")
 
 
 def assign_labels(ax):
