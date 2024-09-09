@@ -177,7 +177,8 @@ def plot_wp_per_celltype(
 def plot_gene_pacmap(gene: str, X: anndata.AnnData, ax: Axes):
     """Scatterplot of PaCMAP visualization weighted by gene"""
     geneList = X[:, gene].to_df().values
-    
+
+    geneList = np.clip(geneList, None, np.quantile(geneList, 0.999))
     cmap = sns.color_palette("ch:s=-.2,r=.6", as_cmap=True)
 
     values = geneList
