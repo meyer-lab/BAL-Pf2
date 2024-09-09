@@ -58,7 +58,7 @@ def makeFigure():
         data=celltype_count_perc_df,
         x="Label",
         y="Cell Count",
-        hue="Statjs",
+        hue="Status",
         showfliers=False,
         ax=ax[1],
     )
