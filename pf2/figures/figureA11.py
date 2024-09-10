@@ -23,9 +23,10 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
     
-    cmp1 = 9; cmp2 = 32
+    cmp1 = 27; cmp2 = 46
+    pos1=True; pos2=True
     threshold = 0.5
-    X = add_cmp_both_label(X, cmp1, cmp2, pos1=True, pos2=True, top_perc=threshold)
+    X = add_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
 
     genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=4)
     genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=4)
