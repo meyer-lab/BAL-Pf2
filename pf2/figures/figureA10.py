@@ -1,15 +1,13 @@
 """
-Figure A8:
+Figure A10:
 """
 import numpy as np
 import pandas as pd
 import anndata 
-from sklearn.metrics import accuracy_score
 import seaborn as sns
 from ..data_import import convert_to_patients, import_meta
 from ..predict import predict_mortality
 from .common import subplotLabel, getSetup
-from sklearn.metrics import RocCurveDisplay
 
 
 def makeFigure():
