@@ -26,11 +26,11 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
     
-    cmp1 = 27; cmp2 = 46
-    pos1=True; pos2=True
+    cmp1 = 23; cmp2 = 34
+    pos1=False; pos2=True
     threshold = 0.5
     X = add_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
-    
+
     celltype_count_perc_df_1 = cell_count_perc_df(X[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs["Both"] == False)], celltype="combined_cell_type")
     celltype_count_perc_df_1["Label"] = f"Cmp{cmp1}"
     celltype_count_perc_df_2 = cell_count_perc_df(X[(X.obs[f"Cmp{cmp2}"] == True) & (X.obs["Both"] == False)], celltype="combined_cell_type")
@@ -38,6 +38,10 @@ def makeFigure():
     celltype_count_perc_df_3 = cell_count_perc_df(X[X.obs["Both"] == True], celltype="combined_cell_type")
     celltype_count_perc_df_3["Label"] = "Both"
     
+    print(celltype_count_perc_df_1)
+    print(celltype_count_perc_df_2)
+    print(celltype_count_perc_df_3)
+
     celltype_count_perc_df = pd.concat([celltype_count_perc_df_1, celltype_count_perc_df_2, 
                                         celltype_count_perc_df_3, ], axis=0)
 
@@ -60,6 +64,7 @@ def makeFigure():
     
     for i, gene in enumerate(genes):
         plot_gene_pacmap(gene, X, ax[i+2])
+
 
     return f
 

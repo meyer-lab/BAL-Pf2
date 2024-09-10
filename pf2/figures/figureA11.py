@@ -23,10 +23,15 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
     
-    cmp1 = 27; cmp2 = 46
-    pos1=True; pos2=True
+    cmp1 = 23; cmp2 = 34
+    pos1=False; pos2=True
     threshold = 0.5
     X = add_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
+    
+    print(X[X.obs[f"Cmp{cmp2}"] == True])
+    print(X[(X.obs[f"Cmp{cmp2}"] == True) & (X.obs["Both"] == False)])
+    print(X[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs["Both"] == False)])
+    
 
     genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=4)
     genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=4)
@@ -74,11 +79,12 @@ def add_cmp_both_label(X: anndata.AnnData, cmp1: int, cmp2: int, pos1=True, pos2
         idx = (wprojs[:, cmp1-1] > threshold1[cmp1-1]) & (wprojs[:, cmp2-1] > threshold2[cmp2-1])
     elif pos1 and pos2 is False:
         idx = (wprojs[:, cmp1-1] < threshold1[cmp1-1]) & (wprojs[:, cmp2-1] < threshold2[cmp2-1])
-    elif pos1 is True & pos2 is False:
+    elif pos1 is True and pos2 is False:
         idx = (wprojs[:, cmp1-1] > threshold1[cmp1-1]) & (wprojs[:, cmp2-1] < threshold2[cmp2-1])
-    elif pos1 is False & pos2 is True:
+    elif pos1 is False and pos2 is True:
         idx = (wprojs[:, cmp1-1] < threshold1[cmp1-1]) & (wprojs[:, cmp2-1] > threshold2[cmp2-1])
         
+    print(idx.sum())
     X.obs["Both"] = idx
     
     return X
@@ -115,7 +121,7 @@ def plot_avegene_cmps(
     dataDF.loc[(dataDF[f"Cmp{cmp1}"] == True) & (dataDF[f"Cmp{cmp2}"] == True), "Label"] = "Both"
     dataDF.loc[(dataDF[f"Cmp{cmp1}"] == False) & (dataDF[f"Cmp{cmp2}"] == False), "Label"] = "NoLabel"
     
-    
+
     dataDF = dataDF.dropna(subset="Label")
     dataDF = bal_combine_bo_covid(dataDF, status1, status2)
     
