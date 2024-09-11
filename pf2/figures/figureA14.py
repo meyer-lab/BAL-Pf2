@@ -23,18 +23,20 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
     
-    cmp1 = 23; cmp2 = 34
-    pos1=False; pos2=True
+    cmp1 = 9; cmp2 = 32
+    pos1=True; pos2=True
     threshold = 0.5
     X = add_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
 
-    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=4)
-    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=4)
+    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
+    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
     genes = np.concatenate([genes1, genes2])
+    print(genes)
     
-    for i, gene in enumerate(genes):
-        plot_avegene_cmps(X, gene, ax[i], cmp1, cmp2)
-        rotate_xaxis(ax[i])
+    # for i, gene in enumerate(genes):
+    plot_avegene_cmps(X, genes[[1, 3]], ax[0], cmp1, cmp2)
+    rotate_xaxis(ax[0])
+
 
 
     return f
@@ -94,6 +96,8 @@ def plot_avegene_cmps(
 ):
     """Plots average gene expression across cell types"""
     genesV = X[:, gene]
+    gene1 = gene[0]
+    gene2 = gene[1]
     dataDF = genesV.to_df()
     condition="sample_id"
     status1="binary_outcome"
@@ -119,20 +123,86 @@ def plot_avegene_cmps(
     dataDF = dataDF.dropna(subset="Label")
     dataDF = bal_combine_bo_covid(dataDF, status1, status2)
     
+    
     df = pd.melt(
         dataDF, id_vars=["Label", "Condition", "Cell Type"], value_vars=gene
     ).rename(columns={"variable": "Gene", "value": "Value"})
 
     df = df.groupby(["Label", "Gene", "Condition", "Cell Type"], observed=False).mean()
-    df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
+    df = df.reset_index()
 
-    sns.violinplot(
-        data=df.loc[df["Gene"] == gene],
-        x="Label",
-        y="Average Gene Expression",
-        hue="Cell Type",
-        ax=ax,
+
+
+    df = pd.concat([df.loc[df["Label"] == f"Cmp{cmp1}"], df.loc[df["Label"] == f"Cmp{cmp2}"]])
+    print(df)
+    df_total = df.pivot(
+        index=["Label", "Cell Type", "Condition"],
+        columns="Gene",
+        values="Value",
     )
-    ax.set(ylabel=f"Average {gene}")
+    df_mean = (
+        df_total.groupby(["Label", "Cell Type"], observed=False)
+        .mean()
+        .dropna()
+        .reset_index()
+    )
+    df_std = (
+        df_total.groupby(["Label", "Cell Type"], observed=False)
+        .std()
+        .dropna()
+        .reset_index()
+    )
 
-    return df
+    colors = sns.color_palette("hls", len(np.unique(df_mean["Cell Type"])))
+    fmt = ["o", "*"]
+
+    for i, status in enumerate(np.unique(df_mean["Label"])):
+        for j, celltype in enumerate(np.unique(df_mean["Cell Type"])):
+            df_mini_mean = df_mean.loc[
+                (df_mean["Label"] == status) & (df_mean["Cell Type"] == celltype)
+            ]
+            df_mini_std = df_std.loc[
+                (df_std["Label"] == status) & (df_std["Cell Type"] == celltype)
+            ]
+            ax.errorbar(
+                df_mini_mean[gene1],
+                df_mini_mean[gene2],
+                xerr=df_mini_std[gene1],
+                yerr=df_mini_std[gene2],
+                ls="none",
+                fmt=fmt[i],
+                label=celltype + status,
+                color=colors[j],
+            )
+
+    ax.set(xlabel=f"Average {gene1}", ylabel=f"Average {gene2}")
+    ax.legend()
+
+    
+    
+    
+    
+    # for i, status in enumerate(np.unique(df_mean["Status"])):
+    #     for j, celltype in enumerate(np.unique(df_mean["Cell Type"])):
+    #         df_mini_mean = df_mean.loc[
+    #             (df_mean["Status"] == status) & (df_mean["Cell Type"] == celltype)
+    #         ]
+    #         df_mini_std = df_std.loc[
+    #             (df_std["Status"] == status) & (df_std["Cell Type"] == celltype)
+    #         ]
+    #         ax.errorbar(
+    #             df_mini_mean[gene1],
+    #             df_mini_mean[gene2],
+    #             xerr=df_mini_std[gene1],
+    #             yerr=df_mini_std[gene2],
+    #             ls="none",
+    #             fmt=fmt[i],
+    #             label=celltype + status,
+    #             color=colors[j],
+    #         )
+
+    # ax.set(xlabel=f"Average {gene1}", ylabel=f"Average {gene2}")
+    # ax.legend()
+ 
+
+    # return df
