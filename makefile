@@ -1,19 +1,26 @@
-SHELL := /bin/bash
+.PHONY: clean test pyright
 
-.PHONY: clean test
-
-flist = $(filter-out pf2/figures/figure2.py pf2/figures/figureD1.py, $(wildcard pf2/figures/figure*.py))
+flist = $(wildcard pf2/figures/figure*.py)
 allOutput = $(patsubst pf2/figures/figure%.py, output/figure%.svg, $(flist))
 
 all: $(allOutput)
 
 output/figure%.svg: pf2/figures/figure%.py
 	@ mkdir -p ./output
-	poetry run fbuild $*
+	rye run fbuild $*
 
-mypy:
-	poetry run mypy --install-types --non-interactive --ignore-missing-imports pf2
+test: .venv
+	rye run pytest -s -v -x
 
-factor_cache/factors.h5ad:
-	@ mkdir -p ./factor_cache
-	poetry run factor
+.venv:
+	rye sync
+
+coverage.xml: .venv
+	rye run pytest --junitxml=junit.xml --cov=pf2 --cov-report xml:coverage.xml
+
+pyright: .venv
+	rye run pyright pf2
+
+clean:
+	rm -rf output profile profile.svg
+	rm -rf factor_cache
