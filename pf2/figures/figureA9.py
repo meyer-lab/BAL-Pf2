@@ -36,7 +36,9 @@ def makeFigure():
         print(df)
         total_df = pd.concat([total_df, df], axis=0)
     
-    
+    # Look into both accuracy and ROC AUC
+    predicted = [0 if prob < 0.5 else 1 for prob in probabilities]
+    accuracy = accuracy_score(labels, predicted)
     print(total_df)
     # plsr_acc_df = plsr_acc_proba(patient_factor, meta)
 
