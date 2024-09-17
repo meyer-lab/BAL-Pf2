@@ -23,9 +23,9 @@ def makeFigure():
     subplotLabel(ax)
     
     mc = []
-    pal = sns.color_palette()
+    pal = sns.color_palette("tab20")
     pal = pal.as_hex()
-    # print(pal)
+    print(pal)
     # a
     # colors = ["red", "blue", "green", "silver"]
     # for i in colors:
