@@ -50,7 +50,8 @@ def plot_wp_pacmap(X: anndata.AnnData, cmp: int, ax: Axes, cbarMax: float = 1.0)
     values = X.obsm["weighted_projections"][:, cmp - 1]
     points = X.obsm["X_pf2_PaCMAP"]
 
-    cmap = sns.diverging_palette(250, 30, l=65, center="dark", as_cmap=True)
+    # cmap = sns.diverging_palette(240, 10, as_cmap=True)
+    cmap = sns.diverging_palette(145, 300, s=60, as_cmap=True)
 
     canvas = _get_canvas(points)
     data = pd.DataFrame(points, columns=("x", "y"))
@@ -106,7 +107,13 @@ def plot_labels_pacmap(
     unique_labels = np.unique(labels)
     num_labels = unique_labels.shape[0]
     if color_key is None:
+        print(cmap)
+        print(plt.get_cmap(cmap))
+        print(plt.get_cmap(cmap)(np.linspace(0, 1, num_labels)))
         color_key = _to_hex(plt.get_cmap(cmap)(np.linspace(0, 1, num_labels)))
+        # a
+        # color_key = ["E3B23C", "EDEBD7", "A39594", "423E37"]
+        print(color_key)
     legend_elements = [
         Patch(facecolor=color_key[i], label=k) for i, k in enumerate(unique_labels)
     ]

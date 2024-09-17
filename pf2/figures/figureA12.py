@@ -13,13 +13,25 @@ from .figureA11 import add_cmp_both_label
 from ..data_import import add_obs, combine_cell_types
 from ..figures.commonFuncs.plotPaCMAP import plot_gene_pacmap
 from .commonFuncs.plotFactors import bot_top_genes
-
+from .commonFuncs.plotPaCMAP import plot_labels_pacmap
+import matplotlib.colors as mcolors
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
     ax, f = getSetup((12, 12), (4, 4))
     
     subplotLabel(ax)
+    
+    mc = []
+    pal = sns.color_palette()
+    pal = pal.as_hex()
+    # print(pal)
+    # a
+    # colors = ["red", "blue", "green", "silver"]
+    # for i in colors:
+    #     mc.append(mcolors.CSS4_COLORS[i])
+        
+    # print(mc)
     
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     add_obs(X, "binary_outcome")
@@ -30,36 +42,44 @@ def makeFigure():
     pos1=True; pos2=True
     threshold = 0.5
     X = add_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
-    
-    celltype_count_perc_df_1 = cell_count_perc_df(X[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs["Both"] == False)], celltype="combined_cell_type")
-    celltype_count_perc_df_1["Label"] = f"Cmp{cmp1}"
-    celltype_count_perc_df_2 = cell_count_perc_df(X[(X.obs[f"Cmp{cmp2}"] == True) & (X.obs["Both"] == False)], celltype="combined_cell_type")
-    celltype_count_perc_df_2["Label"] = f"Cmp{cmp2}"
-    celltype_count_perc_df_3 = cell_count_perc_df(X[X.obs["Both"] == True], celltype="combined_cell_type")
-    celltype_count_perc_df_3["Label"] = "Both"
-    
-    celltype_count_perc_df = pd.concat([celltype_count_perc_df_1, celltype_count_perc_df_2, 
-                                        celltype_count_perc_df_3, ], axis=0)
+    X.obs.loc[((X.obs[f"Cmp{cmp1}"] == True) & (X.obs[f"Cmp{cmp2}"] == False), "Label")] = f"Cmp{cmp1}"
+    X.obs.loc[(X.obs[f"Cmp{cmp1}"] == False) & (X.obs[f"Cmp{cmp2}"] == True), "Label"] = f"Cmp{cmp2}"
+    X.obs.loc[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs[f"Cmp{cmp2}"] == True), "Label"] = "Both"
+    X.obs.loc[(X.obs[f"Cmp{cmp1}"] == False) & (X.obs[f"Cmp{cmp2}"] == False), "Label"] = "NoLabel"
 
-    hue = ["Cell Type", "Status"]
     
-    for i in range(2):
-        sns.boxplot(
-            data=celltype_count_perc_df,
-            x="Label",
-            y="Cell Count",
-            hue=hue[i],
-            showfliers=False,
-            ax=ax[i],
-        )
-        rotate_xaxis(ax[i])
+    plot_labels_pacmap(X, "Label", ax[0], color_key=pal[:4])
     
-    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
-    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
-    genes = np.concatenate([genes1, genes2])
     
-    for i, gene in enumerate(genes):
-        plot_gene_pacmap(gene, X, ax[i+2])
+    # celltype_count_perc_df_1 = cell_count_perc_df(X[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs["Both"] == False)], celltype="combined_cell_type")
+    # celltype_count_perc_df_1["Label"] = f"Cmp{cmp1}"
+    # celltype_count_perc_df_2 = cell_count_perc_df(X[(X.obs[f"Cmp{cmp2}"] == True) & (X.obs["Both"] == False)], celltype="combined_cell_type")
+    # celltype_count_perc_df_2["Label"] = f"Cmp{cmp2}"
+    # celltype_count_perc_df_3 = cell_count_perc_df(X[X.obs["Both"] == True], celltype="combined_cell_type")
+    # celltype_count_perc_df_3["Label"] = "Both"
+    
+    # celltype_count_perc_df = pd.concat([celltype_count_perc_df_1, celltype_count_perc_df_2, 
+    #                                     celltype_count_perc_df_3, ], axis=0)
+
+    # hue = ["Cell Type", "Status"]
+    
+    # for i in range(2):
+    #     sns.boxplot(
+    #         data=celltype_count_perc_df,
+    #         x="Label",
+    #         y="Cell Count",
+    #         hue=hue[i],
+    #         showfliers=False,
+    #         ax=ax[i],
+    #     )
+    #     rotate_xaxis(ax[i])
+    
+    # genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
+    # genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
+    # genes = np.concatenate([genes1, genes2])
+    
+    # for i, gene in enumerate(genes):
+    #     plot_gene_pacmap(gene, X, ax[i+2])
 
     return f
 
