@@ -28,25 +28,38 @@ def makeFigure():
         columns=np.arange(X.uns["Pf2_A"].shape[1]) + 1,
     )
     meta = meta.loc[patient_factor.index, :]
-
-    plsr_acc_df = plsr_acc_proba(patient_factor, meta)
-
-    sns.barplot(data=plsr_acc_df, ax=ax[0])
-    ax[0].set(ylim=[0, 1], ylabel="Accuracy")
     
-    plot_plsr_auc_roc(patient_factor, meta, ax[1])
+    total_df = pd.DataFrame([])
+    for i in range(3):
+        df = plsr_acc_proba(patient_factor, meta, n_components=i+1)
+        df["Component"] = i+1
+        print(df)
+        total_df = pd.concat([total_df, df], axis=0)
+    
+    
+    print(total_df)
+    # plsr_acc_df = plsr_acc_proba(patient_factor, meta)
+
+    # sns.barplot(data=plsr_acc_df, ax=ax[0])
+    # ax[0].set(ylim=[0, 1], ylabel="Accuracy")
+    
+    
+    # plsr_acc_df = plsr_acc_proba(patient_factor, meta)
+    
+    # plot_plsr_auc_roc(patient_factor, meta, ax[1])
     
     return f
     
     
-def plsr_acc_proba(patient_factor_matrix, meta_data):
+def plsr_acc_proba(patient_factor_matrix, meta_data, n_components=2):
     """Runs PLSR and obtains average prediction accuracy"""
     
     acc_df = pd.DataFrame(columns=["Overall", "C19", "nC19"])
 
     probabilities, labels = predict_mortality(
         patient_factor_matrix,
-        meta_data,
+        n_components=n_components,
+        meta=meta_data,
         proba=True
     )
 
