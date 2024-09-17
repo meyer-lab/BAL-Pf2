@@ -40,7 +40,7 @@ def makeFigure():
     
     cmp1 = 27; cmp2 = 46
     pos1=True; pos2=True
-    threshold = 0.5
+    threshold = 0.1
     X = add_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     X.obs.loc[((X.obs[f"Cmp{cmp1}"] == True) & (X.obs[f"Cmp{cmp2}"] == False), "Label")] = f"Cmp{cmp1}"
     X.obs.loc[(X.obs[f"Cmp{cmp1}"] == False) & (X.obs[f"Cmp{cmp2}"] == True), "Label"] = f"Cmp{cmp2}"
@@ -48,38 +48,38 @@ def makeFigure():
     X.obs.loc[(X.obs[f"Cmp{cmp1}"] == False) & (X.obs[f"Cmp{cmp2}"] == False), "Label"] = "NoLabel"
 
     
-    plot_labels_pacmap(X, "Label", ax[0], color_key=pal[:4])
+    plot_labels_pacmap(X, "Label", ax[9], color_key=pal[:4])
     
     
-    # celltype_count_perc_df_1 = cell_count_perc_df(X[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs["Both"] == False)], celltype="combined_cell_type")
-    # celltype_count_perc_df_1["Label"] = f"Cmp{cmp1}"
-    # celltype_count_perc_df_2 = cell_count_perc_df(X[(X.obs[f"Cmp{cmp2}"] == True) & (X.obs["Both"] == False)], celltype="combined_cell_type")
-    # celltype_count_perc_df_2["Label"] = f"Cmp{cmp2}"
-    # celltype_count_perc_df_3 = cell_count_perc_df(X[X.obs["Both"] == True], celltype="combined_cell_type")
-    # celltype_count_perc_df_3["Label"] = "Both"
+    celltype_count_perc_df_1 = cell_count_perc_df(X[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs["Both"] == False)], celltype="combined_cell_type")
+    celltype_count_perc_df_1["Label"] = f"Cmp{cmp1}"
+    celltype_count_perc_df_2 = cell_count_perc_df(X[(X.obs[f"Cmp{cmp2}"] == True) & (X.obs["Both"] == False)], celltype="combined_cell_type")
+    celltype_count_perc_df_2["Label"] = f"Cmp{cmp2}"
+    celltype_count_perc_df_3 = cell_count_perc_df(X[X.obs["Both"] == True], celltype="combined_cell_type")
+    celltype_count_perc_df_3["Label"] = "Both"
     
-    # celltype_count_perc_df = pd.concat([celltype_count_perc_df_1, celltype_count_perc_df_2, 
-    #                                     celltype_count_perc_df_3, ], axis=0)
+    celltype_count_perc_df = pd.concat([celltype_count_perc_df_1, celltype_count_perc_df_2, 
+                                        celltype_count_perc_df_3, ], axis=0)
 
-    # hue = ["Cell Type", "Status"]
+    hue = ["Cell Type", "Status"]
     
-    # for i in range(2):
-    #     sns.boxplot(
-    #         data=celltype_count_perc_df,
-    #         x="Label",
-    #         y="Cell Count",
-    #         hue=hue[i],
-    #         showfliers=False,
-    #         ax=ax[i],
-    #     )
-    #     rotate_xaxis(ax[i])
+    for i in range(2):
+        sns.boxplot(
+            data=celltype_count_perc_df,
+            x="Label",
+            y="Cell Count",
+            hue=hue[i],
+            showfliers=False,
+            ax=ax[i],
+        )
+        rotate_xaxis(ax[i])
     
-    # genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
-    # genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
-    # genes = np.concatenate([genes1, genes2])
+    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
+    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
+    genes = np.concatenate([genes1, genes2])
     
-    # for i, gene in enumerate(genes):
-    #     plot_gene_pacmap(gene, X, ax[i+2])
+    for i, gene in enumerate(genes):
+        plot_gene_pacmap(gene, X, ax[i+2])
 
     return f
 

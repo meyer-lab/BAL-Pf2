@@ -27,11 +27,11 @@ def makeFigure():
     
     cmp1 = 27; cmp2 = 46
     pos1=True; pos2=True
-    threshold = 0.5
+    threshold = 0.1
     X = add_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     
-    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=4)
-    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=4)
+    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
+    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
     genes = np.concatenate([genes1, genes2])
     
     X.obs.loc[((X.obs[f"Cmp{cmp1}"] == True) & (X.obs[f"Cmp{cmp2}"] == False), "Label")] = f"Cmp{cmp1}"
@@ -39,21 +39,13 @@ def makeFigure():
     X.obs.loc[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs[f"Cmp{cmp2}"] == True), "Label"] = "Both"
     X.obs.loc[(X.obs[f"Cmp{cmp1}"] == False) & (X.obs[f"Cmp{cmp2}"] == False), "Label"] = "NoLabel"
     
-    plot_labels_pacmap(X, "Label", ax[0])
+    plot_labels_pacmap(X, "Label", ax[8])
+
     
-    # dataDF.loc[((dataDF[f"Cmp{cmp1}"] == True) & (dataDF[f"Cmp{cmp2}"] == False), "Label")] = f"Cmp{cmp1}"
-    # dataDF.loc[(dataDF[f"Cmp{cmp1}"] == False) & (dataDF[f"Cmp{cmp2}"] == True), "Label"] = f"Cmp{cmp2}"
-    # dataDF.loc[(dataDF[f"Cmp{cmp1}"] == True) & (dataDF[f"Cmp{cmp2}"] == True), "Label"] = "Both"
-    # dataDF.loc[(dataDF[f"Cmp{cmp1}"] == False) & (dataDF[f"Cmp{cmp2}"] == False), "Label"] = "NoLabel"
-    
-    
-    
-    # for i, gene in enumerate(genes):
-    #     status_label = plot_avegene_cmps(X, gene, ax[i], cmp1, cmp2)
-    #     rotate_xaxis(ax[i])
-    #     X.obs["Label"] = status_label
-    #     plot_labels_pacmap(X, "Label", ax[0])
-        # break
+    for i, gene in enumerate(genes):
+        plot_avegene_cmps(X, gene, ax[i], cmp1, cmp2)
+        rotate_xaxis(ax[i])
+
 
 
     return f
@@ -134,7 +126,6 @@ def plot_avegene_cmps(
     dataDF.loc[(dataDF[f"Cmp{cmp1}"] == True) & (dataDF[f"Cmp{cmp2}"] == True), "Label"] = "Both"
     dataDF.loc[(dataDF[f"Cmp{cmp1}"] == False) & (dataDF[f"Cmp{cmp2}"] == False), "Label"] = "NoLabel"
     
-    status_label = dataDF["Label"].to_numpy()
     dataDF = dataDF.dropna(subset="Label")
     dataDF = bal_combine_bo_covid(dataDF, status1, status2)
     
@@ -154,5 +145,3 @@ def plot_avegene_cmps(
         showfliers=False,
     )
     ax.set(ylabel=f"Average {gene}")
-
-    return status_label
