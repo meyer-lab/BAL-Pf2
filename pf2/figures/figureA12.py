@@ -9,7 +9,7 @@ import numpy as np
 from .common import subplotLabel, getSetup
 from ..figures.commonFuncs.plotGeneral import rotate_xaxis
 from .figureA6 import cell_count_perc_df
-from .figureA11 import add_cmp_both_label
+from .figureA11 import add_obs_cmp_both_label
 from ..data_import import add_obs, combine_cell_types
 from ..figures.commonFuncs.plotPaCMAP import plot_gene_pacmap
 from .commonFuncs.plotFactors import bot_top_genes
@@ -31,7 +31,7 @@ def makeFigure():
     pos1 = True
     pos2 = True
     threshold = 0.5
-    X = add_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
+    X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
 
     celltype_count_perc_df_1 = cell_count_perc_df(
         X[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs["Both"] == False)],
@@ -47,7 +47,6 @@ def makeFigure():
         X[X.obs["Both"] == True], celltype="combined_cell_type"
     )
     celltype_count_perc_df_3["Label"] = "Both"
-
     celltype_count_perc_df = pd.concat(
         [
             celltype_count_perc_df_1,
@@ -58,7 +57,6 @@ def makeFigure():
     )
 
     hue = ["Cell Type", "Status"]
-
     for i in range(2):
         sns.boxplot(
             data=celltype_count_perc_df,

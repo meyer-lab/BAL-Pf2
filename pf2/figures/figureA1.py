@@ -13,6 +13,8 @@ from ..figures.commonFuncs.plotFactors import (
 )
 from ..figures.commonFuncs.plotPaCMAP import plot_labels_pacmap
 from ..figures.commonFuncs.plotGeneral import bal_combine_bo_covid
+import matplotlib.colors as mcolors
+
 
 
 def makeFigure():
@@ -23,22 +25,27 @@ def makeFigure():
     X.uns["Pf2_A"] = correct_conditions(X)
     add_obs(X, "patient_category")
     add_obs(X, "binary_outcome")
+    colors = ["red", "blue", "green", "silver"]
+    pal = []
+    for i in colors:
+        pal.append(mcolors.CSS4_COLORS[i])
+
+    
     plot_condition_factors(
-        X, ax[0], cond="sample_id", cond_group_labels=pd.Series(label_all_samples(X))
-    )
+        X, ax[0], cond="sample_id", cond_group_labels=pd.Series(label_all_samples(X)), color_key=pal)
     ax[0].yaxis.set_ticklabels([])
-    plot_eigenstate_factors(X, ax[1])
-    plot_gene_factors(X, ax[2])
-    ax[2].yaxis.set_ticklabels([])
+    # plot_eigenstate_factors(X, ax[1])
+    # plot_gene_factors(X, ax[2])
+    # ax[2].yaxis.set_ticklabels([])
 
-    df = X.obs[["patient_category", "binary_outcome"]].reset_index(drop=True)
-    df = bal_combine_bo_covid(df)
-    X.obs["Status"] = df["Status"].to_numpy()
-    plot_labels_pacmap(X, "Status", ax[3])
+    # df = X.obs[["patient_category", "binary_outcome"]].reset_index(drop=True)
+    # df = bal_combine_bo_covid(df)
+    # X.obs["Status"] = df["Status"].to_numpy()
+    # plot_labels_pacmap(X, "Status", ax[3])
 
-    combine_cell_types(X)
-    plot_labels_pacmap(X, "cell_type", ax[4])
-    plot_labels_pacmap(X, "combined_cell_type", ax[5])
+    # combine_cell_types(X)
+    # plot_labels_pacmap(X, "cell_type", ax[4])
+    # plot_labels_pacmap(X, "combined_cell_type", ax[5])
 
     return f
 

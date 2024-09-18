@@ -2,6 +2,7 @@ import pandas as pd
 import seaborn as sns
 import anndata
 from matplotlib.axes import Axes
+import numpy as np
 
 
 def plot_avegene_per_status(
@@ -63,6 +64,69 @@ def bal_combine_bo_covid(
     df["Status"] = df[status1] + df[status2]
 
     return df
+
+
+def add_obs_cmp_both_label(
+    X: anndata.AnnData, cmp1: int, cmp2: int, pos1=True, pos2=True, top_perc=1
+):
+    """Adds if cells in top/bot percentage"""
+    wprojs = X.obsm["weighted_projections"]
+    pos_neg = [pos1, pos2]
+
+    for i, cmp in enumerate([cmp1, cmp2]):
+        if i == 0:
+            if pos_neg[i] is True:
+                thres_value = 100 - top_perc
+                threshold1 = np.percentile(wprojs, thres_value, axis=0)
+                idx = wprojs[:, cmp - 1] > threshold1[cmp - 1]
+
+            else:
+                thres_value = top_perc
+                threshold1 = np.percentile(wprojs, thres_value, axis=0)
+                idx = wprojs[:, cmp - 1] < threshold1[cmp - 1]
+
+        if i == 1:
+            if pos_neg[i] is True:
+                thres_value = 100 - top_perc
+                threshold2 = np.percentile(wprojs, thres_value, axis=0)
+                idx = wprojs[:, cmp - 1] > threshold2[cmp - 1]
+            else:
+                thres_value = top_perc
+                threshold2 = np.percentile(wprojs, thres_value, axis=0)
+                idx = wprojs[:, cmp - 1] < threshold1[cmp - 1]
+
+        X.obs[f"Cmp{cmp}"] = idx
+
+    if pos1 and pos2 is True:
+        idx = (wprojs[:, cmp1 - 1] > threshold1[cmp1 - 1]) & (
+            wprojs[:, cmp2 - 1] > threshold2[cmp2 - 1]
+        )
+    elif pos1 and pos2 is False:
+        idx = (wprojs[:, cmp1 - 1] < threshold1[cmp1 - 1]) & (
+            wprojs[:, cmp2 - 1] < threshold2[cmp2 - 1]
+        )
+    elif pos1 is True and pos2 is False:
+        idx = (wprojs[:, cmp1 - 1] > threshold1[cmp1 - 1]) & (
+            wprojs[:, cmp2 - 1] < threshold2[cmp2 - 1]
+        )
+    elif pos1 is False and pos2 is True:
+        idx = (wprojs[:, cmp1 - 1] < threshold1[cmp1 - 1]) & (
+            wprojs[:, cmp2 - 1] > threshold2[cmp2 - 1]
+        )
+
+    X.obs["Both"] = idx
+
+    return X
+
+
+def add_obs_label(X: anndata.AnnData, cmp1: str, cmp2: str):
+    """Creates AnnData observation column"""
+    X.obs.loc[((X.obs[f"Cmp{cmp1}"] == True) & (X.obs[f"Cmp{cmp2}"] == False), "Label")] = f"Cmp{cmp1}"
+    X.obs.loc[(X.obs[f"Cmp{cmp1}"] == False) & (X.obs[f"Cmp{cmp2}"] == True), "Label"] = f"Cmp{cmp2}"
+    X.obs.loc[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs[f"Cmp{cmp2}"] == True), "Label"] = "Both"
+    X.obs.loc[(X.obs[f"Cmp{cmp1}"] == False) & (X.obs[f"Cmp{cmp2}"] == False), "Label"] = "NoLabel"
+    
+    return X
 
 
 def rotate_xaxis(ax, rotation=90):

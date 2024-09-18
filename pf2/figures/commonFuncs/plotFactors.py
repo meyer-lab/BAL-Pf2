@@ -16,6 +16,7 @@ def plot_condition_factors(
     ax: Axes,
     cond: str = "Condition",
     cond_group_labels: Optional[pd.Series] = None,
+    color_key = None,
 ):
     """Plots Pf2 condition factors"""
     pd.set_option("display.max_rows", None)
@@ -33,9 +34,12 @@ def plot_condition_factors(
     if cond_group_labels is not None:
         cond_group_labels = cond_group_labels.iloc[ind]
         ax.tick_params(axis="y", which="major", pad=20, length=0)
-        colors = sns.color_palette(
-            n_colors=pd.Series(cond_group_labels).nunique()
-        ).as_hex()
+        if color_key is None:
+            colors = sns.color_palette(
+                n_colors=pd.Series(cond_group_labels).nunique()
+            ).as_hex()
+        else:
+            colors = color_key
         lut = {}
         legend_elements = []
         for index, group in enumerate(pd.Series(cond_group_labels).unique()):
