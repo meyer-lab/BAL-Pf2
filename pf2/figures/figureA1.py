@@ -1,4 +1,4 @@
-"""Figure A1: Condition, eigen-state, and gene factors, 
+"""Figure A1: Condition, eigen-state, and gene factors,
 along with PaCMAP labeled by cell type"""
 
 import anndata
@@ -23,12 +23,14 @@ def makeFigure():
     X.uns["Pf2_A"] = correct_conditions(X)
     add_obs(X, "patient_category")
     add_obs(X, "binary_outcome")
-    plot_condition_factors(X, ax[0], cond="sample_id", cond_group_labels=pd.Series(label_all_samples(X)))
+    plot_condition_factors(
+        X, ax[0], cond="sample_id", cond_group_labels=pd.Series(label_all_samples(X))
+    )
     ax[0].yaxis.set_ticklabels([])
     plot_eigenstate_factors(X, ax[1])
     plot_gene_factors(X, ax[2])
     ax[2].yaxis.set_ticklabels([])
- 
+
     df = X.obs[["patient_category", "binary_outcome"]].reset_index(drop=True)
     df = bal_combine_bo_covid(df)
     X.obs["Status"] = df["Status"].to_numpy()
@@ -50,24 +52,19 @@ def label_all_samples(X: anndata.AnnData):
     for i, sample in enumerate(pd.unique(X.obs["sample_id"])):
         bo = pd.unique(X[X.obs.sample_id.isin([sample])].obs["binary_outcome"])
         if bo == 0:
-            bo = "L-" 
+            bo = "L-"
         else:
             bo = "D-"
         bo_only[i] = bo
 
-        pc = pd.unique(X[X.obs.sample_id.isin([sample])].obs["patient_category"]) 
+        pc = pd.unique(X[X.obs.sample_id.isin([sample])].obs["patient_category"])
         if pc == "COVID-19":
             pc = "C19"
-        else: 
+        else:
             pc = "nC19"
         pc_only[i] = pc
-        
+
     for i in range(len(labels_samples)):
-        labels_samples[i] = bo_only[i]+pc_only[i]
-        
-        
+        labels_samples[i] = bo_only[i] + pc_only[i]
+
     return labels_samples
-
-
-
-  

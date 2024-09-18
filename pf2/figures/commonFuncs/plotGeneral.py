@@ -11,7 +11,7 @@ def plot_avegene_per_status(
     condition="sample_id",
     cellType="cell_type",
     status1="binary_outcome",
-    status2="patient_category"
+    status2="patient_category",
 ):
     """Plots average gene expression across cell types for a category of drugs"""
     genesV = X[:, gene]
@@ -21,7 +21,7 @@ def plot_avegene_per_status(
     dataDF[status2] = genesV.obs[status2].values
     dataDF["Condition"] = genesV.obs[condition].values
     dataDF["Cell Type"] = genesV.obs[cellType].values
-    
+
     df = bal_combine_bo_covid(dataDF, status1, status2)
 
     df = pd.melt(
@@ -30,7 +30,6 @@ def plot_avegene_per_status(
 
     df = df.groupby(["Status", "Cell Type", "Gene", "Condition"], observed=False).mean()
     df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
-    
 
     sns.boxplot(
         data=df.loc[df["Gene"] == gene],
@@ -44,15 +43,23 @@ def plot_avegene_per_status(
 
     return df
 
-def bal_combine_bo_covid(df, status1: str = "binary_outcome", status2: str = "patient_category"):
-    """Combines binary outcome and covid status columns"""
-    df = df.replace({status1: {0: "L-", 
-                                1: "D-"}})
 
-    df = df.replace({status2: {"COVID-19": "C19",
-                                "Non-Pneumonia Control": "nC19", 
-                                "Other Pneumonia": "nC19",
-                                "Other Viral Pneumonia": "nC19"}})
+def bal_combine_bo_covid(
+    df, status1: str = "binary_outcome", status2: str = "patient_category"
+):
+    """Combines binary outcome and covid status columns"""
+    df = df.replace({status1: {0: "L-", 1: "D-"}})
+
+    df = df.replace(
+        {
+            status2: {
+                "COVID-19": "C19",
+                "Non-Pneumonia Control": "nC19",
+                "Other Pneumonia": "nC19",
+                "Other Viral Pneumonia": "nC19",
+            }
+        }
+    )
     df["Status"] = df[status1] + df[status2]
 
     return df

@@ -68,4 +68,3 @@ select = [
     # Unused arguments
     "ARG",
 ]
-factor = "pf2.imports:factorSave"

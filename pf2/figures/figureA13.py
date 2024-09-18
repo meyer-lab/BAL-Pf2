@@ -10,13 +10,12 @@ from .common import subplotLabel, getSetup
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
     ax, f = getSetup((15, 4), (1, 3))
-    
+
     subplotLabel(ax)
 
     plot_toppfun(cmp=9, ax=ax[0])
     plot_toppfun(cmp=27, ax=ax[1])
     plot_toppfun(cmp=46, ax=ax[2])
-
 
     return f
 

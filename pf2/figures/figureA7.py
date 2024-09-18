@@ -1,6 +1,7 @@
 """
 Figure A7:
 """
+
 import anndata
 import numpy as np
 import seaborn as sns
@@ -17,20 +18,18 @@ from ..figures.figureA6 import cell_count_perc_df
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
     ax, f = getSetup((10, 10), (2, 2))
-    
+
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     X = add_obs(X, "binary_outcome")
     X = add_obs(X, "patient_category")
     X.uns["Pf2_A"] = correct_conditions(X)
 
     celltype_count_perc_df = cell_count_perc_df(X, celltype="cell_type")
-    
+
     for i in range(4):
         plot_correlation_cmp_cell_count_perc(
-            X, i+1, celltype_count_perc_df, ax[i], cellPerc=True
+            X, i + 1, celltype_count_perc_df, ax[i], cellPerc=True
         )
-
-
 
     return f
 
@@ -92,8 +91,6 @@ def plot_correlation_cmp_cell_count_perc(
                 ]
             )
 
-    sns.barplot(
-        data=correlationdf, x="Cell Type", y="Value", hue="Correlation", ax=ax
-    )
+    sns.barplot(data=correlationdf, x="Cell Type", y="Value", hue="Correlation", ax=ax)
     rotate_xaxis(ax)
     ax.set(title=f"Cmp. {cmp} V. {cellPerc}")

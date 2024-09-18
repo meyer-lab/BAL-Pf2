@@ -7,10 +7,7 @@ SKF = StratifiedKFold(n_splits=10)
 
 
 def run_plsr(
-    data: pd.DataFrame,
-    labels: pd.Series,
-    proba: bool = False,
-    n_components: int = 2
+    data: pd.DataFrame, labels: pd.Series, proba: bool = False, n_components: int = 2
 ) -> tuple[pd.Series, PLSRegression]:
     """
     Predicts labels via PLSR cross-validation.
@@ -28,11 +25,7 @@ def run_plsr(
     if not isinstance(data, pd.DataFrame):
         data = pd.DataFrame(data)
 
-    plsr = PLSRegression(
-        n_components=n_components,
-        scale=True,
-        max_iter=int(1E5)
-    )
+    plsr = PLSRegression(n_components=n_components, scale=True, max_iter=int(1e5))
 
     probabilities = pd.Series(0, dtype=float, index=data.index)
     for train_index, test_index in SKF.split(data, labels):
@@ -43,25 +36,18 @@ def run_plsr(
         probabilities.iloc[test_index] = plsr.predict(test_group_data)
 
     plsr.fit(data, labels)
-    plsr.coef_ = pd.Series(
-        plsr.coef_.squeeze(),
-        index=data.columns
-    )
-    
+    plsr.coef_ = pd.Series(plsr.coef_.squeeze(), index=data.columns)
+
     if proba:
         return probabilities, plsr
 
     else:
         predicted = probabilities.round().astype(int)
         return predicted, plsr
-    
 
 
 def predict_mortality(
-    data: pd.DataFrame,
-    meta: pd.DataFrame,
-    proba: bool = False,
-    n_components = 2
+    data: pd.DataFrame, meta: pd.DataFrame, proba: bool = False, n_components=2
 ):
     """
     Predicts mortality via cross-validation.
@@ -83,40 +69,30 @@ def predict_mortality(
     if not isinstance(data, pd.DataFrame):
         data = pd.DataFrame(data)
 
-    data = data.loc[
-        meta.loc[:, "patient_category"] != "Non-Pneumonia Control",
-        :
-    ]
-    meta = meta.loc[
-        meta.loc[:, "patient_category"] != "Non-Pneumonia Control",
-        :
-    ]
+    data = data.loc[meta.loc[:, "patient_category"] != "Non-Pneumonia Control", :]
+    meta = meta.loc[meta.loc[:, "patient_category"] != "Non-Pneumonia Control", :]
     labels = data.index.to_series().replace(meta.loc[:, "binary_outcome"])
 
     covid_data = data.loc[meta.loc[:, "patient_category"] == "COVID-19", :]
     covid_labels = meta.loc[
-        meta.loc[:, "patient_category"] == "COVID-19",
-        "binary_outcome"
+        meta.loc[:, "patient_category"] == "COVID-19", "binary_outcome"
     ]
     nc_data = data.loc[meta.loc[:, "patient_category"] != "COVID-19", :]
     nc_labels = meta.loc[
-        meta.loc[:, "patient_category"] != "COVID-19",
-        "binary_outcome"
+        meta.loc[:, "patient_category"] != "COVID-19", "binary_outcome"
     ]
-    
+
     predictions = pd.Series(index=data.index)
-    predictions.loc[meta.loc[:, "patient_category"] == "COVID-19"], c_plsr = \
-        run_plsr(
-            covid_data, covid_labels, proba=proba, n_components=n_components
-        )
-    predictions.loc[meta.loc[:, "patient_category"] != "COVID-19"], nc_plsr = \
-        run_plsr(
-            nc_data, nc_labels, proba=proba, n_components=n_components
-        )
+    predictions.loc[meta.loc[:, "patient_category"] == "COVID-19"], c_plsr = run_plsr(
+        covid_data, covid_labels, proba=proba, n_components=n_components
+    )
+    predictions.loc[meta.loc[:, "patient_category"] != "COVID-19"], nc_plsr = run_plsr(
+        nc_data, nc_labels, proba=proba, n_components=n_components
+    )
 
     if proba:
         return predictions, labels
-    
+
     else:
         predicted = predictions.round().astype(int)
         return labels, (c_plsr, nc_plsr)

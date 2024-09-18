@@ -120,7 +120,7 @@ def plot_labels_pacmap(
     ds_show(result, ax)
     ax.legend(handles=legend_elements)
     ax = assign_labels(ax)
-    
+
 
 def plot_pair_wp_pacmap(
     X: anndata.AnnData,
@@ -130,16 +130,18 @@ def plot_pair_wp_pacmap(
 ):
     """Scatterplot of UMAP visualization weighted by condition or cell type"""
 
-
     points = np.concatenate(
-        ([X.obsm["weighted_projections"][:, cmp1 - 1]], [X.obsm["weighted_projections"][:, cmp2 - 1]])
+        (
+            [X.obsm["weighted_projections"][:, cmp1 - 1]],
+            [X.obsm["weighted_projections"][:, cmp2 - 1]],
+        )
     ).transpose()
 
     canvas = _get_canvas(points)
     data = pd.DataFrame(points, columns=("x", "y"))
 
     aggregation = canvas.points(data, "x", "y")
-    
+
     result = tf.shade(
         aggregation,
         how="eq_hist",
@@ -148,7 +150,6 @@ def plot_pair_wp_pacmap(
 
     ds_show(result, ax)
     # ax = assign_labels(ax)
-
 
 
 def plot_wp_per_celltype(
@@ -168,9 +169,7 @@ def plot_wp_per_celltype(
         ax=ax,
     )
     maxvalue = np.max(np.abs(ax.get_xticks()))
-    ax.set(
-        xticks=np.linspace(-maxvalue, maxvalue, num=5), xlabel="WP Weight"
-    )
+    ax.set(xticks=np.linspace(-maxvalue, maxvalue, num=5), xlabel="WP Weight")
     ax.set_title(cmpName)
 
 

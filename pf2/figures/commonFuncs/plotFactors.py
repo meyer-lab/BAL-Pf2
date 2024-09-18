@@ -21,7 +21,7 @@ def plot_condition_factors(
     pd.set_option("display.max_rows", None)
     yt = pd.Series(np.unique(data.obs[cond]))
     X = np.array(data.uns["Pf2_A"])
-    
+
     XX = X
     X -= np.median(XX, axis=0)
     X /= np.std(XX, axis=0)

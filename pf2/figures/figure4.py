@@ -35,10 +35,8 @@ def makeFigure():
         boot_meta = meta.iloc[boot_index, :]
         _, (covid_plsr, nc_plsr) = predict_mortality(boot_factor, boot_meta)
 
-        covid_coefficients.loc[trial + 1, covid_plsr.coef_.index] = \
-            covid_plsr.coef_
-        nc_coefficients.loc[trial + 1, nc_plsr.coef_.index] = \
-            nc_plsr.coef_
+        covid_coefficients.loc[trial + 1, covid_plsr.coef_.index] = covid_plsr.coef_
+        nc_coefficients.loc[trial + 1, nc_plsr.coef_.index] = nc_plsr.coef_
 
     axs, fig = getSetup((8, 4), (1, 1))
     ax = axs[0]
