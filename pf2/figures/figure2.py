@@ -6,17 +6,17 @@
 # import pandas as pd
 
 # from pf2.data_import import convert_to_patients, import_data, import_meta
-# from pf2.figures.common import getSetup
+from pf2.figures.common import getSetup
 # from pf2.predict import predict_mortality
 # from pf2.tensor import pf2
 
 
-# def makeFigure():
+def makeFigure():
 #     meta = import_meta()
 #     data = import_data()
 #     conversions = convert_to_patients(data)
 
-#     axs, fig = getSetup((6, 6), (2, 1))
+    axs, fig = getSetup((6, 6), (2, 1))
 
 #     ranks = np.arange(5, 65, 5)
 #     r2xs = pd.Series(0, dtype=float, index=ranks)
@@ -57,4 +57,4 @@
 #     axs[1].set_ylabel("Accuracy")
 #     axs[1].set_xlabel("Rank")
 
-#     return fig
+    return fig
