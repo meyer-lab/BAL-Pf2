@@ -2,6 +2,7 @@
 along with PaCMAP labeled by cell type"""
 
 import anndata
+import seaborn as sns
 import pandas as pd
 from ..tensor import correct_conditions
 from ..data_import import combine_cell_types, add_obs
@@ -25,12 +26,9 @@ def makeFigure():
     X.uns["Pf2_A"] = correct_conditions(X)
     add_obs(X, "patient_category")
     add_obs(X, "binary_outcome")
-    colors = ["red", "blue", "green", "silver"]
-    pal = []
-    for i in colors:
-        pal.append(mcolors.CSS4_COLORS[i])
-
-    
+     
+    pal = sns.color_palette()
+    pal = pal.as_hex() 
     plot_condition_factors(
         X, ax[0], cond="sample_id", cond_group_labels=pd.Series(label_all_samples(X)), color_key=pal)
     ax[0].yaxis.set_ticklabels([])
@@ -38,14 +36,16 @@ def makeFigure():
     # plot_gene_factors(X, ax[2])
     # ax[2].yaxis.set_ticklabels([])
 
-    # df = X.obs[["patient_category", "binary_outcome"]].reset_index(drop=True)
-    # df = bal_combine_bo_covid(df)
-    # X.obs["Status"] = df["Status"].to_numpy()
-    # plot_labels_pacmap(X, "Status", ax[3])
+    df = X.obs[["patient_category", "binary_outcome"]].reset_index(drop=True)
+    df = bal_combine_bo_covid(df)
+    X.obs["Status"] = df["Status"].to_numpy()
+    plot_labels_pacmap(X, "Status", ax[3], color_key=pal)
 
-    # combine_cell_types(X)
+    combine_cell_types(X)
     # plot_labels_pacmap(X, "cell_type", ax[4])
-    # plot_labels_pacmap(X, "combined_cell_type", ax[5])
+    pal = sns.color_palette("Set3")
+    pal = pal.as_hex() 
+    plot_labels_pacmap(X, "combined_cell_type", ax[5], color_key=pal)
 
     return f
 

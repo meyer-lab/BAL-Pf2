@@ -42,7 +42,7 @@ def plot_condition_factors(
             colors = color_key
         lut = {}
         legend_elements = []
-        for index, group in enumerate(pd.Series(cond_group_labels).unique()):
+        for index, group in enumerate(np.unique(cond_group_labels)):
             lut[group] = colors[index]
             legend_elements.append(Patch(color=colors[index], label=group))
         row_colors = pd.Series(cond_group_labels).map(lut)

@@ -39,6 +39,7 @@ def plot_avegene_per_status(
         hue="Status",
         ax=ax,
         showfliers=False,
+        palette="Set3",
     )
     ax.set(ylabel=f"Average {gene}")
 
