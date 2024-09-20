@@ -24,16 +24,16 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
 
-    cmp1 = 27
-    cmp2 = 46
-    pos1 = True
-    pos2 = True
+    cmp1 = 1
+    cmp2 = 13
+    pos1 = False
+    pos2 = False
     threshold = 0.5
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     X = add_obs_label(X, cmp1, cmp2)
 
-    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=4)
-    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=4)
+    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
+    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
     genes = np.concatenate([genes1, genes2])
 
     for i, gene in enumerate(genes):
@@ -78,6 +78,7 @@ def plot_avegene_cmps(
         x="Label",
         y="Average Gene Expression",
         hue="Cell Type",
+        palette="Set3",
         ax=ax,
         showfliers=False,
     )

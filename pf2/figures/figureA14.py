@@ -11,7 +11,7 @@ import matplotlib.colors as mcolors
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((6, 6), (1, 2))
+    ax, f = getSetup((8, 8), (2, 2))
 
     subplotLabel(ax)
 
@@ -20,26 +20,27 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
 
+
     cmp1 = 1; cmp2 = 13
     pos1 = False; pos2 = False
     threshold = 0.5
+    # X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
+    # X = add_obs_label(X, cmp1, cmp2)
+
+    colors = ["black", "fuchsia", "turquoise", "gainsboro"]
+    pal = []
+    for i in colors:
+        pal.append(mcolors.CSS4_COLORS[i])
+        
+    # plot_labels_pacmap(X, "Label", ax[0], color_key=pal)
+    
+    
+    cmp1 = 3; cmp2 = 26
+    pos1 = True; pos2 = True
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     X = add_obs_label(X, cmp1, cmp2)
-
-    colors = ["black", "turquoise", "fuchsia", "gainsboro"]
-    pal = []
-    for i in colors:
-        pal.append(mcolors.CSS4_COLORS[i])
-        
-    plot_labels_pacmap(X, "Label", ax[0], color_key=pal)
     
-    colors = ["black", "turquoise", "fuchsia", "whitesmoke"]
-    pal = []
-    for i in colors:
-        pal.append(mcolors.CSS4_COLORS[i])
-        
     plot_labels_pacmap(X, "Label", ax[1], color_key=pal)
-    
     
     
     return f
