@@ -68,7 +68,6 @@ def makeFigure():
             y="Cell Count",
             hue=hue[i],
             showfliers=False,
-            palette="Set3",
             ax=ax[i],
         )
         rotate_xaxis(ax[i])
