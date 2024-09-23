@@ -28,7 +28,7 @@ def makeFigure():
     pal = sns.color_palette()
     pal = pal.as_hex() 
     plot_condition_factors(
-        X, ax[0], cond="sample_id", cond_group_labels=pd.Series(label_all_samples(X)), color_key=pal)
+        X, ax[0], cond="sample_id", cond_group_labels=pd.Series(label_all_samples(X)), color_key=pal, group_cond=True)
     ax[0].yaxis.set_ticklabels([])
     
     plot_eigenstate_factors(X, ax[1])
