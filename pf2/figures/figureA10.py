@@ -101,7 +101,7 @@ def plot_plsr_scores(plsr_results, meta_data, labels, ax1, ax2):
             ]
 
         pal = sns.color_palette()
-        if i == 1: 
+        if i == 0: 
             numb1=0; numb2=2
         else:
             numb1=1; numb2=3
