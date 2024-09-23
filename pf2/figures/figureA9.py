@@ -48,10 +48,10 @@ def makeFigure():
         sns.lineplot(
             data=plsr_acc_df, x="Component", y="Accuracy", hue="Category", ax=ax[i]
         )
-        if roc_auc is True:
-            ax[i].set(ylim=[0, 1], ylabel="AUC ROC")
+        if roc_auc[i] is True:
+            ax[i].set(xlim=[.5, 11], ylim=[0, 1], ylabel="AUC ROC")
         else:
-            ax[i].set(ylim=[0, 1], ylabel="Prediction Accuracy")
+            ax[i].set(xlim=[.5, 11], ylim=[0, 1], ylabel="Prediction Accuracy")
 
     plot_plsr_auc_roc(patient_factor, meta, ax[2])
 
