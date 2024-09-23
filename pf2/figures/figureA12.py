@@ -26,10 +26,8 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
 
-    cmp1 = 27
-    cmp2 = 46
-    pos1 = True
-    pos2 = True
+    cmp1 = 27; cmp2 = 46
+    pos1 = True; pos2 = True
     threshold = 0.5
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
 

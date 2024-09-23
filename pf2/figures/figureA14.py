@@ -21,17 +21,12 @@ def makeFigure():
     combine_cell_types(X)
 
     cmp1 = 27; cmp2 = 46
-    pos1=True; pos2=True
+    pos1 = True; pos2 = True
     threshold = 0.5
-    threshold = 0.1
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     X = add_obs_label(X, cmp1, cmp2)
     
-    pal = sns.color_palette("tab20")
-    pal = sns.color_palette()
-    pal = pal.as_hex()
-    pal = pal[:4]
-    colors = ["red", "blue", "green", "silver"]
+    colors = ["black", "fuchsia", "turquoise", "gainsboro"]
     pal = []
     for i in colors:
         pal.append(mcolors.CSS4_COLORS[i])

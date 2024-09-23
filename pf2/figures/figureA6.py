@@ -25,7 +25,7 @@ def makeFigure():
     plot_cell_count(X, ax[0])
 
     cond_fact_meta_df = condition_factors_meta(X)
-    plot_sample_count(cond_fact_meta_df, ax[1], ax[2])
+    plot_sample_count(cond_fact_meta_df, ax[1], ax[2], combine=True)
     plot_sample_count(cond_fact_meta_df, ax[3], ax[4], combine=False)
     combine_cell_types(X)
 
@@ -101,12 +101,18 @@ def plot_sample_count(
         df.groupby(["Status"], observed=True).size().reset_index(name="Sample Count")
     )
 
-    sns.barplot(data=dfCond, x="Status", y="Sample Count", hue="Status", ax=ax1)
-    rotate_xaxis(ax1)
+    if combine is True: 
+        sns.barplot(data=dfCond, x="Status", y="Sample Count", hue="Status", ax=ax1)
+    else: 
+        sns.barplot(data=dfCond, x="Status", y="Sample Count", color="k", ax=ax1)
+        rotate_xaxis(ax1)
 
-    dfCond["Sample Count"] /= dfCond["Sample Count"].sum()
-    sns.barplot(data=dfCond, x="Status", y="Sample Count", hue="Status", ax=ax2)
-    rotate_xaxis(ax2)
+
+    if combine is True: 
+        sns.barplot(data=dfCond, x="Status", y="Sample Count", hue="Status", ax=ax2)
+    else:
+        sns.barplot(data=dfCond, x="Status", y="Sample Count", color="k", ax=ax2)
+        rotate_xaxis(ax2)
 
 
 def cell_count_perc_df(X, celltype="Cell Type"):

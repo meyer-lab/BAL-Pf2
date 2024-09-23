@@ -97,11 +97,11 @@ def add_obs_cmp_both_label(
 
         X.obs[f"Cmp{cmp}"] = idx
 
-    if pos1 and pos2 is True:
+    if pos1 is True and pos2 is True:
         idx = (wprojs[:, cmp1 - 1] > threshold1[cmp1 - 1]) & (
             wprojs[:, cmp2 - 1] > threshold2[cmp2 - 1]
         )
-    elif pos1 and pos2 is False:
+    elif pos1 is False and pos2 is False:
         idx = (wprojs[:, cmp1 - 1] < threshold1[cmp1 - 1]) & (
             wprojs[:, cmp2 - 1] < threshold2[cmp2 - 1]
         )

@@ -24,10 +24,8 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
 
-    cmp1 = 27
-    cmp2 = 46
-    pos1 = True
-    pos2 = True
+    cmp1 = 27; cmp2 = 46
+    pos1 = True; pos2 = True
     threshold = 0.5
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     X = add_obs_label(X, cmp1, cmp2)
@@ -79,6 +77,7 @@ def plot_avegene_cmps(
         y="Average Gene Expression",
         hue="Cell Type",
         ax=ax,
+        # order=["Both", "CmpX", "CmpY", "NoLabel"],
         showfliers=False,
     )
     ax.set(ylabel=f"Average {gene}")
