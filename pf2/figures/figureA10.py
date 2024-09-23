@@ -9,7 +9,7 @@ import seaborn as sns
 from ..data_import import convert_to_patients, import_meta
 from ..predict import predict_mortality
 from .common import subplotLabel, getSetup
-
+import seaborn as sns
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
@@ -100,10 +100,17 @@ def plot_plsr_scores(plsr_results, meta_data, labels, ax1, ax2):
                 meta_data.loc[:, "patient_category"] != "COVID-19"
             ]
 
+        pal = sns.color_palette()
+        if i == 0: 
+            numb1=0; numb2=2
+        else:
+            numb1=1; numb2=3
+            
         sns.scatterplot(
             x=plsr_results[i].x_scores_[:, 0],
             y=plsr_results[i].x_scores_[:, 1],
             hue=score_labels.to_numpy(),
+            palette=[pal[numb1], pal[numb2]],
             ax=ax[i],
         )
 
