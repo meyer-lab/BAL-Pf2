@@ -129,6 +129,53 @@ def add_obs_label(X: anndata.AnnData, cmp1: str, cmp2: str):
     return X
 
 
+
+
+def plot_avegene_cmps(
+    X: anndata.AnnData,
+    gene: str,
+    ax: Axes,
+    order: None
+):
+    """Plots average gene expression across cell types"""
+    genesV = X[:, gene]
+    dataDF = genesV.to_df()
+    condition = "sample_id"
+    status1 = "binary_outcome"
+    status2 = "patient_category"
+    cellType = "combined_cell_type"
+
+    dataDF = dataDF.subtract(genesV.var["means"].values)
+    dataDF[status1] = genesV.obs[status1].values
+    dataDF[status2] = genesV.obs[status2].values
+    dataDF["Condition"] = genesV.obs[condition].values
+    dataDF["Cell Type"] = genesV.obs[cellType].values
+    dataDF["Label"] = genesV.obs["Label"].values
+    dataDF = dataDF.dropna(subset="Label")
+    dataDF = bal_combine_bo_covid(dataDF, status1, status2)
+
+    df = pd.melt(
+        dataDF, id_vars=["Label", "Condition", "Cell Type"], value_vars=gene
+    ).rename(columns={"variable": "Gene", "value": "Value"})
+
+    df = df.groupby(["Label", "Gene", "Condition", "Cell Type"], observed=False).mean()
+    df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
+    
+    sns.boxplot(
+        data=df.loc[df["Gene"] == gene],
+        x="Label",
+        y="Average Gene Expression",
+        hue="Cell Type",
+        ax=ax,
+        order=order,
+        showfliers=False,
+    )
+    ax.set(ylabel=f"Average {gene}")
+
+    return df
+
+
+
 def rotate_xaxis(ax, rotation=90):
     """Rotates text by 90 degrees for x-axis"""
     ax.set_xticks(ax.get_xticks())

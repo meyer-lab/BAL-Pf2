@@ -5,12 +5,11 @@ from .commonFuncs.plotPaCMAP import plot_labels_pacmap
 from ..data_import import combine_cell_types, add_obs
 import anndata
 from .common import subplotLabel, getSetup
-from ..figures.commonFuncs.plotGeneral import add_obs_cmp_both_label, add_obs_label
 import seaborn as sns
 import matplotlib.colors as mcolors
 import numpy as np
 from .commonFuncs.plotFactors import bot_top_genes
-from ..figures.commonFuncs.plotGeneral import bal_combine_bo_covid, rotate_xaxis
+from ..figures.commonFuncs.plotGeneral import bal_combine_bo_covid, rotate_xaxis, plot_avegene_cmps
 import pandas as pd
     
 from ..figures.commonFuncs.plotPaCMAP import plot_gene_pacmap
@@ -163,46 +162,3 @@ def add_obs_label_three(X: anndata.AnnData, cmp1: int, cmp2: int, cmp3: int):
 
     return X
 
-
-
-def plot_avegene_cmps(
-    X: anndata.AnnData,
-    gene: str,
-    ax,
-):
-    """Plots average gene expression across cell types"""
-    genesV = X[:, gene]
-    dataDF = genesV.to_df()
-    condition = "sample_id"
-    status1 = "binary_outcome"
-    status2 = "patient_category"
-    cellType = "combined_cell_type"
-
-    dataDF = dataDF.subtract(genesV.var["means"].values)
-    dataDF[status1] = genesV.obs[status1].values
-    dataDF[status2] = genesV.obs[status2].values
-    dataDF["Condition"] = genesV.obs[condition].values
-    dataDF["Cell Type"] = genesV.obs[cellType].values
-    dataDF["Label"] = genesV.obs["Label"].values
-    dataDF = dataDF.dropna(subset="Label")
-    dataDF = bal_combine_bo_covid(dataDF, status1, status2)
-
-    df = pd.melt(
-        dataDF, id_vars=["Label", "Condition", "Cell Type"], value_vars=gene
-    ).rename(columns={"variable": "Gene", "value": "Value"})
-
-    df = df.groupby(["Label", "Gene", "Condition", "Cell Type"], observed=False).mean()
-    df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
-
-    sns.boxplot(
-        data=df.loc[df["Gene"] == gene],
-        x="Label",
-        y="Average Gene Expression",
-        hue="Cell Type",
-        ax=ax,
-        # order=["Both", "CmpX", "CmpY", "NoLabel"],
-        showfliers=False,
-    )
-    ax.set(ylabel=f"Average {gene}")
-
-    return df
