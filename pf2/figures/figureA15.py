@@ -30,8 +30,6 @@ def makeFigure():
     pos1 = True; pos2 = True; pos3 = True
     threshold = 0.5
     X = add_obs_cmp_both_label_three(X, cmp1, cmp2, cmp3, pos1, pos2, pos3, top_perc=threshold)
-
-    
     X = add_obs_label_three(X, cmp1, cmp2, cmp3)
     
     colors = ["black", "fuchsia", "turquoise", "slateblue", "gainsboro"]
