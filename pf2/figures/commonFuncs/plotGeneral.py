@@ -202,9 +202,12 @@ def add_obs_cmp_both_label_three(
             wprojs[:, cmp2 - 1] > threshold2[cmp2 - 1]) & (
                     wprojs[:, cmp3 - 1] < threshold3[cmp3 - 1]
                 )
+            
+        print(np.unique(idx))
 
     X.obs["Both"] = idx
-
+    print(np.unique(idx))
+    
     return X
 
 
@@ -220,10 +223,8 @@ def add_obs_label(X: anndata.AnnData, cmp1: str, cmp2: str):
 
 def add_obs_label_three(X: anndata.AnnData, cmp1: int, cmp2: int, cmp3: int):
     """Creates AnnData observation column"""
-    X.obs.loc[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs[f"Cmp{cmp2}"] == True)
-              & (X.obs[f"Cmp{cmp3}"] == True), "Label"] = "Both"
-    X.obs.loc[(X.obs[f"Cmp{cmp1}"] == False) & (X.obs[f"Cmp{cmp2}"] == False)
-              & (X.obs[f"Cmp{cmp3}"] == False), "Label"] = "NoLabel"
+    
+    
     X.obs.loc[((X.obs[f"Cmp{cmp1}"] == True) & (X.obs[f"Cmp{cmp2}"] == False)
                & (X.obs[f"Cmp{cmp3}"] == False), "Label")] = str(f"Cmp{cmp1}")
     X.obs.loc[(X.obs[f"Cmp{cmp1}"] == False) & (X.obs[f"Cmp{cmp2}"] == True)
@@ -231,6 +232,14 @@ def add_obs_label_three(X: anndata.AnnData, cmp1: int, cmp2: int, cmp3: int):
     X.obs.loc[(X.obs[f"Cmp{cmp1}"] == False) & (X.obs[f"Cmp{cmp2}"] == False)
               & (X.obs[f"Cmp{cmp3}"] == True), "Label"] = str(f"Cmp{cmp3}")
     
+    X.obs.loc[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs[f"Cmp{cmp2}"] == True)
+              & (X.obs[f"Cmp{cmp3}"] == True), "Label"] = str("Both")
+    X.obs.loc[(X.obs[f"Cmp{cmp1}"] == False) & (X.obs[f"Cmp{cmp2}"] == False)
+              & (X.obs[f"Cmp{cmp3}"] == False), "Label"] = str("NoLabel")
+    
+    print(str(f"Cmp{cmp1}"))
+    print(str(f"Cmp{cmp2}"))
+    print(str(f"Cmp{cmp3}"))
     
     return X
 

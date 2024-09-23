@@ -9,6 +9,7 @@ from ..figures.commonFuncs.plotGeneral import add_obs_cmp_both_label_three, add_
 import seaborn as sns
 import matplotlib.colors as mcolors
 import numpy as np
+import pandas as pd
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
@@ -31,8 +32,11 @@ def makeFigure():
     X = add_obs_label_three(X, cmp1, cmp2, cmp3)
 
     print(X)
+    print(np.unique(X.obs["Cmp15"].to_numpy()))
+    print(np.unique(X.obs["Cmp16"].to_numpy()))
+    print(np.unique(X.obs["Cmp19"].to_numpy()))
     print(X.obs["Label"].to_numpy())
-    print(np.unique(X.obs["Label"]))
+    print(pd.unique(X.obs["Label"]))
     colors = ["black", "turquoise", "fuchsia", "slateblue", "gainsboro"]
     pal = []
     for i in colors:

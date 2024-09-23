@@ -24,15 +24,14 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
 
-    cmp1 = 3
-    cmp2 = 26
-    cmp3 = 27
-    pos1 = True
-    pos2 = True
-    pos3 = True 
+    cmp1 = 15; cmp2 = 16; cmp3 = 19
+    pos1 = False; pos2 = True; pos3 = False
     threshold = 0.5
+    
     X = add_obs_cmp_both_label_three(X, cmp1, cmp2, cmp3, pos1, pos2, pos3, top_perc=threshold)
+    print(X)
     X = add_obs_label_three(X, cmp1, cmp2, cmp3)
+
 
     genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
     genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
@@ -76,6 +75,7 @@ def plot_avegene_cmps(
     df = df.groupby(["Label", "Gene", "Condition", "Cell Type"], observed=False).mean()
     df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
 
+    print(df["Label"].unique())
     sns.boxplot(
         data=df.loc[df["Gene"] == gene],
         x="Label",
