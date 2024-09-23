@@ -26,10 +26,12 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
 
-    cmp1 = 15; cmp2 = 16; cmp3 = 19
-    pos1 = False; pos2 = True; pos3 = False
+    cmp1 = 7; cmp2 = 10; cmp3 = 47
+    pos1 = True; pos2 = True; pos3 = True
     threshold = 0.5
     X = add_obs_cmp_both_label_three(X, cmp1, cmp2, cmp3, pos1, pos2, pos3, top_perc=threshold)
+
+    
     X = add_obs_label_three(X, cmp1, cmp2, cmp3)
     
     colors = ["black", "fuchsia", "turquoise", "slateblue", "gainsboro"]
@@ -80,7 +82,7 @@ def add_obs_cmp_both_label_three(
             else:
                 thres_value = top_perc
                 threshold2 = np.percentile(wprojs, thres_value, axis=0)
-                idx = wprojs[:, cmp - 1] < threshold1[cmp - 1]
+                idx = wprojs[:, cmp - 1] < threshold2[cmp - 1]
 
         if i == 2:
             if pos_neg[i] is True:
@@ -145,16 +147,16 @@ def add_obs_cmp_both_label_three(
 def add_obs_label_three(X: anndata.AnnData, cmp1: int, cmp2: int, cmp3: int):
     """Creates AnnData observation column"""
     X.obs.loc[((X.obs[f"Cmp{cmp1}"] == True) & (X.obs[f"Cmp{cmp2}"] == False)
-               & (X.obs[f"Cmp{cmp3}"] == False), "Label")] = str(f"Cmp{cmp1}")
+               & (X.obs[f"Cmp{cmp3}"] == False), "Label")] = f"Cmp{cmp1}"
     X.obs.loc[(X.obs[f"Cmp{cmp1}"] == False) & (X.obs[f"Cmp{cmp2}"] == True)
-              & (X.obs[f"Cmp{cmp3}"] == False), "Label"] = str(f"Cmp{cmp2}")
+              & (X.obs[f"Cmp{cmp3}"] == False), "Label"] = f"Cmp{cmp2}"
     X.obs.loc[(X.obs[f"Cmp{cmp1}"] == False) & (X.obs[f"Cmp{cmp2}"] == False)
-              & (X.obs[f"Cmp{cmp3}"] == True), "Label"] = str(f"Cmp{cmp3}")
+              & (X.obs[f"Cmp{cmp3}"] == True), "Label"] = f"Cmp{cmp3}"
 
     X.obs.loc[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs[f"Cmp{cmp2}"] == True)
-              & (X.obs[f"Cmp{cmp3}"] == True), "Label"] = str("Both")
+              & (X.obs[f"Cmp{cmp3}"] == True), "Label"] = "Both"
     X.obs.loc[(X.obs[f"Cmp{cmp1}"] == False) & (X.obs[f"Cmp{cmp2}"] == False)
-              & (X.obs[f"Cmp{cmp3}"] == False), "Label"] = str("NoLabel")
+              & (X.obs[f"Cmp{cmp3}"] == False), "Label"] = "NoLabel"
            
     X = X[(X.obs["Label"] == f"Cmp{cmp1}") | (X.obs["Label"] == f"Cmp{cmp2}") | 
                   (X.obs["Label"] == f"Cmp{cmp3}") | (X.obs["Label"] == "Both") |
