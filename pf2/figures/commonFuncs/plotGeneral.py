@@ -135,7 +135,7 @@ def plot_avegene_cmps(
     X: anndata.AnnData,
     gene: str,
     ax: Axes,
-    order: None
+    order=None
 ):
     """Plots average gene expression across cell types"""
     genesV = X[:, gene]
