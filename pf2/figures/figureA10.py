@@ -45,7 +45,7 @@ def makeFigure():
 def plsr_acc(patient_factor_matrix, meta_data):
     """Runs PLSR and obtains average prediction accuracy"""
 
-    labels, [c19_plsr, nc19_plsr] = predict_mortality(
+    _, labels, [c19_plsr, nc19_plsr] = predict_mortality(
         patient_factor_matrix, meta_data, proba=False
     )
 
