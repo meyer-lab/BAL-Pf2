@@ -34,7 +34,8 @@ def makeFigure():
     roc_auc = [False, True]
     for i in range(2):
         plsr_acc_df = pd.DataFrame([])
-        for j in range(10):
+        for j in range(3):
+            print(j)
             df = plsr_acc_proba(
                 patient_factor, meta, n_components=j + 1, roc_auc=roc_auc[i]
             )
@@ -44,14 +45,15 @@ def makeFigure():
         plsr_acc_df = plsr_acc_df.melt(
             id_vars="Component", var_name="Category", value_name="Accuracy"
         )
+        print(plsr_acc_df)
 
-        sns.lineplot(
+        sns.barplot(
             data=plsr_acc_df, x="Component", y="Accuracy", hue="Category", ax=ax[i]
         )
         if roc_auc[i] is True:
-            ax[i].set(xlim=[.5, 11], ylim=[0, 1], ylabel="AUC ROC")
+            ax[i].set(ylim=[0, 1], ylabel="AUC ROC")
         else:
-            ax[i].set(xlim=[.5, 11], ylim=[0, 1], ylabel="Prediction Accuracy")
+            ax[i].set(ylim=[0, 1], ylabel="Prediction Accuracy")
 
     plot_plsr_auc_roc(patient_factor, meta, ax[2])
 
@@ -96,7 +98,7 @@ def plot_plsr_auc_roc(patient_factor_matrix, meta_data, ax):
         patient_factor_matrix, meta_data, proba=True
     )
 
-    probabilities = probabilities.round().astype(int)
+    probabilities = probabilities.astype(int)
     meta_data = meta_data.loc[~meta_data.index.duplicated()].loc[labels.index]
 
     RocCurveDisplay.from_predictions(
