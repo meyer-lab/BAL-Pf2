@@ -1,0 +1,47 @@
+"""
+Figure A16:
+"""
+
+from anndata import read_h5ad
+from .common import (
+    subplotLabel,
+    getSetup,
+)
+import seaborn as sns
+from pf2.figures.commonFuncs.plotGeneral import bal_combine_bo_covid
+from ..data_import import add_obs, condition_factors_meta
+import pandas as pd
+import numpy as np
+
+
+def makeFigure():
+    ax, f = getSetup((8, 8), (2, 2))
+    subplotLabel(ax)
+
+    X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
+    add_obs(X, "binary_outcome")
+    add_obs(X, "patient_category")
+    
+    cond_fact_meta_df = condition_factors_meta(X)
+    cond_fact_meta_df = bal_combine_bo_covid(cond_fact_meta_df)
+    pat_df = cond_fact_meta_df[["patient_id", "icu_day", "Status"]]
+    order = np.unique(pat_df["Status"])
+    
+    sns.violinplot(data=pat_df, x="Status", y="icu_day", hue="Status", hue_order=order, order=order, cut=0, ax=ax[0])
+    
+    pat_df["Day"] = pat_df.groupby("patient_id")["icu_day"].transform(
+        lambda x: "1TP" if x.nunique() == 1 else ("2TP" if x.nunique() == 2 else ">=3TP")
+    )
+      
+    count_df = (
+            pat_df.groupby(["Status", "Day"], observed=True).size().reset_index(name="Sample Count")
+        )
+    total = count_df["Sample Count"].sum()
+    count_df["Sample Count"] = count_df["Sample Count"] / total
+    
+    sns.barplot(data=count_df, x="Day", y="Sample Count", hue="Status",ax=ax[1])
+    ax[1].set(ylabel="Sample Proportion")
+    
+
+
+    return f

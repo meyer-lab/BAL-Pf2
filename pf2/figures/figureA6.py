@@ -115,7 +115,7 @@ def plot_sample_count(
     else:
         sns.barplot(data=dfCond, x="Status", y="Sample Count", color="k", ax=ax2)
         rotate_xaxis(ax2)
-    ax2.set(ylabel="Sample Percentage")
+    ax2.set(ylabel="Sample Proportion")
 
 
 def cell_count_perc_df(X, celltype="Cell Type"):
