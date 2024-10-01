@@ -107,12 +107,15 @@ def plot_sample_count(
         sns.barplot(data=dfCond, x="Status", y="Sample Count", color="k", ax=ax1)
         rotate_xaxis(ax1)
 
+    total = dfCond["Sample Count"].sum()
+    dfCond["Sample Count"] = dfCond["Sample Count"] / total
 
     if combine is True: 
         sns.barplot(data=dfCond, x="Status", y="Sample Count", hue="Status", ax=ax2)
     else:
         sns.barplot(data=dfCond, x="Status", y="Sample Count", color="k", ax=ax2)
         rotate_xaxis(ax2)
+    ax2.set(ylabel="Sample Percentage")
 
 
 def cell_count_perc_df(X, celltype="Cell Type"):

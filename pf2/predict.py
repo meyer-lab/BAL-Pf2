@@ -95,4 +95,4 @@ def predict_mortality(
 
     else:
         predicted = predictions.round().astype(int)
-        return labels, (c_plsr, nc_plsr)
+        return  accuracy_score(labels, predicted), labels, (c_plsr, nc_plsr)
