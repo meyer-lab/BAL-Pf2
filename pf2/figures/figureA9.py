@@ -97,8 +97,10 @@ def plot_plsr_auc_roc(patient_factor_matrix, meta_data, ax):
     probabilities, labels = predict_mortality(
         patient_factor_matrix, meta_data, proba=True
     )
-
-    probabilities = probabilities.astype(int)
+    print(probabilities)
+    print(np.shape(probabilities))
+    print(probabilities.round().astype(int))
+    print(np.shape(probabilities.round().astype(int)))
     meta_data = meta_data.loc[~meta_data.index.duplicated()].loc[labels.index]
 
     RocCurveDisplay.from_predictions(
