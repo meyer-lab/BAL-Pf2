@@ -37,9 +37,9 @@ def makeFigure():
         r2xs.loc[rank] = r2x
         accuracies.loc[rank] = acc
     
-    ax[0].plot(ranks, r2xs)
+    ax[0].plot(ranks, r2xs, color = "k")
     ax[0].set(xticks = ranks, ylabel = "R2X", xlabel = "Rank")
-    ax[1].plot(ranks, accuracies,)
+    ax[1].plot(ranks, accuracies, color = "k")
     ax[1].set(xticks = ranks, ylabel = "Accuracy", xlabel = "Rank")
 
 
