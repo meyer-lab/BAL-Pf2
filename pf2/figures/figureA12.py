@@ -89,6 +89,7 @@ def makeFigure():
     # genes = ["NKG7", "GNLY", "KLRD1", "KLRF1",  "DOCK2", "GZMA"] # NK
     
     genes = ["FOXJ1", "CCDC78", "MUC5AC", "MUC5B"] # Ciliated
+    genes = ["GPRC5B", "SLC4A9"] # ionocytes
 
     for i, gene in enumerate(genes):
         plot_gene_pacmap(gene, X, ax[i + 2])
