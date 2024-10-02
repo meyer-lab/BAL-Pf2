@@ -8,7 +8,7 @@ from .common import (
     getSetup,
 )
 import seaborn as sns
-from pf2.figures.commonFuncs.plotGeneral import bal_combine_bo_covid
+from pf2.figures.commonFuncs.plotGeneral import bal_combine_bo_covid, rotate_xaxis
 from ..data_import import add_obs, condition_factors_meta
 import pandas as pd
 import numpy as np
@@ -24,6 +24,13 @@ def makeFigure():
     
     cond_fact_meta_df = condition_factors_meta(X)
     cond_fact_meta_df = bal_combine_bo_covid(cond_fact_meta_df)
+    
+    # status1 = "binary_outcome"
+    # status2 = "patient_category"
+
+    # cond_fact_meta_df = cond_fact_meta_df.replace({status1: {0: "L-", 1: "D-."}})
+    # cond_fact_meta_df["Status"] = cond_fact_meta_df[status1] + cond_fact_meta_df[status2]
+
     pat_df = cond_fact_meta_df[["patient_id", "icu_day", "Status"]]
     order = np.unique(pat_df["Status"])
     
@@ -42,6 +49,20 @@ def makeFigure():
     sns.barplot(data=count_df, x="Day", y="Sample Count", hue="Status",ax=ax[1])
     ax[1].set(ylabel="Sample Proportion")
     
+      
+    pat_tp_df = pat_df.loc[pat_df["Day"] == "1TP"]
+    pat_tp_count_df = (
+        pat_tp_df.groupby(["Status"], observed=True).size().reset_index(name="Sample Count")
+    )
+    total = pat_tp_count_df["Sample Count"].sum()
+    pat_tp_count_df["Sample Count"] = pat_tp_count_df["Sample Count"] / total
+
+    sns.barplot(data=pat_tp_count_df, x="Status", y="Sample Count", hue="Status", ax=ax[2])
+    ax[2].set(ylabel="Overall Patient Proportion")
+    
+    for i in range(3):
+        rotate_xaxis(ax[i])
+
 
 
     return f

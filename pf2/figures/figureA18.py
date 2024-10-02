@@ -2,18 +2,11 @@
 Figure A18:
 """
 
-import numpy as np
-import seaborn as sns
-import pandas as pd
-from matplotlib.axes import Axes
 import anndata
 from .common import subplotLabel, getSetup
-from ..figures.commonFuncs.plotGeneral import bal_combine_bo_covid, rotate_xaxis, add_obs_cmp_both_label, add_obs_label
+from ..figures.commonFuncs.plotGeneral import add_obs_cmp_both_label, add_obs_label
 from ..data_import import add_obs, combine_cell_types
-from .commonFuncs.plotFactors import bot_top_genes
 import scanpy as sc
-from ..data_import import add_obs, condition_factors_meta
-from .figureA11 import add_obs_cmp_both_labelm 
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
@@ -29,11 +22,11 @@ def makeFigure():
     
     cmp1 = 3
     cmp2 = 26
-    threshold = 1
-    X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1=False, pos2=False, top_perc=threshold)
+    threshold = .5
+    X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1=True, pos2=True, top_perc=threshold)
     X = add_obs_label(X, cmp1, cmp2)
     
-    X.obs["Label"] = X.obs["Cell Type"].astype(str) + X.obs["Label"].astype(str)
+    X.obs["Label"] = X.obs["combined_cell_type"].astype(str) + X.obs["Label"].astype(str)
 
     XX = X[(X.obs["Label"] == "MacrophagesCmp3")]
     XXXX = X[(X.obs["Label"] == "MacrophagesCmp26")]
