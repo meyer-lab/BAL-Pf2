@@ -70,9 +70,25 @@ def makeFigure():
     # genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
     # genes = np.concatenate([genes1, genes2])
     
-    genes = ["CD68", "NAAA", "JAML", "TYROBP"]
+    # genes = ["CD68", "NAAA", "JAML", "TYROBP"] # Macrophage
     # genes = ["APOBEC3A", "LYZ", "CD14", "CFP", "HLA-DRA", "S100A9",
-    #          "S100A8", "CSF3R"]
+    #          "S100A8", "CSF3R", "FCGR3A"] # Monocyte
+    # genes = ["FCGR3A"]  # nCM
+    
+    # genes = ["CSF3R", "S100A8", "TREM1", "IL1R2", "CFP", "ADAM8"] # Neutrophil
+    # genes = ["S100A4", "S100A9", "ICAM1", "S100A8", "ITGAM"] # Myeloid supressor 
+    genes = ["STMN1"] # Prolif
+    genes = ["MZB1", "SPAG4"] # Plasma
+    # genes = ["TRBC2", "CD3D", "CD3G", "CD3E", "LTB", "IL7R", "LEF1"] # T cell
+    genes = ["PXK", "MS4A1", "CD19", "CD74", "CD79A", "BANK1", "PTPRC"] # B cell
+    # genes = ["TRAC", "CD8A", "GZMB", "CD2", "CD27", "CD5", "CD27"] # Cytotoxic T cell
+    # genes = ["IKZF2", "FOXP3", "CCR4", "ENTPD1", "IL2RA", "ITGAE", "TNFRSF4", "CTLA4"] # Follicular helper T cell
+    # genes = ["CCR4", "CD4", "CD28", "CD3G", "CCR6"] # Helper T cel
+    # genes = ["CCR7", "CD2", "PTPRC", "CD28", "LEF1", "S100A8", "GIMAP4"] # Memory T cell
+    
+    # genes = ["NKG7", "GNLY", "KLRD1", "KLRF1",  "DOCK2", "GZMA"] # NK
+    
+    genes = ["FOXJ1", "CCDC78", "MUC5AC", "MUC5B"] # Ciliated
 
     for i, gene in enumerate(genes):
         plot_gene_pacmap(gene, X, ax[i + 2])
