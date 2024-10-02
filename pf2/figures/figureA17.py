@@ -19,8 +19,8 @@ def makeFigure():
     data = import_data()
     conversions = convert_to_patients(data)
     
-    # ranks = np.arange(5, 65, 5)
-    ranks = np.arange(2, 4)
+    ranks = np.arange(5, 85, 5)
+    # ranks = np.arange(2, 4)
     r2xs = pd.Series(0, dtype=float, index=ranks)
     accuracies = pd.Series(0, dtype=float, index=ranks)
     for rank in ranks:
@@ -39,8 +39,11 @@ def makeFigure():
     
     ax[0].plot(ranks, r2xs, color = "k")
     ax[0].set(xticks = ranks, ylabel = "R2X", xlabel = "Rank")
+    ax[0].set_ylim(bottom=0)
     ax[1].plot(ranks, accuracies, color = "k")
-    ax[1].set(xticks = ranks, ylabel = "Accuracy", xlabel = "Rank")
+    ax[1].set(ylim=[0, 1], xticks = ranks, ylabel = "Accuracy", xlabel = "Rank")
+
+    
 
 
     return f
