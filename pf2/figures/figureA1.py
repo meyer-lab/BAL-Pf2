@@ -27,25 +27,25 @@ def makeFigure():
     
     pal = sns.color_palette()
     pal = pal.as_hex() 
-    plot_condition_factors(
-        X, ax[0], cond="sample_id", cond_group_labels=pd.Series(label_all_samples(X)), color_key=pal, group_cond=True)
-    ax[0].yaxis.set_ticklabels([])
+    # plot_condition_factors(
+    #     X, ax[0], cond="sample_id", cond_group_labels=pd.Series(label_all_samples(X)), color_key=pal, group_cond=True)
+    # ax[0].yaxis.set_ticklabels([])
     
-    plot_eigenstate_factors(X, ax[1])
-    plot_gene_factors(X, ax[2])
-    ax[2].yaxis.set_ticklabels([])
+    # plot_eigenstate_factors(X, ax[1])
+    # plot_gene_factors(X, ax[2])
+    # ax[2].yaxis.set_ticklabels([])
 
     df = X.obs[["patient_category", "binary_outcome"]].reset_index(drop=True)
     df = bal_combine_bo_covid(df)
     X.obs["Status"] = df["Status"].to_numpy()
     plot_labels_pacmap(X, "Status", ax[3], color_key=pal)
 
-    combine_cell_types(X)
-    plot_labels_pacmap(X, "cell_type", ax[4])
+    # combine_cell_types(X)
+    # plot_labels_pacmap(X, "cell_type", ax[4])
     
-    pal = sns.color_palette("Set3")
-    pal = pal.as_hex() 
-    plot_labels_pacmap(X, "combined_cell_type", ax[5], color_key=pal)
+    # pal = sns.color_palette("Set3")
+    # pal = pal.as_hex() 
+    # plot_labels_pacmap(X, "combined_cell_type", ax[5], color_key=pal)
 
     return f
 

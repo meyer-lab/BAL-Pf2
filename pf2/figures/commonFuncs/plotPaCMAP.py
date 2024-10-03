@@ -119,6 +119,7 @@ def plot_labels_pacmap(
     ds_show(result, ax)
     ax.legend(handles=legend_elements)
     ax = assign_labels(ax)
+    ax.set(xlabel="PaCMAP1", ylabel="PaCMAP2", xticks=[np.min(data["x"]), np.max(data["x"])], yticks=[np.max(data["y"]), np.max(data["y"])])
 
 
 def plot_pair_wp_pacmap(
@@ -204,6 +205,7 @@ def plot_gene_pacmap(gene: str, X: anndata.AnnData, ax: Axes):
 
     ax = assign_labels(ax)
     ax.set(title=f"{gene}")
+    ax.set(xlabel="PaCMAP1", ylabel="PaCMAP2", xticks=[np.min(data["x"]), np.max(data["x"])], yticks=[np.max(data["y"]), np.max(data["y"])])
 
 
 def assign_labels(ax):
