@@ -7,7 +7,7 @@ import pandas as pd
 import anndata
 import numpy as np
 from .common import subplotLabel, getSetup
-from ..figures.commonFuncs.plotGeneral import rotate_xaxis
+from ..figures.commonFuncs.plotGeneral import rotate_xaxis, bal_combine_bo_covid, add_obs_label
 from .figureA6 import cell_count_perc_df
 from .figureA11 import add_obs_cmp_both_label
 from ..data_import import add_obs, combine_cell_types
@@ -17,19 +17,21 @@ from .commonFuncs.plotFactors import bot_top_genes
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((12, 12), (4, 4))
+    ax, f = getSetup((16, 12), (4, 4))
 
     subplotLabel(ax)
 
-    X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
-    # add_obs(X, "binary_outcome")
-    # add_obs(X, "patient_category")
-    # combine_cell_types(X)
+    X = anndata.read_h5ad("prolifX.h5ad")
+    # print(X)
+    add_obs(X, "binary_outcome")
+    add_obs(X, "patient_category")
+    combine_cell_types(X)
 
-    # cmp1 = 27; cmp2 = 46
+    cmp1 = 3; cmp2 = 26
     # pos1 = True; pos2 = True
     # threshold = 0.5
     # X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
+    X = add_obs_label(X, cmp1, cmp2)
 
     # celltype_count_perc_df_1 = cell_count_perc_df(
     #     X[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs["Both"] == False)],
@@ -70,28 +72,119 @@ def makeFigure():
     # genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
     # genes = np.concatenate([genes1, genes2])
     
-    # genes = ["CD68", "NAAA", "JAML", "TYROBP"] # Macrophage
-    # genes = ["APOBEC3A", "LYZ", "CD14", "CFP", "HLA-DRA", "S100A9",
+    # genes1 = ["CD68", "NAAA", "JAML", "TYROBP"] # Macrophage
+    # genes2 = ["APOBEC3A", "LYZ", "CD14", "CFP", "HLA-DRA", "S100A9",
     #          "S100A8", "CSF3R", "FCGR3A"] # Monocyte
-    # genes = ["FCGR3A"]  # nCM
+    # genes1 = ["FCGR3A"]  # nCM
+    # genes2 = ["CSF3R", "S100A8", "TREM1", "IL1R2", "CFP", "ADAM8"] # Neutrophil
+    # genes3 = ["S100A4", "S100A9", "ICAM1", "S100A8", "ITGAM"] # Myeloid supressor 
+    # genes1 = ["STMN1"] # Prolif
+    # genes2 = ["MZB1", "SPAG4"] # Plasma
+    # genes3 = ["TRBC2", "CD3D", "CD3G", "CD3E", "LTB", "IL7R", "LEF1"] # T cell
+    # genes1 = ["PXK", "MS4A1", "CD19", "CD74", "CD79A", "BANK1", "PTPRC"] # B cell
+    # genes2 = ["TRAC", "CD8A", "GZMB", "CD2", "CD27", "CD5", "CD27"] # Cytotoxic T cell
+    # genes1 = ["IKZF2", "FOXP3", "CCR4", "ENTPD1", "IL2RA", "ITGAE", "TNFRSF4", "CTLA4"] # Follicular helper T cell
+    # genes2 = ["CCR4", "CD4", "CD28", "CD3G", "CCR6"] # Helper T cel
+    # genes1 = ["CCR7", "CD2", "PTPRC", "CD28", "LEF1", "S100A8", "GIMAP4"] # Memory T cell
     
-    # genes = ["CSF3R", "S100A8", "TREM1", "IL1R2", "CFP", "ADAM8"] # Neutrophil
-    # genes = ["S100A4", "S100A9", "ICAM1", "S100A8", "ITGAM"] # Myeloid supressor 
-    genes = ["STMN1"] # Prolif
-    genes = ["MZB1", "SPAG4"] # Plasma
-    # genes = ["TRBC2", "CD3D", "CD3G", "CD3E", "LTB", "IL7R", "LEF1"] # T cell
-    genes = ["PXK", "MS4A1", "CD19", "CD74", "CD79A", "BANK1", "PTPRC"] # B cell
-    # genes = ["TRAC", "CD8A", "GZMB", "CD2", "CD27", "CD5", "CD27"] # Cytotoxic T cell
-    # genes = ["IKZF2", "FOXP3", "CCR4", "ENTPD1", "IL2RA", "ITGAE", "TNFRSF4", "CTLA4"] # Follicular helper T cell
-    # genes = ["CCR4", "CD4", "CD28", "CD3G", "CCR6"] # Helper T cel
-    # genes = ["CCR7", "CD2", "PTPRC", "CD28", "LEF1", "S100A8", "GIMAP4"] # Memory T cell
+    genes1 = ["NKG7", "GNLY", "KLRD1", "KLRF1",  "DOCK2", "GZMA"] # NK
     
-    # genes = ["NKG7", "GNLY", "KLRD1", "KLRF1",  "DOCK2", "GZMA"] # NK
-    
-    genes = ["FOXJ1", "CCDC78", "MUC5AC", "MUC5B"] # Ciliated
-    genes = ["GPRC5B", "SLC4A9"] # ionocytes
+    # genes = ["FOXJ1", "CCDC78", "MUC5AC", "MUC5B"] # Ciliated
+    # genes = ["GPRC5B", "SLC4A9"] # ionocytes
+    genes = np.concatenate([genes1])
+
+    # genes = ["NEK2", "KIF20A", "RAD54L",  "FAM111B"]
 
     for i, gene in enumerate(genes):
-        plot_gene_pacmap(gene, X, ax[i + 2])
+        plot_gene_pacmap(gene, X, ax[i])
+    
+    # for i, gene in enumerate(np.ravel(genes)):
+    #     plot_avegene_per_status(X, gene, ax[i+4], cellType="leiden", othercelltype="Label")
+    #     rotate_xaxis(ax[i])
+    
+    # for i, gene in enumerate(np.ravel(genes)):
+    #     plot_avegene_per_status(X, gene, ax[i], cellType="leiden")
+    #     rotate_xaxis(ax[i])
 
     return f
+
+def plot_avegene_per_status(
+    X: anndata.AnnData,
+    gene: str,
+    ax,
+    condition="sample_id",
+    cellType="cell_type",
+    status1="binary_outcome",
+    status2="patient_category",
+):
+    """Plots average gene expression across cell types for a category of drugs"""
+    genesV = X[:, gene]
+    dataDF = genesV.to_df()
+    dataDF = dataDF.subtract(genesV.var["means"].values)
+    dataDF[status1] = genesV.obs[status1].values
+    dataDF[status2] = genesV.obs[status2].values
+    dataDF["Condition"] = genesV.obs[condition].values
+    dataDF["Cell Type"] = genesV.obs[cellType].values
+
+
+    df = bal_combine_bo_covid(dataDF, status1, status2)
+
+    df = pd.melt(
+        df, id_vars=["Status", "Cell Type", "Condition"], value_vars=gene
+    ).rename(columns={"variable": "Gene", "value": "Value"})
+
+    df = df.groupby(["Status", "Cell Type", "Gene", "Condition"], observed=False).mean()
+    df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
+
+    sns.boxplot(
+        data=df.loc[df["Gene"] == gene],
+        x="Cell Type",
+        y="Average Gene Expression",
+        hue="Status",
+        ax=ax,
+        showfliers=False,
+    )
+    ax.set(ylabel=f"Average {gene}")
+
+    return df
+
+# def plot_avegene_per_status(
+#     X: anndata.AnnData,
+#     gene: str,
+#     ax,
+#     condition="sample_id",
+#     cellType="cell_type",
+#     status1="binary_outcome",
+#     status2="patient_category",
+#     othercelltype="leiden",
+# ):
+#     """Plots average gene expression across cell types for a category of drugs"""
+#     genesV = X[:, gene]
+#     dataDF = genesV.to_df()
+#     dataDF = dataDF.subtract(genesV.var["means"].values)
+#     dataDF[status1] = genesV.obs[status1].values
+#     dataDF[status2] = genesV.obs[status2].values
+#     dataDF["Condition"] = genesV.obs[condition].values
+#     dataDF["Cell Type"] = genesV.obs[cellType].values
+#     dataDF["Other"] = genesV.obs[othercelltype].values
+
+#     df = bal_combine_bo_covid(dataDF, status1, status2)
+
+#     df = pd.melt(
+#         df, id_vars=["Other", "Cell Type", "Condition"], value_vars=gene
+#     ).rename(columns={"variable": "Gene", "value": "Value"})
+
+#     df = df.groupby(["Other", "Cell Type", "Gene", "Condition"], observed=False).mean()
+#     df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
+
+#     sns.boxplot(
+#         data=df.loc[df["Gene"] == gene],
+#         x="Cell Type",
+#         y="Average Gene Expression",
+#         hue="Other",
+#         ax=ax,
+#         showfliers=False,
+#     )
+#     ax.set(ylabel=f"Average {gene}")
+
+#     return df

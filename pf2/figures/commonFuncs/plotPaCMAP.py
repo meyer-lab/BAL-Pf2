@@ -119,7 +119,7 @@ def plot_labels_pacmap(
     ds_show(result, ax)
     ax.legend(handles=legend_elements)
     ax = assign_labels(ax)
-    ax.set(xlabel="PaCMAP1", ylabel="PaCMAP2", xticks=[np.min(data["x"]), np.max(data["x"])], yticks=[np.max(data["y"]), np.max(data["y"])])
+    # ax.set(xlabel="PaCMAP1", ylabel="PaCMAP2", xticks=[np.min(data["x"]), np.max(data["x"])], yticks=[np.max(data["y"]), np.max(data["y"])])
 
 
 def plot_pair_wp_pacmap(
@@ -177,7 +177,7 @@ def plot_gene_pacmap(gene: str, X: anndata.AnnData, ax: Axes):
     """Scatterplot of PaCMAP visualization weighted by gene"""
     geneList = X[:, gene].to_df().values
 
-    geneList = np.clip(geneList, None, np.quantile(geneList, 0.999))
+    geneList = np.clip(geneList, None, np.quantile(geneList, 0.99))
     cmap = sns.color_palette("ch:s=-.2,r=.6", as_cmap=True)
 
     values = geneList
@@ -205,7 +205,7 @@ def plot_gene_pacmap(gene: str, X: anndata.AnnData, ax: Axes):
 
     ax = assign_labels(ax)
     ax.set(title=f"{gene}")
-    ax.set(xlabel="PaCMAP1", ylabel="PaCMAP2", xticks=[np.min(data["x"]), np.max(data["x"])], yticks=[np.max(data["y"]), np.max(data["y"])])
+    # ax.set(xlabel="PaCMAP1", ylabel="PaCMAP2", xticks=[np.min(data["x"]), np.max(data["x"])], yticks=[np.max(data["y"]), np.max(data["y"])])
 
 
 def assign_labels(ax):
