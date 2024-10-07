@@ -21,17 +21,17 @@ def makeFigure():
 
     subplotLabel(ax)
 
-    X = anndata.read_h5ad("prolifX.h5ad")
+    X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     # print(X)
-    add_obs(X, "binary_outcome")
-    add_obs(X, "patient_category")
-    combine_cell_types(X)
+    # add_obs(X, "binary_outcome")
+    # add_obs(X, "patient_category")
+    # combine_cell_types(X)
 
-    cmp1 = 3; cmp2 = 26
-    # pos1 = True; pos2 = True
-    # threshold = 0.5
-    # X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
-    X = add_obs_label(X, cmp1, cmp2)
+    # cmp1 = 3; cmp2 = 26
+    # # pos1 = True; pos2 = True
+    # # threshold = 0.5
+    # # X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
+    # X = add_obs_label(X, cmp1, cmp2)
 
     # celltype_count_perc_df_1 = cell_count_perc_df(
     #     X[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs["Both"] == False)],
@@ -87,11 +87,12 @@ def makeFigure():
     # genes2 = ["CCR4", "CD4", "CD28", "CD3G", "CCR6"] # Helper T cel
     # genes1 = ["CCR7", "CD2", "PTPRC", "CD28", "LEF1", "S100A8", "GIMAP4"] # Memory T cell
     
-    genes1 = ["NKG7", "GNLY", "KLRD1", "KLRF1",  "DOCK2", "GZMA"] # NK
+    # genes1 = ["NKG7", "GNLY", "KLRD1", "KLRF1",  "DOCK2", "GZMA"] # NK
     
-    # genes = ["FOXJ1", "CCDC78", "MUC5AC", "MUC5B"] # Ciliated
-    # genes = ["GPRC5B", "SLC4A9"] # ionocytes
-    genes = np.concatenate([genes1])
+    genes1 = ["FOXJ1", "CCDC78", "MUC5AC", "MUC5B"] # Ciliated
+    genes2 = ["TPM1"] # ionocytes
+    genes3 = ["SCGB1A1", "BPIFA1", "SCGB3A2"] # Secretory cells (also have MUC5AC and MUC5B)
+    genes = np.concatenate([genes1, genes2, genes3])
 
     # genes = ["NEK2", "KIF20A", "RAD54L",  "FAM111B"]
 

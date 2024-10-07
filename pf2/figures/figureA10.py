@@ -59,8 +59,7 @@ def plot_plsr_loadings(plsr_results, ax1, ax2, text=False):
 
     for i in range(2):
         ax[i].scatter(
-            np.abs(plsr_results[i].y_loadings_[0, 0]),
-            np.abs(plsr_results[i].y_loadings_[0, 1]),
+           plsr_results[i].y_loadings_[0, 0], plsr_results[i].y_loadings_[0, 1],
             c="tab:red",
         )
         ax[i].scatter(
