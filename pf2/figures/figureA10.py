@@ -111,6 +111,7 @@ def plot_plsr_scores(plsr_results, meta_data, labels, ax1, ax2):
             y=plsr_results[i].x_scores_[:, 1],
             hue=score_labels.to_numpy(),
             palette=[pal[numb1], pal[numb2]],
+            hue_order=[1, 0],
             ax=ax[i],
         )
 
