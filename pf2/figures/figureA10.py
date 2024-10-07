@@ -59,8 +59,8 @@ def plot_plsr_loadings(plsr_results, ax1, ax2, text=False):
 
     for i in range(2):
         ax[i].scatter(
-            np.abs(plsr_results[i].y_loadings_[0, 0]),
-            np.abs(plsr_results[i].y_loadings_[0, 1]),
+            plsr_results[i].y_loadings_[0, 0],
+            plsr_results[i].y_loadings_[0, 1],
             c="tab:red",
         )
         ax[i].scatter(
@@ -111,6 +111,7 @@ def plot_plsr_scores(plsr_results, meta_data, labels, ax1, ax2):
             y=plsr_results[i].x_scores_[:, 1],
             hue=score_labels.to_numpy(),
             palette=[pal[numb1], pal[numb2]],
+            hue_order=[1, 0],
             ax=ax[i],
         )
 
