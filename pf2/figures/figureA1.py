@@ -14,6 +14,7 @@ from ..figures.commonFuncs.plotFactors import (
 from ..figures.commonFuncs.plotPaCMAP import plot_labels_pacmap
 from ..figures.commonFuncs.plotGeneral import bal_combine_bo_covid
 import seaborn as sns
+import numpy as np
 
 
 def makeFigure():
@@ -21,31 +22,37 @@ def makeFigure():
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
-    X.uns["Pf2_A"] = correct_conditions(X)
-    add_obs(X, "patient_category")
+    # X.uns["Pf2_A"] = correct_conditions(X)
+    add_obs(X, "episode_etiology")
     add_obs(X, "binary_outcome")
     
-    pal = sns.color_palette()
-    pal = pal.as_hex() 
-    plot_condition_factors(
-        X, ax[0], cond="sample_id", cond_group_labels=pd.Series(label_all_samples(X)), color_key=pal, group_cond=True)
-    ax[0].yaxis.set_ticklabels([])
+    # pal = sns.color_palette()
+    # pal = pal.as_hex() 
+    # plot_condition_factors(
+    #     X, ax[0], cond="sample_id", cond_group_labels=pd.Series(label_all_samples(X)), color_key=pal, group_cond=True)
+    # ax[0].yaxis.set_ticklabels([])
     
-    plot_eigenstate_factors(X, ax[1])
-    plot_gene_factors(X, ax[2])
-    ax[2].yaxis.set_ticklabels([])
+    # plot_eigenstate_factors(X, ax[1])
+    # plot_gene_factors(X, ax[2])
+    # ax[2].yaxis.set_ticklabels([])
 
-    df = X.obs[["patient_category", "binary_outcome"]].reset_index(drop=True)
-    df = bal_combine_bo_covid(df)
-    X.obs["Status"] = df["Status"].to_numpy()
-    plot_labels_pacmap(X, "Status", ax[3], color_key=pal)
+    # df = X.obs[["patient_category", "binary_outcome"]].reset_index(drop=True)
+    # df = bal_combine_bo_covid(df)
+    # X.obs["Status"] = df["Status"].to_numpy()
+    # plot_labels_pacmap(X, "Status", ax[3], color_key=pal)
 
-    combine_cell_types(X)
-    plot_labels_pacmap(X, "cell_type", ax[4])
+    # combine_cell_types(X)
+    print(X)
+    # X = X.obs.loc[X.obs["episode_category"] == str]
+    X = X[~X.obs["episode_etiology"].isna()]
+    print(X)
+    # print((X.obs["episode_category"]))
+    print(np.unique(X.obs["episode_etiology"]))
+    plot_labels_pacmap(X, "episode_etiology", ax[4])
     
-    pal = sns.color_palette("Set3")
-    pal = pal.as_hex() 
-    plot_labels_pacmap(X, "combined_cell_type", ax[5], color_key=pal)
+    # pal = sns.color_palette("Set3")
+    # pal = pal.as_hex() 
+    # plot_labels_pacmap(X, "combined_cell_type", ax[5], color_key=pal)
 
     return f
 

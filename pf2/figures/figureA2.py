@@ -11,8 +11,8 @@ def makeFigure():
 
     X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
 
-    for i in [24, 25, 49]:
-        plot_wp_pacmap(X, i, ax[i - 1], cbarMax=0.4)
-        # plot_wp_per_celltype(X, i, ax[i-1])
+    for i in [9, 32, 27, 46, 23, 34, 15 , 16, 19]:
+        # plot_wp_pacmap(X, i, ax[i - 1], cbarMax=0.4)
+        plot_wp_per_celltype(X, i, ax[i-1])
 
     return f
