@@ -3,7 +3,8 @@ from sklearn.cross_decomposition import PLSRegression
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import StratifiedKFold
 
-SKF = StratifiedKFold(n_splits=10)
+SKF = StratifiedKFold(n_splits=5)
+# DONT FORGET TO CHANGE THIS
 
 
 def run_plsr(

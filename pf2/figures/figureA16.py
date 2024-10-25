@@ -29,9 +29,11 @@ def makeFigure():
     
     sns.violinplot(data=pat_df, x="Status", y="icu_day", hue="Status", hue_order=order, order=order, cut=0, ax=ax[0])
     
+    print(pat_df)
     pat_df["Day"] = pat_df.groupby("patient_id")["icu_day"].transform(
         lambda x: "1TP" if x.nunique() == 1 else ("2TP" if x.nunique() == 2 else ">=3TP")
     )
+    print(pat_df)
       
     count_df = (
             pat_df.groupby(["Status", "Day"], observed=True).size().reset_index(name="Sample Count")
