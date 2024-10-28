@@ -33,7 +33,7 @@ def makeFigure():
     pat_df["Day"] = pat_df.groupby("patient_id")["icu_day"].transform(
         lambda x: "1TP" if x.nunique() == 1 else ("2TP" if x.nunique() == 2 else ">=3TP")
     )
-    print(pat_df)
+    print(pat_df.loc[pat_df["patient_id"] == 476])
       
     count_df = (
             pat_df.groupby(["Status", "Day"], observed=True).size().reset_index(name="Sample Count")

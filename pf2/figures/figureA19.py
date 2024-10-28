@@ -23,27 +23,29 @@ def makeFigure():
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
 
-    meta = import_meta()
-    conversions = convert_to_patients(X)
+    meta = import_meta(drop_duplicates=False)
+    conversions = convert_to_patients(X, sample=True)
 
     patient_factor = pd.DataFrame(
         X.uns["Pf2_A"],
         index=conversions,
         columns=np.arange(X.uns["Pf2_A"].shape[1]) + 1,
     )
-    meta = meta.loc[patient_factor.index, :]
-    
-    time_point_counts = meta.groupby("patient_id").size().reset_index(name="TP")
-    meta = meta.merge(time_point_counts, on="patient_id", how="left")
+    meta.set_index("sample_id", inplace=True)
 
-    meta["TP"] = meta["TP"].transform(
-        lambda x: "1TP" if x == 1 else ("2TP" if x == 2 else ">=3TP")
+    shared_indices = patient_factor.index.intersection(meta.index)
+    patient_factor = patient_factor.loc[shared_indices, :]
+    meta = meta.loc[shared_indices, :]
+
+
+    meta["TP"] = meta["icu_day"].transform(
+        lambda x: "1TP" if x == 1 else ("2TP" if x == 2 else ("3TP" if x == 3 else ">=3TP"))
     )
-    meta = meta.set_index("patient_id")
+
     roc_auc = [False, True]
     axs = 0
     for i in range(2):
-        for j, timepoint in enumerate(["1TP", "2TP"]):
+        for j, timepoint in enumerate(["1TP", "2TP", ">=3TP"]):
             plsr_acc_df = pd.DataFrame([])
             for k in range(3):
                 meta_timepoint = meta.loc[meta["TP"] == timepoint, :]

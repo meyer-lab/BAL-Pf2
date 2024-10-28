@@ -38,6 +38,7 @@ def makeFigure():
             df = plsr_acc_proba(
                 patient_factor, meta, n_components=j + 1, roc_auc=roc_auc[i]
             )
+            print(df)
             df["Component"] = j + 1
             plsr_acc_df = pd.concat([plsr_acc_df, df], axis=0)
 
@@ -73,6 +74,10 @@ def plsr_acc_proba(patient_factor_matrix, meta_data, n_components=2, roc_auc=Tru
         score = roc_auc_score
     else:
         score = accuracy_score
+        
+        
+    print(meta_data.loc[476]["icu_day"])
+    a
 
     covid_acc = score(
         labels.loc[meta_data.loc[:, "patient_category"] == "COVID-19"],
