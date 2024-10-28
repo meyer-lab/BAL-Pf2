@@ -24,6 +24,8 @@ def makeFigure():
     X.uns["Pf2_A"] = correct_conditions(X)
     add_obs(X, "patient_category")
     add_obs(X, "binary_outcome")
+    add_obs(X, "episode_etiology")
+    add_obs(X, "episode_category")
     
     pal = sns.color_palette()
     pal = pal.as_hex() 
@@ -43,9 +45,19 @@ def makeFigure():
     combine_cell_types(X)
     plot_labels_pacmap(X, "cell_type", ax[4])
     
-    pal = sns.color_palette("Set3")
+    pal = sns.color_palette(palette='Set3')
     pal = pal.as_hex() 
     plot_labels_pacmap(X, "combined_cell_type", ax[5], color_key=pal)
+    
+    pal = sns.color_palette(palette='cubehelix')
+    pal = pal.as_hex() 
+    XX = X[~X.obs["episode_etiology"].isna()]
+    plot_labels_pacmap(XX, "episode_etiology", ax[6], color_key=pal)
+    
+    pal = sns.color_palette(palette='CMRmap')
+    pal = pal.as_hex() 
+    XX = X[~X.obs["episode_category"].isna()]
+    plot_labels_pacmap(XX, "episode_category", ax[7], color_key=pal)
 
     return f
 
