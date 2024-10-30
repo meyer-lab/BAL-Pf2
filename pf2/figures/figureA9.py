@@ -38,7 +38,6 @@ def makeFigure():
             df = plsr_acc_proba(
                 patient_factor, meta, n_components=j + 1, roc_auc=roc_auc[i]
             )
-            print(df)
             df["Component"] = j + 1
             plsr_acc_df = pd.concat([plsr_acc_df, df], axis=0)
 
@@ -74,20 +73,17 @@ def plsr_acc_proba(patient_factor_matrix, meta_data, n_components=2, roc_auc=Tru
         score = roc_auc_score
     else:
         score = accuracy_score
-        
-        
-    print(meta_data.loc[476]["icu_day"])
-    a
 
     covid_acc = score(
-        labels.loc[meta_data.loc[:, "patient_category"] == "COVID-19"],
-        probabilities.loc[meta_data.loc[:, "patient_category"] == "COVID-19"],
+        labels.loc[meta_data.loc[:, "patient_category"] == "COVID-19"].to_numpy().astype(int),
+        probabilities.loc[meta_data.loc[:, "patient_category"] == "COVID-19"]
     )
     nc_acc = score(
-        labels.loc[meta_data.loc[:, "patient_category"] != "COVID-19"],
+        labels.loc[meta_data.loc[:, "patient_category"] != "COVID-19"].to_numpy().astype(int),
         probabilities.loc[meta_data.loc[:, "patient_category"] != "COVID-19"],
     )
-    acc = score(labels, probabilities)
+
+    acc = score(labels.to_numpy().astype(int), probabilities)
 
     acc_df.loc[0, :] = [acc, covid_acc, nc_acc]
 
@@ -102,17 +98,17 @@ def plot_plsr_auc_roc(patient_factor_matrix, meta_data, ax):
     meta_data = meta_data.loc[~meta_data.index.duplicated()].loc[labels.index]
 
     RocCurveDisplay.from_predictions(
-        labels.loc[meta_data.loc[:, "patient_category"] == "COVID-19"],
+        labels.loc[meta_data.loc[:, "patient_category"] == "COVID-19"].to_numpy().astype(int),
         probabilities.loc[meta_data.loc[:, "patient_category"] == "COVID-19"],
         ax=ax,
         name="C19",
     )
     RocCurveDisplay.from_predictions(
-        labels.loc[meta_data.loc[:, "patient_category"] != "COVID-19"],
+        labels.loc[meta_data.loc[:, "patient_category"] != "COVID-19"].to_numpy().astype(int),
         probabilities.loc[meta_data.loc[:, "patient_category"] != "COVID-19"],
         ax=ax,
         name="nC19",
     )
     RocCurveDisplay.from_predictions(
-        labels, probabilities, plot_chance_level=True, ax=ax, name="Overall"
+        labels.to_numpy().astype(int), probabilities, plot_chance_level=True, ax=ax, name="Overall"
     )

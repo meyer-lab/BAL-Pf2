@@ -14,7 +14,7 @@ from sklearn.metrics import RocCurveDisplay
 from sklearn.metrics import accuracy_score, roc_auc_score
 from pf2.figures.commonFuncs.plotGeneral import bal_combine_bo_covid, rotate_xaxis
 from ..data_import import add_obs, condition_factors_meta
-
+from pf2.figures.figureA9 import plsr_acc_proba, plot_plsr_auc_roc
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
@@ -37,15 +37,14 @@ def makeFigure():
     patient_factor = patient_factor.loc[shared_indices, :]
     meta = meta.loc[shared_indices, :]
 
-
     meta["TP"] = meta["icu_day"].transform(
-        lambda x: "1TP" if x == 1 else ("2TP" if x == 2 else ("3TP" if x == 3 else ">=3TP"))
-    )
+    lambda x: "1-2TP" if x in [1, 2] else ("3-8TP" if x in [3, 4, 5, 6, 7, 8]  else ">=9TP"))
 
+    # meta = meta.set_index("sample_id")
     roc_auc = [False, True]
     axs = 0
     for i in range(2):
-        for j, timepoint in enumerate(["1TP", "2TP", ">=3TP"]):
+        for j, timepoint in enumerate(["1-2TP", "3-8TP", ">=9TP"]):
             plsr_acc_df = pd.DataFrame([])
             for k in range(3):
                 meta_timepoint = meta.loc[meta["TP"] == timepoint, :]
@@ -63,71 +62,20 @@ def makeFigure():
                 id_vars="Component", var_name="Category", value_name="Accuracy"
             )
             sns.barplot(
-                data=plsr_acc_df, x="Component", y="Accuracy", hue="Category", ax=ax[axs]
+                data=plsr_acc_df, x="Component", y="Accuracy", hue="Category", ax=ax[axs], hue_order=["C19", "nC19", "Overall"]
             )
             ax[axs].set(title=timepoint)
-            axs += 1
             if roc_auc[i] is True:
-                ax[i].set(ylim=[0, 1], ylabel="AUC ROC")
+                ax[axs].set(ylim=[0, 1], ylabel="AUC ROC")
             else:
-                ax[i].set(ylim=[0, 1], ylabel="Prediction Accuracy")
-
-        # plot_plsr_auc_roc(patient_factor, meta, ax[2])
+                ax[axs].set(ylim=[0, 1], ylabel="Prediction Accuracy")
+                
+            if i == 0:
+                plot_plsr_auc_roc(patient_factor_timepoint, meta_timepoint, ax[axs+6])
+                ax[axs+6].set(title=timepoint)
+            
+            axs += 1
+    
+          
 
     return f
-
-
-def plsr_acc_proba(patient_factor_matrix, meta_data, n_components=2, roc_auc=True):
-    """Runs PLSR and obtains average prediction accuracy"""
-
-    acc_df = pd.DataFrame(columns=["Overall", "C19", "nC19"])
-
-    probabilities, labels = predict_mortality(
-        patient_factor_matrix, n_components=n_components, meta=meta_data, proba=True
-    )
-
-    probabilities = probabilities.round().astype(int)
-    meta_data = meta_data.loc[~meta_data.index.duplicated()].loc[labels.index]
-
-    if roc_auc:
-        score = roc_auc_score
-    else:
-        score = accuracy_score
-
-    covid_acc = score(
-        labels.loc[meta_data.loc[:, "patient_category"] == "COVID-19"],
-        probabilities.loc[meta_data.loc[:, "patient_category"] == "COVID-19"],
-    )
-    nc_acc = score(
-        labels.loc[meta_data.loc[:, "patient_category"] != "COVID-19"],
-        probabilities.loc[meta_data.loc[:, "patient_category"] != "COVID-19"],
-    )
-    acc = score(labels, probabilities)
-
-    acc_df.loc[0, :] = [acc, covid_acc, nc_acc]
-
-    return acc_df
-
-
-def plot_plsr_auc_roc(patient_factor_matrix, meta_data, ax):
-    """Runs PLSR and plots ROC AUC based on actual and prediction labels"""
-    probabilities, labels = predict_mortality(
-        patient_factor_matrix, meta_data, proba=True
-    )
-    meta_data = meta_data.loc[~meta_data.index.duplicated()].loc[labels.index]
-
-    RocCurveDisplay.from_predictions(
-        labels.loc[meta_data.loc[:, "patient_category"] == "COVID-19"],
-        probabilities.loc[meta_data.loc[:, "patient_category"] == "COVID-19"],
-        ax=ax,
-        name="C19",
-    )
-    RocCurveDisplay.from_predictions(
-        labels.loc[meta_data.loc[:, "patient_category"] != "COVID-19"],
-        probabilities.loc[meta_data.loc[:, "patient_category"] != "COVID-19"],
-        ax=ax,
-        name="nC19",
-    )
-    RocCurveDisplay.from_predictions(
-        labels, probabilities, plot_chance_level=True, ax=ax, name="Overall"
-    )

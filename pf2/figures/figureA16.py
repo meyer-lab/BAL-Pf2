@@ -12,6 +12,7 @@ from pf2.figures.commonFuncs.plotGeneral import bal_combine_bo_covid, rotate_xax
 from ..data_import import add_obs, condition_factors_meta
 import pandas as pd
 import numpy as np
+from ..data_import import convert_to_patients, import_meta
 
 
 def makeFigure():
@@ -19,12 +20,23 @@ def makeFigure():
     subplotLabel(ax)
 
     X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
-    add_obs(X, "binary_outcome")
-    add_obs(X, "patient_category")
     
-    cond_fact_meta_df = condition_factors_meta(X)
-    cond_fact_meta_df = bal_combine_bo_covid(cond_fact_meta_df)
-    pat_df = cond_fact_meta_df[["patient_id", "icu_day", "Status"]]
+    meta = import_meta(drop_duplicates=False)
+    conversions = convert_to_patients(X, sample=True)
+
+    patient_factor = pd.DataFrame(
+        X.uns["Pf2_A"],
+        index=conversions,
+        columns=np.arange(X.uns["Pf2_A"].shape[1]) + 1,
+    )
+    meta.set_index("sample_id", inplace=True)
+
+    shared_indices = patient_factor.index.intersection(meta.index)
+    patient_factor = patient_factor.loc[shared_indices, :]
+    meta = meta.loc[shared_indices, :]
+    
+    meta = bal_combine_bo_covid(meta)
+    pat_df = meta[["patient_id", "icu_day", "Status"]]
     order = np.unique(pat_df["Status"])
     
     sns.violinplot(data=pat_df, x="Status", y="icu_day", hue="Status", hue_order=order, order=order, cut=0, ax=ax[0])

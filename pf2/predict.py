@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.cross_decomposition import PLSRegression
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import StratifiedKFold
-
+import numpy as np
 SKF = StratifiedKFold(n_splits=5)
 # DONT FORGET TO CHANGE THIS
 
@@ -73,7 +73,6 @@ def predict_mortality(
     data = data.loc[meta.loc[:, "patient_category"] != "Non-Pneumonia Control", :]
     meta = meta.loc[meta.loc[:, "patient_category"] != "Non-Pneumonia Control", :]
     labels = data.index.to_series().replace(meta.loc[:, "binary_outcome"])
-
     covid_data = data.loc[meta.loc[:, "patient_category"] == "COVID-19", :]
     covid_labels = meta.loc[
         meta.loc[:, "patient_category"] == "COVID-19", "binary_outcome"
