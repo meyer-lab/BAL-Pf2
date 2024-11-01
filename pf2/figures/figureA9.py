@@ -12,6 +12,7 @@ from ..predict import predict_mortality
 from .common import subplotLabel, getSetup
 from sklearn.metrics import RocCurveDisplay
 from sklearn.metrics import accuracy_score, roc_auc_score
+from pf2.figures.commonFuncs.plotGeneral import bal_combine_bo_covid
 
 
 def makeFigure():
@@ -21,16 +22,21 @@ def makeFigure():
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
 
-    meta = import_meta()
-    conversions = convert_to_patients(X)
+    meta = import_meta(drop_duplicates=False)
+    conversions = convert_to_patients(X, sample=True)
 
     patient_factor = pd.DataFrame(
         X.uns["Pf2_A"],
         index=conversions,
         columns=np.arange(X.uns["Pf2_A"].shape[1]) + 1,
     )
-    meta = meta.loc[patient_factor.index, :]
+    meta.set_index("sample_id", inplace=True)
 
+    shared_indices = patient_factor.index.intersection(meta.index)
+    patient_factor = patient_factor.loc[shared_indices, :]
+    meta = meta.loc[shared_indices, :]
+    
+    
     roc_auc = [False, True]
     for i in range(2):
         plsr_acc_df = pd.DataFrame([])
@@ -73,16 +79,16 @@ def plsr_acc_proba(patient_factor_matrix, meta_data, n_components=2, roc_auc=Tru
         score = roc_auc_score
     else:
         score = accuracy_score
-
+        
     covid_acc = score(
-        labels.loc[meta_data.loc[:, "patient_category"] == "COVID-19"],
-        probabilities.loc[meta_data.loc[:, "patient_category"] == "COVID-19"],
+        labels.loc[meta_data.loc[:, "patient_category"] == "COVID-19"].to_numpy().astype(int),
+        probabilities.loc[meta_data.loc[:, "patient_category"] == "COVID-19"].to_numpy(),
     )
     nc_acc = score(
-        labels.loc[meta_data.loc[:, "patient_category"] != "COVID-19"],
+        labels.loc[meta_data.loc[:, "patient_category"] != "COVID-19"].to_numpy().astype(int),
         probabilities.loc[meta_data.loc[:, "patient_category"] != "COVID-19"],
     )
-    acc = score(labels, probabilities)
+    acc = score(labels.to_numpy().astype(int), probabilities)
 
     acc_df.loc[0, :] = [acc, covid_acc, nc_acc]
 
@@ -97,17 +103,17 @@ def plot_plsr_auc_roc(patient_factor_matrix, meta_data, ax):
     meta_data = meta_data.loc[~meta_data.index.duplicated()].loc[labels.index]
 
     RocCurveDisplay.from_predictions(
-        labels.loc[meta_data.loc[:, "patient_category"] == "COVID-19"],
+        labels.loc[meta_data.loc[:, "patient_category"] == "COVID-19"].to_numpy().astype(int),
         probabilities.loc[meta_data.loc[:, "patient_category"] == "COVID-19"],
         ax=ax,
         name="C19",
     )
     RocCurveDisplay.from_predictions(
-        labels.loc[meta_data.loc[:, "patient_category"] != "COVID-19"],
+        labels.loc[meta_data.loc[:, "patient_category"] != "COVID-19"].to_numpy().astype(int),
         probabilities.loc[meta_data.loc[:, "patient_category"] != "COVID-19"],
         ax=ax,
         name="nC19",
     )
     RocCurveDisplay.from_predictions(
-        labels, probabilities, plot_chance_level=True, ax=ax, name="Overall"
+        labels.to_numpy().astype(int), probabilities, plot_chance_level=True, ax=ax, name="Overall"
     )
