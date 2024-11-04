@@ -8,7 +8,7 @@ import anndata
 from sklearn.metrics import accuracy_score
 import seaborn as sns
 from ..data_import import convert_to_patients, import_meta
-from ..predict import predict_mortality
+from ..predict import predict_mortality, predict_mortality_all
 from .common import subplotLabel, getSetup
 from sklearn.metrics import RocCurveDisplay
 from sklearn.metrics import accuracy_score, roc_auc_score
@@ -44,6 +44,7 @@ def makeFigure():
             df = plsr_acc_proba(
                 patient_factor, meta, n_components=j + 1, roc_auc=roc_auc[i]
             )
+            print(df)
             df["Component"] = j + 1
             plsr_acc_df = pd.concat([plsr_acc_df, df], axis=0)
 
@@ -71,6 +72,10 @@ def plsr_acc_proba(patient_factor_matrix, meta_data, n_components=2, roc_auc=Tru
     probabilities, labels = predict_mortality(
         patient_factor_matrix, n_components=n_components, meta=meta_data, proba=True
     )
+    
+    probabilities_all, labels_all = predict_mortality_all(
+        patient_factor_matrix, n_components=n_components, meta=meta_data, proba=True
+    )
 
     probabilities = probabilities.round().astype(int)
     meta_data = meta_data.loc[~meta_data.index.duplicated()].loc[labels.index]
@@ -88,7 +93,7 @@ def plsr_acc_proba(patient_factor_matrix, meta_data, n_components=2, roc_auc=Tru
         labels.loc[meta_data.loc[:, "patient_category"] != "COVID-19"].to_numpy().astype(int),
         probabilities.loc[meta_data.loc[:, "patient_category"] != "COVID-19"],
     )
-    acc = score(labels.to_numpy().astype(int), probabilities)
+    acc = score(labels_all.to_numpy().astype(int), probabilities_all.round().astype(int))
 
     acc_df.loc[0, :] = [acc, covid_acc, nc_acc]
 
