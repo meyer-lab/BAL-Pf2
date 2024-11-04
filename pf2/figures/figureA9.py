@@ -59,7 +59,9 @@ def makeFigure():
         else:
             ax[i].set(ylim=[0, 1], ylabel="Prediction Accuracy")
 
-    plot_plsr_auc_roc(patient_factor, meta, ax[2])
+    for i in range(2):
+        plot_plsr_auc_roc(patient_factor, meta, n_components=i + 1, ax=ax[i + 2])
+        ax[i + 2].set(title=f"PLSR {i + 1} Components")
 
     return f
 
@@ -100,10 +102,13 @@ def plsr_acc_proba(patient_factor_matrix, meta_data, n_components=2, roc_auc=Tru
     return acc_df
 
 
-def plot_plsr_auc_roc(patient_factor_matrix, meta_data, ax):
+def plot_plsr_auc_roc(patient_factor_matrix, meta_data, n_components, ax):
     """Runs PLSR and plots ROC AUC based on actual and prediction labels"""
     probabilities, labels = predict_mortality(
-        patient_factor_matrix, meta_data, proba=True
+        patient_factor_matrix, meta_data, n_components=n_components, proba=True
+    )
+    probabilities_all, labels_all = predict_mortality_all(
+        patient_factor_matrix, n_components=n_components, meta=meta_data, proba=True
     )
     meta_data = meta_data.loc[~meta_data.index.duplicated()].loc[labels.index]
 
@@ -120,5 +125,5 @@ def plot_plsr_auc_roc(patient_factor_matrix, meta_data, ax):
         name="nC19",
     )
     RocCurveDisplay.from_predictions(
-        labels.to_numpy().astype(int), probabilities, plot_chance_level=True, ax=ax, name="Overall"
+        labels_all.to_numpy().astype(int), probabilities_all, plot_chance_level=True, ax=ax, name="Overall"
     )

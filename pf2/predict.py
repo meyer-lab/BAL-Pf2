@@ -95,7 +95,7 @@ def predict_mortality(
 
     else:
         predicted = predictions.round().astype(int)
-        return  accuracy_score(labels, predicted), labels, (c_plsr, nc_plsr)
+        return  accuracy_score(labels.to_numpy().astype(int), predicted), labels, (c_plsr, nc_plsr)
     
     
 def predict_mortality_all(
