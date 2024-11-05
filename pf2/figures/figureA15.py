@@ -26,13 +26,22 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
 
-    cmp1 = 7; cmp2 = 10; cmp3 = 47
-    pos1 = True; pos2 = True; pos3 = True
+    cmp1 = 19; cmp2 = 26; cmp3 = 34
+    pos1 = False; pos2 = True; pos3 = True
     threshold = 0.5
     X = add_obs_cmp_both_label_three(X, cmp1, cmp2, cmp3, pos1, pos2, pos3, top_perc=threshold)
+    
+    print(np.count_nonzero(X.obs["Cmp19"]))
+    print(np.count_nonzero(X.obs["Cmp26"]))
+    print(np.count_nonzero(X.obs["Cmp34"]))
+    print(np.count_nonzero(X.obs["Both"]))
+    
     X = add_obs_label_three(X, cmp1, cmp2, cmp3)
     
-    colors = ["black", "fuchsia", "turquoise", "slateblue", "gainsboro"]
+    print(np.unique(X.obs["Label"], return_counts=True))
+    
+    # colors = ["black", "fuchsia", "turquoise", "slateblue", "gainsboro"]
+    colors = ["fuchsia", "turquoise", "slateblue", "gainsboro"]
     pal = []
     for i in colors:
         pal.append(mcolors.CSS4_COLORS[i])
