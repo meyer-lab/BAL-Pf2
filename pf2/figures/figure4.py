@@ -5,13 +5,13 @@
 # from anndata import read_h5ad
 
 # from pf2.data_import import convert_to_patients, import_meta
-# from pf2.figures.common import getSetup
+from pf2.figures.common import getSetup
 # from pf2.predict import predict_mortality
 
 # TRIALS = 30
 
 
-# def makeFigure():
+def makeFigure():
 #     meta = import_meta()
 #     data = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
 
@@ -38,7 +38,7 @@
 #         covid_coefficients.loc[trial + 1, covid_plsr.coef_.index] = covid_plsr.coef_
 #         nc_coefficients.loc[trial + 1, nc_plsr.coef_.index] = nc_plsr.coef_
 
-#     axs, fig = getSetup((8, 4), (1, 1))
+    axs, fig = getSetup((8, 4), (1, 1))
 #     ax = axs[0]
 
 #     ax.errorbar(
@@ -73,4 +73,4 @@
 #     ax.set_ylabel("Logistic Regression Coefficient")
 #     ax.set_xlabel("PARAFAC2 Component")
 
-    # return fig
+    return fig
