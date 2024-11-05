@@ -13,7 +13,7 @@ import seaborn as sns
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((8, 8), (2, 2))
+    ax, f = getSetup((6, 6), (2, 2))
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
@@ -39,7 +39,7 @@ def makeFigure():
     ax[1].set(xlim=[-0.4, 0.4])
 
     plot_plsr_scores(plsr_results_both, meta, labels, ax[2], ax[3])
-    ax[2].set(xlim=[-9, 9])
+    ax[2].set(xlim=[-9.5, 9.5])
     ax[3].set(xlim=[-8.5, 8.5])
 
     return f
@@ -59,12 +59,12 @@ def plot_plsr_loadings(plsr_results, ax1, ax2):
     """Runs PLSR and plots ROC AUC based on actual and prediction labels"""
     ax = [ax1, ax2]
     type_of_data = ["C19", "nC19"]
-    
-    
 
     for i in range(2):
         df_xload = pd.DataFrame(data=plsr_results[i].x_loadings_[:, 0], columns=["PLSR 1"])
         df_yload = pd.DataFrame(data=[[plsr_results[i].y_loadings_[0, 0]]], columns=["PLSR 1"])
+        print(type_of_data[i]) 
+        print(df_xload.sort_values(by="PLSR 1"))
         sns.stripplot(
             data=df_xload,
             x="PLSR 1",

@@ -52,7 +52,8 @@ def makeFigure():
             id_vars="Component", var_name="Category", value_name="Accuracy"
         )
         sns.barplot(
-            data=plsr_acc_df, x="Component", y="Accuracy", hue="Category", ax=ax[i]
+            data=plsr_acc_df, x="Component", y="Accuracy", hue="Category", ax=ax[i],
+            hue_order=["C19", "nC19", "Overall"]
         )
         if roc_auc[i] is True:
             ax[i].set(ylim=[0, 1], ylabel="AUC ROC")

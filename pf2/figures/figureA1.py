@@ -21,7 +21,7 @@ def makeFigure():
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
-    X.uns["Pf2_A"] = correct_conditions(X)
+    # X.uns["Pf2_A"] = correct_conditions(X)
     add_obs(X, "patient_category")
     add_obs(X, "binary_outcome")
     add_obs(X, "episode_etiology")
