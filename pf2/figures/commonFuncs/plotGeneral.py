@@ -93,7 +93,7 @@ def add_obs_cmp_both_label(
             else:
                 thres_value = top_perc
                 threshold2 = np.percentile(wprojs, thres_value, axis=0)
-                idx = wprojs[:, cmp - 1] < threshold1[cmp - 1]
+                idx = wprojs[:, cmp - 1] < threshold2[cmp - 1]
 
         X.obs[f"Cmp{cmp}"] = idx
 
