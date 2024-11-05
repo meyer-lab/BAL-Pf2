@@ -66,11 +66,4 @@ def makeFigure():
         )
         rotate_xaxis(ax[i])
 
-    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
-    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
-    genes = np.concatenate([genes1, genes2])
-
-    for i, gene in enumerate(genes):
-        plot_gene_pacmap(gene, X, ax[i + 2])
-
     return f
