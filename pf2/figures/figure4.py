@@ -11,7 +11,7 @@
 # TRIALS = 30
 
 
-def makeFigure():
+# def makeFigure():
 #     meta = import_meta()
 #     data = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
 
@@ -73,4 +73,4 @@ def makeFigure():
 #     ax.set_ylabel("Logistic Regression Coefficient")
 #     ax.set_xlabel("PARAFAC2 Component")
 
-    return fig
+    # return fig
