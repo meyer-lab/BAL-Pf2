@@ -15,10 +15,10 @@ def makeFigure():
     ax, f = getSetup((6, 6), (2, 2))
     subplotLabel(ax)
     
-    meta = import_meta()
+    meta = import_meta(drop_duplicates=False)
     data = import_data()
     conversions = convert_to_patients(data)
-    
+    meta.set_index("sample_id", inplace=True)
     # ranks = np.arange(5, 65, 5)
     ranks = np.arange(2, 4)
     r2xs = pd.Series(0, dtype=float, index=ranks)
@@ -30,8 +30,10 @@ def makeFigure():
             index=conversions,
             columns=np.arange(fac.uns["Pf2_A"].shape[1]) + 1,
         )
-        if meta.shape[0] != patient_factor.shape[0]:
-            meta = meta.loc[patient_factor.index, :]
+        
+        shared_indices = patient_factor.index.intersection(meta.index)
+        patient_factor = patient_factor.loc[shared_indices, :]
+        meta = meta.loc[shared_indices, :]
 
         acc, _, _ = predict_mortality(patient_factor, meta)
         r2xs.loc[rank] = r2x
