@@ -13,10 +13,6 @@ def makeFigure():
 
     subplotLabel(ax)
 
-    plot_toppfun(cmp=9, ax=ax[0])
-    plot_toppfun(cmp=15, ax=ax[1])
-    # plot_toppfun(cmp=27, ax=ax[1])
-    plot_toppfun(cmp=46, ax=ax[2])
 
     return f
 
