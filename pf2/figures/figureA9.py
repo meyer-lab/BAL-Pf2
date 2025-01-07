@@ -71,16 +71,10 @@ def plsr_acc_proba(patient_factor_matrix, meta_data, n_components=2, roc_auc=Tru
 
     acc_df = pd.DataFrame(columns=["Overall", "C19", "nC19"])
 
-    probabilities, labels = predict_mortality(
-        patient_factor_matrix, n_components=n_components, meta=meta_data, proba=True
-    )
-    
     probabilities_all, labels_all = predict_mortality_all(
         patient_factor_matrix, n_components=n_components, meta=meta_data, proba=True
     )
-
-    probabilities = probabilities.round().astype(int)
-    meta_data = meta_data.loc[~meta_data.index.duplicated()].loc[labels.index]
+    meta_data = meta_data.loc[~meta_data.index.duplicated()].loc[labels_all.index]
 
     if roc_auc:
         score = roc_auc_score
@@ -88,12 +82,12 @@ def plsr_acc_proba(patient_factor_matrix, meta_data, n_components=2, roc_auc=Tru
         score = accuracy_score
         
     covid_acc = score(
-        labels.loc[meta_data.loc[:, "patient_category"] == "COVID-19"].to_numpy().astype(int),
-        probabilities.loc[meta_data.loc[:, "patient_category"] == "COVID-19"].to_numpy(),
+        labels_all.loc[meta_data.loc[:, "patient_category"] == "COVID-19"].to_numpy().astype(int),
+        probabilities_all.loc[meta_data.loc[:, "patient_category"] == "COVID-19"].round().astype(int),
     )
     nc_acc = score(
-        labels.loc[meta_data.loc[:, "patient_category"] != "COVID-19"].to_numpy().astype(int),
-        probabilities.loc[meta_data.loc[:, "patient_category"] != "COVID-19"],
+        labels_all.loc[meta_data.loc[:, "patient_category"] != "COVID-19"].to_numpy().astype(int),
+        probabilities_all.loc[meta_data.loc[:, "patient_category"] != "COVID-19"].round().astype(int),
     )
     acc = score(labels_all.to_numpy().astype(int), probabilities_all.round().astype(int))
 
@@ -104,23 +98,20 @@ def plsr_acc_proba(patient_factor_matrix, meta_data, n_components=2, roc_auc=Tru
 
 def plot_plsr_auc_roc(patient_factor_matrix, meta_data, n_components, ax):
     """Runs PLSR and plots ROC AUC based on actual and prediction labels"""
-    probabilities, labels = predict_mortality(
-        patient_factor_matrix, meta_data, n_components=n_components, proba=True
-    )
     probabilities_all, labels_all = predict_mortality_all(
-        patient_factor_matrix, n_components=n_components, meta=meta_data, proba=True
-    )
-    meta_data = meta_data.loc[~meta_data.index.duplicated()].loc[labels.index]
+        patient_factor_matrix, n_components=n_components, meta=meta_data, proba=True)
+
+    meta_data = meta_data.loc[~meta_data.index.duplicated()].loc[labels_all.index]
 
     RocCurveDisplay.from_predictions(
-        labels.loc[meta_data.loc[:, "patient_category"] == "COVID-19"].to_numpy().astype(int),
-        probabilities.loc[meta_data.loc[:, "patient_category"] == "COVID-19"],
+        labels_all.loc[meta_data.loc[:, "patient_category"] == "COVID-19"].to_numpy().astype(int),
+        probabilities_all.loc[meta_data.loc[:, "patient_category"] == "COVID-19"],
         ax=ax,
         name="C19",
     )
     RocCurveDisplay.from_predictions(
-        labels.loc[meta_data.loc[:, "patient_category"] != "COVID-19"].to_numpy().astype(int),
-        probabilities.loc[meta_data.loc[:, "patient_category"] != "COVID-19"],
+        labels_all.loc[meta_data.loc[:, "patient_category"] != "COVID-19"].to_numpy().astype(int),
+        probabilities_all.loc[meta_data.loc[:, "patient_category"] != "COVID-19"],
         ax=ax,
         name="nC19",
     )
