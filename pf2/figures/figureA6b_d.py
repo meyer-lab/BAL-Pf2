@@ -8,8 +8,8 @@ from .common import subplotLabel, getSetup
 import matplotlib.colors as mcolors
 import numpy as np
 from .commonFuncs.plotFactors import bot_top_genes
-from ..figures.commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps, add_obs_cmp_both_label_three, add_obs_label_three  
-from ..figures.commonFuncs.plotPaCMAP import plot_gene_pacmap
+from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps, add_obs_cmp_both_label_three, add_obs_label_three  
+from .commonFuncs.plotPaCMAP import plot_gene_pacmap
 
 
 def makeFigure():

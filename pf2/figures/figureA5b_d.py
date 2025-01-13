@@ -8,10 +8,10 @@ import pandas as pd
 from matplotlib.axes import Axes
 import anndata
 from .common import subplotLabel, getSetup
-from ..figures.commonFuncs.plotGeneral import rotate_xaxis, add_obs_cmp_both_label, add_obs_label, plot_avegene_cmps
+from .commonFuncs.plotGeneral import rotate_xaxis, add_obs_cmp_both_label, add_obs_label, plot_avegene_cmps
 from ..data_import import add_obs, combine_cell_types
 from .commonFuncs.plotFactors import bot_top_genes
-from ..figures.commonFuncs.plotPaCMAP import plot_gene_pacmap, plot_labels_pacmap
+from .commonFuncs.plotPaCMAP import plot_gene_pacmap, plot_labels_pacmap
 import matplotlib.colors as mcolors
 
 

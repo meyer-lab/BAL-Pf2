@@ -3,7 +3,7 @@ Figure A17:
 """
 
 import pandas as pd
-from ..figures.common import getSetup, subplotLabel
+from .common import getSetup, subplotLabel
 from ..tensor import correct_conditions
 import numpy as np
 from pf2.data_import import convert_to_patients, import_data, import_meta
