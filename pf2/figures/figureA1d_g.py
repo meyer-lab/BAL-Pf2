@@ -9,7 +9,7 @@ from .common import (
     subplotLabel,
     getSetup,
 )
-from ..figures.commonFuncs.plotGeneral import rotate_xaxis, bal_combine_bo_covid
+from .commonFuncs.plotGeneral import rotate_xaxis, bal_combine_bo_covid
 from ..data_import import add_obs, condition_factors_meta, combine_cell_types
 
 

@@ -6,7 +6,7 @@ import anndata
 import numpy as np
 import seaborn as sns
 import pandas as pd
-from ..figures.common import getSetup
+from .common import getSetup
 from ..tensor import correct_conditions
 
 

@@ -5,14 +5,14 @@ import anndata
 import pandas as pd
 from ..tensor import correct_conditions
 from ..data_import import combine_cell_types, add_obs
-from ..figures.common import getSetup, subplotLabel
-from ..figures.commonFuncs.plotFactors import (
+from .common import getSetup, subplotLabel
+from .commonFuncs.plotFactors import (
     plot_condition_factors,
     plot_gene_factors,
     plot_eigenstate_factors,
 )
-from ..figures.commonFuncs.plotPaCMAP import plot_labels_pacmap
-from ..figures.commonFuncs.plotGeneral import bal_combine_bo_covid
+from .commonFuncs.plotPaCMAP import plot_labels_pacmap
+from .commonFuncs.plotGeneral import bal_combine_bo_covid
 import seaborn as sns
 
 

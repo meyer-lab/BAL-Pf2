@@ -9,9 +9,9 @@ from matplotlib.axes import Axes
 import anndata
 from .common import subplotLabel, getSetup
 from ..tensor import correct_conditions
-from .figureA4 import partial_correlation_matrix
+from .figureA3a import partial_correlation_matrix
 from ..data_import import condition_factors_meta
-from ..figures.commonFuncs.plotGeneral import bal_combine_bo_covid
+from .commonFuncs.plotGeneral import bal_combine_bo_covid
 
 
 def makeFigure():
