@@ -22,10 +22,15 @@ def makeFigure():
     X = add_obs(X, "binary_outcome")
     X = add_obs(X, "patient_category")
 
-    genes = bot_top_genes(X, cmp=1, geneAmount=6)
+    genes = bot_top_genes(X, cmp=26, geneAmount=30)
 
     for i, gene in enumerate(np.ravel(genes)):
-        plot_avegene_per_status(X, gene, ax[i])
-        rotate_xaxis(ax[i])
+        if i == 0:
+            print("BOT GENES")
+        if i == 30:
+            print("TOP GENES")      
+        print(gene)
+        # plot_avegene_per_status(X, gene, ax[i])
+        # rotate_xaxis(ax[i])
 
     return f

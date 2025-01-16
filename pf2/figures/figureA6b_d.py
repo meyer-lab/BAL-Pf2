@@ -14,7 +14,7 @@ from .commonFuncs.plotPaCMAP import plot_gene_pacmap
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((12, 12), (4, 4))
+    ax, f = getSetup((14, 14), (4, 4))
 
     subplotLabel(ax)
 
@@ -23,11 +23,12 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
 
-    cmp1 = 7; cmp2 = 10; cmp3 = 47
-    pos1 = True; pos2 = True; pos3 = True
-    threshold = 0.5
+    cmp1 = 27; cmp2 = 37; cmp3 = 44
+    pos1 = True; pos2 = True; pos3 = False
+    threshold = 0.1
     X = add_obs_cmp_both_label_three(X, cmp1, cmp2, cmp3, pos1, pos2, pos3, top_perc=threshold)
     X = add_obs_label_three(X, cmp1, cmp2, cmp3)
+    print(np.unique(X.obs["Label"]))
     
     colors = ["black", "fuchsia", "turquoise", "slateblue", "gainsboro"]
     pal = []
@@ -36,6 +37,7 @@ def makeFigure():
 
     plot_labels_pacmap(X, "Label", ax[0], color_key=pal)
 
+    X = X[X.obs["Label"] != "Both"] 
     genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
     genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
     genes3 = bot_top_genes(X, cmp=cmp3, geneAmount=1)

@@ -11,8 +11,8 @@ def makeFigure():
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
 
-    for i in range(X.uns["Pf2_A"].shape[1]):
-        plot_gene_factors_partial(i + 1, X, ax[2 * i], geneAmount=10, top=True)
-        plot_gene_factors_partial(i + 1, X, ax[2 * i + 1], geneAmount=10, top=False)
+    for i, cmp in enumerate([2, 25, 19, 26, 34, 27, 37, 44, 8, 31]):
+        plot_gene_factors_partial(cmp, X, ax[2 * i], geneAmount=10, top=True)
+        plot_gene_factors_partial(cmp, X, ax[2 * i + 1], geneAmount=10, top=False)
 
     return f

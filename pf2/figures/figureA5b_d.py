@@ -26,13 +26,15 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
 
-    cmp1 = 27; cmp2 = 46
-    pos1 = True; pos2 = True
+    cmp1 = 8; cmp2 = 31
+    pos1 = False; pos2 = True
     threshold = 0.5
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     X = add_obs_label(X, cmp1, cmp2)
+    
+    X.loc.obs["Label"]
       
-    colors = ["black", "fuchsia", "turquoise", "gainsboro"]
+    colors = ["black",   "fuchsia", "turquoise", "gainsboro"]
     pal = []
     for i in colors:
         pal.append(mcolors.CSS4_COLORS[i])
@@ -44,7 +46,7 @@ def makeFigure():
     genes = np.concatenate([genes1, genes2])
 
     for i, gene in enumerate(genes):
-        plot_avegene_cmps(X, gene, ax[i])
+        plot_avegene_cmps(X, gene, ax[i+1])
         rotate_xaxis(ax[i+1])
         
     genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)

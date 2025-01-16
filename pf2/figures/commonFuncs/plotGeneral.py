@@ -32,7 +32,7 @@ def plot_avegene_per_status(
     df = df.groupby(["Status", "Cell Type", "Gene", "Condition"], observed=False).mean()
     df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
 
-    sns.boxplot(
+    sns.violinplot(
         data=df.loc[df["Gene"] == gene],
         x="Cell Type",
         y="Average Gene Expression",
@@ -225,7 +225,6 @@ def add_obs_label_three(X: anndata.AnnData, cmp1: int, cmp2: int, cmp3: int):
               & (X.obs[f"Cmp{cmp3}"] == False), "Label"] = f"Cmp{cmp2}"
     X.obs.loc[(X.obs[f"Cmp{cmp1}"] == False) & (X.obs[f"Cmp{cmp2}"] == False)
               & (X.obs[f"Cmp{cmp3}"] == True), "Label"] = f"Cmp{cmp3}"
-
     X.obs.loc[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs[f"Cmp{cmp2}"] == True)
               & (X.obs[f"Cmp{cmp3}"] == True), "Label"] = "Both"
     X.obs.loc[(X.obs[f"Cmp{cmp1}"] == False) & (X.obs[f"Cmp{cmp2}"] == False)
@@ -253,7 +252,7 @@ def plot_avegene_cmps(
     status2 = "patient_category"
     cellType = "combined_cell_type"
 
-    dataDF = dataDF.subtract(genesV.var["means"].values)
+    # dataDF = dataDF.subtract(genesV.var["means"].values)
     dataDF[status1] = genesV.obs[status1].values
     dataDF[status2] = genesV.obs[status2].values
     dataDF["Condition"] = genesV.obs[condition].values
@@ -269,14 +268,15 @@ def plot_avegene_cmps(
     df = df.groupby(["Label", "Gene", "Condition", "Cell Type"], observed=False).mean()
     df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
     
-    sns.boxplot(
+    sns.violinplot(
         data=df.loc[df["Gene"] == gene],
         x="Label",
         y="Average Gene Expression",
-        hue="Cell Type",
+        split=True,
+        # hue="Cell Type",
         ax=ax,
         order=order,
-        showfliers=False,
+        # showfliers=False,
     )
     ax.set(ylabel=f"Average {gene}")
 

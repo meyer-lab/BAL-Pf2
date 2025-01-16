@@ -25,29 +25,29 @@ def makeFigure():
     X.uns["Pf2_A"] += np.median(X.uns["Pf2_A"], axis=0)
     X.uns["Pf2_A"] = np.log(X.uns["Pf2_A"])
 
-    cmp_columns = [f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)]
+    # cmp_columns = [f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)]
 
     cond_fact_meta_df = condition_factors_meta(X)
     cond_fact_meta_df = bal_combine_bo_covid(cond_fact_meta_df)
 
-    pc_df = partial_correlation_matrix(cond_fact_meta_df[cmp_columns])
-    pc_df = remove_low_pc_cmp(pc_df, abs_threshold=0.4)
+    # pc_df = partial_correlation_matrix(cond_fact_meta_df[cmp_columns])
+    # pc_df = remove_low_pc_cmp(pc_df, abs_threshold=0.4)
 
-    pc_df["Var1"] = pc_df["Var1"].map(lambda x: x.lstrip("Cmp. ")).astype(int)
-    pc_df["Var2"] = pc_df["Var2"].map(lambda x: x.lstrip("Cmp. ")).astype(int)
+    # pc_df["Var1"] = pc_df["Var1"].map(lambda x: x.lstrip("Cmp. ")).astype(int)
+    # pc_df["Var2"] = pc_df["Var2"].map(lambda x: x.lstrip("Cmp. ")).astype(int)
 
-    pc_abs_df = pc_df.copy()
-    pc_abs_df["Weight"] = np.abs(pc_df["Weight"])
-    pc_abs_df = pc_abs_df.sort_values("Weight")
+    # pc_abs_df = pc_df.copy()
+    # pc_abs_df["Weight"] = np.abs(pc_df["Weight"])
+    # pc_abs_df = pc_abs_df.sort_values("Weight")
 
-    for i in range(6):
-        cmp1 = pc_abs_df.iloc[-(i + 1), 0]
-        cmp2 = pc_abs_df.iloc[-(i + 1), 1]
-        plot_pair_gene_factors(X, cmp1, cmp2, ax[(3 * i)])
-        plot_pair_cond_factors(
-            cond_fact_meta_df, cmp1, cmp2, ax[(3 * i) + 1], label="Status"
-        )
-        plot_pair_wp(X, cmp1, cmp2, ax[(3 * i) + 2], frac=0.001)
+
+    cmp1 = 2
+    cmp2 = 25
+    plot_pair_gene_factors(X, cmp1, cmp2, ax[0])
+    plot_pair_cond_factors(
+        cond_fact_meta_df, cmp1, cmp2, ax[1], label="Status"
+    )
+    plot_pair_wp(X, cmp1, cmp2, ax[2], frac=0.001)
 
     return f
 

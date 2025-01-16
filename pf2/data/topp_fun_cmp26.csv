@@ -1,0 +1,599 @@
+Category,Name,ID,Verbose ID,pValue,RAD51,ESCO2,PKMYT1,H1-5,TYMS,SPC24,EXO1,H3C7,UHRF1,E2F1,CDT1,MND1,MCM10,CLSPN,H3C3,KIF15,RRM2,DSCC1,H3C8,H3C2,PCLAF,ASF1B,CDCA5,H2AC12,E2F8,RAD54L,DTL,FAM111B,SPC25,CDC45
+GO: Molecular Function,structural constituent of chromatin,GO:0030527,go-molecular-function_GO:0030527_structural_constituent_of_chromatin,7.30185990523746E-09,0,0,0,1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0
+GO: Molecular Function,chromatin binding,GO:0003682,go-molecular-function_GO:0003682_chromatin_binding,9.61746586804217E-06,1,0,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,1,1,0,0,0,0,0,1
+GO: Molecular Function,single-stranded DNA binding,GO:0003697,go-molecular-function_GO:0003697_single-stranded_DNA_binding,4.64065873266459E-05,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1
+GO: Molecular Function,protein heterodimerization activity,GO:0046982,go-molecular-function_GO:0046982_protein_heterodimerization_activity,2.89877775645174E-04,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0
+GO: Molecular Function,protein dimerization activity,GO:0046983,go-molecular-function_GO:0046983_protein_dimerization_activity,3.04558419097634E-04,0,0,0,0,1,0,0,1,0,1,0,0,0,0,1,0,1,0,1,1,0,0,0,1,0,0,0,0,0,0
+GO: Molecular Function,DNA replication origin binding,GO:0003688,go-molecular-function_GO:0003688_DNA_replication_origin_binding,3.28902847260633E-04,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+GO: Molecular Function,DNA polymerase binding,GO:0070182,go-molecular-function_GO:0070182_DNA_polymerase_binding,5.41338023196313E-04,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,single-stranded DNA helicase activity,GO:0017116,go-molecular-function_GO:0017116_single-stranded_DNA_helicase_activity,5.41338023196313E-04,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,DNA damage sensor activity,GO:0140612,go-molecular-function_GO:0140612_DNA_damage_sensor_activity,5.89999377164636E-04,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,"catalytic activity, acting on DNA",GO:0140097,"go-molecular-function_GO:0140097_catalytic_activity,_acting_on_DNA",6.06851308258682E-04,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0
+GO: Molecular Function,"ATP-dependent activity, acting on DNA",GO:0008094,"go-molecular-function_GO:0008094_ATP-dependent_activity,_acting_on_DNA",8.99744709574167E-04,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0
+GO: Molecular Function,histone H3 ubiquitin ligase activity,GO:0141055,go-molecular-function_GO:0141055_histone_H3_ubiquitin_ligase_activity,0.001502403846163680,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,double-stranded DNA 5'-3' DNA exonuclease activity,GO:0051908,go-molecular-function_GO:0051908_double-stranded_DNA_5'-3'_DNA_exonuclease_activity,0.001502403846163680,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,thymidylate synthase activity,GO:0004799,go-molecular-function_GO:0004799_thymidylate_synthase_activity,0.001502403846163680,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,"5,10-methylenetetrahydrofolate-dependent methyltransferase activity",GO:0042083,"go-molecular-function_GO:0042083_5,10-methylenetetrahydrofolate-dependent_methylt...",0.001502403846163680,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,cadherin binding,GO:0045296,go-molecular-function_GO:0045296_cadherin_binding,0.0015781062473709400,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,helicase activity,GO:0004386,go-molecular-function_GO:0004386_helicase_activity,0.0016869803003050700,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0
+GO: Molecular Function,structural molecule activity,GO:0005198,go-molecular-function_GO:0005198_structural_molecule_activity,0.0018364760727126300,0,0,0,1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0
+GO: Molecular Function,molecular sensor activity,GO:0140299,go-molecular-function_GO:0140299_molecular_sensor_activity,0.002555912645989130,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,DNA strand exchange activity,GO:0000150,go-molecular-function_GO:0000150_DNA_strand_exchange_activity,0.0030026256062620700,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,double-stranded DNA binding,GO:0003690,go-molecular-function_GO:0003690_double-stranded_DNA_binding,0.0033376072797852300,1,0,0,1,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1
+GO: Molecular Function,DNA helicase activity,GO:0003678,go-molecular-function_GO:0003678_DNA_helicase_activity,0.0039016453014481300,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,hemi-methylated DNA-binding,GO:0044729,go-molecular-function_GO:0044729_hemi-methylated_DNA-binding,0.004500668340559600,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,ribonucleoside-diphosphate reductase activity,GO:0061731,go-molecular-function_GO:0061731_ribonucleoside-diphosphate_reductase_activity,0.004500668340559600,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,"ribonucleoside-diphosphate reductase activity, thioredoxin disulfide as acceptor",GO:0004748,"go-molecular-function_GO:0004748_ribonucleoside-diphosphate_reductase_activity,_t...",0.004500668340559600,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,nucleosomal DNA binding,GO:0031492,go-molecular-function_GO:0031492_nucleosomal_DNA_binding,0.004540712979664020,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
+GO: Molecular Function,H3K9me3 modified histone binding,GO:0062072,go-molecular-function_GO:0062072_H3K9me3_modified_histone_binding,0.0059965351048769700,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,single-stranded DNA 5'-3' DNA exonuclease activity,GO:0045145,go-molecular-function_GO:0045145_single-stranded_DNA_5'-3'_DNA_exonuclease_activity,0.007490228951250590,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,"oxidoreductase activity, acting on CH or CH2 groups, disulfide as acceptor",GO:0016728,"go-molecular-function_GO:0016728_oxidoreductase_activity,_acting_on_CH_or_CH2_gro...",0.007490228951250590,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,DNA translocase activity,GO:0015616,go-molecular-function_GO:0015616_DNA_translocase_activity,0.007490228951250590,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+GO: Molecular Function,ATP-dependent DNA/DNA annealing activity,GO:0036310,go-molecular-function_GO:0036310_ATP-dependent_DNA/DNA_annealing_activity,0.007490228951250590,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+GO: Molecular Function,"lysine N-acetyltransferase activity, acting on acetyl phosphate as donor",GO:0004468,"go-molecular-function_GO:0004468_lysine_N-acetyltransferase_activity,_acting_on_a...",0.00898175292728525,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,nucleosome binding,GO:0031491,go-molecular-function_GO:0031491_nucleosome_binding,0.009484008087972380,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
+GO: Molecular Function,5'-flap endonuclease activity,GO:0017108,go-molecular-function_GO:0017108_5'-flap_endonuclease_activity,0.010471110076636400,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,cell adhesion molecule binding,GO:0050839,go-molecular-function_GO:0050839_cell_adhesion_molecule_binding,0.011830474893064300,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,flap endonuclease activity,GO:0048256,go-molecular-function_GO:0048256_flap_endonuclease_activity,0.011958303438539900,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,double-stranded DNA exodeoxyribonuclease activity,GO:0008309,go-molecular-function_GO:0008309_double-stranded_DNA_exodeoxyribonuclease_activity,0.011958303438539900,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,ATP-dependent activity,GO:0140657,go-molecular-function_GO:0140657_ATP-dependent_activity,0.012862102894591900,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1,0,0,0,0
+GO: Molecular Function,DNA clamp loader activity,GO:0003689,go-molecular-function_GO:0003689_DNA_clamp_loader_activity,0.013443336048770800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,5'-3' DNA exonuclease activity,GO:0035312,go-molecular-function_GO:0035312_5'-3'_DNA_exonuclease_activity,0.013443336048770800,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Molecular Function,anaphase-promoting complex binding,GO:0010997,go-molecular-function_GO:0010997_anaphase-promoting_complex_binding,0.013443336048770800,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,chromosome organization,GO:0051276,go-biological-process_GO:0051276_chromosome_organization,1.18676274411309E-19,1,1,0,1,0,1,1,1,1,0,1,1,0,0,1,1,0,1,1,1,0,0,1,0,0,1,0,0,1,1
+GO: Biological Process,DNA metabolic process,GO:0006259,go-biological-process_GO:0006259_DNA_metabolic_process,3.68837228076327E-16,1,1,0,1,1,0,1,0,1,0,1,1,1,1,0,0,0,1,0,0,1,0,1,0,1,1,1,1,0,1
+GO: Biological Process,cell cycle process,GO:0022402,go-biological-process_GO:0022402_cell_cycle_process,2.5485627793547E-15,1,1,1,0,0,1,0,0,1,1,1,1,0,1,0,1,1,1,0,0,1,0,1,0,1,1,1,0,1,1
+GO: Biological Process,cell cycle,GO:0007049,go-biological-process_GO:0007049_cell_cycle,4.94130605751212E-14,1,1,1,0,0,1,1,0,1,1,1,1,0,1,0,1,1,1,0,0,1,0,1,0,1,1,1,0,1,1
+GO: Biological Process,DNA replication,GO:0006260,go-biological-process_GO:0006260_DNA_replication,3.36616812670051E-13,1,1,0,0,0,0,1,0,0,0,1,0,1,0,0,0,0,1,0,0,1,0,0,0,1,0,1,1,0,1
+GO: Biological Process,mitotic cell cycle,GO:0000278,go-biological-process_GO:0000278_mitotic_cell_cycle,3.06587107884439E-11,1,0,1,0,0,1,0,0,1,1,1,0,0,1,0,1,1,0,0,0,0,0,1,0,1,0,1,0,1,1
+GO: Biological Process,negative regulation of cell cycle process,GO:0010948,go-biological-process_GO:0010948_negative_regulation_of_cell_cycle_process,5.3879910290943E-11,1,0,1,0,0,1,0,0,0,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,1
+GO: Biological Process,protein-DNA complex assembly,GO:0065004,go-biological-process_GO:0065004_protein-DNA_complex_assembly,5.40581766420331E-11,1,0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1
+GO: Biological Process,mitotic cell cycle process,GO:1903047,go-biological-process_GO:1903047_mitotic_cell_cycle_process,5.98250142618816E-11,1,0,1,0,0,1,0,0,1,1,1,0,0,1,0,1,1,0,0,0,0,0,1,0,0,0,1,0,1,1
+GO: Biological Process,regulation of cell cycle phase transition,GO:1901987,go-biological-process_GO:1901987_regulation_of_cell_cycle_phase_transition,7.67962016143403E-11,1,0,1,0,0,1,0,0,0,1,1,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,1,0,1,1
+GO: Biological Process,negative regulation of cell cycle phase transition,GO:1901988,go-biological-process_GO:1901988_negative_regulation_of_cell_cycle_phase_transition,3.88832599687176E-10,1,0,1,0,0,1,0,0,0,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1
+GO: Biological Process,negative regulation of cell cycle,GO:0045786,go-biological-process_GO:0045786_negative_regulation_of_cell_cycle,6.05207305872559E-10,1,0,1,0,0,1,0,0,0,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,1
+GO: Biological Process,cell cycle phase transition,GO:0044770,go-biological-process_GO:0044770_cell_cycle_phase_transition,6.0644292893217E-10,1,0,1,0,0,1,0,0,0,1,1,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,1,0,1,1
+GO: Biological Process,cell cycle checkpoint signaling,GO:0000075,go-biological-process_GO:0000075_cell_cycle_checkpoint_signaling,6.3271766698124E-10,1,0,0,0,0,1,0,0,0,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1
+GO: Biological Process,regulation of cell cycle process,GO:0010564,go-biological-process_GO:0010564_regulation_of_cell_cycle_process,9.05565147023777E-10,1,0,1,0,0,1,0,0,0,1,1,0,0,1,0,0,1,0,0,0,0,0,1,0,1,0,1,0,1,1
+GO: Biological Process,nuclear division,GO:0000280,go-biological-process_GO:0000280_nuclear_division,1.56568120200645E-09,1,0,1,0,0,1,0,0,1,0,1,1,0,0,0,1,0,0,0,0,0,0,1,0,0,1,0,0,1,0
+GO: Biological Process,DNA damage response,GO:0006974,go-biological-process_GO:0006974_DNA_damage_response,3.794376081892E-09,1,1,0,0,0,0,1,0,1,1,0,0,1,1,0,0,0,0,0,0,1,0,1,0,0,1,1,0,0,1
+GO: Biological Process,organelle fission,GO:0048285,go-biological-process_GO:0048285_organelle_fission,4.45962557544789E-09,1,0,1,0,0,1,0,0,1,0,1,1,0,0,0,1,0,0,0,0,0,0,1,0,0,1,0,0,1,0
+GO: Biological Process,DNA-templated DNA replication,GO:0006261,go-biological-process_GO:0006261_DNA-templated_DNA_replication,5.4531845415268E-09,1,0,0,0,0,0,1,0,0,0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1
+GO: Biological Process,protein-DNA complex organization,GO:0071824,go-biological-process_GO:0071824_protein-DNA_complex_organization,6.00815134643528E-09,1,0,0,1,0,0,0,1,1,0,1,0,0,0,1,0,0,0,1,1,0,1,0,1,0,1,0,0,0,1
+GO: Biological Process,regulation of cell cycle,GO:0051726,go-biological-process_GO:0051726_regulation_of_cell_cycle,6.72786324583213E-09,1,0,1,0,0,1,0,0,0,1,1,0,0,1,0,0,1,0,0,0,1,0,1,0,1,0,1,0,1,1
+GO: Biological Process,DNA repair,GO:0006281,go-biological-process_GO:0006281_DNA_repair,1.48809196468187E-08,1,1,0,0,0,0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,1,0,0,1,1,0,0,1
+GO: Biological Process,nucleosome assembly,GO:0006334,go-biological-process_GO:0006334_nucleosome_assembly,2.00005704127502E-08,0,0,0,1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0
+GO: Biological Process,nucleosome organization,GO:0034728,go-biological-process_GO:0034728_nucleosome_organization,4.9620152694355E-08,0,0,0,1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0
+GO: Biological Process,DNA integrity checkpoint signaling,GO:0031570,go-biological-process_GO:0031570_DNA_integrity_checkpoint_signaling,5.6209007572873E-08,1,0,0,0,0,0,0,0,0,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1
+GO: Biological Process,regulation of mitotic cell cycle phase transition,GO:1901990,go-biological-process_GO:1901990_regulation_of_mitotic_cell_cycle_phase_transition,7.80960848627949E-08,0,0,1,0,0,1,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,1,0,1,0
+GO: Biological Process,chromosome segregation,GO:0007059,go-biological-process_GO:0007059_chromosome_segregation,2.37836949354903E-07,0,1,0,0,0,1,0,0,1,0,1,1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0
+GO: Biological Process,mitotic nuclear division,GO:0140014,go-biological-process_GO:0140014_mitotic_nuclear_division,2.7888352288053E-07,0,0,1,0,0,1,0,0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0
+GO: Biological Process,telomere organization,GO:0032200,go-biological-process_GO:0032200_telomere_organization,3.66176332728807E-07,1,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,mitotic cell cycle phase transition,GO:0044772,go-biological-process_GO:0044772_mitotic_cell_cycle_phase_transition,4.72362454195221E-07,0,0,1,0,0,1,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,1,0,1,0
+GO: Biological Process,mitotic sister chromatid segregation,GO:0000070,go-biological-process_GO:0000070_mitotic_sister_chromatid_segregation,5.30850102208594E-07,0,0,0,0,0,1,0,0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0
+GO: Biological Process,nuclear chromosome segregation,GO:0098813,go-biological-process_GO:0098813_nuclear_chromosome_segregation,6.22204867198608E-07,0,0,0,0,0,1,0,0,1,0,1,1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0
+GO: Biological Process,chromatin remodeling,GO:0006338,go-biological-process_GO:0006338_chromatin_remodeling,6.89410930985953E-07,0,0,0,1,0,0,0,1,1,0,0,0,0,0,1,0,0,0,1,1,0,1,0,1,0,1,0,0,0,0
+GO: Biological Process,DNA recombination,GO:0006310,go-biological-process_GO:0006310_DNA_recombination,7.77008117446694E-07,1,0,0,1,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1
+GO: Biological Process,cell cycle DNA replication,GO:0044786,go-biological-process_GO:0044786_cell_cycle_DNA_replication,8.66315468588115E-07,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1
+GO: Biological Process,regulation of mitotic cell cycle,GO:0007346,go-biological-process_GO:0007346_regulation_of_mitotic_cell_cycle,1.50884928276871E-06,0,0,1,0,0,1,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,1,0,1,0
+GO: Biological Process,sister chromatid segregation,GO:0000819,go-biological-process_GO:0000819_sister_chromatid_segregation,1.5234523232831E-06,0,0,0,0,0,1,0,0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0
+GO: Biological Process,DNA replication checkpoint signaling,GO:0000076,go-biological-process_GO:0000076_DNA_replication_checkpoint_signaling,3.11278259886643E-06,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+GO: Biological Process,chromatin organization,GO:0006325,go-biological-process_GO:0006325_chromatin_organization,3.31956051956135E-06,0,0,0,1,0,0,0,1,1,0,0,0,0,0,1,0,0,0,1,1,0,1,0,1,0,1,0,0,0,0
+GO: Biological Process,homologous recombination,GO:0035825,go-biological-process_GO:0035825_homologous_recombination,3.89731170473238E-06,1,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+GO: Biological Process,DNA replication preinitiation complex assembly,GO:0071163,go-biological-process_GO:0071163_DNA_replication_preinitiation_complex_assembly,6.12968675290125E-06,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+GO: Biological Process,post-translational protein acetylation,GO:0034421,go-biological-process_GO:0034421_post-translational_protein_acetylation,6.12968675290125E-06,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,double-strand break repair,GO:0006302,go-biological-process_GO:0006302_double-strand_break_repair,6.19707547705148E-06,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1
+GO: Biological Process,epigenetic regulation of gene expression,GO:0040029,go-biological-process_GO:0040029_epigenetic_regulation_of_gene_expression,6.88258867789404E-06,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0
+GO: Biological Process,negative regulation of mitotic cell cycle phase transition,GO:1901991,go-biological-process_GO:1901991_negative_regulation_of_mitotic_cell_cycle_phase_...,1.4796439308595E-05,0,0,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0
+GO: Biological Process,metaphase chromosome alignment,GO:0051310,go-biological-process_GO:0051310_metaphase_chromosome_alignment,1.69072174953025E-05,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0
+GO: Biological Process,mitotic sister chromatid cohesion,GO:0007064,go-biological-process_GO:0007064_mitotic_sister_chromatid_cohesion,1.91920023988827E-05,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0
+GO: Biological Process,DNA replication initiation,GO:0006270,go-biological-process_GO:0006270_DNA_replication_initiation,2.26311241148824E-05,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+GO: Biological Process,establishment of chromosome localization,GO:0051303,go-biological-process_GO:0051303_establishment_of_chromosome_localization,2.83439968184256E-05,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0
+GO: Biological Process,chromosome localization,GO:0050000,go-biological-process_GO:0050000_chromosome_localization,3.63604634946698E-05,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0
+GO: Biological Process,nuclear DNA replication,GO:0033260,go-biological-process_GO:0033260_nuclear_DNA_replication,4.04046835584317E-05,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+GO: Biological Process,DNA damage checkpoint signaling,GO:0000077,go-biological-process_GO:0000077_DNA_damage_checkpoint_signaling,4.33793529509115E-05,1,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+GO: Biological Process,negative regulation of mitotic cell cycle,GO:0045930,go-biological-process_GO:0045930_negative_regulation_of_mitotic_cell_cycle,4.9651510984695E-05,0,0,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0
+GO: Biological Process,regulation of DNA replication,GO:0006275,go-biological-process_GO:0006275_regulation_of_DNA_replication,5.87537373273552E-05,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0
+GO: Biological Process,regulation of DNA-templated DNA replication,GO:0090329,go-biological-process_GO:0090329_regulation_of_DNA-templated_DNA_replication,6.19263216206843E-05,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0
+GO: Biological Process,meiosis I cell cycle process,GO:0061982,go-biological-process_GO:0061982_meiosis_I_cell_cycle_process,7.21967330449312E-05,1,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+GO: Biological Process,attachment of spindle microtubules to kinetochore,GO:0008608,go-biological-process_GO:0008608_attachment_of_spindle_microtubules_to_kinetochore,7.30621098894944E-05,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,double-strand break repair via synthesis-dependent strand annealing,GO:0045003,go-biological-process_GO:0045003_double-strand_break_repair_via_synthesis-depende...,7.3157798854418E-05,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+GO: Biological Process,mitotic cell cycle checkpoint signaling,GO:0007093,go-biological-process_GO:0007093_mitotic_cell_cycle_checkpoint_signaling,8.77554284681985E-05,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0
+GO: Biological Process,reciprocal meiotic recombination,GO:0007131,go-biological-process_GO:0007131_reciprocal_meiotic_recombination,1.24909122904652E-04,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+GO: Biological Process,sister chromatid cohesion,GO:0007062,go-biological-process_GO:0007062_sister_chromatid_cohesion,1.24909122904652E-04,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0
+GO: Biological Process,reciprocal homologous recombination,GO:0140527,go-biological-process_GO:0140527_reciprocal_homologous_recombination,1.24909122904652E-04,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+GO: Biological Process,meiotic cell cycle,GO:0051321,go-biological-process_GO:0051321_meiotic_cell_cycle,1.37433535109063E-04,1,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+GO: Biological Process,regulation of DNA metabolic process,GO:0051052,go-biological-process_GO:0051052_regulation_of_DNA_metabolic_process,1.38120114522967E-04,1,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0
+GO: Biological Process,double-strand break repair via homologous recombination,GO:0000724,go-biological-process_GO:0000724_double-strand_break_repair_via_homologous_recomb...,1.52180332267068E-04,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1
+GO: Biological Process,recombinational repair,GO:0000725,go-biological-process_GO:0000725_recombinational_repair,1.71688000669978E-04,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1
+GO: Biological Process,negative regulation of G2/M transition of mitotic cell cycle,GO:0010972,go-biological-process_GO:0010972_negative_regulation_of_G2/M_transition_of_mitoti...,1.74691214319129E-04,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+GO: Biological Process,protein-containing complex assembly,GO:0065003,go-biological-process_GO:0065003_protein-containing_complex_assembly,1.80486776713657E-04,1,0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,1,0,1,1,0,1,0,0,0,0,0,0,0,1
+GO: Biological Process,negative regulation of cell cycle G2/M phase transition,GO:1902750,go-biological-process_GO:1902750_negative_regulation_of_cell_cycle_G2/M_phase_tra...,1.8887270998858E-04,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+GO: Biological Process,signal transduction in response to DNA damage,GO:0042770,go-biological-process_GO:0042770_signal_transduction_in_response_to_DNA_damage,1.92944665953376E-04,1,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+GO: Biological Process,DNA duplex unwinding,GO:0032508,go-biological-process_GO:0032508_DNA_duplex_unwinding,1.9623513772592E-04,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1
+GO: Biological Process,positive regulation of DNA-templated DNA replication,GO:2000105,go-biological-process_GO:2000105_positive_regulation_of_DNA-templated_DNA_replica...,2.12221619040024E-04,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+GO: Biological Process,DNA geometric change,GO:0032392,go-biological-process_GO:0032392_DNA_geometric_change,2.61920049565664E-04,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1
+GO: Biological Process,DNA biosynthetic process,GO:0071897,go-biological-process_GO:0071897_DNA_biosynthetic_process,2.68128580327878E-04,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0
+GO: Biological Process,mitotic DNA replication,GO:1902969,go-biological-process_GO:1902969_mitotic_DNA_replication,2.74380688164465E-04,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+GO: Biological Process,DNA conformation change,GO:0071103,go-biological-process_GO:0071103_DNA_conformation_change,3.40381323325011E-04,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1
+GO: Biological Process,deoxyribose phosphate biosynthetic process,GO:0046385,go-biological-process_GO:0046385_deoxyribose_phosphate_biosynthetic_process,3.44369890990463E-04,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,2'-deoxyribonucleotide biosynthetic process,GO:0009265,go-biological-process_GO:0009265_2'-deoxyribonucleotide_biosynthetic_process,3.44369890990463E-04,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,deoxyribonucleotide biosynthetic process,GO:0009263,go-biological-process_GO:0009263_deoxyribonucleotide_biosynthetic_process,3.44369890990463E-04,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,DNA unwinding involved in DNA replication,GO:0006268,go-biological-process_GO:0006268_DNA_unwinding_involved_in_DNA_replication,4.22146224542551E-04,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+GO: Biological Process,meiotic cell cycle process,GO:1903046,go-biological-process_GO:1903046_meiotic_cell_cycle_process,5.85346553166686E-04,1,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+GO: Biological Process,regulation of G2/M transition of mitotic cell cycle,GO:0010389,go-biological-process_GO:0010389_regulation_of_G2/M_transition_of_mitotic_cell_cy...,6.29894978165317E-04,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+GO: Biological Process,positive regulation of mitotic cell cycle phase transition,GO:1901992,go-biological-process_GO:1901992_positive_regulation_of_mitotic_cell_cycle_phase_...,6.45838398464674E-04,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0
+GO: Biological Process,translesion synthesis,GO:0019985,go-biological-process_GO:0019985_translesion_synthesis,6.50375076776324E-04,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0
+GO: Biological Process,regulation of cell cycle G2/M phase transition,GO:1902749,go-biological-process_GO:1902749_regulation_of_cell_cycle_G2/M_phase_transition,8.96672275664556E-04,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+GO: Biological Process,regulation of mitotic nuclear division,GO:0007088,go-biological-process_GO:0007088_regulation_of_mitotic_nuclear_division,9.57380286501563E-04,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,positive regulation of cell cycle process,GO:0090068,go-biological-process_GO:0090068_positive_regulation_of_cell_cycle_process,9.71848951771944E-04,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,1,0,0,0
+GO: Biological Process,positive regulation of cell cycle phase transition,GO:1901989,go-biological-process_GO:1901989_positive_regulation_of_cell_cycle_phase_transition,0.0010864902421309700,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0
+GO: Biological Process,meiosis I,GO:0007127,go-biological-process_GO:0007127_meiosis_I,0.001250453218349950,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+GO: Biological Process,positive regulation of DNA metabolic process,GO:0051054,go-biological-process_GO:0051054_positive_regulation_of_DNA_metabolic_process,0.0013125307094689300,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0
+GO: Biological Process,mitotic spindle organization,GO:0007052,go-biological-process_GO:0007052_mitotic_spindle_organization,0.0013507787291716500,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,G2/M transition of mitotic cell cycle,GO:0000086,go-biological-process_GO:0000086_G2/M_transition_of_mitotic_cell_cycle,0.0013766282756939900,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+GO: Biological Process,postreplication repair,GO:0006301,go-biological-process_GO:0006301_postreplication_repair,0.0013916421443311400,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0
+GO: Biological Process,negative regulation of G2/MI transition of meiotic cell cycle,GO:0110031,go-biological-process_GO:0110031_negative_regulation_of_G2/MI_transition_of_meiot...,0.0014544749345617800,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,cell cycle comprising mitosis without cytokinesis,GO:0033301,go-biological-process_GO:0033301_cell_cycle_comprising_mitosis_without_cytokinesis,0.0014544749345617800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+GO: Biological Process,mitotic DNA replication preinitiation complex assembly,GO:1902977,go-biological-process_GO:1902977_mitotic_DNA_replication_preinitiation_complex_as...,0.0014544749345617800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+GO: Biological Process,positive regulation of mitotic cell cycle,GO:0045931,go-biological-process_GO:0045931_positive_regulation_of_mitotic_cell_cycle,0.0014560432582791100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0
+GO: Biological Process,mitotic G2 DNA damage checkpoint signaling,GO:0007095,go-biological-process_GO:0007095_mitotic_G2_DNA_damage_checkpoint_signaling,0.001541283632412970,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+GO: Biological Process,cell cycle G2/M phase transition,GO:0044839,go-biological-process_GO:0044839_cell_cycle_G2/M_phase_transition,0.0019282662852134800,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+GO: Biological Process,regulation of nuclear division,GO:0051783,go-biological-process_GO:0051783_regulation_of_nuclear_division,0.0019605781772908300,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,chromosome condensation,GO:0030261,go-biological-process_GO:0030261_chromosome_condensation,0.0022128968065881700,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0
+GO: Biological Process,DNA synthesis involved in DNA repair,GO:0000731,go-biological-process_GO:0000731_DNA_synthesis_involved_in_DNA_repair,0.0022128968065881700,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0
+GO: Biological Process,microtubule cytoskeleton organization involved in mitosis,GO:1902850,go-biological-process_GO:1902850_microtubule_cytoskeleton_organization_involved_i...,0.0024863929340205700,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,spindle assembly checkpoint signaling,GO:0071173,go-biological-process_GO:0071173_spindle_assembly_checkpoint_signaling,0.0024945188716685800,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,mitotic spindle assembly checkpoint signaling,GO:0007094,go-biological-process_GO:0007094_mitotic_spindle_assembly_checkpoint_signaling,0.0024945188716685800,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,replication fork processing,GO:0031297,go-biological-process_GO:0031297_replication_fork_processing,0.0025919604904107200,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,mitotic spindle checkpoint signaling,GO:0071174,go-biological-process_GO:0071174_mitotic_spindle_checkpoint_signaling,0.002691177516655820,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,negative regulation of mitotic sister chromatid separation,GO:2000816,go-biological-process_GO:2000816_negative_regulation_of_mitotic_sister_chromatid_...,0.002691177516655820,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,negative regulation of mitotic metaphase/anaphase transition,GO:0045841,go-biological-process_GO:0045841_negative_regulation_of_mitotic_metaphase/anaphas...,0.002691177516655820,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,negative regulation of mitotic sister chromatid segregation,GO:0033048,go-biological-process_GO:0033048_negative_regulation_of_mitotic_sister_chromatid_...,0.002691177516655820,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,negative regulation of sister chromatid segregation,GO:0033046,go-biological-process_GO:0033046_negative_regulation_of_sister_chromatid_segregat...,0.002691177516655820,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,positive regulation of cell cycle,GO:0045787,go-biological-process_GO:0045787_positive_regulation_of_cell_cycle,0.002727490613078100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,1,0,0,0
+GO: Biological Process,negative regulation of chromosome separation,GO:1905819,go-biological-process_GO:1905819_negative_regulation_of_chromosome_separation,0.002894917722965370,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,negative regulation of metaphase/anaphase transition of cell cycle,GO:1902100,go-biological-process_GO:1902100_negative_regulation_of_metaphase/anaphase_transi...,0.002894917722965370,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,2'-deoxyribonucleotide metabolic process,GO:0009394,go-biological-process_GO:0009394_2'-deoxyribonucleotide_metabolic_process,0.002894917722965370,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,cell cycle DNA replication maintenance of fidelity,GO:1902298,go-biological-process_GO:1902298_cell_cycle_DNA_replication_maintenance_of_fidelity,0.002906904789227140,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,positive regulation of DNA endoreduplication,GO:0032877,go-biological-process_GO:0032877_positive_regulation_of_DNA_endoreduplication,0.002906904789227140,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+GO: Biological Process,mitotic recombination-dependent replication fork processing,GO:1990426,go-biological-process_GO:1990426_mitotic_recombination-dependent_replication_fork...,0.002906904789227140,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,mitotic DNA replication maintenance of fidelity,GO:1990505,go-biological-process_GO:1990505_mitotic_DNA_replication_maintenance_of_fidelity,0.002906904789227140,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,deoxyribose phosphate metabolic process,GO:0019692,go-biological-process_GO:0019692_deoxyribose_phosphate_metabolic_process,0.002999430893825020,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,cell division,GO:0051301,go-biological-process_GO:0051301_cell_division,0.003069055957080010,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1,0
+GO: Biological Process,negative regulation of chromosome segregation,GO:0051985,go-biological-process_GO:0051985_negative_regulation_of_chromosome_segregation,0.003105699453599070,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,spindle checkpoint signaling,GO:0031577,go-biological-process_GO:0031577_spindle_checkpoint_signaling,0.003105699453599070,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,deoxyribonucleotide metabolic process,GO:0009262,go-biological-process_GO:0009262_deoxyribonucleotide_metabolic_process,0.003105699453599070,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,positive regulation of DNA replication,GO:0045740,go-biological-process_GO:0045740_positive_regulation_of_DNA_replication,0.0032137184225999300,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+GO: Biological Process,mitotic G2/M transition checkpoint,GO:0044818,go-biological-process_GO:0044818_mitotic_G2/M_transition_checkpoint,0.003323482831090560,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+GO: Biological Process,DNA-templated DNA replication maintenance of fidelity,GO:0045005,go-biological-process_GO:0045005_DNA-templated_DNA_replication_maintenance_of_fid...,0.0034349877191529700,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,regulation of mitotic sister chromatid segregation,GO:0033047,go-biological-process_GO:0033047_regulation_of_mitotic_sister_chromatid_segregation,0.0034349877191529700,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,negative regulation of mitotic nuclear division,GO:0045839,go-biological-process_GO:0045839_negative_regulation_of_mitotic_nuclear_division,0.003898313217356840,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,regulation of mitotic sister chromatid separation,GO:0010965,go-biological-process_GO:0010965_regulation_of_mitotic_sister_chromatid_separation,0.003898313217356840,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,protein localization to chromatin,GO:0071168,go-biological-process_GO:0071168_protein_localization_to_chromatin,0.004018446451993880,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,mitotic metaphase chromosome alignment,GO:0007080,go-biological-process_GO:0007080_mitotic_metaphase_chromosome_alignment,0.004018446451993880,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0
+GO: Biological Process,spindle organization,GO:0007051,go-biological-process_GO:0007051_spindle_organization,0.004132915008004470,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,mitotic sister chromatid separation,GO:0051306,go-biological-process_GO:0051306_mitotic_sister_chromatid_separation,0.0042638408144472000,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,uracil metabolic process,GO:0019860,go-biological-process_GO:0019860_uracil_metabolic_process,0.004357292340456950,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,protein acetylation,GO:0006473,go-biological-process_GO:0006473_protein_acetylation,0.004389092170247590,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,meiotic nuclear division,GO:0140013,go-biological-process_GO:0140013_meiotic_nuclear_division,0.005009061952263210,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+GO: Biological Process,negative regulation of nuclear division,GO:0051784,go-biological-process_GO:0051784_negative_regulation_of_nuclear_division,0.005040696134013640,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,chromosome organization involved in meiotic cell cycle,GO:0070192,go-biological-process_GO:0070192_chromosome_organization_involved_in_meiotic_cell...,0.005313076065106760,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,response to radiation,GO:0009314,go-biological-process_GO:0009314_response_to_radiation,0.005793085366892820,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,0,0,0
+GO: Biological Process,regulation of DNA endoreduplication,GO:0032875,go-biological-process_GO:0032875_regulation_of_DNA_endoreduplication,0.005805640361115680,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+GO: Biological Process,lens fiber cell apoptotic process,GO:1990086,go-biological-process_GO:1990086_lens_fiber_cell_apoptotic_process,0.005805640361115680,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,dTTP biosynthetic process,GO:0006235,go-biological-process_GO:0006235_dTTP_biosynthetic_process,0.005805640361115680,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,pyrimidine deoxyribonucleoside triphosphate biosynthetic process,GO:0009212,go-biological-process_GO:0009212_pyrimidine_deoxyribonucleoside_triphosphate_bios...,0.005805640361115680,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,regulation of chromosome separation,GO:1905818,go-biological-process_GO:1905818_regulation_of_chromosome_separation,0.005877747136295660,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,chromosome separation,GO:0051304,go-biological-process_GO:0051304_chromosome_separation,0.007243931131487430,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,positive regulation of DNA topoisomerase (ATP-hydrolyzing) activity,GO:2000373,go-biological-process_GO:2000373_positive_regulation_of_DNA_topoisomerase_(ATP-hy...,0.007251951620475540,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,regulation of DNA topoisomerase (ATP-hydrolyzing) activity,GO:2000371,go-biological-process_GO:2000371_regulation_of_DNA_topoisomerase_(ATP-hydrolyzing...,0.007251951620475540,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,dTTP metabolic process,GO:0046075,go-biological-process_GO:0046075_dTTP_metabolic_process,0.007251951620475540,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,response to camptothecin,GO:1901563,go-biological-process_GO:1901563_response_to_camptothecin,0.007251951620475540,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,DNA repair complex assembly,GO:0090735,go-biological-process_GO:0090735_DNA_repair_complex_assembly,0.007251951620475540,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,positive regulation of DNA ligation,GO:0051106,go-biological-process_GO:0051106_positive_regulation_of_DNA_ligation,0.007251951620475540,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,DNA endoreduplication,GO:0042023,go-biological-process_GO:0042023_DNA_endoreduplication,0.007251951620475540,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+GO: Biological Process,regulation of G2/MI transition of meiotic cell cycle,GO:0110030,go-biological-process_GO:0110030_regulation_of_G2/MI_transition_of_meiotic_cell_c...,0.007251951620475540,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,DNA recombinase assembly,GO:0000730,go-biological-process_GO:0000730_DNA_recombinase_assembly,0.007251951620475540,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,cellular response to camptothecin,GO:0072757,go-biological-process_GO:0072757_cellular_response_to_camptothecin,0.007251951620475540,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,establishment of organelle localization,GO:0051656,go-biological-process_GO:0051656_establishment_of_organelle_localization,0.007709546920972610,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0
+GO: Biological Process,mitotic DNA damage checkpoint signaling,GO:0044773,go-biological-process_GO:0044773_mitotic_DNA_damage_checkpoint_signaling,0.007728310886992160,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+GO: Biological Process,mitotic spindle assembly,GO:0090307,go-biological-process_GO:0090307_mitotic_spindle_assembly,0.007892950816087800,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,regulation of mitotic metaphase/anaphase transition,GO:0030071,go-biological-process_GO:0030071_regulation_of_mitotic_metaphase/anaphase_transit...,0.00839634565053275,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,mitotic DNA integrity checkpoint signaling,GO:0044774,go-biological-process_GO:0044774_mitotic_DNA_integrity_checkpoint_signaling,0.00839634565053275,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+GO: Biological Process,intestinal epithelial cell maturation,GO:0060574,go-biological-process_GO:0060574_intestinal_epithelial_cell_maturation,0.008696228883968520,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,DNA replication-dependent chromatin assembly,GO:0006335,go-biological-process_GO:0006335_DNA_replication-dependent_chromatin_assembly,0.008696228883968520,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0
+GO: Biological Process,regulation of DNA ligation,GO:0051105,go-biological-process_GO:0051105_regulation_of_DNA_ligation,0.008696228883968520,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,DNA strand invasion,GO:0042148,go-biological-process_GO:0042148_DNA_strand_invasion,0.008696228883968520,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,pyrimidine deoxyribonucleoside triphosphate metabolic process,GO:0009211,go-biological-process_GO:0009211_pyrimidine_deoxyribonucleoside_triphosphate_meta...,0.008696228883968520,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,response to sorbitol,GO:0072708,go-biological-process_GO:0072708_response_to_sorbitol,0.008696228883968520,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,regulation of metaphase/anaphase transition of cell cycle,GO:1902099,go-biological-process_GO:1902099_regulation_of_metaphase/anaphase_transition_of_c...,0.008913856069321740,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,metaphase/anaphase transition of mitotic cell cycle,GO:0007091,go-biological-process_GO:0007091_metaphase/anaphase_transition_of_mitotic_cell_cy...,0.009266643706858870,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,metaphase/anaphase transition of cell cycle,GO:0044784,go-biological-process_GO:0044784_metaphase/anaphase_transition_of_cell_cycle,0.00980740476226793,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,positive regulation of isomerase activity,GO:0010912,go-biological-process_GO:0010912_positive_regulation_of_isomerase_activity,0.010138474913865200,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,regulation of isomerase activity,GO:0010911,go-biological-process_GO:0010911_regulation_of_isomerase_activity,0.010138474913865200,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,G2/MI transition of meiotic cell cycle,GO:0008315,go-biological-process_GO:0008315_G2/MI_transition_of_meiotic_cell_cycle,0.010138474913865200,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,dTMP biosynthetic process,GO:0006231,go-biological-process_GO:0006231_dTMP_biosynthetic_process,0.010138474913865200,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,negative regulation of cytokinesis,GO:0032466,go-biological-process_GO:0032466_negative_regulation_of_cytokinesis,0.010138474913865200,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+GO: Biological Process,negative regulation of meiotic cell cycle phase transition,GO:1901994,go-biological-process_GO:1901994_negative_regulation_of_meiotic_cell_cycle_phase_...,0.010138474913865200,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,chorionic trophoblast cell differentiation,GO:0060718,go-biological-process_GO:0060718_chorionic_trophoblast_cell_differentiation,0.010138474913865200,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+GO: Biological Process,pyrimidine deoxyribonucleoside monophosphate biosynthetic process,GO:0009177,go-biological-process_GO:0009177_pyrimidine_deoxyribonucleoside_monophosphate_bio...,0.010138474913865200,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,sexual reproduction,GO:0019953,go-biological-process_GO:0019953_sexual_reproduction,0.01039688808519790,1,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0
+GO: Biological Process,negative regulation of chromosome organization,GO:2001251,go-biological-process_GO:2001251_negative_regulation_of_chromosome_organization,0.010549843894109000,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,protein acylation,GO:0043543,go-biological-process_GO:0043543_protein_acylation,0.010739249319187100,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,regulation of sister chromatid segregation,GO:0033045,go-biological-process_GO:0033045_regulation_of_sister_chromatid_segregation,0.011316503196609600,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Biological Process,replication-born double-strand break repair via sister chromatid exchange,GO:1990414,go-biological-process_GO:1990414_replication-born_double-strand_break_repair_via_...,0.011578692468351500,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,regulation of DNA-directed DNA polymerase activity,GO:1900262,go-biological-process_GO:1900262_regulation_of_DNA-directed_DNA_polymerase_activity,0.013016884302250800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,positive regulation of DNA-directed DNA polymerase activity,GO:1900264,go-biological-process_GO:1900264_positive_regulation_of_DNA-directed_DNA_polymera...,0.013016884302250800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,positive regulation of exit from mitosis,GO:0031536,go-biological-process_GO:0031536_positive_regulation_of_exit_from_mitosis,0.013016884302250800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0
+GO: Biological Process,establishment of protein localization to chromatin,GO:0071169,go-biological-process_GO:0071169_establishment_of_protein_localization_to_chromatin,0.014453053166396100,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,DNA strand resection involved in replication fork processing,GO:0110025,go-biological-process_GO:0110025_DNA_strand_resection_involved_in_replication_for...,0.014453053166396100,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,pyrimidine deoxyribonucleotide biosynthetic process,GO:0009221,go-biological-process_GO:0009221_pyrimidine_deoxyribonucleotide_biosynthetic_proc...,0.015887201808813300,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,mitotic DNA replication checkpoint signaling,GO:0033314,go-biological-process_GO:0033314_mitotic_DNA_replication_checkpoint_signaling,0.015887201808813300,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Biological Process,chorion development,GO:0060717,go-biological-process_GO:0060717_chorion_development,0.015887201808813300,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+GO: Biological Process,negative regulation of DNA-templated DNA replication,GO:2000104,go-biological-process_GO:2000104_negative_regulation_of_DNA-templated_DNA_replica...,0.015887201808813300,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Cellular Component,protein-DNA complex,GO:0032993,go-cellular-component_GO:0032993_protein-DNA_complex,4.151367939436E-11,1,1,0,1,0,0,0,1,1,1,0,0,0,0,1,0,0,1,1,1,0,1,1,1,1,0,0,1,0,1
+GO: Cellular Component,chromatin,GO:0000785,go-cellular-component_GO:0000785_chromatin,2.95214565633247E-10,1,1,0,1,0,0,0,1,1,1,0,0,0,0,1,0,0,1,1,1,0,1,1,1,1,0,0,1,0,0
+GO: Cellular Component,nucleosome,GO:0000786,go-cellular-component_GO:0000786_nucleosome,3.86766608703358E-08,0,0,0,1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0
+GO: Cellular Component,chromosomal region,GO:0098687,go-cellular-component_GO:0098687_chromosomal_region,1.74406955937196E-06,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0
+GO: Cellular Component,"chromosome, centromeric region",GO:0000775,"go-cellular-component_GO:0000775_chromosome,_centromeric_region",2.28266254935968E-06,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0
+GO: Cellular Component,Ndc80 complex,GO:0031262,go-cellular-component_GO:0031262_Ndc80_complex,1.19249473311564E-05,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Cellular Component,heterochromatin,GO:0000792,go-cellular-component_GO:0000792_heterochromatin,4.04255422084122E-04,0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Cellular Component,nuclear chromosome,GO:0000228,go-cellular-component_GO:0000228_nuclear_chromosome,4.54983533125837E-04,1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+GO: Cellular Component,outer kinetochore,GO:0000940,go-cellular-component_GO:0000940_outer_kinetochore,5.38841009039018E-04,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Cellular Component,centrosome,GO:0005813,go-cellular-component_GO:0005813_centrosome,6.81948395407317E-04,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,1
+GO: Cellular Component,condensed chromosome,GO:0000793,go-cellular-component_GO:0000793_condensed_chromosome,9.24921116272251E-04,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Cellular Component,microtubule organizing center,GO:0005815,go-cellular-component_GO:0005815_microtubule_organizing_center,0.0017034657184662100,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,1
+GO: Cellular Component,kinetochore,GO:0000776,go-cellular-component_GO:0000776_kinetochore,0.002182506714160090,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Cellular Component,"condensed chromosome, centromeric region",GO:0000779,"go-cellular-component_GO:0000779_condensed_chromosome,_centromeric_region",0.0026182927234445800,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+GO: Cellular Component,plus-end kinesin complex,GO:0005873,go-cellular-component_GO:0005873_plus-end_kinesin_complex,0.004299425626247190,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Cellular Component,presynaptic intermediate filament cytoskeleton,GO:0099182,go-cellular-component_GO:0099182_presynaptic_intermediate_filament_cytoskeleton,0.004299425626247190,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Cellular Component,ribonucleoside-diphosphate reductase complex,GO:0005971,go-cellular-component_GO:0005971_ribonucleoside-diphosphate_reductase_complex,0.004299425626247190,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Cellular Component,microtubule cytoskeleton,GO:0015630,go-cellular-component_GO:0015630_microtubule_cytoskeleton,0.004610819313583610,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,1
+GO: Cellular Component,euchromatin,GO:0000791,go-cellular-component_GO:0000791_euchromatin,0.0047813703779242000,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Cellular Component,replication fork,GO:0005657,go-cellular-component_GO:0005657_replication_fork,0.0054492474303375400,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Cellular Component,nucleolus,GO:0005730,go-cellular-component_GO:0005730_nucleolus,0.006270253832242170,1,0,1,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0
+GO: Cellular Component,Cul4B-RING E3 ubiquitin ligase complex,GO:0031465,go-cellular-component_GO:0031465_Cul4B-RING_E3_ubiquitin_ligase_complex,0.008580979798252440,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+GO: Cellular Component,Rb-E2F complex,GO:0035189,go-cellular-component_GO:0035189_Rb-E2F_complex,0.008580979798252440,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Cellular Component,site of double-strand break,GO:0035861,go-cellular-component_GO:0035861_site_of_double-strand_break,0.009206688316595620,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GO: Cellular Component,Ctf18 RFC-like complex,GO:0031390,go-cellular-component_GO:0031390_Ctf18_RFC-like_complex,0.014262042600831400,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+Human Phenotype,Patellar aplasia,HP:0006443,human-phenotype_HP:0006443_Patellar_aplasia,8.23022576060634E-06,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Human Phenotype,Aplasia/Hypoplasia of the patella,HP:0006498,human-phenotype_HP:0006498_Aplasia/Hypoplasia_of_the_patella,2.88287613278216E-05,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Human Phenotype,Abnormal labia minora morphology,HP:0012880,human-phenotype_HP:0012880_Abnormal_labia_minora_morphology,5.586162173601E-05,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Human Phenotype,Atresia of the external auditory canal,HP:0000413,human-phenotype_HP:0000413_Atresia_of_the_external_auditory_canal,1.58872101213064E-04,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Human Phenotype,Abnormal maxilla morphology,HP:0000326,human-phenotype_HP:0000326_Abnormal_maxilla_morphology,1.61734854127695E-04,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Human Phenotype,"Microtia, third degree",HP:0011267,"human-phenotype_HP:0011267_Microtia,_third_degree",1.89006297639485E-04,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Human Phenotype,Mandibular aplasia,HP:0009939,human-phenotype_HP:0009939_Mandibular_aplasia,2.67484005962215E-04,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Human Phenotype,Congenital onset,HP:0003577,human-phenotype_HP:0003577_Congenital_onset,2.7296315708517E-04,1,1,0,0,1,0,0,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,1
+Human Phenotype,Clitoral hypertrophy,HP:0008665,human-phenotype_HP:0008665_Clitoral_hypertrophy,2.78360227824053E-04,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Human Phenotype,Abnormal size of the clitoris,HP:0040252,human-phenotype_HP:0040252_Abnormal_size_of_the_clitoris,2.78360227824053E-04,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Human Phenotype,Increased size of the clitoris,HP:0040253,human-phenotype_HP:0040253_Increased_size_of_the_clitoris,2.78360227824053E-04,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Human Phenotype,Abnormality of chromosome segregation,HP:0002916,human-phenotype_HP:0002916_Abnormality_of_chromosome_segregation,2.78360227824053E-04,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Human Phenotype,Anotia,HP:0009892,human-phenotype_HP:0009892_Anotia,3.11737761924669E-04,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Human Phenotype,Breast aplasia,HP:0100783,human-phenotype_HP:0100783_Breast_aplasia,4.64431108071402E-04,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Human Phenotype,Displacement of the urethral meatus,HP:0100627,human-phenotype_HP:0100627_Displacement_of_the_urethral_meatus,5.08638882122614E-04,1,1,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Human Phenotype,Abnormal male urethral meatus morphology,HP:0032076,human-phenotype_HP:0032076_Abnormal_male_urethral_meatus_morphology,5.20742380407814E-04,1,1,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Human Phenotype,Abnormal labia morphology,HP:0000058,human-phenotype_HP:0000058_Abnormal_labia_morphology,5.47687155088847E-04,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Human Phenotype,Aplastic clavicle,HP:0006660,human-phenotype_HP:0006660_Aplastic_clavicle,5.82730903905555E-04,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Human Phenotype,Abnormal auditory canal morphology,HP:0000372,human-phenotype_HP:0000372_Abnormal_auditory_canal_morphology,7.5125132238469E-04,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Human Phenotype,Abnormal clitoris morphology,HP:0000056,human-phenotype_HP:0000056_Abnormal_clitoris_morphology,7.9702843758781E-04,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Human Phenotype,Abnormal breast morphology,HP:0031093,human-phenotype_HP:0031093_Abnormal_breast_morphology,8.3006645452825E-04,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1
+Human Phenotype,Abnormality of the breast,HP:0000769,human-phenotype_HP:0000769_Abnormality_of_the_breast,8.83717583760955E-04,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1
+Domain,WHTH_DNA-bd_dom,IPR011991,domain_IPR011991_WHTH_DNA-bd_dom,1.84538039094687E-05,0,0,0,1,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+Domain,E2F,IPR015633,domain_IPR015633_E2F,5.19095547739566E-05,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+Domain,E2F_TDP,SM01372,domain_SM01372_E2F_TDP,1.01703465110306E-04,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+Domain,E2F_WHTH_DNA-bd_dom,IPR003316,domain_IPR003316_E2F_WHTH_DNA-bd_dom,1.01703465110306E-04,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+Domain,E2F_TDP,PF02319,domain_PF02319_E2F_TDP,1.01703465110306E-04,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+Domain,-,1.10.10.10,domain_1.10.10.10_-,2.20637833457478E-04,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+Domain,CDC45,IPR003874,domain_IPR003874_CDC45,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Domain,Sororin,IPR018605,domain_IPR018605_Sororin,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0
+Domain,Spindle_Spc25,PF08234,domain_PF08234_Spindle_Spc25,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+Domain,PAF,PF15715,domain_PF15715_PAF,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
+Domain,zf-primase,PF09329,domain_PF09329_zf-primase,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,DUF2036,PF09724,domain_PF09724_DUF2036,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,DNA_recomb/repair_Rad51,IPR011941,domain_IPR011941_DNA_recomb/repair_Rad51,0.0013920865235318800,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,CDT1_Gemini-bd-like,IPR014939,domain_IPR014939_CDT1_Gemini-bd-like,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Mcm10,PF09332,domain_PF09332_Mcm10,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Mcm10,SM01280,domain_SM01280_Mcm10,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Cdt1_C,IPR032054,domain_IPR032054_Cdt1_C,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Spc25,IPR013255,domain_IPR013255_Spc25,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+Domain,Ndc80_Spc24,IPR013252,domain_IPR013252_Ndc80_Spc24,0.0013920865235318800,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Sororin,PF09666,domain_PF09666_Sororin,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0
+Domain,Mnd1,PF03962,domain_PF03962_Mnd1,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,THYMIDYLATE_SYNTHASE,PS00091,domain_PS00091_THYMIDYLATE_SYNTHASE,0.0013920865235318800,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Mnd1,IPR005647,domain_IPR005647_Mnd1,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Thymidate_synth/dCMP_Mease,IPR023451,domain_IPR023451_Thymidate_synth/dCMP_Mease,0.0013920865235318800,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Claspin,IPR024146,domain_IPR024146_Claspin,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Sister_chromatid_cohesion_Dcc1,IPR019128,domain_IPR019128_Sister_chromatid_cohesion_Dcc1,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Thymidylat_synt,PF00303,domain_PF00303_Thymidylat_synt,0.0013920865235318800,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,CDC45,PF02724,domain_PF02724_CDC45,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Domain,CDT1,SM01075,domain_SM01075_CDT1,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Rep_factor_Mcm10_C,IPR015411,domain_IPR015411_Rep_factor_Mcm10_C,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,CDT1,PF08839,domain_PF08839_CDT1,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Spc24,PF08286,domain_PF08286_Spc24,0.0013920865235318800,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,-,3.30.572.10,domain_3.30.572.10_-,0.0013920865235318800,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Tyr/Thr_kinase_Cdc2_inhib,IPR016235,domain_IPR016235_Tyr/Thr_kinase_Cdc2_inhib,0.0013920865235318800,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,CDT1_C,PF16679,domain_PF16679_CDT1_C,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,PCNA-AF,IPR031444,domain_IPR031444_PCNA-AF,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
+Domain,Thymidylate_synthase,IPR000398,domain_IPR000398_Thymidylate_synthase,0.0013920865235318800,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Exo1,IPR032641,domain_IPR032641_Exo1,0.0013920865235318800,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Znf_Mcm10/DnaG,IPR015408,domain_IPR015408_Znf_Mcm10/DnaG,0.0013920865235318800,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Thymidylate_synthase_AS,IPR020940,domain_IPR020940_Thymidylate_synthase_AS,0.0013920865235318800,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,SRA,SM00466,domain_SM00466_SRA,0.0027823095771634300,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,RNR-rel,IPR012348,domain_IPR012348_RNR-rel,0.0027823095771634300,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,ESCO_Acetyltransf_dom,IPR028009,domain_IPR028009_ESCO_Acetyltransf_dom,0.0027823095771634300,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,AcTrfase_ESCO_Znf_dom,IPR028005,domain_IPR028005_AcTrfase_ESCO_Znf_dom,0.0027823095771634300,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Acetyltransf_13,PF13880,domain_PF13880_Acetyltransf_13,0.0027823095771634300,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,zf-C2H2_3,PF13878,domain_PF13878_zf-C2H2_3,0.0027823095771634300,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,RIBORED_SMALL,PS00368,domain_PS00368_RIBORED_SMALL,0.0027823095771634300,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,SRA_YDG,IPR003105,domain_IPR003105_SRA_YDG,0.0027823095771634300,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,RNR_small_fam,IPR000358,domain_IPR000358_RNR_small_fam,0.0027823095771634300,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,-,1.10.620.20,domain_1.10.620.20_-,0.0027823095771634300,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,YDG,PS51015,domain_PS51015_YDG,0.0027823095771634300,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,RECA_3,PS50163,domain_PS50163_RECA_3,0.0027823095771634300,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,SAD_SRA,PF02182,domain_PF02182_SAD_SRA,0.0027823095771634300,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,TTD,PF12148,domain_PF12148_TTD,0.0027823095771634300,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,-,2.30.280.10,domain_2.30.280.10_-,0.0027823095771634300,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,ASF1_hist_chap,PF04729,domain_PF04729_ASF1_hist_chap,0.0027823095771634300,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0
+Domain,RNR_small_AS,IPR030475,domain_IPR030475_RNR_small_AS,0.0027823095771634300,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,RNR_small,IPR033909,domain_IPR033909_RNR_small,0.0027823095771634300,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,TTD_dom,IPR021991,domain_IPR021991_TTD_dom,0.0027823095771634300,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,-,2.60.40.1490,domain_2.60.40.1490_-,0.0027823095771634300,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0
+Domain,HMMR_C,IPR031794,domain_IPR031794_HMMR_C,0.0027823095771634300,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,HMMR_C,PF15908,domain_PF15908_HMMR_C,0.0027823095771634300,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Ribonuc_red_sm,PF00268,domain_PF00268_Ribonuc_red_sm,0.0027823095771634300,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,ASF1-like,IPR006818,domain_IPR006818_ASF1-like,0.0027823095771634300,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0
+Domain,RecA_monomer-monomer_interface,IPR020587,domain_IPR020587_RecA_monomer-monomer_interface,0.004170671555860140,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,XPG_CS,IPR019974,domain_IPR019974_XPG_CS,0.004170671555860140,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,XPG_I,PF00867,domain_PF00867_XPG_I,0.005557174851357280,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,HhH2,IPR008918,domain_IPR008918_HhH2,0.005557174851357280,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,HhH2,SM00279,domain_SM00279_HhH2,0.005557174851357280,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,5-3_exonuclease_C,IPR020045,domain_IPR020045_5-3_exonuclease_C,0.005557174851357280,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,XPG-I_dom,IPR006086,domain_IPR006086_XPG-I_dom,0.005557174851357280,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,XPGN,SM00485,domain_SM00485_XPGN,0.005557174851357280,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,XPG/Rad2,IPR006084,domain_IPR006084_XPG/Rad2,0.005557174851357280,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,XPGI,SM00484,domain_SM00484_XPGI,0.005557174851357280,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,XPG_1,PS00841,domain_PS00841_XPG_1,0.005557174851357280,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,XPG_2,PS00842,domain_PS00842_XPG_2,0.005557174851357280,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,DNA_repair_Rad51/TF_NusA_a-hlx,IPR010995,domain_IPR010995_DNA_repair_Rad51/TF_NusA_a-hlx,0.005557174851357280,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,XPG_N,PF00752,domain_PF00752_XPG_N,0.006941821852566930,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,XPG_DNA_repair_N,IPR006085,domain_IPR006085_XPG_DNA_repair_N,0.006941821852566930,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,E2F_CC-MB,IPR032198,domain_IPR032198_E2F_CC-MB,0.008324614945503250,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,E2F_CC-MB,PF16421,domain_PF16421_E2F_CC-MB,0.008324614945503250,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Rad51_DMC1_RadA,IPR033925,domain_IPR033925_Rad51_DMC1_RadA,0.008324614945503250,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,DNA_recomb/repair_RecA-like,IPR016467,domain_IPR016467_DNA_recomb/repair_RecA-like,0.008324614945503250,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,UmuC,IPR001126,domain_IPR001126_UmuC,0.008324614945503250,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,HHH,PF00633,domain_PF00633_HHH,0.00970555651328111,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Hlx-hairpin-Hlx_DNA-bd_motif,IPR003583,domain_IPR003583_Hlx-hairpin-Hlx_DNA-bd_motif,0.00970555651328111,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,RecA_ATP-bd,IPR020588,domain_IPR020588_RecA_ATP-bd,0.00970555651328111,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,RECA_2,PS50162,domain_PS50162_RECA_2,0.00970555651328111,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,DNA_recomb/repair_Rad51_C,IPR013632,domain_IPR013632_DNA_recomb/repair_Rad51_C,0.00970555651328111,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,HhH_motif,IPR000445,domain_IPR000445_HhH_motif,0.00970555651328111,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,HhH1,SM00278,domain_SM00278_HhH1,0.00970555651328111,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Rad51,PF08423,domain_PF08423_Rad51,0.00970555651328111,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Histone_H5,IPR005819,domain_IPR005819_Histone_H5,0.011084648936122500,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,-,3.40.50.1010,domain_3.40.50.1010_-,0.016582574675248900,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,H15,PS51504,domain_PS51504_H15,0.017952456971034200,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,H15,SM00526,domain_SM00526_H15,0.017952456971034200,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Linker_histone,PF00538,domain_PF00538_Linker_histone,0.017952456971034200,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Histone_H1/H5_H15,IPR005818,domain_IPR005818_Histone_H1/H5_H15,0.019320504340886300,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,PIN_domain-like,IPR029060,domain_IPR029060_PIN_domain-like,0.019320504340886300,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Ferritin-like_SF,IPR009078,domain_IPR009078_Ferritin-like_SF,0.019320504340886300,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Histone_H2A_CS,IPR032458,domain_IPR032458_Histone_H2A_CS,0.02068671914463330,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
+Domain,Histone_H2A_C,IPR032454,domain_IPR032454_Histone_H2A_C,0.023413660478104000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
+Domain,Histone_H2A_C,PF16211,domain_PF16211_Histone_H2A_C,0.023413660478104000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
+Domain,-,2.30.30.30,domain_2.30.30.30_-,0.024774391712367400,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,Rib_L2_dom2,IPR014722,domain_IPR014722_Rib_L2_dom2,0.024774391712367400,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,PUA-like_domain,IPR015947,domain_IPR015947_PUA-like_domain,0.026133299789523500,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domain,HISTONE_H2A,PS00046,domain_PS00046_HISTONE_H2A,0.028845655851657400,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
+Pathway,REACTOME_CELL_CYCLE,M543,pathways_M543_REACTOME_CELL_CYCLE,1.15039793789668E-20,1,1,1,0,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,0,0,1,0,0,0,0,0,1,1
+Pathway,REACTOME_CELL_CYCLE_MITOTIC,M5336,pathways_M5336_REACTOME_CELL_CYCLE_MITOTIC,1.91957488482868E-14,0,1,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,0,0,1,1
+Pathway,REACTOME_CELL_CYCLE,MM14635,pathways_MM14635_REACTOME_CELL_CYCLE,1.36413315273426E-12,1,1,1,0,0,1,1,1,0,1,1,0,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,1
+Pathway,REACTOME_G1_S_SPECIFIC_TRANSCRIPTION,M1040,pathways_M1040_REACTOME_G1_S_SPECIFIC_TRANSCRIPTION,2.43659408623122E-09,0,0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,WP_EFFECT_OF_PROGERIN_ON_GENES_INVOLVED_IN_PROGERIA,M39756,pathways_M39756_WP_EFFECT_OF_PROGERIN_ON_GENES_INVOLVED_IN_PROGE...,8.84674720209873E-09,0,0,0,0,0,0,0,1,0,1,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_MEIOTIC_RECOMBINATION,M1011,pathways_M1011_REACTOME_MEIOTIC_RECOMBINATION,1.67982972344256E-08,1,0,0,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_DNA_REPLICATION_PRE_INITIATION,M27665,pathways_M27665_REACTOME_DNA_REPLICATION_PRE_INITIATION,1.9739218411984E-08,0,0,0,0,0,0,0,1,0,0,1,0,1,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,1
+Pathway,KEGG_MEDICUS_VARIANT_IGH_MMSET_FUSION_TO_TRANSCRIPTIONAL_ACTIVATION,M47442,pathways_M47442_KEGG_MEDICUS_VARIANT_IGH_MMSET_FUSION_TO_TRANSCR...,4.72732755239841E-08,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_DNA_REPLICATION,M1017,pathways_M1017_REACTOME_DNA_REPLICATION,6.04329255611183E-08,0,0,0,0,0,0,0,1,0,0,1,0,1,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,1
+Pathway,REACTOME_MEIOSIS,M529,pathways_M529_REACTOME_MEIOSIS,1.08459764535147E-07,1,0,0,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_DNA_METHYLATION,M27429,pathways_M27429_REACTOME_DNA_METHYLATION,1.49154675047184E-07,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_CHROMATIN_MODIFICATIONS_DURING_THE_MATERNAL_TO_ZYGOTIC_TRANSITION_MZT,M48028,pathways_M48028_REACTOME_CHROMATIN_MODIFICATIONS_DURING_THE_MATE...,2.3483733123401E-07,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_MITOTIC_G1_PHASE_AND_G1_S_TRANSITION,M848,pathways_M848_REACTOME_MITOTIC_G1_PHASE_AND_G1_S_TRANSITION,3.91946680360341E-07,0,0,0,0,1,0,0,0,0,1,1,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,REACTOME_RMTS_METHYLATE_HISTONE_ARGININES,M27234,pathways_M27234_REACTOME_RMTS_METHYLATE_HISTONE_ARGININES,4.05180568885832E-07,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0
+Pathway,WP_DNA_IRDAMAGE_AND_CELLULAR_RESPONSE_VIA_ATR,M39490,pathways_M39490_WP_DNA_IRDAMAGE_AND_CELLULAR_RESPONSE_VIA_ATR,4.89742801026979E-07,1,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,REACTOME_REPRODUCTION,M26956,pathways_M26956_REACTOME_REPRODUCTION,5.5378791513253E-07,1,0,0,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_INTERLEUKIN_7_SIGNALING,M542,pathways_M542_REACTOME_INTERLEUKIN_7_SIGNALING,7.01969634128878E-07,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_CELL_CYCLE_CHECKPOINTS,MM15388,pathways_MM15388_REACTOME_CELL_CYCLE_CHECKPOINTS,7.5255638153731E-07,0,0,1,0,0,1,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1
+Pathway,REACTOME_TRANSCRIPTIONAL_REGULATION_OF_GRANULOPOIESIS,M27943,pathways_M27943_REACTOME_TRANSCRIPTIONAL_REGULATION_OF_GRANULOPO...,7.84789560093574E-07,0,0,0,0,0,0,0,1,0,1,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,WP_RETINOBLASTOMA_GENE_IN_CANCER,M39678,pathways_M39678_WP_RETINOBLASTOMA_GENE_IN_CANCER,8.2982144685415E-07,0,0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,REACTOME_HDACS_DEACETYLATE_HISTONES,M27230,pathways_M27230_REACTOME_HDACS_DEACETYLATE_HISTONES,1.03077906538127E-06,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0
+Pathway,REACTOME_CELL_CYCLE_CHECKPOINTS,M16647,pathways_M16647_REACTOME_CELL_CYCLE_CHECKPOINTS,1.21308100201068E-06,0,0,1,0,0,1,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1
+Pathway,REACTOME_CELLULAR_SENESCENCE,M27188,pathways_M27188_REACTOME_CELLULAR_SENESCENCE,2.01244560425685E-06,0,0,0,1,0,0,0,1,0,1,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,WP_NF1_COPY_NUMBER_VARIATION_SYNDROME,M48084,pathways_M48084_WP_NF1_COPY_NUMBER_VARIATION_SYNDROME,2.14945268459265E-06,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_HDMS_DEMETHYLATE_HISTONES,M27232,pathways_M27232_REACTOME_HDMS_DEMETHYLATE_HISTONES,2.692591464559E-06,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_HCMV_LATE_EVENTS,M29806,pathways_M29806_REACTOME_HCMV_LATE_EVENTS,2.92286583132358E-06,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0
+Pathway,REACTOME_PRE_NOTCH_EXPRESSION_AND_PROCESSING,M607,pathways_M607_REACTOME_PRE_NOTCH_EXPRESSION_AND_PROCESSING,3.31470547454814E-06,0,0,0,0,0,0,0,1,0,1,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_OXIDATIVE_STRESS_INDUCED_SENESCENCE,M27186,pathways_M27186_REACTOME_OXIDATIVE_STRESS_INDUCED_SENESCENCE,4.22183329240771E-06,0,0,0,0,0,0,0,1,0,1,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_MATERNAL_TO_ZYGOTIC_TRANSITION_MZT,M48019,pathways_M48019_REACTOME_MATERNAL_TO_ZYGOTIC_TRANSITION_MZT,4.74304490114749E-06,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_HCMV_EARLY_EVENTS,M29805,pathways_M29805_REACTOME_HCMV_EARLY_EVENTS,6.85475243169822E-06,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0
+Pathway,KEGG_SYSTEMIC_LUPUS_ERYTHEMATOSUS,M4741,pathways_M4741_KEGG_SYSTEMIC_LUPUS_ERYTHEMATOSUS,7.10082886685922E-06,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0
+Pathway,REACTOME_HATS_ACETYLATE_HISTONES,M27233,pathways_M27233_REACTOME_HATS_ACETYLATE_HISTONES,7.88084950989201E-06,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0
+Pathway,REACTOME_G2_M_CHECKPOINTS,MM15383,pathways_MM15383_REACTOME_G2_M_CHECKPOINTS,8.15524868232191E-06,0,0,1,0,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,REACTOME_ACTIVATED_PKN1_STIMULATES_TRANSCRIPTION_OF_AR_ANDROGEN_RECEPTOR_REGULATED_GENES_KLK2_AND_KLK3,M27488,pathways_M27488_REACTOME_ACTIVATED_PKN1_STIMULATES_TRANSCRIPTION...,8.24459033254028E-06,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_SIRT1_NEGATIVELY_REGULATES_RRNA_EXPRESSION,M27342,pathways_M27342_REACTOME_SIRT1_NEGATIVELY_REGULATES_RRNA_EXPRESS...,8.75610990222274E-06,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_ASSEMBLY_OF_THE_ORC_COMPLEX_AT_THE_ORIGIN_OF_REPLICATION,M27658,pathways_M27658_REACTOME_ASSEMBLY_OF_THE_ORC_COMPLEX_AT_THE_ORIG...,9.29069091964863E-06,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_REGULATION_OF_ENDOGENOUS_RETROELEMENTS_BY_THE_HUMAN_SILENCING_HUB_HUSH_COMPLEX,M48261,pathways_M48261_REACTOME_REGULATION_OF_ENDOGENOUS_RETROELEMENTS_...,1.04316639759758E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_PKMTS_METHYLATE_HISTONE_LYSINES,M27231,pathways_M27231_REACTOME_PKMTS_METHYLATE_HISTONE_LYSINES,1.04316639759758E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_PRC2_METHYLATES_HISTONES_AND_DNA,M27132,pathways_M27132_REACTOME_PRC2_METHYLATES_HISTONES_AND_DNA,1.16728379382924E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_CONDENSATION_OF_PROPHASE_CHROMOSOMES,M27166,pathways_M27166_REACTOME_CONDENSATION_OF_PROPHASE_CHROMOSOMES,1.2332697907559E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_M_PHASE,M27662,pathways_M27662_REACTOME_M_PHASE,1.30239614147066E-05,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,1,0,0,0,0,0,1,0
+Pathway,REACTOME_ERCC6_CSB_AND_EHMT2_G9A_POSITIVELY_REGULATE_RRNA_EXPRESSION,M27343,pathways_M27343_REACTOME_ERCC6_CSB_AND_EHMT2_G9A_POSITIVELY_REGU...,1.37344231427249E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_HCMV_INFECTION,M29804,pathways_M29804_REACTOME_HCMV_INFECTION,1.49520590979232E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0
+Pathway,REACTOME_S_PHASE,M3158,pathways_M3158_REACTOME_S_PHASE,1.54041775179267E-05,0,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1
+Pathway,REACTOME_G2_M_CHECKPOINTS,M19381,pathways_M19381_REACTOME_G2_M_CHECKPOINTS,1.73205119357001E-05,0,0,1,0,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,REACTOME_FACTORS_INVOLVED_IN_MEGAKARYOCYTE_DEVELOPMENT_AND_PLATELET_PRODUCTION,M941,pathways_M941_REACTOME_FACTORS_INVOLVED_IN_MEGAKARYOCYTE_DEVEL...,1.88760451350418E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_RNA_POLYMERASE_I_PROMOTER_ESCAPE,M27691,pathways_M27691_REACTOME_RNA_POLYMERASE_I_PROMOTER_ESCAPE,2.82887998403762E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_B_WICH_COMPLEX_POSITIVELY_REGULATES_RRNA_EXPRESSION,M29668,pathways_M29668_REACTOME_B_WICH_COMPLEX_POSITIVELY_REGULATES_RRN...,2.82887998403762E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_FORMATION_OF_THE_BETA_CATENIN_TCF_TRANSACTIVATING_COMPLEX,M27101,pathways_M27101_REACTOME_FORMATION_OF_THE_BETA_CATENIN_TCF_TRANS...,2.95491184324385E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_RHO_GTPASES_ACTIVATE_PKNS,M27487,pathways_M27487_REACTOME_RHO_GTPASES_ACTIVATE_PKNS,3.21927708546834E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_ACTIVATION_OF_THE_PRE_REPLICATIVE_COMPLEX,MM15368,pathways_MM15368_REACTOME_ACTIVATION_OF_THE_PRE_REPLICATIVE_COMPLEX,3.34911787153671E-05,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,REACTOME_RHO_GTPASE_EFFECTORS,M27080,pathways_M27080_REACTOME_RHO_GTPASE_EFFECTORS,3.39895629918914E-05,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,1,0
+Pathway,REACTOME_RUNX1_REGULATES_GENES_INVOLVED_IN_MEGAKARYOCYTE_DIFFERENTIATION_AND_PLATELET_FUNCTION,M27792,pathways_M27792_REACTOME_RUNX1_REGULATES_GENES_INVOLVED_IN_MEGAK...,3.64781597265868E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_ACTIVATION_OF_THE_PRE_REPLICATIVE_COMPLEX,M9694,pathways_M9694_REACTOME_ACTIVATION_OF_THE_PRE_REPLICATIVE_COMPLEX,3.67913324478191E-05,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,KEGG_MEDICUS_REFERENCE_COHESIN_ACETYLATION,M49003,pathways_M49003_KEGG_MEDICUS_REFERENCE_COHESIN_ACETYLATION,3.79049701326966E-05,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0
+Pathway,REACTOME_REGULATION_OF_ENDOGENOUS_RETROELEMENTS_BY_PIWI_INTERACTING_RNAS_PIRNAS,M48262,pathways_M48262_REACTOME_REGULATION_OF_ENDOGENOUS_RETROELEMENTS_...,3.79952733311267E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_TRANSCRIPTIONAL_REGULATION_BY_E2F6,M27826,pathways_M27826_REACTOME_TRANSCRIPTIONAL_REGULATION_BY_E2F6,4.02981545384591E-05,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_ACTIVATION_OF_ATR_IN_RESPONSE_TO_REPLICATION_STRESS,MM14687,pathways_MM14687_REACTOME_ACTIVATION_OF_ATR_IN_RESPONSE_TO_REPLIC...,4.79553073944658E-05,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,REACTOME_DISEASES_OF_PROGRAMMED_CELL_DEATH,M29829,pathways_M29829_REACTOME_DISEASES_OF_PROGRAMMED_CELL_DEATH,4.99438857829285E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_POSITIVE_EPIGENETIC_REGULATION_OF_RRNA_EXPRESSION,M27425,pathways_M27425_REACTOME_POSITIVE_EPIGENETIC_REGULATION_OF_RRNA_...,5.18511176961869E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_ACTIVATION_OF_ATR_IN_RESPONSE_TO_REPLICATION_STRESS,M11153,pathways_M11153_REACTOME_ACTIVATION_OF_ATR_IN_RESPONSE_TO_REPLIC...,5.21173064708667E-05,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,REACTOME_TRANSCRIPTIONAL_REGULATION_BY_SMALL_RNAS,M27458,pathways_M27458_REACTOME_TRANSCRIPTIONAL_REGULATION_BY_SMALL_RNAS,5.38110770380918E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_REGULATION_OF_ENDOGENOUS_RETROELEMENTS_BY_KRAB_ZFP_PROTEINS,M48260,pathways_M48260_REACTOME_REGULATION_OF_ENDOGENOUS_RETROELEMENTS_...,5.58246625572776E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_NEGATIVE_EPIGENETIC_REGULATION_OF_RRNA_EXPRESSION,M27426,pathways_M27426_REACTOME_NEGATIVE_EPIGENETIC_REGULATION_OF_RRNA_...,5.78927783021975E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_AMYLOID_FIBER_FORMATION,M27958,pathways_M27958_REACTOME_AMYLOID_FIBER_FORMATION,6.21962428240521E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_RNA_POLYMERASE_I_TRANSCRIPTION,M27696,pathways_M27696_REACTOME_RNA_POLYMERASE_I_TRANSCRIPTION,6.21962428240521E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_SENESCENCE_ASSOCIATED_SECRETORY_PHENOTYPE_SASP,M27187,pathways_M27187_REACTOME_SENESCENCE_ASSOCIATED_SECRETORY_PHENOTY...,6.44334257030101E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,WP_SENESCENCEASSOCIATED_SECRETORY_PHENOTYPE_SASP,M48334,pathways_M48334_WP_SENESCENCEASSOCIATED_SECRETORY_PHENOTYPE_SASP,6.67288069014652E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,WP_DNA_REPLICATION,M39335,pathways_M39335_WP_DNA_REPLICATION,7.6491909818136E-05,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,REACTOME_ACTIVATION_OF_ANTERIOR_HOX_GENES_IN_HINDBRAIN_DEVELOPMENT_DURING_EARLY_EMBRYOGENESIS,M29689,pathways_M29689_REACTOME_ACTIVATION_OF_ANTERIOR_HOX_GENES_IN_HIN...,9.3090489905197E-05,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_SIGNALING_BY_NOTCH,M10189,pathways_M10189_REACTOME_SIGNALING_BY_NOTCH,1.09963123634015E-04,0,0,0,0,0,0,0,1,0,1,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_RUNX1_REGULATES_TRANSCRIPTION_OF_GENES_INVOLVED_IN_DIFFERENTIATION_OF_HSCS,M27795,pathways_M27795_REACTOME_RUNX1_REGULATES_TRANSCRIPTION_OF_GENES_...,1.1557422738531E-04,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_MITOTIC_G1_PHASE_AND_G1_S_TRANSITION,MM15146,pathways_MM15146_REACTOME_MITOTIC_G1_PHASE_AND_G1_S_TRANSITION,1.19080784355711E-04,0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,REACTOME_EPIGENETIC_REGULATION_OF_GENE_EXPRESSION,M27131,pathways_M27131_REACTOME_EPIGENETIC_REGULATION_OF_GENE_EXPRESSION,1.27805978638458E-04,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_GENE_SILENCING_BY_RNA,M715,pathways_M715_REACTOME_GENE_SILENCING_BY_RNA,1.54212385079285E-04,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_MITOTIC_PROPHASE,M27660,pathways_M27660_REACTOME_MITOTIC_PROPHASE,1.67432534959803E-04,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_REGULATION_OF_ENDOGENOUS_RETROELEMENTS,M48257,pathways_M48257_REACTOME_REGULATION_OF_ENDOGENOUS_RETROELEMENTS,1.67432534959803E-04,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,WP_DNA_IRDOUBLE_STRAND_BREAKS_AND_CELLULAR_RESPONSE_VIA_ATM,M39598,pathways_M39598_WP_DNA_IRDOUBLE_STRAND_BREAKS_AND_CELLULAR_RESPO...,1.71810589821387E-04,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_CHROMATIN_MODIFYING_ENZYMES,M29619,pathways_M29619_REACTOME_CHROMATIN_MODIFYING_ENZYMES,1.76066939836634E-04,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0
+Pathway,REACTOME_ESTROGEN_DEPENDENT_GENE_EXPRESSION,M27888,pathways_M27888_REACTOME_ESTROGEN_DEPENDENT_GENE_EXPRESSION,2.01448014465404E-04,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_ESTABLISHMENT_OF_SISTER_CHROMATID_COHESION,M27177,pathways_M27177_REACTOME_ESTABLISHMENT_OF_SISTER_CHROMATID_COHES...,2.06944654957451E-04,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0
+Pathway,REACTOME_ESTABLISHMENT_OF_SISTER_CHROMATID_COHESION,MM14891,pathways_MM14891_REACTOME_ESTABLISHMENT_OF_SISTER_CHROMATID_COHES...,2.06944654957451E-04,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0
+Pathway,WP_G1_TO_S_CELL_CYCLE_CONTROL,MM15912,pathways_MM15912_WP_G1_TO_S_CELL_CYCLE_CONTROL,2.33823471144984E-04,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,KEGG_MEDICUS_REFERENCE_CENPE_INTERACTION_WITH_NDC80_COMPLEX,M47887,pathways_M47887_KEGG_MEDICUS_REFERENCE_CENPE_INTERACTION_WITH_ND...,2.48028475227313E-04,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+Pathway,KEGG_MEDICUS_REFERENCE_DEPHOSPHORYLATION_OF_KINETOCHORE,M47891,pathways_M47891_KEGG_MEDICUS_REFERENCE_DEPHOSPHORYLATION_OF_KINE...,2.48028475227313E-04,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+Pathway,REACTOME_DNA_REPAIR,MM15433,pathways_MM15433_REACTOME_DNA_REPAIR,2.81828189319959E-04,1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0
+Pathway,REACTOME_TP53_REGULATES_TRANSCRIPTION_OF_GENES_INVOLVED_IN_G1_CELL_CYCLE_ARREST,M27635,pathways_M27635_REACTOME_TP53_REGULATES_TRANSCRIPTION_OF_GENES_I...,3.41138967028768E-04,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+Pathway,WP_BIOMARKERS_FOR_PYRIMIDINE_METABOLISM_DISORDERS,M39841,pathways_M39841_WP_BIOMARKERS_FOR_PYRIMIDINE_METABOLISM_DISORDERS,3.93138415683354E-04,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,PID_E2F_PATHWAY,M40,pathways_M40_PID_E2F_PATHWAY,3.97690920024408E-04,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_DNA_REPAIR,M15434,pathways_M15434_REACTOME_DNA_REPAIR,4.42352605264636E-04,1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0
+Pathway,KEGG_MEDICUS_REFERENCE_ORGANIZATION_OF_THE_OUTER_KINETOCHORE,M47885,pathways_M47885_KEGG_MEDICUS_REFERENCE_ORGANIZATION_OF_THE_OUTER...,6.37114990187589E-04,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+Pathway,WP_PYRIMIDINE_METABOLISM_AND_RELATED_DISEASES,M39765,pathways_M39765_WP_PYRIMIDINE_METABOLISM_AND_RELATED_DISEASES,7.07036496570615E-04,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_ESR_MEDIATED_SIGNALING,M27794,pathways_M27794_REACTOME_ESR_MEDIATED_SIGNALING,8.80627377599648E-04,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_DNA_REPLICATION_PRE_INITIATION,MM15369,pathways_MM15369_REACTOME_DNA_REPLICATION_PRE_INITIATION,9.13190351867029E-04,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,KEGG_MEDICUS_REFERENCE_DNA_REPLICATION_LICENSING,M47857,pathways_M47857_KEGG_MEDICUS_REFERENCE_DNA_REPLICATION_LICENSING,0.001022030677952690,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,REACTOME_RNA_POLYMERASE_II_TRANSCRIPTION,M734,pathways_M734_REACTOME_RNA_POLYMERASE_II_TRANSCRIPTION,0.0010289506310659700,1,0,0,0,0,0,1,1,0,1,0,0,0,0,1,0,1,0,1,1,0,0,0,0,1,0,0,0,0,0
+Pathway,REACTOME_TCF_DEPENDENT_SIGNALING_IN_RESPONSE_TO_WNT,M27099,pathways_M27099_REACTOME_TCF_DEPENDENT_SIGNALING_IN_RESPONSE_TO_...,0.0010901776316363800,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_G1_S_TRANSITION,MM15376,pathways_MM15376_REACTOME_G1_S_TRANSITION,0.0011174597320778000,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,REACTOME_TRANSCRIPTIONAL_REGULATION_BY_RUNX1,M27786,pathways_M27786_REACTOME_TRANSCRIPTIONAL_REGULATION_BY_RUNX1,0.001161153981383830,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_HOMOLOGOUS_DNA_PAIRING_AND_STRAND_EXCHANGE,MM15297,pathways_MM15297_REACTOME_HOMOLOGOUS_DNA_PAIRING_AND_STRAND_EXCHA...,0.001200526768624430,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_RESOLUTION_OF_D_LOOP_STRUCTURES_THROUGH_SYNTHESIS_DEPENDENT_STRAND_ANNEALING_SDSA,M27586,pathways_M27586_REACTOME_RESOLUTION_OF_D_LOOP_STRUCTURES_THROUGH...,0.0012949783396645200,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_REFERENCE_PRE_IC_FORMATION,M47858,pathways_M47858_KEGG_MEDICUS_REFERENCE_PRE_IC_FORMATION,0.0012949783396645200,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,KEGG_HOMOLOGOUS_RECOMBINATION,M11675,pathways_M11675_KEGG_HOMOLOGOUS_RECOMBINATION,0.0013928814130954600,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+Pathway,REACTOME_INTERCONVERSION_OF_NUCLEOTIDE_DI_AND_TRIPHOSPHATES,M27408,pathways_M27408_REACTOME_INTERCONVERSION_OF_NUCLEOTIDE_DI_AND_TR...,0.001494222896954780,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_INTERCONVERSION_OF_NUCLEOTIDE_DI_AND_TRIPHOSPHATES,MM15158,pathways_MM15158_REACTOME_INTERCONVERSION_OF_NUCLEOTIDE_DI_AND_TR...,0.001494222896954780,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_HOMOLOGY_DIRECTED_REPAIR,MM15294,pathways_MM15294_REACTOME_HOMOLOGY_DIRECTED_REPAIR,0.0015307684900301900,1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_REFERENCE_ORIGIN_UNWINDING_AND_ELONGATION,M47859,pathways_M47859_KEGG_MEDICUS_REFERENCE_ORIGIN_UNWINDING_AND_ELON...,0.001598989734494220,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,WP_CELL_CYCLE,M39650,pathways_M39650_WP_CELL_CYCLE,0.001687157510920270,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,KEGG_CELL_CYCLE,M7963,pathways_M7963_KEGG_CELL_CYCLE,0.0018962842537501700,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,REACTOME_DNA_REPLICATION,MM15380,pathways_MM15380_REACTOME_DNA_REPLICATION,0.0018962842537501700,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,WP_FBXL10_ENHANCEMENT_OF_MAPERK_SIGNALING_IN_DIFFUSE_LARGE_BCELL_LYMPHOMA,M39800,pathways_M39800_WP_FBXL10_ENHANCEMENT_OF_MAPERK_SIGNALING_IN_DIF...,0.001933712327879770,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_REFERENCE_HOMOLOGOUS_RECOMBINATION,M47842,pathways_M47842_KEGG_MEDICUS_REFERENCE_HOMOLOGOUS_RECOMBINATION,0.001933712327879770,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+Pathway,REACTOME_RESOLUTION_OF_SISTER_CHROMATID_COHESION,M27181,pathways_M27181_REACTOME_RESOLUTION_OF_SISTER_CHROMATID_COHESION,0.0019842644247791500,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0
+Pathway,WP_FLUOROPYRIMIDINE_ACTIVITY,M39612,pathways_M39612_WP_FLUOROPYRIMIDINE_ACTIVITY,0.002052050713707910,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,WP_COHESIN_COMPLEX_CORNELIA_DE_LANGE_SYNDROME,M42555,pathways_M42555_WP_COHESIN_COMPLEX_CORNELIA_DE_LANGE_SYNDROME,0.002052050713707910,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0
+Pathway,REACTOME_RESOLUTION_OF_SISTER_CHROMATID_COHESION,MM14894,pathways_MM14894_REACTOME_RESOLUTION_OF_SISTER_CHROMATID_COHESION,0.0020747577384444500,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0
+Pathway,REACTOME_RESOLUTION_OF_D_LOOP_STRUCTURES,MM15293,pathways_MM15293_REACTOME_RESOLUTION_OF_D_LOOP_STRUCTURES,0.0021737496945918400,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_HDR_THROUGH_SINGLE_STRAND_ANNEALING_SSA,MM15281,pathways_MM15281_REACTOME_HDR_THROUGH_SINGLE_STRAND_ANNEALING_SSA,0.0022987964232498100,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_RESOLUTION_OF_D_LOOP_STRUCTURES,M27583,pathways_M27583_REACTOME_RESOLUTION_OF_D_LOOP_STRUCTURES,0.0024271780870660100,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_HDR_THROUGH_SINGLE_STRAND_ANNEALING_SSA,M27568,pathways_M27568_REACTOME_HDR_THROUGH_SINGLE_STRAND_ANNEALING_SSA,0.0024271780870660100,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_SIGNALING_BY_RHO_GTPASES_MIRO_GTPASES_AND_RHOBTB3,M41838,pathways_M41838_REACTOME_SIGNALING_BY_RHO_GTPASES_MIRO_GTPASES_A...,0.002492881372730450,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,1,0
+Pathway,REACTOME_HOMOLOGY_DIRECTED_REPAIR,M27584,pathways_M27584_REACTOME_HOMOLOGY_DIRECTED_REPAIR,0.002618517451644790,1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_SIGNALING_BY_NUCLEAR_RECEPTORS,M27869,pathways_M27869_REACTOME_SIGNALING_BY_NUCLEAR_RECEPTORS,0.002620322913555940,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,PID_ATR_PATHWAY,M46,pathways_M46_PID_ATR_PATHWAY,0.0026938951423483300,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_S_PHASE,MM15378,pathways_MM15378_REACTOME_S_PHASE,0.002948934054690900,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0
+Pathway,REACTOME_DNA_DOUBLE_STRAND_BREAK_REPAIR,MM15292,pathways_MM15292_REACTOME_DNA_DOUBLE_STRAND_BREAK_REPAIR,0.002948934054690900,1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_HOMOLOGOUS_DNA_PAIRING_AND_STRAND_EXCHANGE,M27588,pathways_M27588_REACTOME_HOMOLOGOUS_DNA_PAIRING_AND_STRAND_EXCHA...,0.003266788545533590,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,PID_PLK1_PATHWAY,M129,pathways_M129_PID_PLK1_PATHWAY,0.003730588103758180,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_SIGNALING_BY_WNT,M7847,pathways_M7847_REACTOME_SIGNALING_BY_WNT,0.0038729326900367700,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_DNA_DAMAGE_BYPASS,M27698,pathways_M27698_REACTOME_DNA_DAMAGE_BYPASS,0.004055852132679610,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0
+Pathway,REACTOME_DNA_DAMAGE_BYPASS,MM15432,pathways_MM15432_REACTOME_DNA_DAMAGE_BYPASS,0.004055852132679610,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0
+Pathway,REACTOME_TP53_REGULATES_TRANSCRIPTION_OF_CELL_CYCLE_GENES,M27614,pathways_M27614_REACTOME_TP53_REGULATES_TRANSCRIPTION_OF_CELL_CY...,0.004223266133636260,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+Pathway,REACTOME_APOPTOTIC_EXECUTION_PHASE,MM15448,pathways_MM15448_REACTOME_APOPTOTIC_EXECUTION_PHASE,0.004223266133636260,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_DNA_DOUBLE_STRAND_BREAK_REPAIR,M27582,pathways_M27582_REACTOME_DNA_DOUBLE_STRAND_BREAK_REPAIR,0.004523008052934340,1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_DISEASES_OF_DNA_REPAIR,M29854,pathways_M29854_REACTOME_DISEASES_OF_DNA_REPAIR,0.004567596260916720,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_APOPTOTIC_EXECUTION_PHASE,M2341,pathways_M2341_REACTOME_APOPTOTIC_EXECUTION_PHASE,0.0047444877488171500,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,WP_PRIMARY_OVARIAN_INSUFFICIENCY,M48058,pathways_M48058_WP_PRIMARY_OVARIAN_INSUFFICIENCY,0.004826225978574840,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_CELLULAR_RESPONSES_TO_STIMULI,M27827,pathways_M27827_REACTOME_CELLULAR_RESPONSES_TO_STIMULI,0.004986652093243410,0,0,0,1,0,0,0,1,0,1,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_APOPTOSIS,M15303,pathways_M15303_REACTOME_APOPTOSIS,0.005222247208018820,0,0,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_HDR_THROUGH_HOMOLOGOUS_RECOMBINATION_HRR,MM15283,pathways_MM15283_REACTOME_HDR_THROUGH_HOMOLOGOUS_RECOMBINATION_HRR,0.006069813508780220,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_SEPARATION_OF_SISTER_CHROMATIDS,M29614,pathways_M29614_REACTOME_SEPARATION_OF_SISTER_CHROMATIDS,0.006251262413430520,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0
+Pathway,REACTOME_SEPARATION_OF_SISTER_CHROMATIDS,MM14890,pathways_MM14890_REACTOME_SEPARATION_OF_SISTER_CHROMATIDS,0.006433725042190400,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0
+Pathway,REACTOME_M_PHASE,MM15364,pathways_MM15364_REACTOME_M_PHASE,0.006796474063884470,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0
+Pathway,WP_G1_TO_S_CELL_CYCLE_CONTROL,M39627,pathways_M39627_WP_G1_TO_S_CELL_CYCLE_CONTROL,0.007108207034390320,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,REACTOME_MITOTIC_PROMETAPHASE,MM15362,pathways_MM15362_REACTOME_MITOTIC_PROMETAPHASE,0.007294265055412620,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0
+Pathway,WP_HISTONE_MODIFICATIONS,M39374,pathways_M39374_WP_HISTONE_MODIFICATIONS,0.007324903114709180,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_MITOTIC_PROMETAPHASE,M4217,pathways_M4217_REACTOME_MITOTIC_PROMETAPHASE,0.007494347893578110,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0
+Pathway,REACTOME_PROGRAMMED_CELL_DEATH,M27436,pathways_M27436_REACTOME_PROGRAMMED_CELL_DEATH,0.008220299017718580,0,0,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,WP_DNA_DAMAGE_RESPONSE,M39339,pathways_M39339_WP_DNA_DAMAGE_RESPONSE,0.008221350347723420,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_HDR_THROUGH_HOMOLOGOUS_RECOMBINATION_HRR,M27570,pathways_M27570_REACTOME_HDR_THROUGH_HOMOLOGOUS_RECOMBINATION_HRR,0.008452819077102450,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_PANCREATIC_CANCER,M9726,pathways_M9726_KEGG_PANCREATIC_CANCER,0.008452819077102450,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_PROCESSING_OF_DNA_DOUBLE_STRAND_BREAK_ENDS,MM15299,pathways_MM15299_REACTOME_PROCESSING_OF_DNA_DOUBLE_STRAND_BREAK_E...,0.009653720592084070,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_PATHOGEN_EBV_EBNA3C_TO_CELL_CYCLE_G1_S_N00484,M49013,pathways_M49013_KEGG_MEDICUS_PATHOGEN_EBV_EBNA3C_TO_CELL_CYCLE_G...,0.009893216008953900,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_G2_M_DNA_REPLICATION_CHECKPOINT,M27669,pathways_M27669_REACTOME_G2_M_DNA_REPLICATION_CHECKPOINT,0.009893216008953900,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_G2_PHASE,M27663,pathways_M27663_REACTOME_G2_PHASE,0.009893216008953900,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_G2_M_DNA_REPLICATION_CHECKPOINT,MM15382,pathways_MM15382_REACTOME_G2_M_DNA_REPLICATION_CHECKPOINT,0.009893216008953900,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_G2_PHASE,MM15365,pathways_MM15365_REACTOME_G2_PHASE,0.009893216008953900,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_POLO_LIKE_KINASE_MEDIATED_EVENTS,MM14602,pathways_MM14602_REACTOME_POLO_LIKE_KINASE_MEDIATED_EVENTS,0.009893216008953900,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_ACTIVATION_OF_NOXA_AND_TRANSLOCATION_TO_MITOCHONDRIA,M26903,pathways_M26903_REACTOME_ACTIVATION_OF_NOXA_AND_TRANSLOCATION_TO...,0.009893216008953900,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_HEMOSTASIS,M8395,pathways_M8395_REACTOME_HEMOSTASIS,0.009983196806824920,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_MITOTIC_METAPHASE_AND_ANAPHASE,MM14898,pathways_MM14898_REACTOME_MITOTIC_METAPHASE_AND_ANAPHASE,0.010892059629083700,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0
+Pathway,REACTOME_MITOTIC_METAPHASE_AND_ANAPHASE,M27185,pathways_M27185_REACTOME_MITOTIC_METAPHASE_AND_ANAPHASE,0.011145503328641800,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0
+Pathway,KEGG_MEDICUS_VARIANT_AMPLIFIED_CCNE_TO_CELL_CYCLE_G1_S,M47489,pathways_M47489_KEGG_MEDICUS_VARIANT_AMPLIFIED_CCNE_TO_CELL_CYCL...,0.011860501699633200,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_VARIANT_AMPLIFIED_CCND1_TO_CELL_CYCLE_G1_S,M47494,pathways_M47494_KEGG_MEDICUS_VARIANT_AMPLIFIED_CCND1_TO_CELL_CYC...,0.011860501699633200,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_PATHOGEN_KSHV_VCYCLIN_TO_CELL_CYCLE_G1_S,M47461,pathways_M47461_KEGG_MEDICUS_PATHOGEN_KSHV_VCYCLIN_TO_CELL_CYCLE...,0.011860501699633200,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_PATHOGEN_HPV_E7_TO_CELL_CYCLE_G1_S,M47528,pathways_M47528_KEGG_MEDICUS_PATHOGEN_HPV_E7_TO_CELL_CYCLE_G1_S,0.011860501699633200,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_REFERENCE_CHRNA7_E2F_SIGNALING_PATHWAY,M47788,pathways_M47788_KEGG_MEDICUS_REFERENCE_CHRNA7_E2F_SIGNALING_PATH...,0.011860501699633200,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,WP_PYRIMIDINE_METABOLISM,M48340,pathways_M48340_WP_PYRIMIDINE_METABOLISM,0.01199465684324400,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,WP_PANCREATIC_ADENOCARCINOMA_PATHWAY,M39732,pathways_M39732_WP_PANCREATIC_ADENOCARCINOMA_PATHWAY,0.013392276318117100,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_SIGNALING_BY_INTERLEUKINS,M874,pathways_M874_REACTOME_SIGNALING_BY_INTERLEUKINS,0.013529487092800500,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_PATHOGEN_HPV_E7_TO_P27_CELL_CYCLE_G1_S,M47527,pathways_M47527_KEGG_MEDICUS_PATHOGEN_HPV_E7_TO_P27_CELL_CYCLE_G...,0.013824017841397900,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_REFERENCE_ESTABLISHMENT_OF_COHESION,M47869,pathways_M47869_KEGG_MEDICUS_REFERENCE_ESTABLISHMENT_OF_COHESION,0.013824017841397900,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0
+Pathway,REACTOME_PROCESSING_OF_DNA_DOUBLE_STRAND_BREAK_ENDS,M27590,pathways_M27590_REACTOME_PROCESSING_OF_DNA_DOUBLE_STRAND_BREAK_E...,0.015768475237577600,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_METABOLISM_OF_NUCLEOTIDES,MM14607,pathways_MM14607_REACTOME_METABOLISM_OF_NUCLEOTIDES,0.015768475237577600,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_METABOLISM_OF_NUCLEOTIDES,M777,pathways_M777_REACTOME_METABOLISM_OF_NUCLEOTIDES,0.015768475237577600,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_PATHOGEN_HTLV_1_TAX_TO_P21_CELL_CYCLE_G1_S_N00498,M47585,pathways_M47585_KEGG_MEDICUS_PATHOGEN_HTLV_1_TAX_TO_P21_CELL_CYC...,0.015783771389955300,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_VARIANT_LOSS_OF_CDKN1B_TO_P27_CELL_CYCLE_G1_S,M47429,pathways_M47429_KEGG_MEDICUS_VARIANT_LOSS_OF_CDKN1B_TO_P27_CELL_...,0.015783771389955300,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_VARIANT_AMPLIFIED_CDK4_TO_CELL_CYCLE_G1_S,M47419,pathways_M47419_KEGG_MEDICUS_VARIANT_AMPLIFIED_CDK4_TO_CELL_CYCL...,0.015783771389955300,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,WP_SERINE_METABOLISM,M42556,pathways_M42556_WP_SERINE_METABOLISM,0.015783771389955300,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,WP_MIRNA_REGULATION_OF_DNA_DAMAGE_RESPONSE,M39524,pathways_M39524_WP_MIRNA_REGULATION_OF_DNA_DAMAGE_RESPONSE,0.01607738558139550,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_PYRIMIDINE_METABOLISM,M5109,pathways_M5109_KEGG_PYRIMIDINE_METABOLISM,0.01607738558139550,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_AMPLIFICATION_OF_SIGNAL_FROM_THE_KINETOCHORES,MM14561,pathways_MM14561_REACTOME_AMPLIFICATION_OF_SIGNAL_FROM_THE_KINETO...,0.016703010474252900,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+Pathway,BIOCARTA_FBW7_PATHWAY,MM1568,pathways_MM1568_BIOCARTA_FBW7_PATHWAY,0.017739769289110800,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,BIOCARTA_FBW7_PATHWAY,M22053,pathways_M22053_BIOCARTA_FBW7_PATHWAY,0.017739769289110800,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_PATHOGEN_EBV_EBNA3C_TO_CELL_CYCLE_G1_S_N00483,M49010,pathways_M49010_KEGG_MEDICUS_PATHOGEN_EBV_EBNA3C_TO_CELL_CYCLE_G...,0.017739769289110800,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_PATHOGEN_HTLV_1_TAX_TO_P21_CELL_CYCLE_G1_S_N00497,M47584,pathways_M47584_KEGG_MEDICUS_PATHOGEN_HTLV_1_TAX_TO_P21_CELL_CYC...,0.017739769289110800,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_PATHOGEN_EBV_EBNA3C_TO_P27_CELL_CYCLE_G1_S_N00482,M47578,pathways_M47578_KEGG_MEDICUS_PATHOGEN_EBV_EBNA3C_TO_P27_CELL_CYC...,0.017739769289110800,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_TP53_REGULATES_TRANSCRIPTION_OF_GENES_INVOLVED_IN_G1_CELL_CYCLE_ARREST,MM15337,pathways_MM15337_REACTOME_TP53_REGULATES_TRANSCRIPTION_OF_GENES_I...,0.017739769289110800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+Pathway,WP_MISMATCH_REPAIR,MM15932,pathways_MM15932_WP_MISMATCH_REPAIR,0.017739769289110800,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,BIOCARTA_RANMS_PATHWAY,MM1488,pathways_MM1488_BIOCARTA_RANMS_PATHWAY,0.017739769289110800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_ACTIVATION_OF_PUMA_AND_TRANSLOCATION_TO_MITOCHONDRIA,M26946,pathways_M26946_REACTOME_ACTIVATION_OF_PUMA_AND_TRANSLOCATION_TO...,0.017739769289110800,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_APOPTOSIS,MM14471,pathways_MM14471_REACTOME_APOPTOSIS,0.019307994332018000,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,WP_MAMMARY_GLAND_DEVELOPMENT_INVOLUTION_STAGE_4_OF_4,M39534,pathways_M39534_WP_MAMMARY_GLAND_DEVELOPMENT_INVOLUTION_STAGE_4_...,0.019692018469929000,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,BIOCARTA_SKP2E2F_PATHWAY,M6031,pathways_M6031_BIOCARTA_SKP2E2F_PATHWAY,0.019692018469929000,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,BIOCARTA_RANMS_PATHWAY,M17370,pathways_M17370_BIOCARTA_RANMS_PATHWAY,0.019692018469929000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_ENV_FACTOR_NNK_NNN_TO_CHRNA7_E2F_SIGNALING_PATHWAY,M47789,pathways_M47789_KEGG_MEDICUS_ENV_FACTOR_NNK_NNN_TO_CHRNA7_E2F_SI...,0.019692018469929000,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_REFERENCE_P16_CELL_CYCLE_G1_S,M47418,pathways_M47418_KEGG_MEDICUS_REFERENCE_P16_CELL_CYCLE_G1_S,0.019692018469929000,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,BIOCARTA_SKP2E2F_PATHWAY,MM1384,pathways_MM1384_BIOCARTA_SKP2E2F_PATHWAY,0.019692018469929000,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_MITOTIC_SPINDLE_CHECKPOINT,M27673,pathways_M27673_REACTOME_MITOTIC_SPINDLE_CHECKPOINT,0.020326379212991600,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+Pathway,KEGG_MEDICUS_PATHOGEN_EBV_EBNA3C_TO_P27_CELL_CYCLE_G1_S_N00264,M47492,pathways_M47492_KEGG_MEDICUS_PATHOGEN_EBV_EBNA3C_TO_P27_CELL_CYC...,0.02164052585140820,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_REFERENCE_MDM2_P21_CELL_CYCLE_G1_S_N00536,M47591,pathways_M47591_KEGG_MEDICUS_REFERENCE_MDM2_P21_CELL_CYCLE_G1_S_...,0.02164052585140820,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_VARIANT_AMPLIFIED_MYC_TO_CELL_CYCLE_G1_S,M47426,pathways_M47426_KEGG_MEDICUS_VARIANT_AMPLIFIED_MYC_TO_CELL_CYCLE...,0.02164052585140820,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_REFERENCE_RAD51_DSDNA_DESTABILIZATION,M47894,pathways_M47894_KEGG_MEDICUS_REFERENCE_RAD51_DSDNA_DESTABILIZATION,0.02164052585140820,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_FACTORS_INVOLVED_IN_MEGAKARYOCYTE_DEVELOPMENT_AND_PLATELET_PRODUCTION,MM15715,pathways_MM15715_REACTOME_FACTORS_INVOLVED_IN_MEGAKARYOCYTE_DEVEL...,0.02207289172453950,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_MITOTIC_SPINDLE_CHECKPOINT,MM15387,pathways_MM15387_REACTOME_MITOTIC_SPINDLE_CHECKPOINT,0.02242948166762930,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+Pathway,WP_DNA_REPAIR_PATHWAYS_FULL_NETWORK,M40049,pathways_M40049_WP_DNA_REPAIR_PATHWAYS_FULL_NETWORK,0.023513641503967600,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_UNWINDING_OF_DNA,M3656,pathways_M3656_REACTOME_UNWINDING_OF_DNA,0.02358529834030950,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pathway,BIOCARTA_P27_PATHWAY,MM1472,pathways_MM1472_BIOCARTA_P27_PATHWAY,0.02358529834030950,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,KEGG_MEDICUS_VARIANT_AMPLIFIED_MDM2_TO_P21_CELL_CYCLE_G1_S,M47417,pathways_M47417_KEGG_MEDICUS_VARIANT_AMPLIFIED_MDM2_TO_P21_CELL_...,0.02358529834030950,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_APOPTOSIS_INDUCED_DNA_FRAGMENTATION,MM14554,pathways_MM14554_REACTOME_APOPTOSIS_INDUCED_DNA_FRAGMENTATION,0.02358529834030950,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Pathway,REACTOME_SYNTHESIS_OF_DNA,M5224,pathways_M5224_REACTOME_SYNTHESIS_OF_DNA,0.023879790787844700,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
