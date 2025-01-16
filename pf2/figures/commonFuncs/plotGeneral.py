@@ -268,15 +268,14 @@ def plot_avegene_cmps(
     df = df.groupby(["Label", "Gene", "Condition", "Cell Type"], observed=False).mean()
     df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
     
-    sns.violinplot(
+    sns.boxplot(
         data=df.loc[df["Gene"] == gene],
         x="Label",
         y="Average Gene Expression",
-        split=True,
         # hue="Cell Type",
         ax=ax,
         order=order,
-        # showfliers=False,
+        showfliers=False,
     )
     ax.set(ylabel=f"Average {gene}")
 

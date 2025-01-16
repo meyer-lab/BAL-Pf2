@@ -26,13 +26,13 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
 
-    cmp1 = 8; cmp2 = 31
-    pos1 = False; pos2 = True
+    cmp1 = 2; cmp2 = 25
+    pos1 = True; pos2 = False
     threshold = 0.5
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     X = add_obs_label(X, cmp1, cmp2)
     
-    X.loc.obs["Label"]
+    # X.loc.obs["Label"]
       
     colors = ["black",   "fuchsia", "turquoise", "gainsboro"]
     pal = []
@@ -41,20 +41,20 @@ def makeFigure():
         
     plot_labels_pacmap(X, "Label", ax[0], color_key=pal)
 
-    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
-    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
+    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=2)
+    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=2)
     genes = np.concatenate([genes1, genes2])
 
     for i, gene in enumerate(genes):
         plot_avegene_cmps(X, gene, ax[i+1])
         rotate_xaxis(ax[i+1])
         
-    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
-    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
-    genes = np.concatenate([genes1, genes2])
+    # genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
+    # genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
+    # genes = np.concatenate([genes1, genes2])
 
-    for i, gene in enumerate(genes):
-        plot_gene_pacmap(gene, X, ax[i+5])
+    # for i, gene in enumerate(genes):
+    #     plot_gene_pacmap(gene, X, ax[i+5])
 
     return f
 

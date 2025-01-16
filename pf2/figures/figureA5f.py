@@ -14,7 +14,7 @@ def makeFigure():
     subplotLabel(ax)
 
     plot_toppfun(25, ax[0])
-    plot_toppfun(26, ax[1])
+    plot_toppfun(8, ax[1])
 
     return f
 

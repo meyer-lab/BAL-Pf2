@@ -22,7 +22,7 @@ def makeFigure():
     X = add_obs(X, "binary_outcome")
     X = add_obs(X, "patient_category")
 
-    genes = bot_top_genes(X, cmp=26, geneAmount=30)
+    genes = bot_top_genes(X, cmp=8, geneAmount=30)
 
     for i, gene in enumerate(np.ravel(genes)):
         if i == 0:
