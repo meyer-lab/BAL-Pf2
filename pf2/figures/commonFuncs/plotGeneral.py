@@ -253,7 +253,6 @@ def plot_avegene_cmps(
     status2 = "patient_category"
     cellType = "combined_cell_type"
 
-    dataDF = dataDF.subtract(genesV.var["means"].values)
     dataDF[status1] = genesV.obs[status1].values
     dataDF[status2] = genesV.obs[status2].values
     dataDF["Condition"] = genesV.obs[condition].values
@@ -273,7 +272,6 @@ def plot_avegene_cmps(
         data=df.loc[df["Gene"] == gene],
         x="Label",
         y="Average Gene Expression",
-        hue="Cell Type",
         ax=ax,
         order=order,
         showfliers=False,
@@ -282,6 +280,36 @@ def plot_avegene_cmps(
 
     return df
 
+
+def plot_pair_gene_factors(X: anndata.AnnData, cmp1: int, cmp2: int, ax: Axes):
+    """Plots two gene components weights"""
+    cmpWeights = np.concatenate(
+        ([X.varm["Pf2_C"][:, cmp1 - 1]], [X.varm["Pf2_C"][:, cmp2 - 1]])
+    )
+    df = pd.DataFrame(
+        data=cmpWeights.transpose(), columns=[f"Cmp. {cmp1}", f"Cmp. {cmp2}"]
+    )
+    sns.scatterplot(data=df, x=f"Cmp. {cmp1}", y=f"Cmp. {cmp2}", ax=ax, color="k")
+    ax.set(title="Gene Factors")
+
+
+def plot_toppfun(cmp, ax):
+    """Plot GSEA results"""
+    df = pd.read_csv(f"pf2/data/topp_fun_cmp{cmp}.csv", dtype=str)
+    df = df.drop(columns=["ID", "Verbose ID"])
+    category = df["Category"].to_numpy().astype(str)
+
+    df = df.drop(columns=["Category"])
+    df["Process"] = category
+    df = df.iloc[:1000, :]
+    df["Total Genes"] = df.iloc[:, 2:-1].astype(int).sum(axis=1).to_numpy()
+    df = df.loc[df.loc[:, "Process"] == "GO: Biological Process"]
+    df["pValue"] = df["pValue"].astype(float)
+
+    sns.scatterplot(
+        data=df.iloc[:10, :], x="pValue", y="Name", hue="Total Genes", ax=ax
+    )
+    ax.set(xscale="log")
 
 
 def rotate_xaxis(ax, rotation=90):

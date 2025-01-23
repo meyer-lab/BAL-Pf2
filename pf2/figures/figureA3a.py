@@ -1,5 +1,5 @@
 """
-Figure A4: Correlation Matrix
+Figure A3a
 """
 
 import anndata

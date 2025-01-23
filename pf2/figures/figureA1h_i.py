@@ -1,5 +1,5 @@
 """
-Figure A16:
+Figure Ah_i:
 """
 
 from anndata import read_h5ad
