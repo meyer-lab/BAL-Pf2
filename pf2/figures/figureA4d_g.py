@@ -62,6 +62,8 @@ def plot_plsr_loadings(plsr_results, ax1, ax2):
 
     for i in range(2):
         df_xload = pd.DataFrame(data=plsr_results[i].x_loadings_[:, 0], columns=["PLSR 1"])
+        df_xload["Component"] = np.arange(df_xload.shape[0]) + 1
+        print(df_xload.sort_values(by="PLSR 1"))
         df_yload = pd.DataFrame(data=[[plsr_results[i].y_loadings_[0, 0]]], columns=["PLSR 1"])
         sns.swarmplot(
             data=df_xload,
