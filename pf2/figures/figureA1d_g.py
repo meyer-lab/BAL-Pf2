@@ -1,4 +1,4 @@
-"""Figure A6: Plots cell count per patient"""
+"""Figure A1d_g"""
 
 import anndata
 import pandas as pd

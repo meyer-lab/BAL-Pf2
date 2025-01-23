@@ -1,5 +1,4 @@
-"""Figure A1: Condition, eigen-state, and gene factors,
-along with PaCMAP labeled by cell type"""
+"""Figure A2d_j"""
 
 import anndata
 import pandas as pd
