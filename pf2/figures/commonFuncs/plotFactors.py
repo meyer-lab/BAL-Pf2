@@ -129,6 +129,31 @@ def plot_gene_factors(data: AnnData, ax: Axes, trim=True):
         vmax=1,
     )
     ax.set(xlabel="Component")
+    
+def plot_gene_factors_defined(
+    cmps: list, dataIn: AnnData, ax: Axes, geneAmount: int = 5
+):
+    """Plotting weights for gene factors for both most negatively/positively weighted terms"""
+    cmpName = [f"Cmp. {cmp}" for cmp in cmps]
+    df = pd.DataFrame(
+        data=dataIn.varm["Pf2_C"][:, cmps], index=dataIn.var_names, columns=[f"Cmp. {cmp}" for cmp in cmps]
+    )
+    genes = []
+    for i, cmp in enumerate(cmpName):
+        df_sorted = df.iloc[:, i].reset_index(drop=False)
+        df_sorted = df_sorted.sort_values(by=cmp).set_index("index")  
+        weighted_genes = np.concatenate((df_sorted.index[:geneAmount].values, df_sorted.index[-geneAmount:].values))
+        genes = np.concatenate((genes, weighted_genes))
+
+    df = df.loc[genes]
+    sns.heatmap(
+        data=df,
+        ax=ax,
+        center=0,
+        cmap=cmap,
+        vmin=-1,
+        vmax=1,
+    )
 
 
 def plot_gene_factors_partial(

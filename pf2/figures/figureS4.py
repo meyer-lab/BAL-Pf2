@@ -1,4 +1,4 @@
-"""Figure A5: Plots average gene expression by status and cell type for a component"""
+"""Figure S4"""
 
 from anndata import read_h5ad
 from .common import (
