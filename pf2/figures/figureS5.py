@@ -1,5 +1,5 @@
 """
-Figure A7:
+Figure S5:
 """
 
 import anndata
