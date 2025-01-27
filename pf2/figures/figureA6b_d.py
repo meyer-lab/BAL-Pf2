@@ -1,20 +1,21 @@
 """
-Figure A15:
+Figure 6
 """
-from .commonFuncs.plotPaCMAP import plot_labels_pacmap
-from ..data_import import combine_cell_types, add_obs
+
+import numpy as np
 import anndata
 from .common import subplotLabel, getSetup
-import matplotlib.colors as mcolors
-import numpy as np
+from .commonFuncs.plotGeneral import rotate_xaxis, add_obs_cmp_both_label, add_obs_label, plot_avegene_cmps, plot_pair_gene_factors, plot_toppfun
+from ..data_import import add_obs, combine_cell_types
 from .commonFuncs.plotFactors import bot_top_genes
-from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps, add_obs_cmp_both_label_three, add_obs_label_three  
-from .commonFuncs.plotPaCMAP import plot_gene_pacmap
-
+from .commonFuncs.plotPaCMAP import plot_gene_pacmap, plot_labels_pacmap
+import matplotlib.colors as mcolors
+import pandas as pd
+import seaborn as sns
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((12, 12), (4, 4))
+    ax, f = getSetup((10, 10), (4, 4))
 
     subplotLabel(ax)
 
@@ -23,30 +24,59 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
 
-    cmp1 = 20; cmp2 = 27; cmp3 = 35
-    pos1 = True; pos2 = True; pos3 = False
+    cmp1 = 9; cmp2 = 32
+    pos1 = True; pos2 = True
     threshold = 0.5
-    X = add_obs_cmp_both_label_three(X, cmp1, cmp2, cmp3, pos1, pos2, pos3, top_perc=threshold)
-    X = add_obs_label_three(X, cmp1, cmp2, cmp3)
-    
-    colors = ["black", "fuchsia", "turquoise", "slateblue", "gainsboro"]
+    X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
+    X = add_obs_label(X, cmp1, cmp2)
+      
+    colors = ["black", "fuchsia", "turquoise", "gainsboro"]
     pal = []
     for i in colors:
         pal.append(mcolors.CSS4_COLORS[i])
-
+        
     plot_labels_pacmap(X, "Label", ax[0], color_key=pal)
 
     genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
     genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
-    genes3 = bot_top_genes(X, cmp=cmp3, geneAmount=1)
-    genes = np.concatenate([genes1, genes2, genes3])
+    genes = np.concatenate([genes1, genes2])
+
     for i, gene in enumerate(genes):
-        plot_avegene_cmps(X, gene, ax[i+1])
-        rotate_xaxis(ax[i+1])
+        plot_gene_pacmap(gene, X, ax[i+1])
         
-    for i, gene in enumerate(genes):
-        plot_gene_pacmap(gene, X, ax[i+7])
+    plot_pair_gene_factors(X, cmp1, cmp2, ax[7])
+        
+    X = X[X.obs["Label"] != "Both"] 
+
+    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=3)
+    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=3)
+    genes = np.concatenate([genes1[-3:], genes2[-3:]])
     
+    for i, gene in enumerate(genes):
+        plot_avegene_cmps(X, gene, ax[i+8], order=["Cmp9", "Cmp32", "NoLabel"])
+        rotate_xaxis(ax[i+8])
+        
+        
+    plot_toppfun(cmp1, ax[13])
+    plot_pair_cond_factors(X, cmp1, cmp2, ax[14])
+ 
+  
+
     return f
 
 
+
+def plot_pair_cond_factors(
+    X, cmp1: int, cmp2: int, ax,
+):
+    """Plots two condition components weights"""
+    factors = np.array(X.uns["Pf2_A"])
+    XX = factors
+    factors -= np.median(XX, axis=0)
+    factors /= np.std(XX, axis=0)
+    
+    df = pd.DataFrame(factors, columns=[f"Cmp. {i}" for i in range(1, factors.shape[1] + 1)])
+
+    sns.scatterplot(data=df, x=f"Cmp. {cmp1}", y=f"Cmp. {cmp2}", ax=ax)
+    ax.set(title="Condition Factors")
+    

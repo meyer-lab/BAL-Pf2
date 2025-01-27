@@ -57,4 +57,3 @@ def makeFigure():
   
 
     return f
-
