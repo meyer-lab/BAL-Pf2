@@ -22,8 +22,8 @@ def makeFigure():
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     X = add_obs(X, "binary_outcome")
     X = add_obs(X, "patient_category")
-    X.uns["Pf2_A"] = correct_conditions(X)
-
+    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"]
+    
     celltype_count_perc_df = cell_count_perc_df(X, celltype="cell_type")
 
     for i in range(4):

@@ -43,7 +43,6 @@ def makeFigure():
             df = plsr_acc_proba(
                 patient_factor, meta, n_components=j + 1, roc_auc=roc_auc[i]
             )
-            print(df)
             df["Component"] = j + 1
             plsr_acc_df = pd.concat([plsr_acc_df, df], axis=0)
 

@@ -7,7 +7,7 @@ SKF = StratifiedKFold(n_splits=10)
 
 
 def run_plsr(
-    data: pd.DataFrame, labels: pd.Series, proba: bool = False, n_components: int = 2
+    data: pd.DataFrame, labels: pd.Series, proba: bool = False, n_components: int = 1
 ) -> tuple[pd.Series, PLSRegression]:
     """
     Predicts labels via PLSR cross-validation.
@@ -47,7 +47,7 @@ def run_plsr(
 
 
 def predict_mortality(
-    data: pd.DataFrame, meta: pd.DataFrame, proba: bool = False, n_components=2
+    data: pd.DataFrame, meta: pd.DataFrame, proba: bool = False, n_components=1
 ):
     """
     Predicts mortality via cross-validation.

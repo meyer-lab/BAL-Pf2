@@ -24,6 +24,7 @@ def makeFigure():
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     add_obs(X, "binary_outcome")
     add_obs(X, "patient_category")
+    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"]
     combine_cell_types(X)
 
    

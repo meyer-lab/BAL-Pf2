@@ -23,6 +23,7 @@ def makeFigure():
     add_obs(X, "patient_category")
     
     cond_fact_meta_df = condition_factors_meta(X)
+    cond_fact_meta_df = cond_fact_meta_df[cond_fact_meta_df["patient_category"] != "Non-Pneumonia Control"]
     cond_fact_meta_df = bal_combine_bo_covid(cond_fact_meta_df)
     pat_df = cond_fact_meta_df[["patient_id", "icu_day", "Status"]]
     order = np.unique(pat_df["Status"])

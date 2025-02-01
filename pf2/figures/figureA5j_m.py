@@ -22,6 +22,7 @@ def makeFigure():
     add_obs(X, "binary_outcome")
     add_obs(X, "patient_category")
     combine_cell_types(X)
+    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
 
     cmp1 = 20; cmp2 = 27; cmp3 = 35
     pos1 = True; pos2 = True; pos3 = True

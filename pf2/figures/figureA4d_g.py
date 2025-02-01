@@ -32,7 +32,7 @@ def makeFigure():
     patient_factor = patient_factor.loc[shared_indices, :]
     meta = meta.loc[shared_indices, :]
 
-    labels, plsr_results_both = plsr_acc(patient_factor, meta)
+    labels, plsr_results_both = plsr_acc(patient_factor, meta, n_components=1)
 
     plot_plsr_loadings(plsr_results_both, ax[0], ax[1])
     ax[0].set(xlim=[-0.35, 0.35])

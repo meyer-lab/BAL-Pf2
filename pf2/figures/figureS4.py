@@ -21,6 +21,7 @@ def makeFigure():
 
     X = add_obs(X, "binary_outcome")
     X = add_obs(X, "patient_category")
+    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"]
 
     genes = bot_top_genes(X, cmp=1, geneAmount=6)
 
