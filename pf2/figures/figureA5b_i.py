@@ -23,36 +23,38 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
 
-    cmp1 = 3; cmp2 = 26
-    pos1 = True; pos2 = True
-    threshold = 0.5
-    X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
-    X = add_obs_label(X, cmp1, cmp2)
+    # cmp1 = 3; cmp2 = 26
+    # pos1 = True; pos2 = True
+    # threshold = 0.5
+    # X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
+    # X = add_obs_label(X, cmp1, cmp2)
       
-    colors = ["black", "fuchsia", "turquoise", "gainsboro"]
-    pal = []
-    for i in colors:
-        pal.append(mcolors.CSS4_COLORS[i])
+    # colors = ["black", "fuchsia", "turquoise", "gainsboro"]
+    # pal = []
+    # for i in colors:
+    #     pal.append(mcolors.CSS4_COLORS[i])
         
-    plot_labels_pacmap(X, "Label", ax[0], color_key=pal)
+    # plot_labels_pacmap(X, "Label", ax[0], color_key=pal)
 
-    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
-    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
-    genes = np.concatenate([genes1, genes2])
+    # genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
+    # genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
+    # genes = np.concatenate([genes1, genes2])
 
+
+    genes = ["MUC5AC", "MUC5B", "SCGB3A1"]
     for i, gene in enumerate(genes):
         plot_gene_pacmap(gene, X, ax[i+1])
         
-    for i, cmp in enumerate([cmp1, cmp2]):
-        plot_wp_pacmap(X, cmp, ax[i+5], cbarMax=0.4)
+    # for i, cmp in enumerate([cmp1, cmp2]):
+    #     plot_wp_pacmap(X, cmp, ax[i+5], cbarMax=0.4)
         
-    plot_pair_gene_factors(X, cmp1, cmp2, ax[7])
+    # plot_pair_gene_factors(X, cmp1, cmp2, ax[7])
         
-    X = X[X.obs["Label"] != "Both"] 
+    # X = X[X.obs["Label"] != "Both"] 
 
-    for i, gene in enumerate(genes):
-        plot_avegene_cmps(X, gene, ax[i+8], order=["Cmp3", "Cmp26", "NoLabel"])
-        rotate_xaxis(ax[i+8])
+    # for i, gene in enumerate(genes):
+    #     plot_avegene_cmps(X, gene, ax[i+8], order=["Cmp3", "Cmp26", "NoLabel"])
+    #     rotate_xaxis(ax[i+8])
  
   
 

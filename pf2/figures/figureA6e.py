@@ -1,20 +1,20 @@
 """
-Figure A15:
+Figure 5
 """
-from .commonFuncs.plotPaCMAP import plot_labels_pacmap
-from ..data_import import combine_cell_types, add_obs
+
+import numpy as np
 import anndata
 from .common import subplotLabel, getSetup
-import matplotlib.colors as mcolors
-import numpy as np
+from .commonFuncs.plotGeneral import rotate_xaxis, add_obs_cmp_both_label, add_obs_label, plot_avegene_cmps, plot_pair_gene_factors
+from ..data_import import add_obs, combine_cell_types
 from .commonFuncs.plotFactors import bot_top_genes
-from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps, add_obs_cmp_both_label_three, add_obs_label_three  
-from .commonFuncs.plotPaCMAP import plot_gene_pacmap
+from .commonFuncs.plotPaCMAP import plot_gene_pacmap, plot_labels_pacmap, plot_wp_pacmap
+import matplotlib.colors as mcolors
 
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((12, 12), (4, 4))
+    ax, f = getSetup((10, 10), (5, 5))
 
     subplotLabel(ax)
 
@@ -23,36 +23,37 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
 
-    cmp1 = 28; cmp2 = 38; cmp3 = 45
-    pos1 = True; pos2 = True; pos3 = False
-    threshold = .5
-    X = add_obs_cmp_both_label_three(X, cmp1, cmp2, cmp3, pos1, pos2, pos3, top_perc=threshold)
-    X = add_obs_label_three(X, cmp1, cmp2, cmp3)
-    
-    colors = ["black", "turquoise", "fuchsia", "slateblue", "gainsboro"]
+    cmp1 = 28; cmp2 = 38
+    pos1 = True; pos2 = True
+    threshold = 0.1
+    X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
+    X = add_obs_label(X, cmp1, cmp2)
+      
+    colors = ["black", "fuchsia", "turquoise", "gainsboro"]
     pal = []
     for i in colors:
         pal.append(mcolors.CSS4_COLORS[i])
-
+        
     plot_labels_pacmap(X, "Label", ax[0], color_key=pal)
 
-    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
-    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
-    genes3 = bot_top_genes(X, cmp=cmp3, geneAmount=1)
-    genes = np.concatenate([genes1, genes2, genes3])
+    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=2)
+    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=2)
+    genes = np.concatenate([genes1, genes2])
 
+    for i, gene in enumerate(genes):
+        plot_gene_pacmap(gene, X, ax[i+1])
+        
+    # for i, cmp in enumerate([cmp1, cmp2]):
+    #     plot_wp_pacmap(X, cmp, ax[i+5], cbarMax=0.4)
+        
+    # plot_pair_gene_factors(X, cmp1, cmp2, ax[7])
+        
+    X = X[X.obs["Label"] != "Both"] 
 
-    # for i, gene in enumerate(genes):
-    #     plot_gene_pacmap(gene, X, ax[i+7])
-        
-    # X = X[X.obs["Label"] != "Both"]   
-    # for i, gene in enumerate(genes):
-    #     plot_avegene_cmps(X, gene, ax[i+1])
-    #     rotate_xaxis(ax[i+1]) 
-    # genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
-    # 
-        
-    
+    for i, gene in enumerate(genes):
+        plot_avegene_cmps(X, gene, ax[i+10])
+        rotate_xaxis(ax[i+10])
+ 
+  
+
     return f
-
-
