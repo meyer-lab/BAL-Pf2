@@ -25,6 +25,7 @@ def makeFigure():
     add_obs(X, "episode_etiology")
     add_obs(X, "episode_category")
     
+    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
     pal = sns.color_palette()
     pal = pal.as_hex() 
     plot_condition_factors(

@@ -25,9 +25,11 @@ def makeFigure():
     plot_cell_count(X, ax[0])
 
     cond_fact_meta_df = condition_factors_meta(X)
-    plot_sample_count(cond_fact_meta_df, ax[1], ax[2], combine=True)
+    plot_sample_count(cond_fact_meta_df, ax[1], ax[2], combine=True, include_control=False)
     plot_sample_count(cond_fact_meta_df, ax[3], ax[4], combine=False)
     combine_cell_types(X)
+    
+    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
 
     celltype_count_perc_df = cell_count_perc_df(X, celltype="cell_type")
     celltype = np.unique(celltype_count_perc_df["Cell Type"])
@@ -86,11 +88,14 @@ def plot_sample_count(
     status1: str = "binary_outcome",
     status2: str = "patient_category",
     combine=True,
+    include_control=True
 ):
     """Plots overall patients in each category."""
     df = df[[status1, status2]].reset_index(drop=True)
 
     if combine is True:
+        if include_control is False:
+            df = df[df[status2] != "Non-Pneumonia Control"]
         df = bal_combine_bo_covid(df)
 
     else:
@@ -118,11 +123,13 @@ def plot_sample_count(
     ax2.set(ylabel="Sample Proportion")
 
 
-def cell_count_perc_df(X, celltype="Cell Type"):
+def cell_count_perc_df(X, celltype="Cell Type", include_control=True):
     """Returns DF with cell counts and percentages for experiment"""
 
     grouping = [celltype, "sample_id", "binary_outcome", "patient_category"]
     df = X.obs[grouping].reset_index(drop=True)
+    if include_control is False:
+         df = df[df["patient_category"] != "Non-Pneumonia Control"]
     df = bal_combine_bo_covid(df)
 
     dfCond = (
