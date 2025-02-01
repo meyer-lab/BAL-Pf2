@@ -3,6 +3,8 @@
 from anndata import read_h5ad
 from .common import getSetup
 from .commonFuncs.plotPaCMAP import plot_wp_pacmap, plot_wp_per_celltype
+from ..data_import import add_obs
+
 
 
 def makeFigure():
