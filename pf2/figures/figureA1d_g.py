@@ -15,7 +15,7 @@ from ..data_import import add_obs, condition_factors_meta, combine_cell_types
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((10, 10), (3, 3))
+    ax, f = getSetup((10, 10), (4, 4))
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
@@ -25,9 +25,14 @@ def makeFigure():
     plot_cell_count(X, ax[0])
 
     cond_fact_meta_df = condition_factors_meta(X)
-    plot_sample_count(cond_fact_meta_df, ax[1], ax[2], combine=True, include_control=False)
-    plot_sample_count(cond_fact_meta_df, ax[3], ax[4], combine=False)
-    combine_cell_types(X)
+    
+    
+    plot_sample_count(cond_fact_meta_df, ax[1], ax[2], combine=True, include_control=False, sample_id=True)
+    plot_sample_count(cond_fact_meta_df, ax[3], ax[4], combine=False, sample_id=True)
+    
+    cond_fact_meta_df = cond_fact_meta_df.drop_duplicates(subset=["patient_id"])
+    plot_sample_count(cond_fact_meta_df, ax[5], ax[6], combine=True, include_control=False, sample_id=False)
+    plot_sample_count(cond_fact_meta_df, ax[7], ax[8], combine=False, sample_id=False)
     
     X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
 
@@ -40,10 +45,11 @@ def makeFigure():
         hue="Status",
         order=celltype,
         showfliers=False,
-        ax=ax[5],
+        ax=ax[9],
     )
-    rotate_xaxis(ax[5])
+    rotate_xaxis(ax[9])
 
+    combine_cell_types(X)
     celltype_count_perc_df = cell_count_perc_df(X, celltype="combined_cell_type")
     celltype = np.unique(celltype_count_perc_df["Cell Type"])
     sns.boxplot(
@@ -53,9 +59,9 @@ def makeFigure():
         hue="Status",
         order=celltype,
         showfliers=False,
-        ax=ax[6],
+        ax=ax[10],
     )
-    rotate_xaxis(ax[6])
+    rotate_xaxis(ax[10])
 
     return f
 
@@ -88,7 +94,8 @@ def plot_sample_count(
     status1: str = "binary_outcome",
     status2: str = "patient_category",
     combine=True,
-    include_control=True
+    include_control=True,
+    sample_id=True
 ):
     """Plots overall patients in each category."""
     df = df[[status1, status2]].reset_index(drop=True)
@@ -112,6 +119,9 @@ def plot_sample_count(
         sns.barplot(data=dfCond, x="Status", y="Sample Count", color="k", ax=ax1)
         rotate_xaxis(ax1)
 
+    if sample_id is False:
+        ax1.set(ylabel="Patient Count")
+        
     total = dfCond["Sample Count"].sum()
     dfCond["Sample Count"] = dfCond["Sample Count"] / total
 
@@ -120,7 +130,11 @@ def plot_sample_count(
     else:
         sns.barplot(data=dfCond, x="Status", y="Sample Count", color="k", ax=ax2)
         rotate_xaxis(ax2)
-    ax2.set(ylabel="Sample Proportion")
+    
+    if sample_id is False:
+        ax2.set(ylabel="Patient Proportion")
+    else:
+        ax2.set(ylabel="Sample Proportion")
 
 
 def cell_count_perc_df(X, celltype="Cell Type", include_control=True):
