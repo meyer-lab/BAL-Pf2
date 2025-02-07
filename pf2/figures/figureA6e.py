@@ -1,59 +1,93 @@
 """
-Figure A15:
+Figure 6e
 """
-from .commonFuncs.plotPaCMAP import plot_labels_pacmap
-from ..data_import import combine_cell_types, add_obs
+
+import numpy as np
 import anndata
 from .common import subplotLabel, getSetup
-import matplotlib.colors as mcolors
-import numpy as np
+from .commonFuncs.plotGeneral import rotate_xaxis, add_obs_cmp_both_label, add_obs_label, plot_avegene_cmps, plot_pair_gene_factors, bal_combine_bo_covid
+from ..data_import import add_obs, combine_cell_types, condition_factors_meta
 from .commonFuncs.plotFactors import bot_top_genes
-from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps, add_obs_cmp_both_label_three, add_obs_label_three  
-from .commonFuncs.plotPaCMAP import plot_gene_pacmap
+from .commonFuncs.plotPaCMAP import plot_gene_pacmap, plot_labels_pacmap, plot_wp_pacmap
+import matplotlib.colors as mcolors
+import pandas as pd
+import seaborn as sns
 
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((12, 12), (4, 4))
+    # ax, f = getSetup((10, 10), (4, 4))
+    ax, f = getSetup((6, 12), (6, 3))
 
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     add_obs(X, "binary_outcome")
     add_obs(X, "patient_category")
-    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
+    # X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
     combine_cell_types(X)
 
-    cmp1 = 28; cmp2 = 38; cmp3 = 45
-    pos1 = True; pos2 = True; pos3 = False
-    threshold = .5
-    X = add_obs_cmp_both_label_three(X, cmp1, cmp2, cmp3, pos1, pos2, pos3, top_perc=threshold)
-    X = add_obs_label_three(X, cmp1, cmp2, cmp3)
-    
-    colors = ["black", "turquoise", "fuchsia", "slateblue", "gainsboro"]
-    pal = []
-    for i in colors:
-        pal.append(mcolors.CSS4_COLORS[i])
+    cmp1 = 28; cmp2 = 38
+    pos1 = True; pos2 = True
+    threshold = 0.1
+    X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
+    X = add_obs_label(X, cmp1, cmp2)
+      
+    colors = ["black",  "turquoise", "fuchsia", "gainsboro"]
+    # pal = []
+    # for i in colors:
+    #     pal.append(mcolors.CSS4_COLORS[i])
+        
+    # plot_labels_pacmap(X, "Label", ax[0], color_key=pal)
 
-    plot_labels_pacmap(X, "Label", ax[0], color_key=pal)
-
-    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
-    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
-    genes3 = bot_top_genes(X, cmp=cmp3, geneAmount=1)
-    genes = np.concatenate([genes1, genes2, genes3])
-
+    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=2)
+    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=2)
+    genes = np.concatenate([genes1, genes2])
 
     # for i, gene in enumerate(genes):
-    #     plot_gene_pacmap(gene, X, ax[i+7])
+    #     plot_gene_pacmap(gene, X, ax[i+1])
         
-    # X = X[X.obs["Label"] != "Both"]   
-    # for i, gene in enumerate(genes):
-    #     plot_avegene_cmps(X, gene, ax[i+1])
-    #     rotate_xaxis(ax[i+1]) 
-    # genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
-    # 
+    # for i, cmp in enumerate([cmp1, cmp2]):
+    #     plot_wp_pacmap(X, cmp, ax[i+5], cbarMax=0.4)
         
+    # plot_pair_gene_factors(X, cmp1, cmp2, ax[7])
+    # plot_pair_gene_factors(X, cmp1, 45, ax[0])
+    # plot_pair_cond_factors(X,  cmp1, 45, ax[1])
+        
+    X = X[X.obs["Label"] != "Both"] 
+
+    for i, gene in enumerate(genes):
+        plot_avegene_cmps(X, gene, ax[i])
+        rotate_xaxis(ax[i])
     
+    # plot_pair_cond_factors(X, cmp1, cmp2, ax[0])
+ 
+  
+
     return f
 
 
+
+def plot_pair_cond_factors(
+    X, cmp1: int, cmp2: int, ax,
+):
+    """Plots two condition components weights"""
+    factors = np.array(X.uns["Pf2_A"])
+    XX = factors
+    
+    cond_fact_meta_df = condition_factors_meta(X)
+    cond_fact_meta_df = cond_fact_meta_df[cond_fact_meta_df["patient_category"] != "Non-Pneumonia Control"]
+    cond_fact_meta_df = bal_combine_bo_covid(cond_fact_meta_df)
+    cond_fact_meta_df = cond_fact_meta_df[cond_fact_meta_df["Status"] != "D-C19"]
+    cond_fact_meta_df = cond_fact_meta_df[cond_fact_meta_df["Status"] != "L-C19"]
+    cond_fact_meta_df = cond_fact_meta_df[[f"Cmp. {cmp1}", f"Cmp. {cmp2}"]]
+    # factors -= np.median(XX, axis=0)
+    # factors /= np.std(XX, axis=0)
+    
+    # df = pd.DataFrame(factors, columns=[f"Cmp. {i}" for i in range(1, factors.shape[1] + 1)])
+    
+    print(cond_fact_meta_df[f"Cmp. {cmp1}"].corr(cond_fact_meta_df[f"Cmp. {cmp2}"]))
+
+    sns.scatterplot(data=cond_fact_meta_df, x=f"Cmp. {cmp1}", y=f"Cmp. {cmp2}", ax=ax, color="k")
+    ax.set(title="Condition Factors")
+    

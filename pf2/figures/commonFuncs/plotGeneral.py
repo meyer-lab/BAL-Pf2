@@ -289,6 +289,8 @@ def plot_pair_gene_factors(X: anndata.AnnData, cmp1: int, cmp2: int, ax: Axes):
     df = pd.DataFrame(
         data=cmpWeights.transpose(), columns=[f"Cmp. {cmp1}", f"Cmp. {cmp2}"]
     )
+    
+    print(df[f"Cmp. {cmp1}"].corr(df[f"Cmp. {cmp2}"]))
     sns.scatterplot(data=df, x=f"Cmp. {cmp1}", y=f"Cmp. {cmp2}", ax=ax, color="k")
     ax.set(title="Gene Factors")
 

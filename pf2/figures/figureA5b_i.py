@@ -26,7 +26,7 @@ def makeFigure():
 
     cmp1 = 3; cmp2 = 26
     pos1 = True; pos2 = True
-    threshold = 0.5
+    threshold = 0.2
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     X = add_obs_label(X, cmp1, cmp2)
       
