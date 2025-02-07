@@ -132,7 +132,11 @@ def condition_factors_meta(X: anndata.AnnData):
         meta_mapping = meta.set_index("patient_id")[i].to_dict()
         patient_factor[i] = patient_factor["patient_id"].map(meta_mapping)
 
+    day_mapping = meta.set_index("sample_id")["icu_day"].to_dict()
+    patient_factor["ICU Day"] = patient_factor.index.map(day_mapping)
+    
     return bal_combine_bo_covid(patient_factor)
+
 
 def remove_doublets(data: anndata.AnnData) -> anndata.AnnData:
     """Removes doublets."""

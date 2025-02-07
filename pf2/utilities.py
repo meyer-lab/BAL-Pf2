@@ -8,19 +8,18 @@ def bal_combine_bo_covid(
     df, status1: str = "binary_outcome", status2: str = "patient_category"
 ):
     """Combines binary outcome and covid status columns"""
-    df = df.replace({status1: {0: "L-", 1: "D-"}})
+    df["binary_outcome_str"] = df[status1].map({0: "L-", 1: "D-"})
 
-    df = df.replace(
-        {
-            status2: {
-                "COVID-19": "C19",
+    
+    df["combined_patient_category"] = df[status2].map(
+            {"COVID-19": "C19",
                 "Non-Pneumonia Control": "Ctrl",
                 "Other Pneumonia": "nC19",
                 "Other Viral Pneumonia": "nC19",
             }
-        }
     )
-    df["Status"] = df[status1] + df[status2]
+    df["Uncombined"] = df["binary_outcome_str"] + df[status2]
+    df["Status"] = df["binary_outcome_str"] + df["combined_patient_category"]
 
     return df
 

@@ -9,8 +9,9 @@ from .common import (
     subplotLabel,
     getSetup,
 )
-from .commonFuncs.plotGeneral import rotate_xaxis, bal_combine_bo_covid
+from .commonFuncs.plotGeneral import rotate_xaxis
 from ..data_import import add_obs, condition_factors_meta, combine_cell_types
+from ..utilities import bal_combine_bo_covid
 
 
 def makeFigure():
@@ -21,47 +22,41 @@ def makeFigure():
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     add_obs(X, "binary_outcome")
     add_obs(X, "patient_category")
+    combine_cell_types(X)
 
     plot_cell_count(X, ax[0])
 
     cond_fact_meta_df = condition_factors_meta(X)
     
-    
-    plot_sample_count(cond_fact_meta_df, ax[1], ax[2], combine=True, include_control=False, sample_id=True)
-    plot_sample_count(cond_fact_meta_df, ax[3], ax[4], combine=False, sample_id=True)
-    
+    plot_sample_count(cond_fact_meta_df, ax[1], ax[2], combine_categories=True, include_control=False)
+    plot_sample_count(cond_fact_meta_df, ax[3], ax[4], combine_categories=False, include_control=True)
+
     cond_fact_meta_df = cond_fact_meta_df.drop_duplicates(subset=["patient_id"])
-    plot_sample_count(cond_fact_meta_df, ax[5], ax[6], combine=True, include_control=False, sample_id=False)
-    plot_sample_count(cond_fact_meta_df, ax[7], ax[8], combine=False, sample_id=False)
-    
-    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
+    plot_sample_count(cond_fact_meta_df, ax[5], ax[6], combine_categories=True, include_control=False)
+    plot_sample_count(cond_fact_meta_df, ax[7], ax[8], combine_categories=False, include_control=True)
+        
+    for i in [2, 6]:
+        ax[i].set(ylabel="Sample Proportion")
+    for i in [3, 7]:
+        ax[i].set(ylabel="Patient Count")
+    for i in [4, 8]:
+        ax[i].set(ylabel="Patient Proportion")
 
-    celltype_count_perc_df = cell_count_perc_df(X, celltype="cell_type")
-    celltype = np.unique(celltype_count_perc_df["Cell Type"])
-    sns.boxplot(
-        data=celltype_count_perc_df,
-        x="Cell Type",
-        y="Cell Type Percentage",
-        hue="Status",
-        order=celltype,
-        showfliers=False,
-        ax=ax[9],
-    )
-    rotate_xaxis(ax[9])
+    celltype = ["cell_type", "combined_cell_type"]
+    for i, celltypes in enumerate(celltype):
+        celltype_count_perc_df = cell_count_perc_df(X, celltype=celltypes, include_control=False)
+        celltype = np.unique(celltype_count_perc_df["Cell Type"])
+        sns.boxplot(
+            data=celltype_count_perc_df,
+            x="Cell Type",
+            y="Cell Type Percentage",
+            hue="Status",
+            order=celltype,
+            showfliers=False,
+            ax=ax[i+9],
+        )
+        rotate_xaxis(ax[i+9])
 
-    combine_cell_types(X)
-    celltype_count_perc_df = cell_count_perc_df(X, celltype="combined_cell_type")
-    celltype = np.unique(celltype_count_perc_df["Cell Type"])
-    sns.boxplot(
-        data=celltype_count_perc_df,
-        x="Cell Type",
-        y="Cell Type Percentage",
-        hue="Status",
-        order=celltype,
-        showfliers=False,
-        ax=ax[10],
-    )
-    rotate_xaxis(ax[10])
 
     return f
 
@@ -91,50 +86,37 @@ def plot_sample_count(
     df: pd.DataFrame,
     ax1: Axes,
     ax2: Axes,
-    status1: str = "binary_outcome",
-    status2: str = "patient_category",
-    combine=True,
+    combine_categories=True,
     include_control=True,
-    sample_id=True
 ):
     """Plots overall patients in each category."""
-    df = df[[status1, status2]].reset_index(drop=True)
-
-    if combine is True:
-        if include_control is False:
-            df = df[df[status2] != "Non-Pneumonia Control"]
-        df = bal_combine_bo_covid(df)
-
+    if include_control is False:
+            df = df[df["patient_category"] != "Non-Pneumonia Control"]
+      
+    if combine_categories is True:
+        comparison_column = "Status"
     else:
-        df = df.replace({status1: {0: "L-", 1: "D-."}})
-        df["Status"] = df[status1] + df[status2]
-
+        comparison_column = "Uncombined"
+        
     dfCond = (
-        df.groupby(["Status"], observed=True).size().reset_index(name="Sample Count")
+        df.groupby(comparison_column, observed=True).size().reset_index(name="Sample Count")
     )
 
-    if combine is True: 
-        sns.barplot(data=dfCond, x="Status", y="Sample Count", hue="Status", ax=ax1)
+    if combine_categories is True: 
+        sns.barplot(data=dfCond, x=comparison_column, y="Sample Count", hue="Status", ax=ax1)
     else: 
-        sns.barplot(data=dfCond, x="Status", y="Sample Count", color="k", ax=ax1)
+        sns.barplot(data=dfCond, x=comparison_column, y="Sample Count", color="k", ax=ax1)
         rotate_xaxis(ax1)
 
-    if sample_id is False:
-        ax1.set(ylabel="Patient Count")
-        
     total = dfCond["Sample Count"].sum()
     dfCond["Sample Count"] = dfCond["Sample Count"] / total
 
-    if combine is True: 
-        sns.barplot(data=dfCond, x="Status", y="Sample Count", hue="Status", ax=ax2)
+    if combine_categories is True: 
+        sns.barplot(data=dfCond, x=comparison_column, y="Sample Count", hue="Status", ax=ax2)
     else:
-        sns.barplot(data=dfCond, x="Status", y="Sample Count", color="k", ax=ax2)
+        sns.barplot(data=dfCond, x=comparison_column, y="Sample Count", color="k", ax=ax2)
         rotate_xaxis(ax2)
     
-    if sample_id is False:
-        ax2.set(ylabel="Patient Proportion")
-    else:
-        ax2.set(ylabel="Sample Proportion")
 
 
 def cell_count_perc_df(X, celltype="Cell Type", include_control=True):
