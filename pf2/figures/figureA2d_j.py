@@ -20,11 +20,10 @@ def makeFigure():
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
-    add_obs(X, "patient_category")
-    add_obs(X, "binary_outcome")
-    add_obs(X, "episode_etiology")
-    add_obs(X, "episode_category")
-    
+    meta_info = ["patient_category", "binary_outcome", "episode_etiology", "episode_category"]
+    for i in meta_info:
+        add_obs(X, i)   
+
     # X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
     pal = sns.color_palette()
     pal = pal.as_hex() 
