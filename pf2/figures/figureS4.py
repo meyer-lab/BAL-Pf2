@@ -6,7 +6,7 @@ from .common import (
     getSetup,
 )
 import numpy as np
-from .commonFuncs.plotFactors import bot_top_genes
+from ..utilities import bot_top_genes
 from .commonFuncs.plotGeneral import plot_avegene_per_status
 from ..data_import import add_obs
 from .commonFuncs.plotGeneral import rotate_xaxis

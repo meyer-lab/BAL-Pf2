@@ -5,14 +5,11 @@ Figure S6:
 import seaborn as sns
 import pandas as pd
 import anndata
-import numpy as np
 from .common import subplotLabel, getSetup
 from .commonFuncs.plotGeneral import rotate_xaxis
 from .figureA1d_g import cell_count_perc_df
 from .figureA5b_i import add_obs_cmp_both_label
 from ..data_import import add_obs, combine_cell_types
-from .commonFuncs.plotPaCMAP import plot_gene_pacmap
-from .commonFuncs.plotFactors import bot_top_genes
 
 
 def makeFigure():

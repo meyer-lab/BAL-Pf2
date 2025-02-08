@@ -2,7 +2,6 @@
 
 import anndata
 import pandas as pd
-from ..tensor import correct_conditions
 from ..data_import import combine_cell_types, add_obs
 from .common import getSetup, subplotLabel
 from .commonFuncs.plotFactors import (
@@ -11,7 +10,7 @@ from .commonFuncs.plotFactors import (
     plot_eigenstate_factors,
 )
 from .commonFuncs.plotPaCMAP import plot_labels_pacmap
-from .commonFuncs.plotGeneral import bal_combine_bo_covid
+from ..data_import import condition_factors_meta, bal_combine_bo_covid
 import seaborn as sns
 
 
@@ -20,16 +19,16 @@ def makeFigure():
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
-    add_obs(X, "patient_category")
-    add_obs(X, "binary_outcome")
-    add_obs(X, "episode_etiology")
-    add_obs(X, "episode_category")
+    meta_info = ["patient_category", "binary_outcome", "episode_etiology", "episode_category"]
+    for i in meta_info:
+        add_obs(X, i)   
+
+    cond_fact_meta_df = condition_factors_meta(X)
     
-    # X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
     pal = sns.color_palette()
     pal = pal.as_hex() 
     plot_condition_factors(
-        X, ax[0], cond="sample_id", cond_group_labels=pd.Series(label_all_samples(X)), color_key=pal, group_cond=True)
+        X, ax[0], cond="sample_id", cond_group_labels=pd.Series(cond_fact_meta_df["Status"]), color_key=pal, group_cond=True)
     ax[0].yaxis.set_ticklabels([])
     
     plot_eigenstate_factors(X, ax[1])
@@ -40,9 +39,10 @@ def makeFigure():
     df = bal_combine_bo_covid(df)
     X.obs["Status"] = df["Status"].to_numpy()
     plot_labels_pacmap(X, "Status", ax[3], color_key=pal)
-
+    # Fix color palette of conditions 
+    
     combine_cell_types(X)
-    plot_labels_pacmap(X, "cell_type", ax[4])
+    plot_labels_pacmap(X, "cell_type", ax[4]) 
     
     pal = sns.color_palette(palette='Set3')
     pal = pal.as_hex() 
@@ -60,29 +60,3 @@ def makeFigure():
 
     return f
 
-
-def label_all_samples(X: anndata.AnnData):
-    """Label all patient samples by C19 and lived status"""
-    bo_only = ["" for x in range(len(pd.unique(X.obs["sample_id"])))]
-    pc_only = ["" for x in range(len(pd.unique(X.obs["sample_id"])))]
-    labels_samples = ["" for x in range(len(pd.unique(X.obs["sample_id"])))]
-
-    for i, sample in enumerate(pd.unique(X.obs["sample_id"])):
-        bo = pd.unique(X[X.obs.sample_id.isin([sample])].obs["binary_outcome"])
-        if bo == 0:
-            bo = "L-"
-        else:
-            bo = "D-"
-        bo_only[i] = bo
-
-        pc = pd.unique(X[X.obs.sample_id.isin([sample])].obs["patient_category"])
-        if pc == "COVID-19":
-            pc = "C19"
-        else:
-            pc = "nC19"
-        pc_only[i] = pc
-
-    for i in range(len(labels_samples)):
-        labels_samples[i] = bo_only[i] + pc_only[i]
-
-    return labels_samples

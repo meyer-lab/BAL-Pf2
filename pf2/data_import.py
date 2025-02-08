@@ -4,6 +4,7 @@ import doubletdetection
 import numpy as np
 import pandas as pd
 from parafac2.normalize import prepare_dataset
+from pf2.figures.commonFuncs.plotGeneral import bal_combine_bo_covid
 
 DATA_PATH = join("/opt", "northwest_bal")
 
@@ -97,21 +98,12 @@ def convert_to_patients(data: anndata.AnnData, sample: bool = False) -> pd.Serie
     return conversions
 
 
-def add_obs(X: anndata.annotations, new_obs: str):
+def add_obs(X: anndata.AnnData, new_obs: str):
     """Adds new observation based on meta and patient to individual cells"""
     meta = import_meta()
     X.obs[new_obs] = X.obs.loc[:, "patient_id"].replace(meta.loc[:, new_obs])
 
     return X
-
-
-def obs_per_condition(X: anndata.AnnData, obs_name: str) -> pd.Series:
-    """Obtain condition once only with corresponding observations"""
-    all_obs = X.obs
-    all_obs = all_obs.drop_duplicates(subset="condition_unique_idxs")
-    all_obs = all_obs.sort_values("condition_unique_idxs")
-
-    return all_obs[obs_name]
 
 
 def combine_cell_types(X: anndata.AnnData):
@@ -123,25 +115,52 @@ def combine_cell_types(X: anndata.AnnData):
 
 
 def condition_factors_meta(X: anndata.AnnData):
-    """Combines condition factors with meta data"""
-    condition_factors = X.uns["Pf2_A"]
+    """Combines condition factors with meta information"""
     meta = import_meta(drop_duplicates=False)
-    meta = meta.set_index("sample_id", drop=True)
-    meta = meta.loc[~meta.index.duplicated(), :]
+    conversions_samples = convert_to_patients(X, sample=True)
+    conversions_patients = convert_to_patients(X, sample=False)
 
-    sample_conversions = convert_to_patients(X, sample=True)
-    meta = meta.loc[meta.index.isin(sample_conversions)]
-    meta = meta.reindex(sample_conversions).dropna(axis=0, how="all")
-    condition_factors = condition_factors[sample_conversions.isin(meta.index), :]
-    condition_factors_df = pd.DataFrame(
-        index=meta.index,
-        data=condition_factors,
-        columns=[f"Cmp. {i}" for i in np.arange(1, condition_factors.shape[1] + 1)],
+    patient_factor = pd.DataFrame(
+        X.uns["Pf2_A"],
+        index=conversions_samples,
+        columns=[f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)],
     )
+    patient_factor["patient_id"] = conversions_patients.values
+    
+    meta_info = ["binary_outcome", "patient_category"]
+    for i in meta_info:
+        meta_mapping = meta.set_index("patient_id")[i].to_dict()
+        patient_factor[i] = patient_factor["patient_id"].map(meta_mapping)
 
-    merged_df = pd.concat([condition_factors_df, meta], axis=1)
+    day_mapping = meta.set_index("sample_id")["icu_day"].to_dict()
+    patient_factor["ICU Day"] = patient_factor.index.map(day_mapping)
+    
+    return bal_combine_bo_covid(patient_factor)
 
-    return merged_df
+
+def remove_doublets(data: anndata.AnnData) -> anndata.AnnData:
+    """Removes doublets."""
+    data.obs.loc[:, "doublet"] = 0
+    for run in data.obs.loc[:, "batch"].unique():
+        sample = data.X[data.obs.loc[:, "batch"] == run, :]
+        if sample.shape[0] < 30:
+            data = data[~(data.obs.loc[:, "batch"] == run), :]
+            continue
+
+        clf = doubletdetection.BoostClassifier(
+            n_iters=10,
+            clustering_algorithm="louvain",
+            standard_scaling=True,
+            pseudocount=0.1,
+            n_jobs=-1,
+        )
+        data.obs.loc[data.obs.loc[:, "batch"] == run, "doublet"] = clf.fit(
+            sample
+        ).predict(p_thresh=1e-16, voter_thresh=0.5)
+
+    data = data[~data.obs.loc[:, "doublet"].astype(bool), :]
+    return data
+
 
 
 conversion_cell_types = {
@@ -176,25 +195,3 @@ conversion_cell_types = {
 }
 
 
-def remove_doublets(data: anndata.AnnData) -> anndata.AnnData:
-    """Removes doublets."""
-    data.obs.loc[:, "doublet"] = 0
-    for run in data.obs.loc[:, "batch"].unique():
-        sample = data.X[data.obs.loc[:, "batch"] == run, :]
-        if sample.shape[0] < 30:
-            data = data[~(data.obs.loc[:, "batch"] == run), :]
-            continue
-
-        clf = doubletdetection.BoostClassifier(
-            n_iters=10,
-            clustering_algorithm="louvain",
-            standard_scaling=True,
-            pseudocount=0.1,
-            n_jobs=-1,
-        )
-        data.obs.loc[data.obs.loc[:, "batch"] == run, "doublet"] = clf.fit(
-            sample
-        ).predict(p_thresh=1e-16, voter_thresh=0.5)
-
-    data = data[~data.obs.loc[:, "doublet"].astype(bool), :]
-    return data

@@ -1,11 +1,10 @@
 """
-Figure 6
+Figure A5a_6a
 """
 
 import anndata
 from .common import subplotLabel, getSetup
 from .commonFuncs.plotFactors import plot_gene_factors_defined
-from .commonFuncs.plotGeneral import rotate_xaxis
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""

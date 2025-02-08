@@ -8,9 +8,8 @@ from .common import (
     getSetup,
 )
 import seaborn as sns
-from pf2.figures.commonFuncs.plotGeneral import bal_combine_bo_covid, rotate_xaxis
+from pf2.figures.commonFuncs.plotGeneral import rotate_xaxis
 from ..data_import import add_obs, condition_factors_meta
-import pandas as pd
 import numpy as np
 
 
@@ -24,13 +23,12 @@ def makeFigure():
     
     cond_fact_meta_df = condition_factors_meta(X)
     cond_fact_meta_df = cond_fact_meta_df[cond_fact_meta_df["patient_category"] != "Non-Pneumonia Control"]
-    cond_fact_meta_df = bal_combine_bo_covid(cond_fact_meta_df)
-    pat_df = cond_fact_meta_df[["patient_id", "icu_day", "Status"]]
+    pat_df = cond_fact_meta_df[["patient_id", "ICU Day", "Status"]]
     order = np.unique(pat_df["Status"])
     
-    sns.violinplot(data=pat_df, x="Status", y="icu_day", hue="Status", hue_order=order, order=order, cut=0, ax=ax[0])
+    sns.violinplot(data=pat_df, x="Status", y="ICU Day", hue="Status", hue_order=order, order=order, cut=0, ax=ax[0])
     
-    pat_df["Day"] = pat_df.groupby("patient_id")["icu_day"].transform(
+    pat_df["Day"] = pat_df.groupby("patient_id")["ICU Day"].transform(
         lambda x: "1TP" if x.nunique() == 1 else ("2TP" if x.nunique() == 2 else ">=3TP")
     )
       
@@ -51,7 +49,7 @@ def makeFigure():
     pat_tp_count_df["Sample Count"] = pat_tp_count_df["Sample Count"] / total
 
     sns.barplot(data=pat_tp_count_df, x="Status", y="Sample Count", hue="Status", ax=ax[2])
-    ax[2].set(ylabel="Overall Patient Proportion")
+    ax[2].set(ylabel="Overall Patient Proportion: 1TP")
 
     for i in range(3):
         rotate_xaxis(ax[i])

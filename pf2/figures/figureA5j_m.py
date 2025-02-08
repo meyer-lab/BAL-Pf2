@@ -1,5 +1,5 @@
 """
-Figure A15:
+Figure A5j_m
 """
 from .commonFuncs.plotPaCMAP import plot_labels_pacmap
 from ..data_import import combine_cell_types, add_obs
@@ -7,8 +7,8 @@ import anndata
 from .common import subplotLabel, getSetup
 import matplotlib.colors as mcolors
 import numpy as np
-from .commonFuncs.plotFactors import bot_top_genes
-from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps, add_obs_cmp_both_label_three, add_obs_label_three  
+from ..utilities import bot_top_genes, add_obs_cmp_both_label_three, add_obs_cmp_unique_three 
+from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps
 from .commonFuncs.plotPaCMAP import plot_gene_pacmap
 
 
@@ -28,7 +28,7 @@ def makeFigure():
     pos1 = True; pos2 = True; pos3 = True
     threshold = .5
     X = add_obs_cmp_both_label_three(X, cmp1, cmp2, cmp3, pos1, pos2, pos3, top_perc=threshold)
-    X = add_obs_label_three(X, cmp1, cmp2, cmp3)
+    X = add_obs_cmp_unique_three(X, cmp1, cmp2, cmp3)
     
     colors = ["black", "turquoise", "fuchsia", "slateblue", "gainsboro"]
     pal = []

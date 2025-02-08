@@ -9,7 +9,6 @@ import pandas as pd
 from scipy.stats import pearsonr
 from matplotlib.axes import Axes
 from .common import getSetup
-from ..tensor import correct_conditions
 from ..data_import import add_obs
 from .commonFuncs.plotGeneral import rotate_xaxis
 from .figureA1d_g import cell_count_perc_df

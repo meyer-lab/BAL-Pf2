@@ -130,6 +130,7 @@ def plot_gene_factors(data: AnnData, ax: Axes, trim=True):
     )
     ax.set(xlabel="Component")
     
+    
 def plot_gene_factors_defined(
     cmps: list, dataIn: AnnData, ax: Axes, geneAmount: int = 5
 ):
@@ -160,7 +161,6 @@ def plot_gene_factors_defined(
     )
     ax.tick_params(axis="x", rotation=90)
     
-
 
 def plot_gene_factors_partial(
     cmp: int, dataIn: AnnData, ax: Axes, geneAmount: int = 5, top=True
@@ -200,16 +200,3 @@ def reorder_table(projs: np.ndarray) -> np.ndarray:
     return sch.leaves_list(Z)
 
 
-def bot_top_genes(X, cmp, geneAmount=5):
-    """Saves most pos/negatively genes"""
-    df = pd.DataFrame(
-        data=X.varm["Pf2_C"][:, cmp - 1], index=X.var_names, columns=["Component"]
-    )
-    df = df.reset_index(names="Gene")
-    df = df.sort_values(by="Component")
-
-    top = df.iloc[-geneAmount:, 0].values
-    bot = df.iloc[:geneAmount, 0].values
-    all_genes = np.concatenate([bot, top])
-
-    return all_genes
