@@ -129,7 +129,7 @@ def predict_mortality(
         cond_fact_meta_df.loc[:, "patient_category"] != "COVID-19", "binary_outcome"
     ]
 
-    predictions = pd.Series(index=data.index)
+    predictions = pd.Series(index=cond_fact_meta_df.index)
     predictions.loc[cond_fact_meta_df.loc[:, "patient_category"] == "COVID-19"], c_plsr = run_plsr(
           covid_data[[f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)]],
           covid_labels, proba=False, n_components=n_components

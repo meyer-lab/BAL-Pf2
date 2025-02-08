@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import anndata
 import seaborn as sns
-from ..data_import import convert_to_patients, import_meta, condition_factors_meta
+from ..data_import import condition_factors_meta
 from ..predict import predict_mortality
 from .common import subplotLabel, getSetup
 import seaborn as sns
@@ -49,10 +49,16 @@ def plot_plsr_loadings(plsr_results, ax1, ax2):
     type_of_data = ["C19", "nC19"]
 
     for i in range(2):
-        df_xload = pd.DataFrame(data=plsr_results[i].x_loadings_[:, 0], columns=["PLSR 1"])
+        x_load = plsr_results[i].x_loadings_[:, 0]
+        if i == 1:
+            x_load =-1*x_load
+        df_xload = pd.DataFrame(data=x_load, columns=["PLSR 1"])
         df_xload["Component"] = np.arange(df_xload.shape[0]) + 1
         print(df_xload.sort_values(by="PLSR 1"))
-        df_yload = pd.DataFrame(data=[[plsr_results[i].y_loadings_[0, 0]]], columns=["PLSR 1"])
+        y_load = plsr_results[i].y_loadings_[0, 0]
+        if i == 1:
+            y_load =-1*y_load
+        df_yload = pd.DataFrame(data=[[y_load]], columns=["PLSR 1"])
         sns.swarmplot(
             data=df_xload,
             x="PLSR 1",
@@ -69,7 +75,7 @@ def plot_plsr_loadings(plsr_results, ax1, ax2):
         ax[i].set(xlabel="PLSR 1", ylabel="Pf2 Components", title=f"{type_of_data[i]}-loadings")
 
 
-def plot_plsr_scores(plsr_results, meta_data, labels, ax1, ax2):
+def plot_plsr_scores(plsr_results, cond_fact_meta_df, labels, ax1, ax2):
     """Runs PLSR and plots ROC AUC based on actual and prediction labels"""
     ax = [ax1, ax2]
     type_of_data = ["C19", "nC19"]
@@ -94,7 +100,10 @@ def plot_plsr_scores(plsr_results, meta_data, labels, ax1, ax2):
         else:
             numb1=1; numb2=3
         
-        df_xscores = pd.DataFrame(data=plsr_results[i].x_scores_[:, 0], columns=["PLSR 1"])
+        x_scores = plsr_results[i].x_scores_[:, 0]
+        if i == 1:
+            x_scores =-1*x_scores
+        df_xscores = pd.DataFrame(data=x_scores, columns=["PLSR 1"])
         sns.swarmplot(
             data=df_xscores,
             x="PLSR 1",

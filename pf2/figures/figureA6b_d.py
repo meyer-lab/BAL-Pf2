@@ -1,14 +1,15 @@
 """
-Figure 6
+Figure A6b_d
 """
 
 import numpy as np
 import anndata
 from .common import subplotLabel, getSetup
-from .commonFuncs.plotGeneral import rotate_xaxis, add_obs_cmp_both_label, add_obs_label, plot_avegene_cmps, plot_pair_gene_factors, plot_toppfun
+from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps, plot_pair_gene_factors, plot_toppfun
 from ..data_import import add_obs, combine_cell_types
 from .commonFuncs.plotFactors import bot_top_genes
 from .commonFuncs.plotPaCMAP import plot_gene_pacmap, plot_labels_pacmap
+from ..utilities import bot_top_genes, add_obs_cmp_both_label, add_obs_cmp_unique_two
 import matplotlib.colors as mcolors
 import pandas as pd
 import seaborn as sns
@@ -25,12 +26,11 @@ def makeFigure():
     X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
     combine_cell_types(X)
     
-
     cmp1 = 9; cmp2 = 32
     pos1 = True; pos2 = True
     threshold = 0.5
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
-    X = add_obs_label(X, cmp1, cmp2)
+    X = add_obs_cmp_unique_two(X, cmp1, cmp2)
       
     colors = ["black", "fuchsia", "turquoise", "gainsboro"]
     pal = []

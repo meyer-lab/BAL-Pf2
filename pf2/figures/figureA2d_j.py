@@ -41,7 +41,6 @@ def makeFigure():
     plot_labels_pacmap(X, "Status", ax[3], color_key=pal)
     # Fix color palette of conditions 
     
-
     combine_cell_types(X)
     plot_labels_pacmap(X, "cell_type", ax[4]) 
     

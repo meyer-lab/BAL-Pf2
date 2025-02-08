@@ -1,5 +1,5 @@
 """
-Figure A17:
+Figure S1
 """
 
 import pandas as pd

@@ -6,7 +6,7 @@ import pandas as pd
 import anndata
 from sklearn.metrics import accuracy_score
 import seaborn as sns
-from ..data_import import import_meta, condition_factors_meta
+from ..data_import import condition_factors_meta
 from ..predict import predict_mortality_all
 from .common import subplotLabel, getSetup
 from sklearn.metrics import RocCurveDisplay

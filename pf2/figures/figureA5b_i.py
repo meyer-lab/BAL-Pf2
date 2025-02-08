@@ -5,9 +5,9 @@ Figure 5
 import numpy as np
 import anndata
 from .common import subplotLabel, getSetup
-from .commonFuncs.plotGeneral import rotate_xaxis, add_obs_cmp_both_label, add_obs_label, plot_avegene_cmps, plot_pair_gene_factors
+from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps, plot_pair_gene_factors
 from ..data_import import add_obs, combine_cell_types
-from .commonFuncs.plotFactors import bot_top_genes
+from ..utilities import bot_top_genes, add_obs_cmp_both_label, add_obs_cmp_unique_two
 from .commonFuncs.plotPaCMAP import plot_gene_pacmap, plot_labels_pacmap, plot_wp_pacmap
 import matplotlib.colors as mcolors
 
@@ -28,7 +28,7 @@ def makeFigure():
     pos1 = True; pos2 = True
     threshold = 0.5
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
-    X = add_obs_label(X, cmp1, cmp2)
+    X = add_obs_cmp_unique_two(X, cmp1, cmp2)
       
     colors = ["black", "fuchsia", "turquoise", "gainsboro"]
     pal = []
