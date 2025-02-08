@@ -1,5 +1,5 @@
 """
-Figure A15:
+Figure A5j_m
 """
 from .commonFuncs.plotPaCMAP import plot_labels_pacmap
 from ..data_import import combine_cell_types, add_obs
@@ -10,7 +10,7 @@ import numpy as np
 from ..utilities import bot_top_genes, add_obs_cmp_both_label_three, add_obs_cmp_unique_three 
 from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps
 from .commonFuncs.plotPaCMAP import plot_gene_pacmap
-from ..utilities import bot_top_genes, add_obs_cmp_both_label, add_obs_cmp_unique_two
+
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""

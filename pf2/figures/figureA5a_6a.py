@@ -1,5 +1,5 @@
 """
-Figure 5a_6a
+Figure A5a_6a
 """
 
 import anndata

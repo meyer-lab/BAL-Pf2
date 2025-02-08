@@ -10,7 +10,6 @@ from .commonFuncs.plotGeneral import rotate_xaxis
 from .figureA1d_g import cell_count_perc_df
 from .figureA5b_i import add_obs_cmp_both_label
 from ..data_import import add_obs, combine_cell_types
-from ..utilities import bot_top_genes
 
 
 def makeFigure():
