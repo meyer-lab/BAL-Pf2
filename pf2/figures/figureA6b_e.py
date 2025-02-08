@@ -1,5 +1,5 @@
 """
-Figure A6b_d
+Figure A6b_e
 """
 
 import numpy as np
@@ -7,7 +7,6 @@ import anndata
 from .common import subplotLabel, getSetup
 from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps, plot_pair_gene_factors, plot_toppfun
 from ..data_import import add_obs, combine_cell_types
-from .commonFuncs.plotFactors import bot_top_genes
 from .commonFuncs.plotPaCMAP import plot_gene_pacmap, plot_labels_pacmap
 from ..utilities import bot_top_genes, add_obs_cmp_both_label, add_obs_cmp_unique_two
 import matplotlib.colors as mcolors

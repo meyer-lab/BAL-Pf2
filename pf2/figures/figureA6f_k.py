@@ -1,5 +1,5 @@
 """
-Figure 6e
+Figure A6f_k
 """
 
 import numpy as np
