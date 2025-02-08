@@ -24,8 +24,8 @@ def makeFigure():
     combine_cell_types(X)
     X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
 
-    cmp1 = 20; cmp2 = 27; cmp3 = 35
-    pos1 = True; pos2 = True; pos3 = True
+    cmp1 = 13; cmp2 = 20; cmp3 = 27
+    pos1 = False; pos2 = True; pos3 = True
     threshold = .5
     X = add_obs_cmp_both_label_three(X, cmp1, cmp2, cmp3, pos1, pos2, pos3, top_perc=threshold)
     X = add_obs_cmp_unique_three(X, cmp1, cmp2, cmp3)

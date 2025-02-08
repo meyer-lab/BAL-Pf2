@@ -15,7 +15,7 @@ def makeFigure():
     add_obs(X, "patient_category")
     X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
 
-    for i, cmp in enumerate([3, 26, 20, 27, 35, 28, 38, 45, 9, 32]):
+    for i, cmp in enumerate([3, 26, 20, 27, 13, 28, 38, 45, 9, 32]):
         plot_wp_pacmap(X, cmp, ax[i], cbarMax=0.4)
         plot_wp_per_celltype(X, cmp, ax[i+10])
         
