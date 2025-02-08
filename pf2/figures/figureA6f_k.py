@@ -50,7 +50,7 @@ def makeFigure():
         
     plot_pair_gene_factors(X, cmp1, cmp2, ax[7])
     plot_pair_gene_factors(X, cmp1, 45, ax[8])
-    plot_pair_cond_factors(X,  cmp1, 45, ax[9])
+    plot_pair_cond_factors(XX,  cmp1, 45, ax[9])
         
     X = X[X.obs["Label"] != "Both"] 
 

@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Capturing determinants of pneumonia mortality."
 authors = [{name = "Jackson L. Chin", email = "JacksonLymanChin@gmail.com" }]
 license = "MIT"
-requires-python = ">= 3.11"
+requires-python = ">= 3.12"
 
 
 dependencies = [
@@ -14,7 +14,7 @@ dependencies = [
     "scikit-learn>=1.5",
     "tensorly>=0.8.1",
     "numpy>=1.26.2",
-    "parafac2 @ git+https://github.com/meyer-lab/parafac2.git@793f8ad06791ffcc698105d80941774741722574",
+    "parafac2 @ git+https://github.com/meyer-lab/parafac2.git@6600c677a77d0f242668babf39559cf7953ff534",
     "pacmap>=0.7.3",
     "anndata>=0.10.3",
     "tlviz>=0.1.1",

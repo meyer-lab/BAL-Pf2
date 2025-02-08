@@ -32,7 +32,6 @@ fsspec==2024.9.0
 h5py==3.11.0
 idna==3.8
 igraph==0.11.6
-importlib-metadata==8.5.0
 ipython==8.27.0
 ipywidgets==8.1.5
 jedi==0.19.1
@@ -54,7 +53,7 @@ numpy==1.26.4
 packaging==24.1
 pacmap==0.7.3
 pandas==2.2.2
-parafac2 @ git+https://github.com/meyer-lab/parafac2.git@793f8ad06791ffcc698105d80941774741722574
+parafac2 @ git+https://github.com/meyer-lab/parafac2.git@6600c677a77d0f242668babf39559cf7953ff534
 param==2.1.1
 parso==0.8.4
 partd==1.4.2
@@ -91,13 +90,11 @@ tlviz==0.1.1
 toolz==0.12.1
 tqdm==4.66.5
 traitlets==5.14.3
-typing-extensions==4.12.2
 tzdata==2024.1
 umap-learn==0.5.6
 urllib3==2.2.3
 wcwidth==0.2.13
 widgetsnbextension==4.0.13
 xarray==2024.9.0
-zipp==3.20.2
 # The following packages are considered to be unsafe in a requirements file:
 setuptools==74.1.2
