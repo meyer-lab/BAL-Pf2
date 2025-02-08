@@ -10,8 +10,7 @@ from ..data_import import add_obs, combine_cell_types
 from .commonFuncs.plotPaCMAP import plot_gene_pacmap, plot_labels_pacmap
 from ..utilities import bot_top_genes, add_obs_cmp_both_label, add_obs_cmp_unique_two
 import matplotlib.colors as mcolors
-import pandas as pd
-import seaborn as sns
+
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
@@ -45,39 +44,22 @@ def makeFigure():
     for i, gene in enumerate(genes):
         plot_gene_pacmap(gene, X, ax[i+1])
         
-    plot_pair_gene_factors(X, cmp1, cmp2, ax[7])
+    plot_pair_gene_factors(X, cmp1, cmp2, ax[5])
         
     X = X[X.obs["Label"] != "Both"] 
 
-    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=3)
-    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=3)
+    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
+    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
     genes = np.concatenate([genes1[-3:], genes2[-3:]])
     
     for i, gene in enumerate(genes):
-        plot_avegene_cmps(X, gene, ax[i+8], order=["Cmp9", "Cmp32", "NoLabel"])
-        rotate_xaxis(ax[i+8])
+        plot_avegene_cmps(X, gene, ax[i+6], order=["Cmp9", "Cmp32", "NoLabel"])
+        rotate_xaxis(ax[i+6])
         
         
-    plot_toppfun(cmp1, ax[13])
-    plot_pair_cond_factors(X, cmp1, cmp2, ax[14])
+    # plot_toppfun(cmp1, ax[12])
+
  
   
 
     return f
-
-
-
-def plot_pair_cond_factors(
-    X, cmp1: int, cmp2: int, ax,
-):
-    """Plots two condition components weights"""
-    factors = np.array(X.uns["Pf2_A"])
-    XX = factors
-    factors -= np.median(XX, axis=0)
-    factors /= np.std(XX, axis=0)
-    
-    df = pd.DataFrame(factors, columns=[f"Cmp. {i}" for i in range(1, factors.shape[1] + 1)])
-
-    sns.scatterplot(data=df, x=f"Cmp. {cmp1}", y=f"Cmp. {cmp2}", ax=ax)
-    ax.set(title="Condition Factors")
-    

@@ -19,10 +19,10 @@ def makeFigure():
 
     subplotLabel(ax)
 
-    X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
-    add_obs(X, "binary_outcome")
-    add_obs(X, "patient_category")
-    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
+    XX = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
+    add_obs(XX, "binary_outcome")
+    add_obs(XX, "patient_category")
+    X = XX[XX.obs["patient_category"] != "Non-Pneumonia Control"] 
     combine_cell_types(X)
 
     cmp1 = 28; cmp2 = 38
@@ -58,7 +58,7 @@ def makeFigure():
         plot_avegene_cmps(X, gene, ax[i+10])
         rotate_xaxis(ax[i])
     
-    plot_pair_cond_factors(X, cmp1, cmp2, ax[15])
+    plot_pair_cond_factors(XX, cmp1, cmp2, ax[15])
  
   
 
@@ -66,12 +66,13 @@ def makeFigure():
 
 
 
-def plot_pair_cond_factors(
-    X, cmp1: int, cmp2: int, ax,
-):
+
+
+def plot_pair_cond_factors(data, cmp1: int, cmp2: int, ax):
     """Plots two condition components weights"""
-    cond_fact_meta_df = condition_factors_meta(X)
-    
-    sns.scatterplot(data=cond_fact_meta_df, x=f"Cmp. {cmp1}", y=f"Cmp. {cmp2}", ax=ax, color="k")
+    df = condition_factors_meta(data)
+    df = df[df["patient_category"] != "Non-Pneumonia Control"]
+    df = df[df["patient_category"] != "COVID-19"]
+    sns.scatterplot(data=df, x=f"Cmp. {cmp1}", y=f"Cmp. {cmp2}", ax=ax)
     ax.set(title="Condition Factors")
     
