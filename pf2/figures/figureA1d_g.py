@@ -35,11 +35,11 @@ def makeFigure():
     plot_sample_count(cond_fact_meta_df, ax[5], ax[6], combine_categories=True, include_control=False)
     plot_sample_count(cond_fact_meta_df, ax[7], ax[8], combine_categories=False, include_control=True)
         
-    for i in [2, 6]:
+    for i in [2, 4]:
         ax[i].set(ylabel="Sample Proportion")
-    for i in [3, 7]:
+    for i in [5, 7]:
         ax[i].set(ylabel="Patient Count")
-    for i in [4, 8]:
+    for i in [6, 8]:
         ax[i].set(ylabel="Patient Proportion")
 
     celltype = ["cell_type", "combined_cell_type"]

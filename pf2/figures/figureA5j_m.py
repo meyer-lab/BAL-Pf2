@@ -26,7 +26,7 @@ def makeFigure():
 
     cmp1 = 13; cmp2 = 20; cmp3 = 27
     pos1 = False; pos2 = True; pos3 = True
-    threshold = .5
+    threshold = .25
     X = add_obs_cmp_both_label_three(X, cmp1, cmp2, cmp3, pos1, pos2, pos3, top_perc=threshold)
     X = add_obs_cmp_unique_three(X, cmp1, cmp2, cmp3)
     
