@@ -13,7 +13,7 @@ import seaborn as sns
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((5, 4), (2, 2))
+    ax, f = getSetup((3, 7), (4, 1))
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")

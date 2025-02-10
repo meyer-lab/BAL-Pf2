@@ -23,6 +23,7 @@ def makeFigure():
     
     cond_fact_meta_df = condition_factors_meta(X)
     cond_fact_meta_df = cond_fact_meta_df[cond_fact_meta_df["patient_category"] != "Non-Pneumonia Control"]
+
     pat_df = cond_fact_meta_df[["patient_id", "ICU Day", "Status"]]
     order = np.unique(pat_df["Status"])
     

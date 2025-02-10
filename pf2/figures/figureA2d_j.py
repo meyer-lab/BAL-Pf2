@@ -26,7 +26,10 @@ def makeFigure():
     cond_fact_meta_df = condition_factors_meta(X)
     
     pal = sns.color_palette()
+    # FIX
+    # pal = =[pal[-1], pal[0]]
     pal = pal.as_hex() 
+    
     plot_condition_factors(
         X, ax[0], cond="sample_id", cond_group_labels=pd.Series(cond_fact_meta_df["Status"]), color_key=pal, group_cond=True)
     ax[0].yaxis.set_ticklabels([])
@@ -34,12 +37,12 @@ def makeFigure():
     plot_eigenstate_factors(X, ax[1])
     plot_gene_factors(X, ax[2])
     ax[2].yaxis.set_ticklabels([])
-
+    
+    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
     df = X.obs[["patient_category", "binary_outcome"]].reset_index(drop=True)
     df = bal_combine_bo_covid(df)
     X.obs["Status"] = df["Status"].to_numpy()
     plot_labels_pacmap(X, "Status", ax[3], color_key=pal)
-    # Fix color palette of conditions 
     
     combine_cell_types(X)
     plot_labels_pacmap(X, "cell_type", ax[4]) 
