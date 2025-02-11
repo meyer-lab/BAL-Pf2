@@ -4,13 +4,11 @@ Figure A4b_c
 
 import pandas as pd
 import anndata
-from sklearn.metrics import accuracy_score
 import seaborn as sns
 from ..data_import import condition_factors_meta
-from ..predict import predict_mortality_all
+from ..predict import predict_mortality_all, plsr_acc_proba
 from .common import subplotLabel, getSetup
 from sklearn.metrics import RocCurveDisplay
-from sklearn.metrics import accuracy_score, roc_auc_score
 
 
 def makeFigure():
@@ -50,34 +48,6 @@ def makeFigure():
 
     return f
 
-
-def plsr_acc_proba(X, patient_factor_matrix, n_components=1, roc_auc=True):
-    """Runs PLSR and obtains average prediction accuracy"""
-
-    acc_df = pd.DataFrame(columns=["Overall", "C19", "nC19"])
-
-    probabilities_all, labels_all = predict_mortality_all(
-        X, patient_factor_matrix, n_components=n_components, proba=True
-    )
-
-    if roc_auc:
-        score = roc_auc_score
-    else:
-        score = accuracy_score
-        
-    covid_acc = score(
-        labels_all.loc[patient_factor_matrix.loc[:, "patient_category"] == "COVID-19"].to_numpy().astype(int),
-        probabilities_all.loc[patient_factor_matrix.loc[:, "patient_category"] == "COVID-19"].round().astype(int),
-    )
-    nc_acc = score(
-        labels_all.loc[patient_factor_matrix.loc[:, "patient_category"] != "COVID-19"].to_numpy().astype(int),
-        probabilities_all.loc[patient_factor_matrix.loc[:, "patient_category"] != "COVID-19"].round().astype(int),
-    )
-    acc = score(labels_all.to_numpy().astype(int), probabilities_all.round().astype(int))
-
-    acc_df.loc[0, :] = [acc, covid_acc, nc_acc]
-
-    return acc_df
 
 
 def plot_plsr_auc_roc(X, patient_factor_matrix, n_components, ax):

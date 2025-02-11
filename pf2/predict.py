@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.cross_decomposition import PLSRegression
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, roc_auc_score
 from sklearn.model_selection import StratifiedKFold
 import anndata
 SKF = StratifiedKFold(n_splits=10)
@@ -140,3 +140,43 @@ def predict_mortality(
     )
 
     return  labels, (c_plsr, nc_plsr)
+
+
+
+def plsr_acc_proba(X, patient_factor_matrix, n_components=1, roc_auc=True):
+    """Runs PLSR and obtains average prediction accuracy"""
+
+    acc_df = pd.DataFrame(columns=["Overall", "C19", "nC19"])
+
+    probabilities_all, labels_all = predict_mortality_all(
+        X, patient_factor_matrix, n_components=n_components, proba=True
+    )
+
+    if roc_auc:
+        score = roc_auc_score
+    else:
+        score = accuracy_score
+        
+    covid_acc = score(
+        labels_all.loc[patient_factor_matrix.loc[:, "patient_category"] == "COVID-19"].to_numpy().astype(int),
+        probabilities_all.loc[patient_factor_matrix.loc[:, "patient_category"] == "COVID-19"].round().astype(int),
+    )
+    nc_acc = score(
+        labels_all.loc[patient_factor_matrix.loc[:, "patient_category"] != "COVID-19"].to_numpy().astype(int),
+        probabilities_all.loc[patient_factor_matrix.loc[:, "patient_category"] != "COVID-19"].round().astype(int),
+    )
+    acc = score(labels_all.to_numpy().astype(int), probabilities_all.round().astype(int))
+
+    acc_df.loc[0, :] = [acc, covid_acc, nc_acc]
+
+    return acc_df
+
+
+def plsr_acc(X, patient_factor_matrix, n_components=1):
+    """Runs PLSR and obtains average prediction accuracy for C19 and nC19"""
+
+    labels, [c19_plsr, nc19_plsr] = predict_mortality(X, 
+        patient_factor_matrix, n_components=n_components,
+    )
+
+    return labels, [c19_plsr, nc19_plsr]
