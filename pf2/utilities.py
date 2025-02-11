@@ -216,3 +216,40 @@ def add_obs_cmp_unique_three(X: anndata.AnnData, cmp1: int, cmp2: int, cmp3: int
                   (X.obs["Label"] == "NoLabel")]
 
     return X
+
+
+
+def cell_count_perc_df(X, celltype="Cell Type", include_control=True):
+    """Returns DF with cell counts and percentages for experiment"""
+    grouping = [celltype, "sample_id", "binary_outcome", "patient_category"]
+    df = X.obs[grouping].reset_index(drop=True)
+    if include_control is False:
+         df = df[df["patient_category"] != "Non-Pneumonia Control"]
+    df = bal_combine_bo_covid(df)
+
+    bo_mapping = X.obs.groupby("sample_id", observed=False)["binary_outcome"].first()
+    pc_mapping = X.obs.groupby("sample_id", observed=False)["patient_category"].first()
+ 
+    dfCond = (
+        df.groupby(["sample_id"], observed=True).size().reset_index(name="Cell Count")
+    )
+    dfCellType = (
+        df.groupby([celltype, "sample_id", "Status"], observed=True)
+        .size()
+        .reset_index(name="Cell Count")
+    )
+    dfCellType["Cell Count"] = dfCellType["Cell Count"].astype("float")
+
+    dfCellType["Cell Type Percentage"] = 0.0
+    for cond in np.unique(df["sample_id"]):
+        dfCellType.loc[dfCellType["sample_id"] == cond, "Cell Type Percentage"] = (
+            100
+            * dfCellType.loc[dfCellType["sample_id"] == cond, "Cell Count"].to_numpy()
+            / dfCond.loc[dfCond["sample_id"] == cond]["Cell Count"].to_numpy()
+        )
+
+    dfCellType["binary_outcome"] = dfCellType["sample_id"].map(bo_mapping)
+    dfCellType["patient_category"] = dfCellType["sample_id"].map(pc_mapping)
+    dfCellType.rename(columns={celltype: "Cell Type"}, inplace=True)
+
+    return dfCellType

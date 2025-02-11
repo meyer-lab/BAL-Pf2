@@ -11,7 +11,7 @@ from .common import (
 )
 from .commonFuncs.plotGeneral import rotate_xaxis
 from ..data_import import add_obs, condition_factors_meta, combine_cell_types
-from ..utilities import bal_combine_bo_covid
+from ..utilities import bal_combine_bo_covid, cell_count_perc_df
 
 
 def makeFigure():
@@ -118,34 +118,3 @@ def plot_sample_count(
         rotate_xaxis(ax2)
     
 
-
-def cell_count_perc_df(X, celltype="Cell Type", include_control=True):
-    """Returns DF with cell counts and percentages for experiment"""
-
-    grouping = [celltype, "sample_id", "binary_outcome", "patient_category"]
-    df = X.obs[grouping].reset_index(drop=True)
-    if include_control is False:
-         df = df[df["patient_category"] != "Non-Pneumonia Control"]
-    df = bal_combine_bo_covid(df)
-
-    dfCond = (
-        df.groupby(["sample_id"], observed=True).size().reset_index(name="Cell Count")
-    )
-    dfCellType = (
-        df.groupby([celltype, "sample_id", "Status"], observed=True)
-        .size()
-        .reset_index(name="Cell Count")
-    )
-    dfCellType["Cell Count"] = dfCellType["Cell Count"].astype("float")
-
-    dfCellType["Cell Type Percentage"] = 0.0
-    for cond in np.unique(df["sample_id"]):
-        dfCellType.loc[dfCellType["sample_id"] == cond, "Cell Type Percentage"] = (
-            100
-            * dfCellType.loc[dfCellType["sample_id"] == cond, "Cell Count"].to_numpy()
-            / dfCond.loc[dfCond["sample_id"] == cond]["Cell Count"].to_numpy()
-        )
-
-    dfCellType.rename(columns={celltype: "Cell Type"}, inplace=True)
-
-    return dfCellType

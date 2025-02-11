@@ -49,7 +49,7 @@ def run_plsr(
 
     
 def predict_mortality_all(
-    X: anndata.AnnData, data: pd.DataFrame, proba: bool = False, n_components=1
+    X: anndata.AnnData, data: pd.DataFrame, proba: bool = False, n_components=1, bulk=False
 ):
     """
     Predicts mortality via cross-validation without breaking up by status.
@@ -77,11 +77,18 @@ def predict_mortality_all(
     labels = cond_fact_meta_df["binary_outcome"]
     labels = pd.Series(index=labels.index, data=labels.to_numpy().astype(int))
     predictions = pd.Series(index=cond_fact_meta_df.index)
-    predictions[:], all_plsr = run_plsr(
-        cond_fact_meta_df[[f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)]], 
-        labels, proba=proba, n_components=n_components
-    )
-
+    
+    if bulk is False:
+        predictions[:], all_plsr = run_plsr(
+            cond_fact_meta_df[[f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)]], 
+            labels, proba=proba, n_components=n_components
+        )
+    else:
+        predictions[:], all_plsr = run_plsr(
+            cond_fact_meta_df.iloc[:, :-2], 
+            labels, proba=proba, n_components=n_components
+        )
+        
     if proba:
         return predictions, labels
 
