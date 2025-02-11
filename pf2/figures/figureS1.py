@@ -29,7 +29,7 @@ def makeFigure():
         XX.uns["Pf2_A"] = correct_conditions(XX)
         cond_fact_meta_df = condition_factors_meta(XX)
         acc, _, _ = predict_mortality_all(XX, cond_fact_meta_df, 
-                                            n_components=2, proba=False)
+                                            n_components=1, proba=False)
         r2xs.loc[rank] = r2x
         accuracies.loc[rank] = acc
     
