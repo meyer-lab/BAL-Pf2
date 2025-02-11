@@ -18,7 +18,7 @@ def makeFigure():
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     
     cond_fact_meta_df = condition_factors_meta(X)
-    trials = 3
+    trials = 50
     bootstrapp_plsr_df = pd.DataFrame([])
     
     for trial in range(trials):
@@ -30,7 +30,6 @@ def makeFigure():
             f"{idx}_{i}" if boot_index.tolist().count(idx) > 1 else idx
             for i, idx in enumerate(boot_index)
         ]
-            
         _, plsr_results_both = plsr_acc(X, boot_cond_fact_meta_df, n_components=1)
     
         type_of_data = ["C19", "nC19"]
