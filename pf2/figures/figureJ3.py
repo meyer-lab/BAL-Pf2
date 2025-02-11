@@ -7,10 +7,8 @@ from anndata import read_h5ad
 from pf2.data_import import convert_to_patients, import_meta
 from pf2.figures.common import getSetup
 
-CMP_26_GENES = ["FAM111B", "RAD54L", "UHRF1", "MCM10", "EXO1"]
-CMP_26_CELL_TYPES = [
-    "CD8 T cells", "Proliferating T cells", "NK/gdT cells"
-]
+CMP_26_GENES = np.array(["FAM111B", "RAD54L", "UHRF1", "MCM10", "EXO1"])
+CMP_26_CELL_TYPES = np.array(["CD8 T cells", "Proliferating T cells", "NK/gdT cells"])
 PATIENTS = [5429, 5469, 7048, 9441, 8415]
 
 
@@ -24,55 +22,54 @@ def makeFigure():
     meta = meta.loc[shared_indices, :].sort_values("icu_day", ascending=True)
     data = data[data.obs.loc[:, "patient_id"].isin(PATIENTS), CMP_26_GENES]
 
-    axs, fig = getSetup(
-        (4, len(PATIENTS) * 2),
-        (len(PATIENTS), 1)
-    )
+    axs, fig = getSetup((4, len(PATIENTS) * 2), (len(PATIENTS), 1))
 
     for patient, ax in zip(PATIENTS, axs):
         cell_frac = pd.DataFrame(
-            index=["Component"],
+            index=np.array(["Component"]),
             columns=np.arange(sum(meta.loc[:, "patient_id"] == patient)),
-            dtype=float
+            dtype=float,
         )
-        for index, sample in enumerate(meta.loc[
-            meta.loc[:, "patient_id"] == patient,
-            :
-        ].index):
+        for index, sample in enumerate(
+            meta.loc[meta.loc[:, "patient_id"] == patient, :].index
+        ):
             sample_data = data[data.obs.loc[:, "sample_id"] == sample]
             n_cells = sample_data.shape[0]
-            cell_frac.loc["Component", index] = sample_data[
-                sample_data.X.mean(axis=1) >= data.X.mean(),
-                :
-            ].shape[0] / n_cells
+            cell_frac.loc["Component", index] = (
+                sample_data[
+                    sample_data.X.mean(axis=1) >= data.X.mean(), :  # type: ignore
+                ].shape[0]
+                / n_cells
+            )
             for ct in CMP_26_CELL_TYPES:
-                cell_frac.loc[ct, index] = sample_data[
-                    sample_data.obs.loc[:, "cell_type"] == ct
-                ].shape[0] / n_cells
+                cell_frac.loc[ct, index] = (
+                    sample_data[sample_data.obs.loc[:, "cell_type"] == ct].shape[0]
+                    / n_cells
+                )
 
         for index, cell_type in enumerate(cell_frac.index):
             ax.bar(
                 np.arange(
                     index * (cell_frac.shape[1] + 1),
                     index * (cell_frac.shape[1] + 1) + cell_frac.shape[1],
-                    1
+                    1,
                 ),
                 cell_frac.loc[cell_type, :],
                 label=cell_type,
-                width=1
+                width=1,
             )
             ax.set_xticks(
                 np.arange(
                     cell_frac.shape[1] / 2 - 0.5,
                     cell_frac.shape[0] * (cell_frac.shape[1] + 1) + 1,
-                    cell_frac.shape[1] + 1
+                    cell_frac.shape[1] + 1,
                 )
             )
             ax.set_xticklabels(
                 [f"Sample {i + 1}" for i in np.arange(cell_frac.shape[0])]
             )
 
-        ax.set_title(patient)
+        ax.set_title(str(patient))
         ax.legend()
 
     return fig

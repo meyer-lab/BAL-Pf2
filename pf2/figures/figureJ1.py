@@ -29,59 +29,38 @@ def makeFigure():
     meta = meta.loc[shared_indices, :]
 
     probabilities, labels, (c_plsr, nc_plsr) = predict_mortality(
-        patient_factor,
-        meta,
-        proba=True
+        patient_factor, meta, proba=True
     )
     components = np.argsort(c_plsr.x_loadings_[:, 0])
     protective = components[:3] + 1
     deviant = components[-3:] + 1
     deviant = deviant[::-1]
 
-    axs, fig = getSetup(
-        (8, 4 * 2),
-        (4, 2),
-        gs_kws={"height_ratios": [2] + [1] * 3}
-    )
+    axs, fig = getSetup((8, 4 * 2), (4, 2), gs_kws={"height_ratios": [2] + [1] * 3})
 
     ax = axs[0]
     for patient_id in PATIENTS:
         _meta = meta.loc[meta.loc[:, "patient_id"] == patient_id, :]
         _meta = _meta.sort_values("icu_day", ascending=True)
-        _probabilities = probabilities.loc[_meta.index]
+        _probabilities = probabilities.loc[_meta.index]  # type: ignore
         _labels = labels.loc[_meta.index]
 
-        ax.plot(
-            _meta.loc[:, "icu_day"],
-            _probabilities
-        )
+        ax.plot(_meta.loc[:, "icu_day"], _probabilities)
         x_pos = _meta.loc[:, "icu_day"].max() + 1
         y_pos = _probabilities.iloc[-1]
         if patient_id == 6308:
             x_pos -= 1
             y_pos += 0.025
-        ax.text(
-            x_pos,
-            y_pos,
-            s=patient_id,
-            ha="left",
-            ma="left",
-            va="center"
-        )
+        ax.text(x_pos, y_pos, s=str(patient_id), ha="left", ma="left", va="center")
 
-    ax.set_xlim([0, 100])
+    ax.set_xlim((0, 100))
     ax.set_yticks(np.arange(0, 1.1, 0.2))
     ax.set_ylabel("Mortality Probability")
     ax.set_xlabel("ICU Day")
     ax.set_title("Patient Mortality Risk")
 
     ax = axs[1]
-    ax.scatter(
-        c_plsr.y_loadings_[0, 0],
-        nc_plsr.y_loadings_[0, 0],
-        s=150,
-        c="tab:red"
-    )
+    ax.scatter(c_plsr.y_loadings_[0, 0], nc_plsr.y_loadings_[0, 0], s=150, c="tab:red")
     ax.scatter(
         c_plsr.x_loadings_[:, 0],
         nc_plsr.x_loadings_[:, 0],
@@ -96,31 +75,19 @@ def makeFigure():
             ha="center",
             ma="center",
             va="center",
-            s=component
+            s=component,
         )
 
-    ax.plot(
-        [-100, 100],
-        [0, 0],
-        linestyle="--",
-        color="k",
-        zorder=-3
-    )
-    ax.plot(
-        [0, 0],
-        [-100, 100],
-        linestyle="--",
-        color="k",
-        zorder=-3
-    )
-    ax.set_xlim([-0.4, 0.4])
-    ax.set_ylim([-0.4, 0.4])
+    ax.plot([-100, 100], [0, 0], linestyle="--", color="k", zorder=-3)
+    ax.plot([0, 0], [-100, 100], linestyle="--", color="k", zorder=-3)
+    ax.set_xlim((-0.4, 0.4))
+    ax.set_ylim((-0.4, 0.4))
 
     ax.set_xlabel("COVID")
     ax.set_ylabel("Non-COVID")
     ax.set_title("PLSR Scores")
 
-    meta = meta.loc[probabilities.index, :]
+    meta = meta.loc[probabilities.index, :]  # type: ignore
     meta = meta.loc[meta.loc[:, "patient_id"].duplicated(keep=False), :]
 
     for column_index, comp_set in enumerate([protective, deviant]):
@@ -134,7 +101,7 @@ def makeFigure():
                         np.linspace(0, 1, _meta.shape[0]),
                         patient_factor.loc[_meta.index, comp],
                         color="grey",
-                        alpha=0.25
+                        alpha=0.25,
                     )
 
             for patient_id in PATIENTS:
@@ -143,7 +110,7 @@ def makeFigure():
                 ax.plot(
                     np.linspace(0, 1, _meta.shape[0]),
                     patient_factor.loc[_meta.index, comp],
-                    label=patient_id
+                    label=patient_id,
                 )
 
             ax.legend()
@@ -153,6 +120,6 @@ def makeFigure():
 
             ax.set_xticks([])
             ax.set_yticks([0, 1])
-            ax.set_ylim([-0.1, 1.1])
+            ax.set_ylim((-0.1, 1.1))
 
     return fig

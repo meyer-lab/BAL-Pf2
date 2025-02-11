@@ -11,9 +11,7 @@ from pf2.predict import predict_mortality
 
 
 def makeFigure():
-    data = read_h5ad(
-        "/opt/northwest_bal/full_fitted.h5ad", backed="r"
-    )
+    data = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
     meta = import_meta(drop_duplicates=False)
     meta.set_index("sample_id", inplace=True)
     conversions = convert_to_patients(data, sample=True)
@@ -30,13 +28,9 @@ def makeFigure():
 
     axs, fig = getSetup((9, 3), (1, 3))
 
-    probabilities, labels, _ = predict_mortality(
-        patient_factor,
-        meta,
-        proba=True
-    )
-    meta = meta.loc[probabilities.index, :]
-    predicted = probabilities.round().astype(int)
+    probabilities, labels, _ = predict_mortality(patient_factor, meta, proba=True)
+    meta = meta.loc[probabilities.index, :]  # type: ignore
+    predicted = probabilities.round().astype(int)  # type: ignore
 
     w1_patients = meta.loc[meta.loc[:, "icu_day"] < 7, :].index
     m1_patients = meta.loc[meta.loc[:, "icu_day"].between(8, 27), :].index
@@ -44,12 +38,12 @@ def makeFigure():
     names = [
         f"ICU Week 1 ({len(w1_patients)})",
         f"ICU Month 1 ({len(m1_patients)})",
-        f"ICU Past Month 1 ({len(late_patients)})"
+        f"ICU Past Month 1 ({len(late_patients)})",
     ]
     patient_sets = [w1_patients, m1_patients, late_patients]
     for name, patient_set, ax in zip(names, patient_sets, axs):
         patient_pred = predicted.loc[patient_set]
-        patient_proba = probabilities.loc[patient_set]
+        patient_proba = probabilities.loc[patient_set]  # type: ignore
         patient_labels = labels.loc[patient_set]
         acc = accuracy_score(patient_labels, patient_pred)
         auc_roc = roc_auc_score(patient_labels, patient_proba)
@@ -60,7 +54,7 @@ def makeFigure():
         ax.text(
             0.99,
             0.01,
-            s=f"AUC ROC: {round(auc_roc, 2)}\nAccuracy: {round(acc, 2)}",
+            s=f"AUC ROC: {round(auc_roc, 2)}\nAccuracy: {round(acc, 2)}",  # type: ignore
             ha="right",
             va="bottom",
             transform=ax.transAxes,
@@ -69,7 +63,7 @@ def makeFigure():
         ax.set_title(name)
         ax.set_xlabel("False Positive Rate")
         ax.set_ylabel("True Positive Rate")
-        ax.set_xlim([0, 1])
-        ax.set_ylim([0, 1])
+        ax.set_xlim((0, 1))
+        ax.set_ylim((0, 1))
 
     return fig
