@@ -1,3 +1,6 @@
+"""TRANSLATED to S1"""
+# 
+# 
 # """Figure 2: R2X Curve"""
 
 # import gc

@@ -7,7 +7,7 @@ import pandas as pd
 import anndata
 import seaborn as sns
 from ..data_import import condition_factors_meta
-from ..predict import predict_mortality
+from ..predict import plsr_acc
 from .common import subplotLabel, getSetup
 import seaborn as sns
 
@@ -31,16 +31,6 @@ def makeFigure():
     ax[3].set(xlim=[-8.5, 8.5])
 
     return f
-
-
-def plsr_acc(X, patient_factor_matrix, n_components=1):
-    """Runs PLSR and obtains average prediction accuracy"""
-
-    labels, [c19_plsr, nc19_plsr] = predict_mortality(X, 
-        patient_factor_matrix, n_components=n_components,
-    )
-
-    return labels, [c19_plsr, nc19_plsr]
 
 
 def plot_plsr_loadings(plsr_results, ax1, ax2):
