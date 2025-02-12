@@ -11,7 +11,7 @@ from matplotlib.axes import Axes
 from .common import getSetup
 from ..data_import import add_obs
 from .commonFuncs.plotGeneral import rotate_xaxis
-from .figureA1d_g import cell_count_perc_df
+from ..utilities import cell_count_perc_df
 
 
 def makeFigure():
