@@ -2,7 +2,6 @@
 Figure S5:
 """
 
-
 import anndata
 import numpy as np
 import seaborn as sns
@@ -12,7 +11,7 @@ from matplotlib.axes import Axes
 from .common import getSetup
 from ..data_import import add_obs
 from .commonFuncs.plotGeneral import rotate_xaxis
-from ..utilities import cell_count_perc_df
+from .figureA1d_g import cell_count_perc_df
 
 
 def makeFigure():
@@ -30,7 +29,6 @@ def makeFigure():
         plot_correlation_cmp_cell_count_perc(
             X, i + 1, celltype_count_perc_df, ax[i], cellPerc=True
         )
-
 
     return f
 
