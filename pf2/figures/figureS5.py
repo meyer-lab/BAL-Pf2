@@ -31,6 +31,7 @@ def makeFigure():
             X, i + 1, celltype_count_perc_df, ax[i], cellPerc=True
         )
 
+
     return f
 
 
