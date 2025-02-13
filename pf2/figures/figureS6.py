@@ -7,8 +7,7 @@ import pandas as pd
 import anndata
 from .common import subplotLabel, getSetup
 from .commonFuncs.plotGeneral import rotate_xaxis
-from .figureA1d_g import cell_count_perc_df
-from .figureA5b_i import add_obs_cmp_both_label
+from ..utilities import cell_count_perc_df, add_obs_cmp_both_label
 from ..data_import import add_obs, combine_cell_types
 
 

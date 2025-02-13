@@ -128,3 +128,30 @@ def rotate_yaxis(ax, rotation=90):
     """Rotates text by 90 degrees for y-axis"""
     ax.set_yticks(ax.get_yticks())
     ax.set_yticklabels(labels=ax.get_yticklabels(), rotation=rotation)
+
+
+def plot_correlation_heatmap(correlation_df: pd.DataFrame, xticks, yticks, ax: Axes, mask=None):
+    """Plots a heatmap of the correlation matrix"""
+    cmap = sns.cubehelix_palette(start=2, rot=0, dark=0, light=.95, reverse=True, as_cmap=True)
+    
+    if mask is not None: 
+        mask = np.triu(np.ones_like(correlation_df, dtype=bool))
+        for i in range(len(mask)):
+            mask[i, i] = False
+        
+    sns.heatmap(
+        data=correlation_df.to_numpy(),
+        vmin=0,
+        vmax=.05,
+        xticklabels=xticks,
+        yticklabels=yticks,
+        mask=mask,
+        cmap=cmap,
+        cbar_kws={"label": "Pearson Correlation P-value"},
+        ax=ax,
+    )
+
+    rotate_xaxis(ax, rotation=90)
+    rotate_yaxis(ax, rotation=0)
+
+    

@@ -7,10 +7,9 @@ import pandas as pd
 import anndata
 from .common import subplotLabel, getSetup
 from .commonFuncs.plotGeneral import rotate_xaxis
-from .figureA1d_g import cell_count_perc_df
 from .commonFuncs.plotGeneral import rotate_xaxis
 from ..data_import import add_obs, combine_cell_types
-from ..utilities import add_obs_cmp_both_label_three, add_obs_cmp_unique_three
+from ..utilities import add_obs_cmp_both_label_three, add_obs_cmp_unique_three, cell_count_perc_df
 
 
 def makeFigure():
