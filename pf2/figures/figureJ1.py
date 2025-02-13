@@ -1,10 +1,9 @@
 """Figure J1: Ramping Mortality Risk"""
 
 import numpy as np
-import pandas as pd
 from anndata import read_h5ad
 
-from pf2.data_import import condition_factors_meta, convert_to_patients, import_meta
+from pf2.data_import import condition_factors_meta
 from pf2.figures.common import getSetup
 from pf2.predict import predict_mortality
 
