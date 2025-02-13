@@ -138,6 +138,52 @@ def condition_factors_meta(X: anndata.AnnData):
     return bal_combine_bo_covid(patient_factor)
 
 
+def condition_factors_meta_raw(X: anndata.AnnData):
+    """Keeps condition factors and meta information"""
+    condition_factors = X.uns["Pf2_A"]
+    meta = import_meta(drop_duplicates=False)
+    meta = meta.set_index("sample_id", drop=True)
+    meta = meta.loc[~meta.index.duplicated(), :]
+
+    sample_conversions = convert_to_patients(X, sample=True)
+    meta = meta.loc[meta.index.isin(sample_conversions)]
+    meta = meta.reindex(sample_conversions).dropna(axis=0, how="all")
+    condition_factors = condition_factors[sample_conversions.isin(meta.index), :]
+    condition_factors_df = pd.DataFrame(
+        index=meta.index,
+        data=condition_factors,
+        columns=[f"Cmp. {i}" for i in np.arange(1, condition_factors.shape[1] + 1)],)
+    
+    merged_df = pd.concat([condition_factors_df, meta], axis=1)
+    
+    return bal_combine_bo_covid(merged_df), meta
+
+
+def meta_raw_df(X: anndata.AnnData, all=False):
+    _, meta_df = condition_factors_meta_raw(X)
+
+    if all is True:
+        return meta_df
+    else:
+        c19_meta_df = meta_df.loc[meta_df["patient_category"] == "COVID-19"]
+        meta_df = meta_df[meta_df["patient_category"] != "Non-Pneumonia Control"]
+        nc19_meta_df = meta_df.loc[meta_df["patient_category"] != "COVID-19"]
+        
+        return c19_meta_df, nc19_meta_df
+
+def find_overlap_meta_cc(cell_comp_df, all_meta_df):
+    """Finds overlap between cell composition and meta data"""
+    common_idx = all_meta_df.index.intersection(all_meta_df.index)
+    cell_comp_df = cell_comp_df.loc[common_idx]
+    
+    cell_comp_df["patient_category"] = all_meta_df["patient_category"].values
+    cell_comp_c19_df = cell_comp_df.loc[cell_comp_df["patient_category"] == "COVID-19"].drop(columns=["patient_category"])
+    cell_comp_wo_ctrl_df = cell_comp_df[cell_comp_df["patient_category"] != "Non-Pneumonia Control"]
+    cell_comp_nc19_df = cell_comp_wo_ctrl_df.loc[cell_comp_wo_ctrl_df["patient_category"] != "COVID-19"].drop(columns=["patient_category"]) 
+    
+    return cell_comp_df, cell_comp_c19_df, cell_comp_nc19_df
+    
+
 def remove_doublets(data: anndata.AnnData) -> anndata.AnnData:
     """Removes doublets."""
     data.obs.loc[:, "doublet"] = 0
