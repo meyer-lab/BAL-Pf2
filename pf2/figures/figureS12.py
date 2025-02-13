@@ -19,7 +19,7 @@ cmap = sns.cubehelix_palette(start=2, rot=0, dark=0, light=.95, reverse=True, as
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((10, 10), (1, 1))
+    ax, f = getSetup((10, 3), (1, 1))
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
