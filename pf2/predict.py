@@ -47,6 +47,59 @@ def run_plsr(
         return predicted, plsr
 
 
+def predict_mortality(
+    data: pd.DataFrame, meta: pd.DataFrame, proba: bool = False, n_components=2
+):
+    """
+    Predicts mortality via cross-validation.
+
+    Parameters:
+        data (pd.DataFrame): data to predict
+        meta (pd.DataFrame): patient meta-data
+        proba (bool, default:False): return probability of prediction
+
+    Returns:
+        if proba:
+            probabilities (pd.Series): predicted probability of mortality for
+                patients
+            labels (pd.Series): classification targets
+        else:
+            accuracy (float): prediction accuracy
+            models (tuple[COVID, Non-COVID]): fitted PLSR models
+    """
+    if not isinstance(data, pd.DataFrame):
+        data = pd.DataFrame(data)
+
+    data = data.loc[meta.loc[:, "patient_category"] != "Non-Pneumonia Control", :]
+    meta = meta.loc[meta.loc[:, "patient_category"] != "Non-Pneumonia Control", :]
+    
+    meta.loc[:, "binary_outcome"] = meta["binary_outcome"].astype("category")
+    labels = data.index.to_series().map(meta["binary_outcome"])
+    
+    covid_data = data.loc[meta.loc[:, "patient_category"] == "COVID-19", :]
+    covid_labels = meta.loc[
+        meta.loc[:, "patient_category"] == "COVID-19", "binary_outcome"
+    ]
+    nc_data = data.loc[meta.loc[:, "patient_category"] != "COVID-19", :]
+    nc_labels = meta.loc[
+        meta.loc[:, "patient_category"] != "COVID-19", "binary_outcome"
+    ]
+
+    predictions = pd.Series(index=data.index)
+    predictions.loc[meta.loc[:, "patient_category"] == "COVID-19"], c_plsr = run_plsr(
+        covid_data, covid_labels, proba=proba, n_components=n_components
+    )
+    predictions.loc[meta.loc[:, "patient_category"] != "COVID-19"], nc_plsr = run_plsr(
+        nc_data, nc_labels, proba=proba, n_components=n_components
+    )
+
+    if proba:
+        return predictions, labels, (c_plsr, nc_plsr)
+
+    else:
+        predicted = predictions.round().astype(int)
+        return accuracy_score(labels.to_numpy().astype(int), predicted), labels, (c_plsr, nc_plsr)
+    
     
 def predict_mortality_all(
     X: anndata.AnnData, data: pd.DataFrame, proba: bool = False, n_components=1, bulk=False
