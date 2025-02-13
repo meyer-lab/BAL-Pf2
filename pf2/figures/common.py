@@ -4,6 +4,7 @@ This file contains functions that are used in multiple figures.
 
 import sys
 import time
+from typing import Any
 
 import datashader as ds
 import datashader.transfer_functions as tf
@@ -32,7 +33,9 @@ matplotlib.rcParams["svg.fonttype"] = "none"
 
 
 def getSetup(
-    figsize: tuple[int, int], gridd: tuple[int, int]
+    figsize: tuple[int, int],
+    gridd: tuple[int, int],
+    gs_kws: dict[str, Any] = {}
 ) -> tuple[list[plt.Axes], Figure]:
     """Establish figure set-up with subplots."""
     sns.set(
@@ -45,7 +48,7 @@ def getSetup(
 
     # Setup plotting space and grid
     f = plt.figure(figsize=figsize, layout="constrained")
-    gs1 = gridspec.GridSpec(gridd[0], gridd[1], figure=f)
+    gs1 = gridspec.GridSpec(gridd[0], gridd[1], figure=f, **gs_kws)
 
     # Get list of axis objects
     ax = [f.add_subplot(gs1[x]) for x in range(gridd[0] * gridd[1])]

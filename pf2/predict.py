@@ -46,7 +46,6 @@ def run_plsr(
         predicted = probabilities.round().astype(int)
         return predicted, plsr
 
-
     
 def predict_mortality_all(
     X: anndata.AnnData, data: pd.DataFrame, proba: bool = False, n_components=1, bulk=False
@@ -98,34 +97,33 @@ def predict_mortality_all(
     
 
 def predict_mortality(
-    X, data: pd.DataFrame, n_components=1
-):
+    X: anndata.AnnData,
+    data: pd.DataFrame,
+    n_components: int = 1,
+    proba: bool = False
+) -> tuple[pd.Series, pd.Series, tuple[PLSRegression, PLSRegression]]:
     """
     Predicts mortality via cross-validation.
 
     Parameters:
-        data (pd.DataFrame): data to predict
-        meta (pd.DataFrame): patient meta-data
+        X (anndata.AnnData): factorization results
+        data (pd.DataFrame): patient meta-data
+        n_components (int, default:1): number of PLS components to use
         proba (bool, default:False): return probability of prediction
 
     Returns:
-        if proba:
-            probabilities (pd.Series): predicted probability of mortality for
-                patients
-            labels (pd.Series): classification targets
-        else:
-            accuracy (float): prediction accuracy
-            models (tuple[COVID, Non-COVID]): fitted PLSR models
+        predictions (pd.Series): if proba, probabilities of mortality for each
+            sample; else, predicted mortality outcome
+        labels (pd.Series): classification targets
+        models (tuple[COVID, Non-COVID]): fitted PLSR models
     """
     if not isinstance(data, pd.DataFrame):
         data = pd.DataFrame(data)
 
-    
     cond_fact_meta_df = data[data["patient_category"] != "Non-Pneumonia Control"]
     
     labels = cond_fact_meta_df["binary_outcome"]
     labels = pd.Series(index=labels.index, data=labels.to_numpy().astype(int))
-    predictions = pd.Series(index=cond_fact_meta_df.index)
 
     covid_data = cond_fact_meta_df.loc[cond_fact_meta_df.loc[:, "patient_category"] == "COVID-19", :]
     covid_labels = cond_fact_meta_df.loc[
@@ -138,16 +136,15 @@ def predict_mortality(
 
     predictions = pd.Series(index=cond_fact_meta_df.index)
     predictions.loc[cond_fact_meta_df.loc[:, "patient_category"] == "COVID-19"], c_plsr = run_plsr(
-          covid_data[[f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)]],
-          covid_labels, proba=False, n_components=n_components
+        covid_data[[f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)]],
+        covid_labels, proba=proba, n_components=n_components
     )
     predictions.loc[cond_fact_meta_df.loc[:, "patient_category"] != "COVID-19"], nc_plsr = run_plsr(
         nc_data[[f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)]],
-        nc_labels, proba=False, n_components=n_components
+        nc_labels, proba=proba, n_components=n_components
     )
 
-    return  labels, (c_plsr, nc_plsr)
-
+    return predictions, labels, (c_plsr, nc_plsr)
 
 
 def plsr_acc_proba(X, patient_factor_matrix, n_components=1, roc_auc=True):
@@ -182,7 +179,7 @@ def plsr_acc_proba(X, patient_factor_matrix, n_components=1, roc_auc=True):
 def plsr_acc(X, patient_factor_matrix, n_components=1):
     """Runs PLSR and obtains average prediction accuracy for C19 and nC19"""
 
-    labels, [c19_plsr, nc19_plsr] = predict_mortality(X, 
+    _, labels, [c19_plsr, nc19_plsr] = predict_mortality(X,
         patient_factor_matrix, n_components=n_components,
     )
 
