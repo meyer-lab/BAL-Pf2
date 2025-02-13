@@ -65,6 +65,7 @@ correlates = [
     "minute_ventilation", "abg_ph", "abg_paco2", "pao2fio2_ratio", "wbc_count",
     "bicarbonate", "creatinine", "albumin", "bilirubin", "crp", "d_dimer",
     "ferritin", "ldh", "lactic_acid", "procalcitonin", "nat_score",
-    "steroid_dose", "episode_duration"
+    "steroid_dose", "episode_duration", "icu_day", "number_of_icu_stays",
+    "gcs_eye_opening", "gcs_motor_response"
 ]
 
