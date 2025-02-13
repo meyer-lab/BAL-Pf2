@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from anndata import read_h5ad
 
-from pf2.data_import import convert_to_patients, import_meta
+from pf2.data_import import condition_factors_meta, convert_to_patients, import_meta
 from pf2.figures.common import getSetup
 from pf2.predict import predict_mortality
 
@@ -12,46 +12,53 @@ PATIENTS = [5429, 5469, 7048]
 
 
 def makeFigure():
-    meta = import_meta(drop_duplicates=False)
     data = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
-    sample_conversions = convert_to_patients(data, sample=True)
-
-    patient_factor = pd.DataFrame(
-        data.uns["Pf2_A"],
-        index=sample_conversions,
-        columns=np.arange(data.uns["Pf2_A"].shape[1]) + 1,
-    )
-    patient_factor /= abs(patient_factor).max(axis=0)
-
-    meta = meta.set_index("sample_id")
-    shared_indices = patient_factor.index.intersection(meta.index)
-    patient_factor = patient_factor.loc[shared_indices, :]
-    meta = meta.loc[shared_indices, :]
+    cond_fact_meta_df = condition_factors_meta(data)
 
     probabilities, labels, (c_plsr, nc_plsr) = predict_mortality(
-        patient_factor, meta, proba=True
+        data, cond_fact_meta_df, proba=True
     )
+    cond_fact_meta_df = cond_fact_meta_df.loc[probabilities.index, :]
+    cond_fact_meta_df = cond_fact_meta_df.sort_values(
+        "ICU Day",
+        ascending=True
+    )
+    cond_fact_meta_df.iloc[:, :50] /= abs(cond_fact_meta_df.iloc[
+        :,
+        :50
+    ]).max(axis=0)
+
     components = np.argsort(c_plsr.x_loadings_[:, 0])
     protective = components[:3] + 1
     deviant = components[-3:] + 1
     deviant = deviant[::-1]
 
-    axs, fig = getSetup((8, 4 * 2), (4, 2), gs_kws={"height_ratios": [2] + [1] * 3})
+    axs, fig = getSetup(
+        (8, 4 * 2),
+        (4, 2),
+        gs_kws={"height_ratios": [2] + [1] * 3}
+    )
 
     ax = axs[0]
     for patient_id in PATIENTS:
-        _meta = meta.loc[meta.loc[:, "patient_id"] == patient_id, :]
-        _meta = _meta.sort_values("icu_day", ascending=True)
-        _probabilities = probabilities.loc[_meta.index]  # type: ignore
-        _labels = labels.loc[_meta.index]
-
-        ax.plot(_meta.loc[:, "icu_day"], _probabilities)
-        x_pos = _meta.loc[:, "icu_day"].max() + 1
-        y_pos = _probabilities.iloc[-1]
-        if patient_id == 6308:
-            x_pos -= 1
-            y_pos += 0.025
-        ax.text(x_pos, y_pos, s=str(patient_id), ha="left", ma="left", va="center")
+        samples = (cond_fact_meta_df.loc[
+            cond_fact_meta_df.loc[:, "patient_id"] == patient_id,
+            :
+        ]).index
+        ax.plot(
+            cond_fact_meta_df.loc[samples, "ICU Day"],
+            probabilities.loc[samples]
+        )
+        x_pos = cond_fact_meta_df.loc[samples, "ICU Day"].max() + 1
+        y_pos = probabilities.loc[samples].iloc[-1]
+        ax.text(
+            x_pos,
+            y_pos,
+            s=str(patient_id),
+            ha="left",
+            ma="left",
+            va="center"
+        )
 
     ax.set_xlim((0, 100))
     ax.set_yticks(np.arange(0, 1.1, 0.2))
@@ -60,7 +67,12 @@ def makeFigure():
     ax.set_title("Patient Mortality Risk")
 
     ax = axs[1]
-    ax.scatter(c_plsr.y_loadings_[0, 0], nc_plsr.y_loadings_[0, 0], s=150, c="tab:red")
+    ax.scatter(
+        c_plsr.y_loadings_[0, 0],
+        nc_plsr.y_loadings_[0, 0],
+        s=150,
+        c="tab:red"
+    )
     ax.scatter(
         c_plsr.x_loadings_[:, 0],
         nc_plsr.x_loadings_[:, 0],
@@ -87,29 +99,46 @@ def makeFigure():
     ax.set_ylabel("Non-COVID")
     ax.set_title("PLSR Scores")
 
-    meta = meta.loc[probabilities.index, :]  # type: ignore
-    meta = meta.loc[meta.loc[:, "patient_id"].duplicated(keep=False), :]
+    cond_fact_meta_df = cond_fact_meta_df.loc[
+        cond_fact_meta_df.loc[:, "patient_id"].duplicated(keep=False)
+    ]
 
     for column_index, comp_set in enumerate([protective, deviant]):
         for row_index, comp in enumerate(comp_set):
             ax = axs[column_index + row_index * 2 + 2]
-            for multi_id in meta.loc[:, "patient_id"].unique():
+            for multi_id in cond_fact_meta_df.loc[:, "patient_id"].unique():
                 if multi_id not in PATIENTS:
-                    _meta = meta.loc[meta.loc[:, "patient_id"] == multi_id, :]
-                    _meta = _meta.sort_values("icu_day", ascending=True)
+                    samples = (cond_fact_meta_df.loc[
+                        cond_fact_meta_df.loc[
+                            :,
+                            "patient_id"
+                        ] == multi_id,
+                        :
+                    ]).index
                     ax.plot(
-                        np.linspace(0, 1, _meta.shape[0]),
-                        patient_factor.loc[_meta.index, comp],
+                        np.linspace(0, 1, len(samples)),
+                        cond_fact_meta_df.loc[
+                            samples,
+                            f"Cmp. {comp}"
+                        ],
                         color="grey",
                         alpha=0.25,
                     )
 
             for patient_id in PATIENTS:
-                _meta = meta.loc[meta.loc[:, "patient_id"] == patient_id, :]
-                _meta = _meta.sort_values("icu_day", ascending=True)
+                samples = (cond_fact_meta_df.loc[
+                    cond_fact_meta_df.loc[
+                        :,
+                        "patient_id"
+                    ] == patient_id,
+                    :
+               ]).index
                 ax.plot(
-                    np.linspace(0, 1, _meta.shape[0]),
-                    patient_factor.loc[_meta.index, comp],
+                    np.linspace(0, 1, len(samples)),
+                    cond_fact_meta_df.loc[
+                        samples,
+                        f"Cmp. {comp}"
+                    ],
                     label=patient_id,
                 )
 
