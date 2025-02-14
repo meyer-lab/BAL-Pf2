@@ -10,6 +10,8 @@ from ..tensor import correct_conditions, pf2
 from ..data_import import condition_factors_meta, add_obs, combine_cell_types
 from ..predict import predict_mortality_all
 from ..utilities import cell_count_perc_df
+from sklearn.metrics import accuracy_score, roc_auc_score
+
 
 def makeFigure():
     ax, f = getSetup((6, 6), (2, 2))
@@ -20,7 +22,7 @@ def makeFigure():
     add_obs(X, "patient_category")
     combine_cell_types(X)
     X.obs["condition_unique_idxs"] = pd.Categorical(X.obs["condition_unique_idxs"])
-    ranks = np.arange(5, 70, 5)
+    # ranks = np.arange(5, 70, 5)
     ranks = [2]
     r2xs = pd.Series(0, dtype=float, index=ranks)
     accuracies = pd.Series(0, dtype=float, index=ranks)
@@ -30,10 +32,10 @@ def makeFigure():
         XX, r2x = pf2(X, rank, do_embedding=False)
         XX.uns["Pf2_A"] = correct_conditions(XX)
         cond_fact_meta_df = condition_factors_meta(XX)
-        acc, _, _ = predict_mortality_all(XX, cond_fact_meta_df, 
-                                            n_components=1, proba=False)
+        probabilities_all, labels_all = predict_mortality_all(XX, cond_fact_meta_df, 
+                                            n_components=1, proba=True)
         r2xs.loc[rank] = r2x
-        accuracies.loc[rank] = acc
+        accuracies.loc[rank] = roc_auc_score(labels_all.to_numpy().astype(int), probabilities_all.round().astype(int))
     
     ax[0].scatter(ranks, r2xs)
     ax[0].set(xticks = ranks, ylabel = "R2X", xlabel = "Rank")
