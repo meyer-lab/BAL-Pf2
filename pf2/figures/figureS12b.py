@@ -7,7 +7,7 @@ from .common import (
 from ..data_import import meta_raw_df, bal_combine_bo_covid
 import seaborn as sns
 from .commonFuncs.plotGeneral import rotate_xaxis
-
+from ..correlation import meta_groupings
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
@@ -27,13 +27,3 @@ def makeFigure():
         rotate_xaxis(ax[i], rotation=90)
 
     return f
-
-
-meta_groupings = [
-    "ecmo_flag", "episode_category", "episode_etiology",
-    "pathogen_virus_detected", "pathogen_bacteria_detected",
-    "pathogen_fungi_detected", "smoking_status", "icu_stay",
-    "admission_source_name", "global_cause_failure", "patient_category",
-    "covid_status", "gender", "tracheostomy_flag", "immunocompromised_flag",
-    "norepinephrine_flag", "remdesivir_received", "episode_is_cured"
-]
