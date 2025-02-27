@@ -6,7 +6,7 @@ from scipy.stats import pearsonr
 def correlation_df(df: pd.DataFrame, meta: bool) -> pd.DataFrame:
     """Returns a dataframe with the correlation of the meta data only"""
     if meta is True:
-        columns = correlates
+        columns = meta_correlates
     else:
         columns = df.columns
         
@@ -32,13 +32,13 @@ def correlation_df(df: pd.DataFrame, meta: bool) -> pd.DataFrame:
 def correlation_meta_cc_df(cell_comp_df: pd.DataFrame, meta_df: pd.DataFrame) -> pd.DataFrame:
     """Returns a dataframe with the correlation of the meta data and cell composition"""
     pearson_df = pd.DataFrame(
-        columns=correlates,
+        columns=meta_correlates,
         index=cell_comp_df.columns,
         dtype=float
     )
     
     for row in cell_comp_df.columns:
-        for column in correlates:
+        for column in meta_correlates:
             one_meta_df = meta_df[column].dropna()
             common = one_meta_df.index.intersection(cell_comp_df.index)
             one_meta_df = one_meta_df.loc[common]
@@ -53,7 +53,7 @@ def correlation_meta_cc_df(cell_comp_df: pd.DataFrame, meta_df: pd.DataFrame) ->
     return pearson_df
 
 
-correlates = [
+meta_correlates = [
     "age", "bmi", "cumulative_icu_days", "admit_sofa_score", "admit_aps_score",
     "cumulative_intubation_days", "BAL_amylase", "BAL_pct_neutrophils",
     "BAL_pct_macrophages", "BAL_pct_monocytes", "BAL_pct_lymphocytes",
@@ -67,5 +67,15 @@ correlates = [
     "ferritin", "ldh", "lactic_acid", "procalcitonin", "nat_score",
     "steroid_dose", "episode_duration", "icu_day", "number_of_icu_stays",
     "gcs_eye_opening", "gcs_motor_response"
+]
+
+
+meta_groupings = [
+    "ecmo_flag", "episode_category", "episode_etiology",
+    "pathogen_virus_detected", "pathogen_bacteria_detected",
+    "pathogen_fungi_detected", "smoking_status", "icu_stay",
+    "admission_source_name", "global_cause_failure", "patient_category",
+    "covid_status", "gender", "tracheostomy_flag", "immunocompromised_flag",
+    "norepinephrine_flag", "remdesivir_received", "episode_is_cured"
 ]
 
