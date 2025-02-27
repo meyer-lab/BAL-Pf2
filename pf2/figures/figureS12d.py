@@ -33,5 +33,7 @@ def makeFigure():
     combined_df = combined_df.reset_index().rename(columns={'index': 'Category_Index'})
     combined_df = combined_df[['Category', 'Category_Index'] + [col for col in combined_df.columns if col not in ['Category', 'Category_Index']]]
     print(combined_df)
+    
+    combined_df.to_csv("pf2/data/meta_groupings_summary.csv")
 
     return f

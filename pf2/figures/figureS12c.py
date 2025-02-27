@@ -33,6 +33,7 @@ def makeFigure():
 
     complete_df = create_comprehensive_table(total_df, total_df["MetaData"].unique())
     print(complete_df)
+    complete_df.to_csv("pf2/data/meta_correlates_summary.csv")
 
     return f
 
