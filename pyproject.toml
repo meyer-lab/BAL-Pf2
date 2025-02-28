@@ -23,7 +23,7 @@ dependencies = [
     "setuptools>=69.5",
     "doubletdetection>=4.2",
     "networkx>=3.3"
-]
+, "gseapy~=1.1.5"]
 
 
 readme = "README.md"
