@@ -23,12 +23,12 @@ def makeFigure():
     df = pd.DataFrame([])
     df["Gene"] = X.var.index
     df["Rank"] = X.varm["Pf2_C"][:, 2]
+    df = df[df["Rank"] > 0]
     df = df.sort_values("Rank").reset_index(drop=True)
     print(df)
-    pre_res = gp.prerank(rnk=df, gene_sets="GO_Biological_Process_2021", seed=0)
-    
-    dotplot(pre_res.res2d,
-             column="FDR q-val",
+    enr_up = gp.enrichr(df["Gene"].values.tolist(), gene_sets="GO_Biological_Process_2021")
+    enr_up.res2d.Term = enr_up.res2d.Term.str.split(" \(GO").str[0]
+    dotplot(enr_up.res2d,
              title='GO_Biological_Process_2021',
              cmap=plt.cm.viridis,
              size=6, # adjust dot size
