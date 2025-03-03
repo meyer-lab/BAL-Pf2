@@ -26,16 +26,16 @@ def makeFigure():
     accuracies = pd.Series(0, dtype=float, index=ranks)
     plot_all_bulk_pred(X, ax[1])
     
-    for rank in ranks:
-        XX, r2x = pf2(X, rank, do_embedding=False)
-        XX.uns["Pf2_A"] = correct_conditions(XX)
-        cond_fact_meta_df = condition_factors_meta(XX)
-        acc, _, _ = predict_mortality_all(XX, cond_fact_meta_df, 
-                                            n_components=1, proba=False)
-        r2xs.loc[rank] = r2x
-        accuracies.loc[rank] = acc
+    # for rank in ranks:
+    #     XX, r2x = pf2(X, rank, do_embedding=False)
+    #     XX.uns["Pf2_A"] = correct_conditions(XX)
+    #     cond_fact_meta_df = condition_factors_meta(XX)
+    #     acc, _, _ = predict_mortality_all(XX, cond_fact_meta_df, 
+    #                                         n_components=1, proba=False)
+    #     r2xs.loc[rank] = r2x
+    #     accuracies.loc[rank] = acc
     
-    ax[0].scatter(ranks, r2xs)
+    # ax[0].scatter(ranks, r2xs)
     ax[0].set(xticks = ranks, ylabel = "R2X", xlabel = "Rank")
     ax[1].scatter(ranks, accuracies,)
     ax[1].set(xticks = ranks, ylabel = "Accuracy", xlabel = "Rank")
