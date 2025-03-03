@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 def gsea_overrep_per_cmp(X: anndata, cmp: int,
                         pos: bool = True,
                         enrichr=True,
-                        gene_set="GO_Biological_Process_2021", 
+                        gene_set="GO_Biological_Process_2023", 
                         output_file="output/figureS13b.svg"):
     """Perform GSEA overrepresentation analysis and plot the results."""
     df = pd.DataFrame([])
@@ -40,7 +40,7 @@ def gsea_overrep_per_cmp(X: anndata, cmp: int,
         
         
 def gsea_analysis_per_cmp(X: anndata, cmp: int, term_rank=0, 
-                        gene_set="GO_Biological_Process_2021", 
+                        gene_set="GO_Biological_Process_2023", 
                         output_file="output/figureS13a.svg"):
     """Perform GSEA analysis and plot the results."""
     df = pd.DataFrame([])
