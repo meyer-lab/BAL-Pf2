@@ -26,9 +26,8 @@ def makeFigure():
     cond_fact_meta_df = condition_factors_meta(X)
     
     pal = sns.color_palette()
-    # FIX
-    # pal = =[pal[-1], pal[0]]
-    pal = pal.as_hex() 
+    pal = [pal[0], pal[5], pal[1], pal[2], pal[4], pal[3]]
+    pal = [f'#{int(r*255):02x}{int(g*255):02x}{int(b*255):02x}' for r, g, b in pal]
     
     plot_condition_factors(
         X, ax[0], cond="sample_id", cond_group_labels=pd.Series(cond_fact_meta_df["Status"]), color_key=pal, group_cond=True)
