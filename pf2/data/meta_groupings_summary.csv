@@ -1,0 +1,65 @@
+,Category,Category_Index,D-C19,D-Ctrl,D-nC19,L-C19,L-Ctrl,L-nC19
+0,ecmo_flag (253),0.0 (195),28.7% (56),8.2% (16),13.8% (27),30.8% (60),6.7% (13),11.8% (23)
+1,ecmo_flag (253),1.0 (58),53.4% (31),12.1% (7),12.1% (7),15.5% (9),6.9% (4),
+2,episode_category (186),CAP (24),12.5% (3),,8.3% (2),41.7% (10),,37.5% (9)
+3,episode_category (186),HAP (45),44.4% (20),,20.0% (9),22.2% (10),,13.3% (6)
+4,episode_category (186),Non-PNA-ctrl (30),,46.7% (14),,3.3% (1),50.0% (15),
+5,episode_category (186),VAP (87),40.2% (35),6.9% (6),17.2% (15),27.6% (24),1.1% (1),6.9% (6)
+6,episode_etiology (156),Bacterial (42),14.3% (6),11.9% (5),31.0% (13),7.1% (3),2.4% (1),33.3% (14)
+7,episode_etiology (156),Bacterial/viral (46),56.5% (26),,4.3% (2),39.1% (18),,
+8,episode_etiology (156),Culture-negative (17),5.9% (1),5.9% (1),47.1% (8),11.8% (2),,29.4% (5)
+9,episode_etiology (156),Viral (51),49.0% (25),,5.9% (3),41.2% (21),,3.9% (2)
+10,pathogen_virus_detected (251),False (135),20.0% (27),17.0% (23),22.2% (30),13.3% (18),11.9% (16),15.6% (21)
+11,pathogen_virus_detected (251),True (116),50.9% (59),,3.4% (4),44.0% (51),,1.7% (2)
+12,pathogen_bacteria_detected (251),False (141),29.8% (42),12.8% (18),9.9% (14),30.5% (43),10.6% (15),6.4% (9)
+13,pathogen_bacteria_detected (251),True (110),40.0% (44),4.5% (5),18.2% (20),23.6% (26),0.9% (1),12.7% (14)
+14,pathogen_fungi_detected (251),False (173),28.3% (49),11.0% (19),10.4% (18),31.8% (55),7.5% (13),11.0% (19)
+15,pathogen_fungi_detected (251),True (78),47.4% (37),5.1% (4),20.5% (16),17.9% (14),3.8% (3),5.1% (4)
+16,smoking_status (253),Former (48),18.8% (9),12.5% (6),27.1% (13),14.6% (7),12.5% (6),14.6% (7)
+17,smoking_status (253),No (115),41.7% (48),8.7% (10),4.3% (5),33.0% (38),4.3% (5),7.8% (9)
+18,smoking_status (253),Unknown Smoking Status (75),37.3% (28),9.3% (7),9.3% (7),32.0% (24),4.0% (3),8.0% (6)
+19,smoking_status (253),Yes (15),13.3% (2),,60.0% (9),,20.0% (3),6.7% (1)
+20,icu_stay (253),1.0 (227),33.9% (77),7.9% (18),11.5% (26),30.4% (69),7.0% (16),9.3% (21)
+21,icu_stay (253),2.0 (24),37.5% (9),20.8% (5),29.2% (7),,4.2% (1),8.3% (2)
+22,icu_stay (253),3.0 (2),50.0% (1),,50.0% (1),,,
+23,admission_source_name (246),BHS to Inpatient (2),,,,100.0% (2),,
+24,admission_source_name (246),Clinic/MD Referral (1),,100.0% (1),,,,
+25,admission_source_name (246),Emergency Room (2),,,,100.0% (2),,
+26,admission_source_name (246),From Community (5),20.0% (1),,,40.0% (2),20.0% (1),20.0% (1)
+27,admission_source_name (246),From Home/Work (127),34.6% (44),7.9% (10),11.0% (14),28.3% (36),7.1% (9),11.0% (14)
+28,admission_source_name (246),Hospital OP Dept/Amb Surgery Center (2),,,,100.0% (2),,
+29,admission_source_name (246),Information Unavailable (4),75.0% (3),,,,,25.0% (1)
+30,admission_source_name (246),Other Healthcare Facility (1),,,,,100.0% (1),
+31,admission_source_name (246),Outside Hospital (3),100.0% (3),,,,,
+32,admission_source_name (246),Rehab Facility (RIC) (2),50.0% (1),,,,,50.0% (1)
+33,admission_source_name (246),Skilled Nursing Facility (7),28.6% (2),28.6% (2),28.6% (2),14.3% (1),,
+34,admission_source_name (246),Transfer from Acute Hospital (97),34.0% (33),10.3% (10),18.6% (18),24.7% (24),6.2% (6),6.2% (6)
+35,global_cause_failure (111),Antibiotics for other indication (4),75.0% (3),,25.0% (1),,,
+36,global_cause_failure (111),"Antibiotics for other indication,Persistent inflammation only (8)",,,100.0% (8),,,
+37,global_cause_failure (111),Persistence (21),52.4% (11),,9.5% (2),28.6% (6),,9.5% (2)
+38,global_cause_failure (111),"Persistence,Recurrence (3)",100.0% (3),,,,,
+39,global_cause_failure (111),"Persistence,Recurrence,Superinfection pneumonia (2)",100.0% (2),,,,,
+40,global_cause_failure (111),"Persistence,Superinfection pneumonia (2)",,,100.0% (2),,,
+41,global_cause_failure (111),Persistent inflammation only (55),69.1% (38),7.3% (4),23.6% (13),,,
+42,global_cause_failure (111),Recurrence (11),72.7% (8),,9.1% (1),9.1% (1),,9.1% (1)
+43,global_cause_failure (111),"Recurrence,Superinfection pneumonia (1)",100.0% (1),,,,,
+44,global_cause_failure (111),Superinfection pneumonia (6),100.0% (6),,,,,
+45,patient_category (253),COVID-19 (156),55.8% (87),,,44.2% (69),,
+46,patient_category (253),Non-Pneumonia Control (40),,57.5% (23),,,42.5% (17),
+47,patient_category (253),Other Pneumonia (49),,,59.2% (29),,,40.8% (20)
+48,patient_category (253),Other Viral Pneumonia (8),,,62.5% (5),,,37.5% (3)
+49,covid_status (237),False (82),,25.6% (21),35.4% (29),,17.1% (14),22.0% (18)
+50,covid_status (237),True (155),54.2% (84),,,44.5% (69),,1.3% (2)
+51,gender (253),Female (89),25.8% (23),12.4% (11),12.4% (11),28.1% (25),11.2% (10),10.1% (9)
+52,gender (253),Male (164),39.0% (64),7.3% (12),14.0% (23),26.8% (44),4.3% (7),8.5% (14)
+53,tracheostomy_flag (253),0.0 (118),28.8% (34),10.2% (12),20.3% (24),20.3% (24),9.3% (11),11.0% (13)
+54,tracheostomy_flag (253),1.0 (135),39.3% (53),8.1% (11),7.4% (10),33.3% (45),4.4% (6),7.4% (10)
+55,immunocompromised_flag (253),0.0 (191),33.0% (63),4.2% (8),11.5% (22),34.0% (65),7.3% (14),9.9% (19)
+56,immunocompromised_flag (253),1.0 (62),38.7% (24),24.2% (15),19.4% (12),6.5% (4),4.8% (3),6.5% (4)
+57,norepinephrine_flag (253),0.0 (93),31.2% (29),11.8% (11),10.8% (10),29.0% (27),8.6% (8),8.6% (8)
+58,norepinephrine_flag (253),1.0 (160),36.2% (58),7.5% (12),15.0% (24),26.2% (42),5.6% (9),9.4% (15)
+59,remdesivir_received (253),0.0 (239),33.5% (80),9.6% (23),14.2% (34),26.4% (63),7.1% (17),9.2% (22)
+60,remdesivir_received (253),1.0 (14),50.0% (7),,,42.9% (6),,7.1% (1)
+61,episode_is_cured (156),Cured (65),13.8% (9),4.6% (3),10.8% (7),46.2% (30),1.5% (1),23.1% (15)
+62,episode_is_cured (156),Indeterminate (37),56.8% (21),2.7% (1),21.6% (8),13.5% (5),,5.4% (2)
+63,episode_is_cured (156),Not cured (54),51.9% (28),3.7% (2),20.4% (11),16.7% (9),,7.4% (4)

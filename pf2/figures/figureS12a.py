@@ -1,12 +1,9 @@
 """Figure S12a"""
 
 import anndata
-from .common import (
-    subplotLabel,
-    getSetup,
-)
+from .common import getSetup
 from ..data_import import meta_raw_df, bal_combine_bo_covid
-from ..correlation import correlates
+from ..correlation import meta_correlates
 import seaborn as sns
 from .commonFuncs.plotGeneral import rotate_xaxis
 
@@ -21,7 +18,7 @@ def makeFigure():
     all_meta_df = bal_combine_bo_covid(all_meta_df)
     # all_meta_df = all_meta_df[all_meta_df["patient_category"] != "Non-Pneumonia Control"]
 
-    for i, corr in enumerate(correlates):
+    for i, corr in enumerate(meta_correlates):
         sns.violinplot(all_meta_df.sort_values("Status"), x="Status", y=corr, hue="Status", ax=ax[i])
         rotate_xaxis(ax[i], rotation=90)
 
