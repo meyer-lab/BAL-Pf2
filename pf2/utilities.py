@@ -221,7 +221,7 @@ def add_obs_cmp_unique_three(X: anndata.AnnData, cmp1: int, cmp2: int, cmp3: int
 
 def cell_count_perc_df(X, celltype="Cell Type", include_control=True):
     """Returns DF with cell counts and percentages for experiment"""
-    grouping = [celltype, "sample_id", "binary_outcome", "patient_category"]
+    grouping = [celltype, "sample_id", "binary_outcome", "patient_category", "patient_id"]
     df = X.obs[grouping].reset_index(drop=True)
     if include_control is False:
          df = df[df["patient_category"] != "Non-Pneumonia Control"]
@@ -229,6 +229,10 @@ def cell_count_perc_df(X, celltype="Cell Type", include_control=True):
 
     bo_mapping = X.obs.groupby("sample_id", observed=False)["binary_outcome"].first()
     pc_mapping = X.obs.groupby("sample_id", observed=False)["patient_category"].first()
+    pid_mapping = X.obs.groupby(
+        "sample_id",
+        observed=False
+    )["patient_id"].first()
  
     dfCond = (
         df.groupby(["sample_id"], observed=True).size().reset_index(name="Cell Count")
@@ -250,6 +254,7 @@ def cell_count_perc_df(X, celltype="Cell Type", include_control=True):
 
     dfCellType["binary_outcome"] = dfCellType["sample_id"].map(bo_mapping)
     dfCellType["patient_category"] = dfCellType["sample_id"].map(pc_mapping)
+    dfCellType["patient_id"] = dfCellType["sample_id"].map(pid_mapping)
     dfCellType.rename(columns={celltype: "Cell Type"}, inplace=True)
 
     return dfCellType
