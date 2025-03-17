@@ -3,7 +3,8 @@ import seaborn as sns
 import anndata
 from matplotlib.axes import Axes
 import numpy as np
-from ...utilities import bal_combine_bo_covid
+from ...utilities import bal_combine_bo_covid, cell_count_perc_df, move_index_to_column, aggregate_anndata
+from ...predict import predict_mortality_all
 
 def plot_avegene_per_status(
     X: anndata.AnnData,
@@ -154,4 +155,30 @@ def plot_correlation_heatmap(correlation_df: pd.DataFrame, xticks, yticks, ax: A
     rotate_xaxis(ax, rotation=90)
     rotate_yaxis(ax, rotation=0)
 
-    
+
+
+def plot_all_bulk_pred(X, ax):
+    """Plots the accuracy of the bulk prediction"""
+    # Cell type percentage as input
+    cell_comp_df = cell_count_perc_df(X, celltype="combined_cell_type")
+    cell_comp_df = cell_comp_df.pivot(
+        index=["sample_id", "binary_outcome", "patient_id", "patient_category"],
+        columns="Cell Type",
+        values="Cell Type Percentage",
+    )
+    cell_comp_df = move_index_to_column(cell_comp_df)
+    cell_comp_score, _, _ = predict_mortality_all(X, cell_comp_df,
+                                n_components=1, proba=False, bulk=True)
+    y_cell_comp = [cell_comp_score, cell_comp_score]
+
+    # Cell type gene expression as input
+    cell_gene_df = aggregate_anndata(X)
+    cell_gene_df = move_index_to_column(cell_gene_df)
+    cell_gene_score, _, _ = predict_mortality_all(X, cell_gene_df, 
+                                n_components=1, proba=False, bulk=True)
+    y_cell_gene = [cell_gene_score, cell_gene_score]
+
+    x = [0, 200]
+    ax.axhline(y=cell_comp_score, color='red', linestyle='--')
+    ax.axhline(y=cell_gene_score, color='green', linestyle='--')
+
