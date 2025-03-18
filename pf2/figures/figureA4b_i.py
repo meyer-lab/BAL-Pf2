@@ -1,20 +1,20 @@
 """
-Figure A6b_e
+Figure 4b_i
 """
 
 import numpy as np
 import anndata
 from .common import subplotLabel, getSetup
-from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps, plot_pair_gene_factors, plot_toppfun
+from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps, plot_pair_gene_factors
 from ..data_import import add_obs, combine_cell_types
-from .commonFuncs.plotPaCMAP import plot_gene_pacmap, plot_labels_pacmap
 from ..utilities import bot_top_genes, add_obs_cmp_both_label, add_obs_cmp_unique_two
+from .commonFuncs.plotPaCMAP import plot_gene_pacmap, plot_labels_pacmap, plot_wp_pacmap
 import matplotlib.colors as mcolors
 
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((14, 14), (4, 4))
+    ax, f = getSetup((10, 10), (4, 4))
 
     subplotLabel(ax)
 
@@ -23,9 +23,9 @@ def makeFigure():
     add_obs(X, "patient_category")
     X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
     combine_cell_types(X)
-    
-    cmp1 = 22; cmp2 = 62
-    pos1 = True; pos2 = True
+
+    cmp1 = 10; cmp2 = 14
+    pos1 = False; pos2 = False
     threshold = 0.5
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     X = add_obs_cmp_unique_two(X, cmp1, cmp2)
@@ -44,21 +44,16 @@ def makeFigure():
     for i, gene in enumerate(genes):
         plot_gene_pacmap(gene, X, ax[i+1])
         
-    plot_pair_gene_factors(X, cmp1, cmp2, ax[5])
+    for i, cmp in enumerate([cmp1, cmp2]):
+        plot_wp_pacmap(X, cmp, ax[i+5], cbarMax=0.4)
+        
+    plot_pair_gene_factors(X, cmp1, cmp2, ax[7])
         
     X = X[X.obs["Label"] != "Both"] 
 
-    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
-    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
-    genes = np.concatenate([genes1[-3:], genes2[-3:]])
-    
     for i, gene in enumerate(genes):
-        plot_avegene_cmps(X, gene, ax[i+6], order=["Cmp9", "Cmp32", "NoLabel"])
-        rotate_xaxis(ax[i+6])
-        
-        
-    # plot_toppfun(cmp1, ax[12])
-
+        plot_avegene_cmps(X, gene, ax[i+8])
+        rotate_xaxis(ax[i+8])
  
   
 

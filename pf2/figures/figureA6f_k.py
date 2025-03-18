@@ -25,7 +25,7 @@ def makeFigure():
     X = XX[XX.obs["patient_category"] != "Non-Pneumonia Control"] 
     combine_cell_types(X)
 
-    cmp1 = 28; cmp2 = 38
+    cmp1 = 55; cmp2 = 67
     pos1 = True; pos2 = True
     threshold = 0.1
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
@@ -49,8 +49,8 @@ def makeFigure():
         plot_wp_pacmap(X, cmp, ax[i+5], cbarMax=0.4)
         
     plot_pair_gene_factors(X, cmp1, cmp2, ax[7])
-    plot_pair_gene_factors(X, cmp1, 45, ax[8])
-    plot_pair_cond_factors(XX,  cmp1, 45, ax[9])
+    # plot_pair_gene_factors(X, cmp1, 45, ax[8])
+    # plot_pair_cond_factors(XX,  cmp1, 45, ax[9])
         
     X = X[X.obs["Label"] != "Both"] 
 
@@ -58,7 +58,7 @@ def makeFigure():
         plot_avegene_cmps(X, gene, ax[i+10])
         rotate_xaxis(ax[i])
     
-    plot_pair_cond_factors(XX, cmp1, cmp2, ax[15])
+    plot_pair_cond_factors(XX, cmp1, cmp2, ax[14])
  
   
 

@@ -1,5 +1,5 @@
 """
-Figure 5b_i
+Figure 4j_m
 """
 
 import numpy as np
@@ -24,8 +24,8 @@ def makeFigure():
     X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
     combine_cell_types(X)
 
-    cmp1 = 3; cmp2 = 26
-    pos1 = True; pos2 = True
+    cmp1 = 1; cmp2 = 4
+    pos1 = False; pos2 = True
     threshold = 0.5
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     X = add_obs_cmp_unique_two(X, cmp1, cmp2)
@@ -52,7 +52,7 @@ def makeFigure():
     X = X[X.obs["Label"] != "Both"] 
 
     for i, gene in enumerate(genes):
-        plot_avegene_cmps(X, gene, ax[i+8], order=["Cmp3", "Cmp26", "NoLabel"])
+        plot_avegene_cmps(X, gene, ax[i+8])
         rotate_xaxis(ax[i+8])
  
   
