@@ -24,11 +24,11 @@ def makeFigure():
 
     plot_plsr_loadings(plsr_results_both, ax[0], ax[1])
     ax[0].set(xlim=[-0.35, 0.35])
-    ax[1].set(xlim=[-0.4, 0.4])
+    ax[1].set(xlim=[-0.35, 0.35])
 
     plot_plsr_scores(plsr_results_both, cond_fact_meta_df, labels, ax[2], ax[3])
-    ax[2].set(xlim=[-9.5, 9.5])
-    ax[3].set(xlim=[-8.5, 8.5])
+    ax[2].set(xlim=[-7, 7])
+    ax[3].set(xlim=[-9.5, 9.5])
 
     return f
 

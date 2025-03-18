@@ -5,10 +5,11 @@ Figure A4b_c
 import pandas as pd
 import anndata
 import seaborn as sns
-from ..data_import import condition_factors_meta
+from ..data_import import condition_factors_meta, add_obs, combine_cell_types
 from ..predict import predict_mortality_all, plsr_acc_proba
 from .common import subplotLabel, getSetup
 from sklearn.metrics import RocCurveDisplay
+from .commonFuncs.plotGeneral import plot_all_bulk_pred
 
 
 def makeFigure():
@@ -17,6 +18,9 @@ def makeFigure():
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
+    add_obs(X, "binary_outcome")
+    add_obs(X, "patient_category")
+    combine_cell_types(X)
     
     cond_fact_meta_df = condition_factors_meta(X)
 
