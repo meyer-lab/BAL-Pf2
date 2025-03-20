@@ -13,7 +13,7 @@ from ..data_import import add_obs, combine_cell_types
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((12, 12), (4, 4))
+    ax, f = getSetup((16, 16), (4, 4))
 
     subplotLabel(ax)
 
@@ -23,8 +23,8 @@ def makeFigure():
     combine_cell_types(X)
     X = X[X.obs["patient_category"] != "Non-Pneumonia Control"]
 
-    cmp1 = 27; cmp2 = 46
-    pos1 = True; pos2 = True
+    cmp1 = 1; cmp2 = 4
+    pos1 = False; pos2 = True
     threshold = 0.5
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
 

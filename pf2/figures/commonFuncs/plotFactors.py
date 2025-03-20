@@ -149,7 +149,9 @@ def plot_gene_factors_defined(
 
     df = df.loc[genes]
     df.drop_duplicates(inplace=True)
-    df = df.div(np.abs(np.max(df, axis=0)).values)
+    print(df)
+    print(np.abs(np.max(df, axis=0)))
+    df = df.div(np.max(np.abs(df), axis=0).values)
     
     sns.heatmap(
         data=df,

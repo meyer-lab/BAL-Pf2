@@ -14,7 +14,7 @@ import matplotlib.colors as mcolors
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((10, 10), (4, 4))
+    ax, f = getSetup((16, 16), (4, 4))
 
     subplotLabel(ax)
 
@@ -26,7 +26,7 @@ def makeFigure():
 
     cmp1 = 10; cmp2 = 14
     pos1 = False; pos2 = False
-    threshold = 0.5
+    threshold = 0.15
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     X = add_obs_cmp_unique_two(X, cmp1, cmp2)
       
@@ -45,15 +45,15 @@ def makeFigure():
         plot_gene_pacmap(gene, X, ax[i+1])
         
     for i, cmp in enumerate([cmp1, cmp2]):
-        plot_wp_pacmap(X, cmp, ax[i+5], cbarMax=0.4)
+        plot_wp_pacmap(X, cmp, ax[i+5], cbarMax=0.1)
         
-    plot_pair_gene_factors(X, cmp1, cmp2, ax[7])
+    # plot_pair_gene_factors(X, cmp1, cmp2, ax[7])
         
-    X = X[X.obs["Label"] != "Both"] 
+    # X = X[X.obs["Label"] != "Both"] 
 
-    for i, gene in enumerate(genes):
-        plot_avegene_cmps(X, gene, ax[i+8])
-        rotate_xaxis(ax[i+8])
+    # for i, gene in enumerate(genes):
+    #     plot_avegene_cmps(X, gene, ax[i+8])
+    #     rotate_xaxis(ax[i+8])
  
   
 

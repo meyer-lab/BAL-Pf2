@@ -14,7 +14,7 @@ import matplotlib.colors as mcolors
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((10, 10), (4, 4))
+    ax, f = getSetup((16, 16), (4, 4))
 
     subplotLabel(ax)
 
