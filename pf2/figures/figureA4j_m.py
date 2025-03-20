@@ -1,5 +1,5 @@
 """
-Figure A5j_m
+Figure A4j_m
 """
 from .commonFuncs.plotPaCMAP import plot_labels_pacmap
 from ..data_import import combine_cell_types, add_obs

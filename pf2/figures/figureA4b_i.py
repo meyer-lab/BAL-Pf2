@@ -1,5 +1,5 @@
 """
-Figure 5b_i
+Figure 4b_i
 """
 
 import numpy as np
