@@ -24,8 +24,11 @@ def makeFigure():
     X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
     combine_cell_types(X)
 
-    cmp1 = 10; cmp2 = 14
-    pos1 = False; pos2 = False
+    # cmp1 = 10; cmp2 = 14
+    # pos1 = False; pos2 = False
+    
+    cmp1 = 10; cmp2 = 15
+    pos1 = False; pos2 = True
     
     
     threshold = 0.5
@@ -54,7 +57,7 @@ def makeFigure():
     X = X[X.obs["Label"] != "Both"] 
 
     for i, gene in enumerate(genes):
-        plot_avegene_cmps(X, gene, ax[i+8], order=["Cmp3", "Cmp26", "NoLabel"])
+        plot_avegene_cmps(X, gene, ax[i+8])
         rotate_xaxis(ax[i+8])
  
   
