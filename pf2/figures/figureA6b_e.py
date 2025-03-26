@@ -14,7 +14,7 @@ import matplotlib.colors as mcolors
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((10, 10), (4, 4))
+    ax, f = getSetup((14, 14), (4, 4))
 
     subplotLabel(ax)
 
@@ -24,7 +24,7 @@ def makeFigure():
     X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
     combine_cell_types(X)
     
-    cmp1 = 9; cmp2 = 32
+    cmp1 = 22; cmp2 = 62
     pos1 = True; pos2 = True
     threshold = 0.5
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
@@ -53,7 +53,7 @@ def makeFigure():
     genes = np.concatenate([genes1[-3:], genes2[-3:]])
     
     for i, gene in enumerate(genes):
-        plot_avegene_cmps(X, gene, ax[i+6], order=["Cmp9", "Cmp32", "NoLabel"])
+        plot_avegene_cmps(X, gene, ax[i+6])
         rotate_xaxis(ax[i+6])
         
         
