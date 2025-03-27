@@ -15,7 +15,7 @@ import seaborn as sns
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((10, 10), (4, 4))
+    ax, f = getSetup((7, 7), (4, 4))
 
     subplotLabel(ax)
 
@@ -55,10 +55,10 @@ def makeFigure():
     X = X[X.obs["Label"] != "Both"] 
 
     for i, gene in enumerate(genes):
-        plot_avegene_cmps(X, gene, ax[i+10])
+        plot_avegene_cmps(X, gene, ax[i+8])
         rotate_xaxis(ax[i])
     
-    plot_pair_cond_factors(XX, cmp1, cmp2, ax[14])
+    # plot_pair_cond_factors(XX, cmp1, cmp2, ax[14])
  
   
 

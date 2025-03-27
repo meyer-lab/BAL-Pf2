@@ -14,7 +14,7 @@ import matplotlib.colors as mcolors
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((14, 14), (4, 4))
+    ax, f = getSetup((7, 7), (4, 4))
 
     subplotLabel(ax)
 
@@ -26,35 +26,36 @@ def makeFigure():
     
     cmp1 = 22; cmp2 = 62
     pos1 = True; pos2 = True
-    threshold = 0.5
+    threshold = 0.1
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     X = add_obs_cmp_unique_two(X, cmp1, cmp2)
       
-    colors = ["black", "fuchsia", "turquoise", "gainsboro"]
+    colors = ["black", "turquoise", "fuchsia", "gainsboro"]
     pal = []
     for i in colors:
         pal.append(mcolors.CSS4_COLORS[i])
         
     plot_labels_pacmap(X, "Label", ax[0], color_key=pal)
-
-    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
-    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
-    genes = np.concatenate([genes1, genes2])
-
-    for i, gene in enumerate(genes):
-        plot_gene_pacmap(gene, X, ax[i+1])
-        
-    plot_pair_gene_factors(X, cmp1, cmp2, ax[5])
-        
-    X = X[X.obs["Label"] != "Both"] 
-
-    genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
-    genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
-    genes = np.concatenate([genes1[-3:], genes2[-3:]])
     
-    for i, gene in enumerate(genes):
-        plot_avegene_cmps(X, gene, ax[i+6])
-        rotate_xaxis(ax[i+6])
+
+    # genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
+    # genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
+    # genes = np.concatenate([genes1, genes2])
+
+    # # for i, gene in enumerate(genes):
+    #     plot_gene_pacmap(gene, X, ax[i+1])
+        
+    # plot_pair_gene_factors(X, cmp1, cmp2, ax[5])
+        
+    # X = X[X.obs["Label"] != "Both"] 
+
+    # genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
+    # genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
+    # genes = np.concatenate([genes1[-3:], genes2[-3:]])
+    
+    # for i, gene in enumerate(genes):
+    #     plot_avegene_cmps(X, gene, ax[i+6])
+    #     rotate_xaxis(ax[i+6])
         
         
     # plot_toppfun(cmp1, ax[12])
