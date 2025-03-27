@@ -5,7 +5,7 @@ Figure A6b_e
 import numpy as np
 import anndata
 from .common import subplotLabel, getSetup
-from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps, plot_pair_gene_factors, plot_toppfun
+from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps, plot_pair_gene_factors
 from ..data_import import add_obs, combine_cell_types
 from .commonFuncs.plotPaCMAP import plot_gene_pacmap, plot_labels_pacmap
 from ..utilities import bot_top_genes, add_obs_cmp_both_label, add_obs_cmp_unique_two
@@ -30,7 +30,7 @@ def makeFigure():
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     X = add_obs_cmp_unique_two(X, cmp1, cmp2)
       
-    colors = ["black", "fuchsia", "turquoise", "gainsboro"]
+    colors = ["black", "turquoise", "fuchsia", "gainsboro"]
     pal = []
     for i in colors:
         pal.append(mcolors.CSS4_COLORS[i])
@@ -55,9 +55,6 @@ def makeFigure():
     for i, gene in enumerate(genes):
         plot_avegene_cmps(X, gene, ax[i+6])
         rotate_xaxis(ax[i+6])
-        
-        
-    # plot_toppfun(cmp1, ax[12])
 
  
   
