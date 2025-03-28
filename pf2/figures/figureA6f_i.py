@@ -1,21 +1,20 @@
 """
-Figure A6f_k
+Figure A6f_i
 """
 
 import numpy as np
 import anndata
 from .common import subplotLabel, getSetup
 from .commonFuncs.plotGeneral import rotate_xaxis,  plot_avegene_cmps, plot_pair_gene_factors
-from ..data_import import add_obs, combine_cell_types, condition_factors_meta
+from ..data_import import add_obs, combine_cell_types
 from ..utilities import bot_top_genes, add_obs_cmp_both_label, add_obs_cmp_unique_two
 from .commonFuncs.plotPaCMAP import plot_gene_pacmap, plot_labels_pacmap, plot_wp_pacmap
 import matplotlib.colors as mcolors
-import seaborn as sns
 
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((10, 10), (4, 4))
+    ax, f = getSetup((14, 14), (4, 4))
 
     subplotLabel(ax)
 
@@ -49,30 +48,12 @@ def makeFigure():
         plot_wp_pacmap(X, cmp, ax[i+5], cbarMax=0.4)
         
     plot_pair_gene_factors(X, cmp1, cmp2, ax[7])
-    # plot_pair_gene_factors(X, cmp1, 45, ax[8])
-    # plot_pair_cond_factors(XX,  cmp1, 45, ax[9])
         
     X = X[X.obs["Label"] != "Both"] 
 
     for i, gene in enumerate(genes):
-        plot_avegene_cmps(X, gene, ax[i+10])
+        plot_avegene_cmps(X, gene, ax[i+8])
         rotate_xaxis(ax[i])
-    
-    plot_pair_cond_factors(XX, cmp1, cmp2, ax[14])
- 
-  
 
     return f
 
-
-
-
-
-def plot_pair_cond_factors(data, cmp1: int, cmp2: int, ax):
-    """Plots two condition components weights"""
-    df = condition_factors_meta(data)
-    df = df[df["patient_category"] != "Non-Pneumonia Control"]
-    df = df[df["patient_category"] != "COVID-19"]
-    sns.scatterplot(data=df, x=f"Cmp. {cmp1}", y=f"Cmp. {cmp2}", ax=ax)
-    ax.set(title="Condition Factors")
-    
