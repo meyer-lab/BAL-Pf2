@@ -27,10 +27,25 @@ def makeFigure():
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     X = add_obs_cmp_unique_two(X, cmp1, cmp2)
 
-    # genes1 = ["SFN"]
-    genes1 = ["SCGB3A2"]
-    
-    marker_genes = ["SCGB1A1", "FOXJ1", "SCGB3A1", "DNAH5", "TUBA1A", "MUC5AC", "MUC5B", "AGER", "SFTPC", "HOPX", "ABCA3", "PECAM1", "AGR2"]
+    genes1 = ["SFN"]
+    # genes1 = ["SCGB3A2"]
+    marker_genes = [
+    # Club/Clara Cells
+    "SCGB1A1", "SCGB3A1", "CYP4B1",
+    # Ciliated Cells
+    "FOXJ1", "DNAH5", "TUBA1A",
+    # Secretory/Goblet Cells
+    "MUC5AC", "MUC5B", "AGR2",
+    # Alveolar Type I Cells
+    "AGER", "CAV1", "HOPX",
+    # Alveolar Type II Cells
+    "SFTPC", "ABCA3",
+    # Endothelial Cells
+    "PECAM1", 
+    # Fibroblasts/Mesenchymal
+    "VIM",
+]
+
 
     X = X[X.obs["Label"] != "Both"] 
     
