@@ -1,20 +1,11 @@
 """Figure 14"""
 
 import anndata
-import scanpy as sc
-import pandas as pd
-import seaborn as sns
 import numpy as np
-from .commonFuncs.plotGeneral import rotate_xaxis
-
-import numpy as np
-import anndata
 from .common import subplotLabel, getSetup
-from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps, plot_pair_gene_factors, plot_avegene_scatter_cmps
+from .commonFuncs.plotGeneral import plot_avegene_scatter_cmps
 from ..data_import import add_obs, combine_cell_types
-from ..utilities import bot_top_genes, add_obs_cmp_both_label, add_obs_cmp_unique_two
-from .commonFuncs.plotPaCMAP import plot_gene_pacmap, plot_labels_pacmap, plot_wp_pacmap
-import matplotlib.colors as mcolors
+from ..utilities import add_obs_cmp_both_label, add_obs_cmp_unique_two
 
 
 def makeFigure():
