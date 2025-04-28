@@ -8,7 +8,20 @@ import scipy.cluster.hierarchy as sch
 from matplotlib.patches import Patch
 from matplotlib.axes import Axes
 
-cmap = sns.diverging_palette(240, 10, as_cmap=True)
+import matplotlib.colors as mcolors
+from matplotlib.colors import LinearSegmentedColormap
+
+# Create a white to black color palette
+# This ensures we start from pure white (not light gray)
+white = np.array([1, 1, 1, 1])  # R,G,B,A
+black = np.array([0, 0, 0, 1])  # R,G,B,A
+colors = np.vstack((white, black))
+positions = np.linspace(0, 1, 2)
+cmap = mcolors.LinearSegmentedColormap.from_list("white_to_black", list(zip(positions, colors)))
+
+# white_to_black = sns.light_palette("black", as_cmap=True)
+
+# cmap = white_to_black # black to white
 
 
 def plot_condition_factors(
