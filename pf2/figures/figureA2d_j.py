@@ -33,32 +33,31 @@ def makeFigure():
         X, ax[0], cond="sample_id", cond_group_labels=pd.Series(cond_fact_meta_df["Status"]), color_key=pal, group_cond=True)
     ax[0].yaxis.set_ticklabels([])
     
-    # plot_eigenstate_factors(X, ax[1])
-    # plot_gene_factors(X, ax[2])
-    # ax[2].yaxis.set_ticklabels([])
+    plot_eigenstate_factors(X, ax[1])
+    plot_gene_factors(X, ax[2])
+    ax[2].yaxis.set_ticklabels([])
     
-    # X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
-    # df = X.obs[["patient_category", "binary_outcome"]].reset_index(drop=True)
-    # df = bal_combine_bo_covid(df)
-    # X.obs["Status"] = df["Status"].to_numpy()
-    # plot_labels_pacmap(X, "Status", ax[3], color_key=pal)
+    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
+    df = X.obs[["patient_category", "binary_outcome"]].reset_index(drop=True)
+    df = bal_combine_bo_covid(df)
+    X.obs["Status"] = df["Status"].to_numpy()
+    plot_labels_pacmap(X, "Status", ax[3], color_key=pal)
     
-    # combine_cell_types(X)
-    # plot_labels_pacmap(X, "cell_type", ax[4]) 
+    combine_cell_types(X)
+    plot_labels_pacmap(X, "cell_type", ax[4]) 
     
-    # pal = sns.color_palette(palette='Set3')
-    # pal = pal.as_hex() 
-    # plot_labels_pacmap(X, "combined_cell_type", ax[5], color_key=pal)
+    pal = sns.color_palette(palette='Set3')
+    pal = pal.as_hex() 
+    plot_labels_pacmap(X, "combined_cell_type", ax[5], color_key=pal)
     
-    # pal = sns.color_palette(palette='cubehelix')
-    # pal = pal.as_hex() 
-    # XX = X[~X.obs["episode_etiology"].isna()]
-    # plot_labels_pacmap(XX, "episode_etiology", ax[6], color_key=pal)
+    pal = sns.color_palette(palette='cubehelix')
+    pal = pal.as_hex() 
+    XX = X[~X.obs["episode_etiology"].isna()]
+    plot_labels_pacmap(XX, "episode_etiology", ax[6], color_key=pal)
     
-    # pal = sns.color_palette(palette='CMRmap')
-    # pal = pal.as_hex() 
-    # XX = X[~X.obs["episode_category"].isna()]
-    # plot_labels_pacmap(XX, "episode_category", ax[7], color_key=pal)
+    pal = sns.color_palette(palette='CMRmap')
+    pal = pal.as_hex() 
+    XX = X[~X.obs["episode_category"].isna()]
+    plot_labels_pacmap(XX, "episode_category", ax[7], color_key=pal)
 
     return f
-
