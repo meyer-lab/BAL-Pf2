@@ -75,13 +75,13 @@ def plot_avegene_cmps(
     df = df.groupby(["Label", "Gene", "Condition", "Cell Type"], observed=False).mean()
     df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
     
-    sns.boxplot(
+    sns.violinplot(
         data=df.loc[df["Gene"] == gene],
         x="Label",
         y="Average Gene Expression",
         ax=ax,
         order=order,
-        showfliers=False,
+        # showfliers=False,
     )
     ax.set(ylabel=f"Average {gene}")
 
@@ -96,8 +96,25 @@ def plot_pair_gene_factors(X: anndata.AnnData, cmp1: int, cmp2: int, ax: Axes):
     df = pd.DataFrame(
         data=cmpWeights.transpose(), columns=[f"Cmp. {cmp1}", f"Cmp. {cmp2}"]
     )
-    sns.scatterplot(data=df, x=f"Cmp. {cmp1}", y=f"Cmp. {cmp2}", ax=ax, color="k")
+    sns.swarmplot(data=df, x=f"Cmp. {cmp1}", y=f"Cmp. {cmp2}", ax=ax, color="k")
     ax.set(title="Gene Factors")
+    
+    
+def plot_two_gene_factors(X: anndata.AnnData, cmp1: int, cmp2: int, ax: Axes):
+    """Plots two gene components weights"""
+    cmpWeights = np.concatenate(
+        ([X.varm["Pf2_C"][:, cmp1 - 1]], [X.varm["Pf2_C"][:, cmp2 - 1]])
+    )
+    df = pd.DataFrame(
+        data=cmpWeights.transpose(), columns=[f"Cmp. {cmp1}", f"Cmp. {cmp2}"]
+    )
+    df_melted = df.melt(var_name="Component", value_name="Gene Factor")
+    
+    sns.stripplot(data=df_melted, x="Component", y="Gene Factor", ax=ax, color="k", jitter=True)
+
+    ax.set(title="Gene Factors")
+    
+    
 
 
 def plot_toppfun(cmp, ax):

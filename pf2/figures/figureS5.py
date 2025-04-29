@@ -17,7 +17,7 @@ from ..utilities import cell_count_perc_df
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((10, 10), (2, 2))
+    ax, f = getSetup((50, 50), (10, 10))
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     factors_meta_df = condition_factors_meta(X).reset_index()
@@ -30,33 +30,34 @@ def makeFigure():
     
     celltype_count_perc_df = cell_count_perc_df(X, celltype="cell_type")
     
-    df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"].isin(["B cells", "pDC"])]
+    df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"].isin(["B cells"])]
+    # df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"].isin(["B cells", "pDC"])]
     factors_meta_df = factors_meta_df[factors_meta_df["sample_id"].isin(df["sample_id"])]
     
-    print(df)
-    cmp = 22
-    df = pd.merge(
-        df,
-        factors_meta_df[["sample_id", f"Cmp. {cmp}"]],
-        on="sample_id",
-        how="inner"
-    )
+    # print(df)
+    for i in range(80):
+        df = pd.merge(
+            df,
+            factors_meta_df[["sample_id", f"Cmp. {i+1}"]],
+            on="sample_id",
+            how="inner"
+        )
+        
+        
+        # print(df)
+        # plot_celltype_scatter(merged_df=df, celltype1="B cells", celltype2="pDC", ax=ax[0])
     
-    
-    print(df)
-    plot_celltype_scatter(merged_df=df, celltype1="B cells", celltype2="pDC", ax=ax[0])
- 
-    # sns.stripplot(
-    #     data=df,
-    #     x="Status",
-    #     y="Cell Count",
-    #     hue="Status",
-    #     dodge=True,
-    #     ax=ax[0],
-    # )
-    
-    
-    # plot_correlation_cmp_cell_count_perc(df, cmp, ax[0], cellPerc=False)
+        # sns.stripplot(
+        #     data=df,
+        #     x="Status",
+        #     y="Cell Count",
+        #     hue="Status",
+        #     dodge=True,
+        #     ax=ax[0],
+        # )
+        
+        
+        plot_correlation_cmp_cell_count_perc(df, i+1, ax[i], cellPerc=True)
 
 
     return f
@@ -78,6 +79,8 @@ def plot_correlation_cmp_cell_count_perc(
         # Calculate Pearson correlation
         pearson_corr, _ = pearsonr(merged_df[f"Cmp. {cmp}"], merged_df[cellPercCol])
 
+        print(f"Cmp. {cmp} vs {cellPercCol} for {status}:")
+        print(f"Pearson correlation for {status}: {pearson_corr}")
         # Append the result to the correlation dataframe
         correlationdf = pd.concat([
             correlationdf,
@@ -95,7 +98,9 @@ def plot_correlation_cmp_cell_count_perc(
         y="Value",
         hue="Status",
         ax=ax
+
     )
+    ax.set_ylim(-1, 1)
     rotate_xaxis(ax)
     ax.set(
         title=f"Pearson Correlation: Cmp. {cmp} vs {cellPercCol}",
