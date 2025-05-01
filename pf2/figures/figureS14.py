@@ -60,11 +60,11 @@ def plot_avegene_scatter_cmps(
     # Add metadata columns
     gene1_data["Label"] = X.obs["Label"].values
     gene1_data["sample_id"] = X.obs["sample_id"].values
-    gene1_data["Status"] = X.obs["binary_outcome"].values
+    gene1_data["Status"] = X.obs["Status"].values
 
     gene2_data["Label"] = X.obs["Label"].values
     gene2_data["sample_id"] = X.obs["sample_id"].values
-    gene2_data["Status"] = X.obs["binary_outcome"].values
+    gene2_data["Status"] = X.obs["Status"].values
 
     # Drop rows with missing values
     gene1_data = gene1_data.dropna(subset=["Label", "sample_id", "Status"])

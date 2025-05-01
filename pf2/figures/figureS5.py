@@ -17,7 +17,7 @@ from ..utilities import cell_count_perc_df
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((50, 50), (10, 10))
+    ax, f = getSetup((20, 20), (2, 2))
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     factors_meta_df = condition_factors_meta(X).reset_index()
@@ -25,87 +25,101 @@ def makeFigure():
     X = add_obs(X, "patient_category")
     X = X[~X.obs["patient_category"].isin(["Non-Pneumonia Control", "COVID-19"])]
     
-    
     combine_cell_types(X)
-    
     celltype_count_perc_df = cell_count_perc_df(X, celltype="cell_type")
     
-    df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"].isin(["B cells"])]
+    #### Plot scatter plot of B cells vs pDC percentages
     # df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"].isin(["B cells", "pDC"])]
-    factors_meta_df = factors_meta_df[factors_meta_df["sample_id"].isin(df["sample_id"])]
+    # merged_df = pd.merge(
+    #         df,
+    #         factors_meta_df["sample_id"],
+    #         on="sample_id",
+    #         how="inner"
+    #     )
+    # plot_celltype_scatter(merged_df=merged_df, celltype1="B cells", celltype2="pDC", ax=ax[0])
     
-    # print(df)
-    for i in range(80):
-        df = pd.merge(
-            df,
-            factors_meta_df[["sample_id", f"Cmp. {i+1}"]],
-            on="sample_id",
-            how="inner"
-        )
-        
-        
-        # print(df)
-        # plot_celltype_scatter(merged_df=df, celltype1="B cells", celltype2="pDC", ax=ax[0])
+    #### Plot stripplot of cell counts pDC/ B cells
+    # axs=0
+    # for i, celltype in enumerate(["B cells", "pDC"]):
+    #     for j, type in enumerate(["Cell Count", "Cell Type Percentage"]):
+    #         df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"] == celltype]
+    #         merged_df = pd.merge(
+    #             df,
+    #             factors_meta_df[["sample_id"]],
+    #             on="sample_id",
+    #             how="inner"
+    #         )
+    #         sns.stripplot(
+    #             data=merged_df,
+    #             x="Status",
+    #             y=type,
+    #             hue="Status",
+    #             dodge=True,
+    #             ax=ax[axs],
+    #         )
+    #         ax[axs].set_title(f"{celltype} {type}")
+    #         axs += 1
     
-        # sns.stripplot(
-        #     data=df,
-        #     x="Status",
-        #     y="Cell Count",
-        #     hue="Status",
-        #     dodge=True,
-        #     ax=ax[0],
-        # )
-        
-        
-        plot_correlation_cmp_cell_count_perc(df, i+1, ax[i], cellPerc=True)
+    #### Plot correlation of component weights and cell type percentage for pDC/B cells
+    axs=0
+    for i, celltype in enumerate(["B cells", "pDC"]):
+        for j, type in enumerate(["Cell Count", "Cell Type Percentage"]):
+            df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"] == celltype]
+            merged_df = pd.merge(
+                df,
+                factors_meta_df[["sample_id"] + [f"Cmp. {i+1}" for i in range(80)]],
+                on="sample_id",
+                how="inner"
+            )
+            plot_correlation_all_cmps(merged_df=merged_df, ax=ax[axs], cellPerc=(type == "Cell Type Percentage"))
+            axs += 1
+
 
 
     return f
 
 
-def plot_correlation_cmp_cell_count_perc(
+def plot_correlation_all_cmps(
     merged_df: pd.DataFrame,
-    cmp: int,
     ax: Axes,
     cellPerc=True
 ):
-    """Plot Pearson correlation of component weights and cell type percentage, split by Status."""
+    """Plot Pearson correlation of all component weights and cell type percentage, split by Status."""
     # Determine the column to use for cell percentage or count
     cellPercCol = "Cell Type Percentage" if cellPerc else "Cell Count"
 
     # Prepare the dataframe for correlation analysis
     correlationdf = pd.DataFrame([])
-    for status in merged_df["Status"].unique():
-        # Calculate Pearson correlation
-        pearson_corr, _ = pearsonr(merged_df[f"Cmp. {cmp}"], merged_df[cellPercCol])
+    for cmp in range(1, 81):  # Iterate over all components (Cmp. 1 to Cmp. 80)
+        cmp_col = f"Cmp. {cmp}"
 
-        print(f"Cmp. {cmp} vs {cellPercCol} for {status}:")
-        print(f"Pearson correlation for {status}: {pearson_corr}")
-        # Append the result to the correlation dataframe
-        correlationdf = pd.concat([
-            correlationdf,
-            pd.DataFrame({
-                "Status": [status],
-                "Correlation": ["Pearson"],
-                "Value": [pearson_corr]
-            })
-        ])
+        for status in merged_df["Status"].unique():
+            # Filter data for the specific status
+            status_df = merged_df[merged_df["Status"] == status]
 
-    # Plot the barplot
+            pearson_corr, _ = pearsonr(status_df[cmp_col], status_df[cellPercCol])
+            correlationdf = pd.concat([
+                correlationdf,
+                pd.DataFrame({
+                    "Component": [cmp],
+                    "Status": [status],
+                    "Correlation": [pearson_corr]
+                })
+            ])
+
     sns.barplot(
         data=correlationdf,
-        x="Status",
-        y="Value",
+        x="Component",
+        y="Correlation",
         hue="Status",
         ax=ax
-
     )
     ax.set_ylim(-1, 1)
     rotate_xaxis(ax)
     ax.set(
-        title=f"Pearson Correlation: Cmp. {cmp} vs {cellPercCol}",
+        title=f"Pearson Correlation: All Components vs {cellPercCol}",
         ylabel="Pearson Correlation",
-        xlabel="Cell Type"
+        xlabel="Component"
     )
     
     
@@ -131,7 +145,6 @@ def plot_celltype_scatter(
         columns={"Cell Type Percentage": f"{celltype2} Percentage"}
     )
 
-    print(df1)
     # Merge the two DataFrames on sample_id and Status
     scatter_df = pd.merge(
         df1[["sample_id", f"{celltype1} Percentage", "Status"]],
@@ -139,7 +152,6 @@ def plot_celltype_scatter(
         on=["sample_id", "Status"]
     )
 
-    print(scatter_df)
     # Create scatter plot
     sns.scatterplot(
         data=scatter_df,
