@@ -75,13 +75,13 @@ def plot_avegene_cmps(
     df = df.groupby(["Label", "Gene", "Condition", "Cell Type"], observed=False).mean()
     df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
     
-    sns.violinplot(
+    sns.boxplot(
         data=df.loc[df["Gene"] == gene],
         x="Label",
         y="Average Gene Expression",
         ax=ax,
         order=order,
-        # showfliers=False,
+        showfliers=False,
     )
     ax.set(ylabel=f"Average {gene}")
 
@@ -199,3 +199,56 @@ def plot_all_bulk_pred(X, ax):
     ax.axhline(y=cell_comp_score, color='red', linestyle='--')
     ax.axhline(y=cell_gene_score, color='green', linestyle='--')
 
+
+
+def plot_avegene_cmps_celltype(
+    X: anndata.AnnData,
+    gene: str,
+    ax: Axes,
+    celltype: str,
+    cellType="cell_type",
+    
+):
+    """Plots average gene expression across cell types, combining Label and Cell Type."""
+    genesV = X[:, gene]
+    dataDF = genesV.to_df()
+    condition = "sample_id"
+    status1 = "binary_outcome"
+    status2 = "patient_category"
+    cellType = cellType
+
+    dataDF[status1] = genesV.obs[status1].values
+    dataDF[status2] = genesV.obs[status2].values
+    dataDF["Condition"] = genesV.obs[condition].values
+    dataDF["Cell Type"] = genesV.obs[cellType].values
+    dataDF["Label"] = genesV.obs["Label"].values
+    dataDF = dataDF.dropna(subset="Label")
+    dataDF = bal_combine_bo_covid(dataDF, status1, status2)
+
+     # Filter to show only B cells
+    dataDF = dataDF[dataDF["Cell Type"] == celltype]
+    # Combine Label and Cell Type into a single column
+    dataDF["Label_CellType"] = dataDF["Label"].astype(str) + " - " + dataDF["Cell Type"].astype(str)
+    # Melt the data for plotting
+    print(dataDF)
+    df = pd.melt(
+        dataDF, id_vars=["Label_CellType", "Condition"], value_vars=gene
+    ).rename(columns={"variable": "Gene", "value": "Value"})
+    print(df)
+    # Group by Label_CellType, Gene, and Condition
+    df = df.groupby(["Label_CellType", "Gene", "Condition"], observed=False).mean()
+    df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
+
+    print(df.loc[df["Gene"] == gene])
+    # Plot the data
+    sns.boxplot(
+        data=df.loc[df["Gene"] == gene],
+        x="Label_CellType",
+        y="Average Gene Expression",
+        ax=ax,
+        showfliers=False,
+    )
+    ax.set(ylabel=f"Average {gene}")
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right")
+
+    return df

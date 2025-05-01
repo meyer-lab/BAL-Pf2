@@ -5,7 +5,7 @@ Figure A6b_e
 import numpy as np
 import anndata
 from .common import subplotLabel, getSetup
-from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps, plot_pair_gene_factors, plot_two_gene_factors
+from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps, plot_pair_gene_factors, plot_two_gene_factors, plot_avegene_cmps_celltype
 from ..data_import import add_obs, combine_cell_types
 from .commonFuncs.plotPaCMAP import plot_gene_pacmap, plot_labels_pacmap
 from ..utilities import bot_top_genes, add_obs_cmp_both_label, add_obs_cmp_unique_two
@@ -26,10 +26,12 @@ def makeFigure():
     
     cmp1 = 31; cmp2 = 62
     pos1 = False; pos2 = True
-    threshold = 0.15
+    threshold = 0.5
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     X = add_obs_cmp_unique_two(X, cmp1, cmp2)
       
+      
+    plot_avegene_cmps_celltype(X, "LILRA4", ax[0], celltype="pDC", cellType="cell_type")
     # colors = ["black", "turquoise", "fuchsia", "gainsboro"]
     # pal = []
     # for i in colors:
@@ -44,7 +46,7 @@ def makeFigure():
     # for i, gene in enumerate(genes):
     #     plot_gene_pacmap(gene, X, ax[i+1])
         
-    plot_two_gene_factors(X, cmp1, cmp2, ax[5])
+    # plot_two_gene_factors(X, cmp1, cmp2, ax[5])
         
     # X = X[X.obs["Label"] != "Both"] 
 

@@ -47,7 +47,6 @@ def makeFigure():
         ax=ax[0],
 
     )
-    
     sns.barplot(
         data=pc_df["Cmp. 22"].sort_values(ascending=False).head(10).reset_index(),
         x="index",
