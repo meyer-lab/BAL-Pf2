@@ -245,6 +245,7 @@ def plot_avegene_cmps_celltype(
         data=df.loc[df["Gene"] == gene],
         x="Label_CellType",
         y="Average Gene Expression",
+        hue="Label_CellType",
         ax=ax,
         showfliers=False,
     )

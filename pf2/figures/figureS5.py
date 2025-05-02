@@ -32,29 +32,28 @@ def makeFigure():
     
     #### Plot scatter plot of B cells vs pDC percentages
  
-    df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"].isin(["B cells", "pDC"])]
-    axs = 0
-    for i, column in enumerate(["Cell Count", "Cell Type Percentage"]):
-        merged_df = pd.merge(
-            df,
-            factors_meta_df[["sample_id", "Cmp. 22", "Cmp. 62", "icu_day", "immunocompromised_flag", "episode_etiology"]],
-            on="sample_id",
-            how="inner"
-        )
-        # Merge icu days into categroy 
-        merged_df["icu_day"] = pd.cut(
-            merged_df["icu_day"],
-            bins=[1, 7, 27, 100],
-            labels=["1-7", "8-27", "27+"]
-        )
-        # merged_df = merged_df[merged_df["ICU Day"] > 5]
-        sns.scatterplot(merged_df, x="Cmp. 22", y="Cmp. 62", hue="Status", style="icu_day", ax=ax[axs])
-        ax[axs].set_title(f"pearson: {pearsonr(merged_df["Cmp. 22"], merged_df["Cmp. 62"])[0]:.2f}")
+    # df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"].isin(["B cells", "pDC"])]
+    # axs = 0
+    # for i, column in enumerate(["Cell Count", "Cell Type Percentage"]):
+    #     merged_df = pd.merge(
+    #         df,
+    #         factors_meta_df[["sample_id", "Cmp. 22", "Cmp. 62", "icu_day", "immunocompromised_flag", "episode_etiology"]],
+    #         on="sample_id",
+    #         how="inner"
+    #     )
+    #     # Merge icu days into categroy 
+    #     merged_df["icu_day"] = pd.cut(
+    #         merged_df["icu_day"],
+    #         bins=[1, 7, 27, 100],
+    #         labels=["1-7", "8-27", "27+"]
+    #     )
+    #     # sns.scatterplot(merged_df, x="Cmp. 22", y="Cmp. 62", hue="Status", style="icu_day", ax=ax[axs])
+    #     # ax[axs].set_title(f"pearson: {pearsonr(merged_df["Cmp. 22"], merged_df["Cmp. 62"])[0]:.2f}")
         
-        # print(merged_df)
-        # a
-        # plot_celltype_scatter(merged_df=merged_df, columns=column, celltype1="B cells", celltype2="pDC", ax=ax[axs])
-        axs += 1
+    #     # print(merged_df)
+    #     # a
+    #     plot_celltype_scatter(merged_df=merged_df, columns=column, celltype1="B cells", celltype2="pDC", otherlabel="episode_etiology", ax=ax[axs])
+    #     axs += 1
 
     
     #### Plot stripplot of cell counts pDC/ B cells
@@ -79,19 +78,19 @@ def makeFigure():
     #         ax[axs].set_title(f"{celltype} {type}")
     #         axs += 1
     
-    #### Plot correlation of component weights and cell type percentage for pDC/B cells
-    # axs=0
-    # for i, celltype in enumerate(["B cells", "pDC"]):
-    #     for j, type in enumerate(["Cell Count", "Cell Type Percentage"]):
-    #         df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"] == celltype]
-    #         merged_df = pd.merge(
-    #             df,
-    #             factors_meta_df[["sample_id"] + [f"Cmp. {i+1}" for i in range(80)]],
-    #             on="sample_id",
-    #             how="inner"
-    #         )
-    #         plot_correlation_all_cmps(merged_df=merged_df, ax=ax[axs], cellPerc=(type == "Cell Type Percentage"))
-    #         axs += 1
+    ### Plot correlation of component weights and cell type percentage for pDC/B cells
+    axs=0
+    for i, celltype in enumerate(["B cells", "pDC"]):
+        for j, type in enumerate(["Cell Count", "Cell Type Percentage"]):
+            df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"] == celltype]
+            merged_df = pd.merge(
+                df,
+                factors_meta_df[["sample_id"] + [f"Cmp. {i+1}" for i in range(80)]],
+                on="sample_id",
+                how="inner"
+            )
+            plot_correlation_all_cmps(merged_df=merged_df, ax=ax[axs], cellPerc=(type == "Cell Type Percentage"), celltype=celltype)
+            axs += 1
 
 
 
@@ -101,7 +100,8 @@ def makeFigure():
 def plot_correlation_all_cmps(
     merged_df: pd.DataFrame,
     ax: Axes,
-    cellPerc=True
+    cellPerc=True,
+    celltype: str = "B cells",
 ):
     """Plot Pearson correlation of all component weights and cell type percentage, split by Status."""
     # Determine the column to use for cell percentage or count
@@ -125,7 +125,17 @@ def plot_correlation_all_cmps(
                     "Correlation": [pearson_corr]
                 })
             ])
+            
+    # Get the top 10 components with highest absolute correlation (considering both statuses)
+    top_components = (correlationdf.groupby('Component')['Correlation']
+                    .apply(lambda x: x.abs().max())  # Get max absolute correlation per component
+                    .nlargest(10)  # Get top 10 components
+                    .index)
 
+    # Filter the original dataframe to only include those components
+    correlationdf = correlationdf[correlationdf['Component'].isin(top_components)]
+
+    print(correlationdf)
     sns.barplot(
         data=correlationdf,
         x="Component",
@@ -136,7 +146,7 @@ def plot_correlation_all_cmps(
     ax.set_ylim(-1, 1)
     rotate_xaxis(ax)
     ax.set(
-        title=f"Pearson Correlation: All Components vs {cellPercCol}",
+        title=f"PC: All Components vs {cellPercCol} {celltype}",
         ylabel="Pearson Correlation",
         xlabel="Component"
     )
@@ -147,6 +157,7 @@ def plot_celltype_scatter(
     columns: str, 
     celltype1: str,
     celltype2: str,
+    otherlabel: str,
     ax: Axes,
 ):
     """Plots a scatter plot of cell percentages for two cell types, labeled by Status.
@@ -167,20 +178,20 @@ def plot_celltype_scatter(
 
     # Merge the two DataFrames on sample_id and Status
     scatter_df = pd.merge(
-        df1[["sample_id", f"{celltype1} {columns}", "Status"]],
+        df1[["sample_id", f"{celltype1} {columns}", "Status", otherlabel]],
         df2[["sample_id", f"{celltype2} {columns}", "Status"]],
         on=["sample_id", "Status"]
     )
     
-
     # Create scatter plot
     sns.scatterplot(
         data=scatter_df,
         x=f"{celltype1} {columns}",
         y=f"{celltype2} {columns}",
         hue="Status",  # Color points by Status
+        style=otherlabel,  # Differentiate points by other label
         ax=ax,
-        s=100  # Adjust point size
+        # s=100  # Adjust point size
     )
 
     # Set axis labels and title

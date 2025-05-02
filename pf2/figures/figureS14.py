@@ -12,7 +12,7 @@ from scipy.stats import pearsonr
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((10, 10), (4, 4))
+    ax, f = getSetup((6, 6), (2, 2))
 
     subplotLabel(ax)
 
@@ -25,7 +25,7 @@ def makeFigure():
     cmp1 = 22; cmp2 = 62
     pos1 = True; pos2 = True
 
-    threshold = 0.1
+    threshold = 0.5
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     X = add_obs_cmp_unique_two(X, cmp1, cmp2)
     
@@ -60,11 +60,11 @@ def plot_avegene_scatter_cmps(
     # Add metadata columns
     gene1_data["Label"] = X.obs["Label"].values
     gene1_data["sample_id"] = X.obs["sample_id"].values
-    gene1_data["Status"] = X.obs["Status"].values
+    gene1_data["Status"] = X.obs["binary_outcome"].values
 
     gene2_data["Label"] = X.obs["Label"].values
     gene2_data["sample_id"] = X.obs["sample_id"].values
-    gene2_data["Status"] = X.obs["Status"].values
+    gene2_data["Status"] = X.obs["binary_outcome"].values
 
     # Drop rows with missing values
     gene1_data = gene1_data.dropna(subset=["Label", "sample_id", "Status"])
@@ -106,6 +106,9 @@ def plot_avegene_scatter_cmps(
     # Set axis labels
     ax.set_xlabel(f"Average {gene1} Expression (Label1)")
     ax.set_ylabel(f"Average {gene2} Expression (Label2)")
-    ax.set_title("Scatter Plot of Average Gene Expression by Sample")
+    ax.set_title("Pearson: {:.2f}".format(
+        pearsonr(merged_df[f"Average {gene1}"], merged_df[f"Average {gene2}"])[0]
+    ))
+    # Set axis limits
 
     return merged_df
