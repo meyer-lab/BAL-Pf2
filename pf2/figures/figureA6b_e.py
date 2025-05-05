@@ -21,7 +21,8 @@ def makeFigure():
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     add_obs(X, "binary_outcome")
     add_obs(X, "patient_category")
-    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
+    X = X[~X.obs["patient_category"].isin(["Non-Pneumonia Control", "COVID-19"])]
+    
     combine_cell_types(X)
     
     cmp1 = 31; cmp2 = 62

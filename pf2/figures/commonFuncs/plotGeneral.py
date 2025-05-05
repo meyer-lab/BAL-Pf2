@@ -228,7 +228,7 @@ def plot_avegene_cmps_celltype(
      # Filter to show only B cells
     dataDF = dataDF[dataDF["Cell Type"] == celltype]
     # Combine Label and Cell Type into a single column
-    dataDF["Label_CellType"] = dataDF["Label"].astype(str) + " - " + dataDF["Cell Type"].astype(str)
+    dataDF["Label_CellType"] = dataDF["Label"].astype(str) + " - " + dataDF["Cell Type"].astype(str) + " - " + dataDF["Status"].astype(str)
     # Melt the data for plotting
     print(dataDF)
     df = pd.melt(
@@ -237,7 +237,7 @@ def plot_avegene_cmps_celltype(
     print(df)
     # Group by Label_CellType, Gene, and Condition
     df = df.groupby(["Label_CellType", "Gene", "Condition"], observed=False).mean()
-    df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
+    df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index().dropna()
 
     print(df.loc[df["Gene"] == gene])
     # Plot the data
