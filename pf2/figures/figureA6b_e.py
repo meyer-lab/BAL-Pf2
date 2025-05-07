@@ -27,22 +27,27 @@ def makeFigure():
     
     cmp1 = 31; cmp2 = 62
     pos1 = False; pos2 = True
+    # cmp1 = 42; cmp2 = 62
+    # pos1 = True; pos2 = True
     threshold = 0.25
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     X = add_obs_cmp_unique_two(X, cmp1, cmp2)
       
             
-    X = X[X.obs["Label"] != "Both"] 
-      
-    genes = ["LILRA4", "TPM2", "PLD4"]
-    for i , gene in enumerate(genes):
-        plot_avegene_cmps_celltype(X, gene, ax[i], celltype="pDC", cellType="cell_type")
+        
+    # print(X.obs["combined_cell_type"].unique())
     # colors = ["black", "turquoise", "fuchsia", "gainsboro"]
     # pal = []
     # for i in colors:
     #     pal.append(mcolors.CSS4_COLORS[i])
         
     # plot_labels_pacmap(X, "Label", ax[0], color_key=pal)
+    
+    X = X[X.obs["Label"] != "Both"] 
+      
+    genes = ["LILRA4", "TPM2", "PLD4", "PTGDS", "CD1A"]
+    for i , gene in enumerate(genes):
+        plot_avegene_cmps_celltype(X, gene, ax[i+1], celltype="pDC", cellType="cell_type")
 
     # genes1 = bot_top_genes(X, cmp=cmp1, geneAmount=1)
     # genes2 = bot_top_genes(X, cmp=cmp2, geneAmount=1)
