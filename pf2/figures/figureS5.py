@@ -34,30 +34,19 @@ def makeFigure():
     
     #### Plot scatter plot of B cells vs pDC percentages
  
-    # df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"].isin(["B cells", "pDC"])]
-    # axs = 0
-    # for i, column in enumerate(["Cell Type Percentage"]):
-    #     merged_df = pd.merge(
-    #         df,
-    #         factors_meta_df[["sample_id", "Cmp. 22", "Cmp. 62", "icu_day", "immunocompromised_flag", "episode_etiology"]],
-    #         on="sample_id",
-    #         how="inner"
-    #     )
-    #     # Convert Immunocompromised flag to be yes/no 
-    #     merged_df["AIC"] = merged_df["immunocompromised_flag"].replace({1: "Yes", 0: "No"})
-    #     # Merge icu days into categroy 
-    #     # merged_df["icu_day"] = pd.cut(
-    #     #     merged_df["icu_day"],
-    #     #     bins=[1, 7, 27, 100],
-    #     #     labels=["1-7", "8-27", "27+"]
-    #     # )
-    #     # sns.scatterplot(merged_df, x="Cmp. 22", y="Cmp. 62", hue="Status", style="icu_day", ax=ax[axs])
-    #     # ax[axs].set_title(f"pearson: {pearsonr(merged_df["Cmp. 22"], merged_df["Cmp. 62"])[0]:.2f}")
-        
-    #     # print(merged_df)
-    #     # a
-    #     plot_celltype_scatter(merged_df=merged_df, columns=column, celltype1="B cells", celltype2="pDC", otherlabel="AIC", ax=ax[axs])
-    #     axs += 1
+    df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"].isin(["B cells", "pDC"])]
+    axs = 0
+    for i, column in enumerate(["Cell Type Percentage"]):
+        merged_df = pd.merge(
+            df,
+            factors_meta_df[["sample_id", "Cmp. 22", "Cmp. 62", "icu_day", "immunocompromised_flag", "episode_etiology"]],
+            on="sample_id",
+            how="inner"
+        )
+        # Convert Immunocompromised flag to be yes/no 
+        merged_df["AIC"] = merged_df["immunocompromised_flag"].replace({1: "Yes", 0: "No"})
+        plot_celltype_scatter(merged_df=merged_df, columns=column, celltype1="B cells", celltype2="pDC", otherlabel="AIC", ax=ax[axs])
+        axs += 1
 
     
     #### Plot stripplot of cell counts pDC/ B cells
@@ -82,19 +71,19 @@ def makeFigure():
     #         ax[axs].set_title(f"{celltype} {type}")
     #         axs += 1
     
-    ### Plot correlation of component weights and cell type percentage for pDC/B cells
-    axs=0
-    for i, celltype in enumerate(["B cells", "pDC"]):
-        for j, type in enumerate(["Cell Type Percentage"]):
-            df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"] == celltype]
-            merged_df = pd.merge(
-                df,
-                factors_meta_df[["sample_id"] + [f"Cmp. {i+1}" for i in range(80)]],
-                on="sample_id",
-                how="inner"
-            )
-            plot_correlation_all_cmps(merged_df=merged_df, ax=ax[axs], cellPerc=(type == "Cell Type Percentage"), celltype=celltype)
-            axs += 1
+    # ### Plot correlation of component weights and cell type percentage for pDC/B cells
+    # axs=0
+    # for i, celltype in enumerate(["B cells", "pDC"]):
+    #     for j, type in enumerate(["Cell Type Percentage"]):
+    #         df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"] == celltype]
+    #         merged_df = pd.merge(
+    #             df,
+    #             factors_meta_df[["sample_id"] + [f"Cmp. {i+1}" for i in range(80)]],
+    #             on="sample_id",
+    #             how="inner"
+    #         )
+    #         plot_correlation_all_cmps(merged_df=merged_df, ax=ax[axs], cellPerc=(type == "Cell Type Percentage"), celltype=celltype)
+    #         axs += 1
 
 
 
@@ -171,8 +160,11 @@ def plot_celltype_scatter(
     spearman = spearmanr(scatter_df[f"{celltype1} {columns}"], scatter_df[f"{celltype2} {columns}"])
     ax.set_title(f"Spearman: {spearman[0]:.2f} Pvalue: {spearman[1]:.2e}")
     
+    ax.set(xlim=(0.005, 10), ylim=(0.005, 10))
     ax.set_xscale("log")
     ax.set_yscale("log")
+    
+    # Set axis limits
 
     return scatter_df
   
