@@ -44,7 +44,7 @@ def plot_plsr_loadings(plsr_results, ax1, ax2):
             x_load =-1*x_load
         df_xload = pd.DataFrame(data=x_load, columns=["PLSR 1"])
         df_xload["Component"] = np.arange(df_xload.shape[0]) + 1
-        print(df_xload.sort_values(by="PLSR 1"))
+        print(df_xload.sort_values(by="PLSR 1").head(10))
         y_load = plsr_results[i].y_loadings_[0, 0]
         if i == 1:
             y_load =-1*y_load
