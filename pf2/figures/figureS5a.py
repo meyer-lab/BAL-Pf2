@@ -35,7 +35,7 @@ def makeFigure():
 
     merged_df = pd.merge(
         df,
-        factors_meta_df[["sample_id", "Cmp. 22", "Cmp. 62", "icu_day", "immunocompromised_flag", "episode_etiology"]],
+        factors_meta_df[["sample_id", "Cmp. 55", "Cmp. 67", "icu_day", "immunocompromised_flag", "episode_etiology"]],
         on="sample_id",
         how="inner"
     )
@@ -45,7 +45,7 @@ def makeFigure():
     sns.violinplot(
         data=merged_df,
         x="Status",
-        y="Cmp. 22",
+        y="Cmp. 55",
         hue="Status",
         split=True,
         ax=ax[0]
@@ -54,7 +54,7 @@ def makeFigure():
     sns.violinplot(
         data=merged_df,
         x="Status",
-        y="Cmp. 62",
+        y="Cmp. 67",
         hue="Status",
         split=True,
         ax=ax[1]

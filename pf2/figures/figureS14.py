@@ -12,25 +12,26 @@ from scipy.stats import pearsonr
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((6, 6), (2, 2))
+    # ax, f = getSetup((6, 6), (2, 2))
+    ax, f = getSetup((4, 4), (2, 2))
 
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     add_obs(X, "binary_outcome")
     add_obs(X, "patient_category")
+    add_obs(X, "immunocompromised_flag")
     X = X[~X.obs["patient_category"].isin(["Non-Pneumonia Control", "COVID-19"])]
     combine_cell_types(X)
 
-    cmp1 = 22; cmp2 = 62
+    cmp1 = 55; cmp2 = 67
     pos1 = True; pos2 = True
-
-    threshold = 0.5
+    threshold = 0.1
     X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
     X = add_obs_cmp_unique_two(X, cmp1, cmp2)
     
     print(X)
-    plot_avegene_scatter_cmps(X, ["MS4A1", "LILRA4"], cmp1, cmp2, ax[0])
+    plot_avegene_scatter_cmps(X, ["SFN", "AGER"], cmp1, cmp1, ax[0], otherlabel="immunocompromised_flag")
     
     return f
 
@@ -40,6 +41,7 @@ def plot_avegene_scatter_cmps(
     genes: list,  # List of two genes
     cmp1, cmp2, 
     ax,
+    otherlabel="Label",
 ):
     """Plots average gene expression for two genes across samples, with each sample corresponding to one point.
 
@@ -61,10 +63,12 @@ def plot_avegene_scatter_cmps(
     gene1_data["Label"] = X.obs["Label"].values
     gene1_data["sample_id"] = X.obs["sample_id"].values
     gene1_data["Status"] = X.obs["binary_outcome"].values
+    gene1_data[otherlabel] = X.obs[otherlabel].values
 
     gene2_data["Label"] = X.obs["Label"].values
     gene2_data["sample_id"] = X.obs["sample_id"].values
     gene2_data["Status"] = X.obs["binary_outcome"].values
+    gene2_data[otherlabel] = X.obs[otherlabel].values
 
     # Drop rows with missing values
     gene1_data = gene1_data.dropna(subset=["Label", "sample_id", "Status"])
@@ -85,30 +89,37 @@ def plot_avegene_scatter_cmps(
     # Merge the two datasets on sample_id
     merged_df = pd.merge(
         gene1_avg[["sample_id", f"Average {gene1}"]],
-        gene2_avg[["sample_id", f"Average {gene2}", "Status"]],
+        gene2_avg[["sample_id", f"Average {gene2}", "Status", otherlabel]],
         on="sample_id"
     )
     merged_df = merged_df.dropna(subset=[f"Average {gene1}", f"Average {gene2}"])
-    
-    print(pearsonr(merged_df[f"Average {gene1}"],merged_df[f"Average {gene2}"])[0])
+    # Convert binary outcome to be D-nC19 or L-nC19
+    merged_df["Status"] = merged_df["Status"].replace({1: "D-nC19", 0: "L-nC19"})
 
+    
+    
+    pal = sns.color_palette()
+    pal = [pal[1], pal[3]]
+    pal = [f'#{int(r*255):02x}{int(g*255):02x}{int(b*255):02x}' for r, g, b in pal]
     # Create scatter plot
     sns.scatterplot(
         data=merged_df,
         x=f"Average {gene1}",
         y=f"Average {gene2}",
         hue="Status",  # Color points by Status
+        palette=pal,
+        style=otherlabel,
         ax=ax,
-        # s=100  # Adjust point size
     )
     # print(merged_df)
 
     # Set axis labels
-    ax.set_xlabel(f"Average {gene1} Expression (Label1)")
-    ax.set_ylabel(f"Average {gene2} Expression (Label2)")
+    ax.set_xlabel(f"Average {gene1} Expression")
+    ax.set_ylabel(f"Average {gene2} Expression")
     ax.set_title("Pearson: {:.2f}".format(
         pearsonr(merged_df[f"Average {gene1}"], merged_df[f"Average {gene2}"])[0]
     ))
     # Set axis limits
+    ax.set(xlim=(-.05, .32), ylim=(-.05, .32))
 
     return merged_df
