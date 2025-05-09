@@ -198,3 +198,5 @@ def reorder_table(projs: np.ndarray) -> np.ndarray:
     assert projs.ndim == 2
     Z = sch.linkage(projs, method="complete", metric="cosine", optimal_ordering=True)
     return sch.leaves_list(Z)
+
+
