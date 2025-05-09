@@ -61,3 +61,4 @@ def makeFigure():
     plot_labels_pacmap(XX, "episode_category", ax[7], color_key=pal)
 
     return f
+
