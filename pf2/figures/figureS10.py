@@ -15,7 +15,7 @@ from ..utilities import bal_combine_bo_covid, cell_count_perc_df
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((10, 10), (2, 2))
+    ax, f = getSetup((14, 6), (2, 2))
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
@@ -40,6 +40,7 @@ def makeFigure():
         )
         rotate_xaxis(ax[i+1])
 
+    ax[3].remove()
 
     return f
 
