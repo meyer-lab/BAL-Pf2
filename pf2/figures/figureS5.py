@@ -45,7 +45,8 @@ def makeFigure():
         )
         # Convert Immunocompromised flag to be yes/no 
         merged_df["AIC"] = merged_df["immunocompromised_flag"].replace({1: "Yes", 0: "No"})
-        plot_celltype_scatter(merged_df=merged_df, columns=column, celltype1="B cells", celltype2="pDC", otherlabel="AIC", ax=ax[axs])
+        # plot_celltype_scatter(merged_df=merged_df, columns=column, celltype1="B cells", celltype2="pDC", otherlabel="AIC", ax=ax[axs])
+        plot_celltype_scatter_with_svc(merged_df=merged_df, columns=column, celltype1="B cells", celltype2="pDC", otherlabel="AIC", ax=ax[axs], svc_kernel="poly", svc_c=1)
         axs += 1
 
     
@@ -89,6 +90,124 @@ def makeFigure():
 
     return f
 
+
+from sklearn.svm import SVC
+from sklearn.preprocessing import LabelEncoder
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+
+def plot_celltype_scatter_with_svc(
+    merged_df: pd.DataFrame,
+    columns: str, 
+    celltype1: str,
+    celltype2: str,
+    otherlabel: str,
+    ax: Axes,
+    plot_svc: bool = True,
+    svc_kernel: str = 'linear',
+    svc_c: float = 1.0
+):
+    """Plots a scatter plot of cell percentages for two cell types, labeled by Status,
+    with optional Support Vector Classification."""
+    # Filter and merge data
+    df1 = merged_df[merged_df["Cell Type"] == celltype1].rename(
+        columns={columns: f"{celltype1} {columns}"}
+    )
+    df2 = merged_df[merged_df["Cell Type"] == celltype2].rename(
+        columns={columns: f"{celltype2} {columns}"}
+    )
+
+    scatter_df = pd.merge(
+        df1[["sample_id", f"{celltype1} {columns}", "Status", otherlabel]],
+        df2[["sample_id", f"{celltype2} {columns}", "Status"]],
+        on=["sample_id", "Status"]
+    )
+
+    pal = sns.color_palette()
+    pal = [pal[1], pal[3]]
+    pal = [f'#{int(r*255):02x}{int(g*255):02x}{int(b*255):02x}' for r, g, b in pal]
+    
+    # Create scatter plot
+    sns.scatterplot(
+        data=scatter_df,
+        x=f"{celltype1} {columns}",
+        y=f"{celltype2} {columns}",
+        hue="Status",
+        style=otherlabel,
+        palette=pal,
+        ax=ax,
+    )
+    
+    if plot_svc:
+        # Prepare data for SVC (log-transform X)
+        X = scatter_df[[f"{celltype1} {columns}", f"{celltype2} {columns}"]].values
+        X_log = np.log10(X)  # Log-transform for SVC training
+        
+        y = LabelEncoder().fit_transform(scatter_df["Status"])
+        
+        # Train SVC on log-transformed data
+        svc = SVC(kernel=svc_kernel, C=svc_c)
+        svc.fit(X_log, y)
+        
+        # Create mesh for decision boundaries (in log-space)
+        x_min_log, x_max_log = np.log10([0.005, 10])  # Match your xlim
+        y_min_log, y_max_log = np.log10([0.005, 10])  # Match your ylim
+        
+        xx_log, yy_log = np.meshgrid(
+            np.linspace(x_min_log, x_max_log, 100),
+            np.linspace(y_min_log, y_max_log, 100)
+        )
+        
+        # Predict decision function on log mesh
+        Z_log = svc.decision_function(np.c_[xx_log.ravel(), yy_log.ravel()])
+        Z_log = Z_log.reshape(xx_log.shape)
+        
+        # Convert mesh back to linear space for plotting (since axes are log-scaled)
+        xx_plot = 10 ** xx_log
+        yy_plot = 10 ** yy_log
+        
+        # Plot decision boundary (single contour at Z=0)
+        ax.contour(
+            xx_plot, yy_plot, Z_log,
+            levels=[0],
+            colors='k',
+            alpha=0.7,
+            linestyles=['-']
+        )
+        
+        # Plot support vectors (convert back to linear space)
+        # sv_linear = 10 ** svc.support_vectors_
+        # ax.scatter(
+        #     sv_linear[:, 0], sv_linear[:, 1],
+        #     s=100, linewidth=1, facecolors='none', edgecolors='k',
+        #     label='Support Vectors'
+        # )
+        
+        # Set log-scale and limits
+        ax.set(xlim=(0.005, 10), ylim=(0.005, 10))
+        ax.set_xscale("log")
+        ax.set_yscale("log")
+        
+        # Labels and title
+        ax.set_xlabel(f"{celltype1} Percentage")
+        ax.set_ylabel(f"{celltype2} Percentage")
+        spearman = spearmanr(scatter_df[f"{celltype1} {columns}"], scatter_df[f"{celltype2} {columns}"])
+        ax.set_title(f"Spearman: {spearman[0]:.2f} Pvalue: {spearman[1]:.2e}")
+        
+        # # Shade the decision regions
+        # cmap = ListedColormap([pal[0] + '40', pal[1] + '40'])  # Add transparency
+        # Z = svc.predict(np.c_[xx.ravel(), yy.ravel()])
+        # Z = Z.reshape(xx.shape)
+        # ax.contourf(xx, yy, Z, cmap=cmap, alpha=0.3)
+        
+        # # Plot support vectors
+        # ax.scatter(svc.support_vectors_[:, 0], svc.support_vectors_[:, 1],
+        #           s=100, linewidth=1, facecolors='none', edgecolors='k')
+ 
+        
+        
+
 def plot_celltype_scatter(
     merged_df: pd.DataFrame,
     columns: str, 
@@ -126,6 +245,8 @@ def plot_celltype_scatter(
         palette=pal,
         ax=ax,
     )
+    
+    
 
     # # Prepare data for SVM (no log transformation)
     # X = scatter_df[[f"{celltype1} {columns}", f"{celltype2} {columns}"]].values
