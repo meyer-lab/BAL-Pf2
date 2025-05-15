@@ -1,4 +1,4 @@
-"""Figure S12d"""
+"""Table S1"""
 
 import anndata
 from .common import getSetup

@@ -1,67 +1,47 @@
 """Figure S10"""
 
 import anndata
-import numpy as np
-import seaborn as sns
-from matplotlib.axes import Axes
 from .common import (
     subplotLabel,
     getSetup,
 )
-from .commonFuncs.plotGeneral import rotate_xaxis
-from ..data_import import add_obs, combine_cell_types
-from ..utilities import bal_combine_bo_covid, cell_count_perc_df
+from .commonFuncs.plotGeneral import plot_correlation_heatmap
+from ..data_import import meta_raw_df, add_obs, combine_cell_types, find_overlap_meta_cc
+from ..correlation import correlation_df
+from ..utilities import cell_count_perc_df
 
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((14, 6), (2, 2))
+    ax, f = getSetup((6, 6), (2, 2))
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     add_obs(X, "binary_outcome")
     add_obs(X, "patient_category")
     combine_cell_types(X)
-
-    plot_cell_count(X, ax[0])
-
-    celltype = ["cell_type", "combined_cell_type"]
-    for i, celltypes in enumerate(celltype):
-        celltype_count_perc_df = cell_count_perc_df(X, celltype=celltypes, include_control=False)
-        celltype = np.unique(celltype_count_perc_df["Cell Type"])
-        sns.boxplot(
-            data=celltype_count_perc_df,
-            x="Cell Type",
-            y="Cell Type Percentage",
-            hue="Status",
-            order=celltype,
-            showfliers=False,
-            ax=ax[i+1],
-        )
-        rotate_xaxis(ax[i+1])
-
-    ax[3].remove()
+    
+    cell_comp_df = cell_count_perc_df(X, celltype="combined_cell_type")
+    cell_comp_df = cell_comp_df.pivot(
+        index=["sample_id"],
+        columns="Cell Type",
+        values="Cell Type Percentage",
+    )
+    cell_comp_df = cell_comp_df.fillna(0)
+    
+    all_meta_df = meta_raw_df(X, all=True)
+    cell_comp_df, cell_comp_c19_df, cell_comp_nc19_df = find_overlap_meta_cc(cell_comp_df, all_meta_df)
+    
+    cell_comp = [cell_comp_df.drop(columns=["patient_category"]), cell_comp_c19_df, cell_comp_nc19_df]
+    
+    for i in range(3):
+        corr_df = correlation_df(cell_comp[i], meta=False)
+        plot_correlation_heatmap(corr_df, xticks=corr_df.columns, 
+                                yticks=corr_df.columns, ax=ax[i], mask=True)
+        
+    labels = ["All", "C19", "nC19"]
+    for i in range(3):
+        ax[i].set(title=labels[i])
 
     return f
-
-
-def plot_cell_count(
-    X: anndata.AnnData,
-    ax: Axes,
-    cond: str = "sample_id",
-    status1: str = "binary_outcome",
-    status2: str = "patient_category",
-):
-    """Plots overall cell count."""
-    df = X.obs[[cond, status1, status2]].reset_index(drop=True)
-
-    df = bal_combine_bo_covid(df)
-    dfCond = (
-        df.groupby([cond, "Status"], observed=True)
-        .size()
-        .reset_index(name="Cell Count")
-    )
-
-    sns.barplot(data=dfCond, x="Status", y="Cell Count", hue="Status", ax=ax)
-    rotate_xaxis(ax)
 

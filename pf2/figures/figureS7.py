@@ -1,80 +1,58 @@
-"""
-Figure S7:
-"""
+"""Figure 14"""
 
-import seaborn as sns
-import pandas as pd
 import anndata
+import numpy as np
 from .common import subplotLabel, getSetup
-from .commonFuncs.plotGeneral import rotate_xaxis
-from .commonFuncs.plotGeneral import rotate_xaxis
+from .commonFuncs.plotGeneral import plot_avegene_scatter_cmps
 from ..data_import import add_obs, combine_cell_types
-from ..utilities import add_obs_cmp_both_label_three, add_obs_cmp_unique_three, cell_count_perc_df
+from ..utilities import add_obs_cmp_both_label, add_obs_cmp_unique_two
 
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((12, 12), (4, 4))
+    ax, f = getSetup((10, 10), (4, 4))
 
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     add_obs(X, "binary_outcome")
     add_obs(X, "patient_category")
-    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"]
+    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
     combine_cell_types(X)
-
-   
-    cmp1 = 20; cmp2 = 27; cmp3 = 35
-    pos1 = True; pos2 = True; pos3 = False
-    threshold = 0.5
-    X = add_obs_cmp_both_label_three(X, cmp1, cmp2, cmp3, pos1, pos2, pos3, top_perc=threshold)
-    X = add_obs_cmp_unique_three(X, cmp1, cmp2, cmp3)
-
-    celltype_count_perc_df_1 = cell_count_perc_df(
-        X[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs[f"Cmp{cmp2}"] == False) &  (X.obs[f"Cmp{cmp3}"] == False) & (X.obs["Both"] == False)],
-        celltype="combined_cell_type",
-    )
-    celltype_count_perc_df_1["Label"] = f"Cmp{cmp1}"
-    celltype_count_perc_df_2 = cell_count_perc_df(
-        X[(X.obs[f"Cmp{cmp1}"] == False) & (X.obs[f"Cmp{cmp2}"] == True) &  (X.obs[f"Cmp{cmp3}"] == False) & (X.obs["Both"] == False)],
-        celltype="combined_cell_type",
-    )
-    celltype_count_perc_df_2["Label"] = f"Cmp{cmp2}"
-    celltype_count_perc_df_3 = cell_count_perc_df(
-            X[(X.obs[f"Cmp{cmp1}"] == False) & (X.obs[f"Cmp{cmp2}"] == False) &  (X.obs[f"Cmp{cmp3}"] == True) & (X.obs["Both"] == False)], 
-            celltype="combined_cell_type"
-    )
-    celltype_count_perc_df_3["Label"] = f"Cmp{cmp3}"
     
-    celltype_count_perc_df_4 = cell_count_perc_df(
-            X[(X.obs[f"Cmp{cmp1}"] == True) & (X.obs[f"Cmp{cmp2}"] == True) &  (X.obs[f"Cmp{cmp3}"] == True) & (X.obs["Both"] == True)], 
-            celltype="combined_cell_type"
-    )
-    celltype_count_perc_df_4["Label"] = f"Both"
+    cmp1 = 55; cmp2 = 67
+    pos1 = True; pos2 = True
+    
+    threshold = 0.1
+    X = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
+    X = add_obs_cmp_unique_two(X, cmp1, cmp2)
+
+    genes1 = ["SFN"]
+    # genes1 = ["SCGB3A2"]
+    marker_genes = [
+    # Club/Clara Cells
+    "SCGB1A1", "SCGB3A1", "CYP4B1",
+    # Ciliated Cells
+    "FOXJ1", "DNAH5", "TUBA1A",
+    # Secretory/Goblet Cells
+    "MUC5AC", "MUC5B", "AGR2",
+    # Alveolar Type I Cells
+    "AGER", "CAV1", "HOPX",
+    # Alveolar Type II Cells
+    "SFTPC", "ABCA3",
+    # Endothelial Cells
+    "PECAM1", 
+    # Fibroblasts/Mesenchymal
+    "VIM",
+]
 
 
-
-    celltype_count_perc_df = pd.concat(
-        [
-            celltype_count_perc_df_1,
-            celltype_count_perc_df_2,
-            celltype_count_perc_df_3,
-            celltype_count_perc_df_4
-        ],
-        axis=0,
-    )
-
-    hue = ["Cell Type", "Status"]
-    for i in range(2):
-        sns.boxplot(
-            data=celltype_count_perc_df,
-            x="Label",
-            y="Cell Count",
-            hue=hue[i],
-            showfliers=False,
-            ax=ax[i],
-        )
-        rotate_xaxis(ax[i])
-
+    X = X[X.obs["Label"] != "Both"] 
+    
+    for i, geneA in enumerate(genes1):
+        for j, geneB in enumerate(marker_genes):
+            genes = np.concatenate([[geneA], [geneB]])
+            plot_avegene_scatter_cmps(X, genes, ax[j])
+    
+        
     return f

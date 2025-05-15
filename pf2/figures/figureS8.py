@@ -1,27 +1,36 @@
-"""
-Figure S8
-"""
+"""Figure S8"""
 
 import anndata
-from .common import subplotLabel, getSetup
-from .commonFuncs.plotPaCMAP import plot_gene_pacmap
-from ..data_import import add_obs
+from .common import (
+    subplotLabel,
+    getSetup,
+)
+from .commonFuncs.plotGeneral import plot_correlation_heatmap
+from ..data_import import meta_raw_df
+from ..correlation import correlation_df
+
+
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((10, 10), (4, 4))
-
+    ax, f = getSetup((15, 15), (2, 2))
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
-    add_obs(X, "patient_category")
-    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
 
-    genes = ["CCNO", "FOXJ1", "TPPP3", "MUC5AC", "MUC5B", "SCGB1A1", "SCGB3A1"]
-
-    for i, gene in enumerate(genes):
-        plot_gene_pacmap(gene, X, ax[i+1])
-
-
+    all_meta_df = meta_raw_df(X, all=True)
+    c19_meta_df, nc19_meta_df = meta_raw_df(X, all=False)
+    
+    meta = [all_meta_df, c19_meta_df, nc19_meta_df]
+    
+    for i, meta_df in enumerate(meta):
+        corr_df = correlation_df(meta_df, meta=True)
+        plot_correlation_heatmap(corr_df, xticks=corr_df.columns, 
+                                yticks=corr_df.columns, ax=ax[i], mask=True)
+        
+    labels = ["All", "C19", "nC19"]
+    for i in range(3):
+        ax[i].set(title=labels[i])
 
     return f
+
