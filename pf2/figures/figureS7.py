@@ -1,4 +1,4 @@
-"""Figure 14"""
+"""Figure S7: Marker gene expression vs. component-associated genes"""
 
 import anndata
 import numpy as np

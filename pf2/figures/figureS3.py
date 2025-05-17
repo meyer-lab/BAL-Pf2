@@ -1,4 +1,4 @@
-"""Figure S3"""
+"""Figure S3: PaCMAP visualization of weighted pathway components"""
 
 from anndata import read_h5ad
 from .common import getSetup, subplotLabel

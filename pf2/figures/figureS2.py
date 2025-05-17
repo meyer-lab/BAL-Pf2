@@ -1,5 +1,5 @@
 """
-Figure S2
+Figure S2: Bootstrapped PLSR component loadings for patients
 """
 
 import pandas as pd

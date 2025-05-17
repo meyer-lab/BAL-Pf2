@@ -1,5 +1,5 @@
 """
-Figure S1: Pf2-PLSR Rank Fitting
+Figure S1: PLSR rank fitting analysis for mortality prediction
 """
 import anndata
 import cupy

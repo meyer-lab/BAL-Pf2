@@ -1,4 +1,4 @@
-"""Table S1"""
+"""Table S1: Summary statistics for metadata correlates."""
 
 import anndata
 from .common import getSetup

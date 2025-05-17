@@ -1,4 +1,4 @@
-"""Figure S4"""
+"""Figure S4: Top/bottom gene loadings for selected components"""
 
 import anndata
 from .common import getSetup

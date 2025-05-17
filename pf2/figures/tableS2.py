@@ -1,4 +1,4 @@
-"""Table S1"""
+"""Table S2: Categorical metadata distribution across patient groupss"""
 
 import anndata
 from .common import getSetup

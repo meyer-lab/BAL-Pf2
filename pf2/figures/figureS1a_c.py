@@ -1,4 +1,4 @@
-"""Figure S1"""
+"""Figure S1: Cell type abundance and distribution across patient statuses"""
 
 import anndata
 import numpy as np

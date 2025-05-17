@@ -1,4 +1,4 @@
-"""Figure S10"""
+"""Figure S10: Cell composition correleation analysis."""
 
 import anndata
 from .common import (

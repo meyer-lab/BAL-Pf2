@@ -1,4 +1,4 @@
-"""Figure S8"""
+"""Figure S8: Metadata correlation analysis"""
 
 import anndata
 from .common import (
