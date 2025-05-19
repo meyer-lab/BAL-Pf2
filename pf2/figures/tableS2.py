@@ -15,7 +15,6 @@ def makeFigure():
 
     all_meta_df = meta_raw_df(X, all=True)
     all_meta_df = bal_combine_bo_covid(all_meta_df)
-    # all_meta_df = all_meta_df[all_meta_df["patient_category"] != "Non-Pneumonia Control"]
 
     combined_df = pd.DataFrame([])
     for i, corr in enumerate(meta_groupings):
@@ -34,6 +33,6 @@ def makeFigure():
     combined_df = combined_df[['Category', 'Category_Index'] + [col for col in combined_df.columns if col not in ['Category', 'Category_Index']]]
     print(combined_df)
     
-    combined_df.to_csv("pf2/data/meta_groupings_summary.csv")
+    combined_df.to_csv("pf2/data/tableS2.csv")
 
     return f
