@@ -83,16 +83,15 @@ def makeFigure():
             
             print(df)
             final_df = df.reset_index(drop=True)
-            
-       
-                
-            
+        
             sns.boxplot(
                 data=final_df,
                 x="Cell Type",
                 y=type,
                 hue="Status",
                 # order=celltype,
+                dodge=True,
+                gap=.1,
                 showfliers=False,
                 ax=ax[axs],
             )

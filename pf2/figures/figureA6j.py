@@ -60,6 +60,8 @@ def makeFigure():
                 y=type,
                 hue="Status",
                 showfliers=False,
+                dodge=True,
+                gap=.1,
                 ax=ax[axs],
             )
             rotate_xaxis(ax[axs])
