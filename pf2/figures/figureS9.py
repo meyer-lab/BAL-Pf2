@@ -1,53 +1,50 @@
-"""
-Figure S9
-"""
+"""Figure S9: Cell composition vs. metadata correlation analysis."""
 
-import pandas as pd
 import anndata
-import numpy as np
-import seaborn as sns
-from ..data_import import condition_factors_meta
-from ..predict import plsr_acc
-from .common import subplotLabel, getSetup
+from .common import (
+    subplotLabel,
+    getSetup,
+)
+from .commonFuncs.plotGeneral import plot_correlation_heatmap
+from ..data_import import meta_raw_df, add_obs, combine_cell_types, find_overlap_meta_cc
+from ..correlation import correlation_meta_cc_df
+from ..utilities import cell_count_perc_df
+
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((20, 4), (1, 1))
+    ax, f = getSetup((15, 6), (2, 2))
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
+    add_obs(X, "binary_outcome")
+    add_obs(X, "patient_category")
+    combine_cell_types(X)
     
-    cond_fact_meta_df = condition_factors_meta(X)
-    trials = 50
-    bootstrapp_plsr_df = pd.DataFrame([])
+    cell_comp_df = cell_count_perc_df(X, celltype="combined_cell_type")
+    cell_comp_df = cell_comp_df.pivot(
+        index=["sample_id"],
+        columns="Cell Type",
+        values="Cell Type Percentage",
+    )
+    cell_comp_df = cell_comp_df.fillna(0)
     
-    for trial in range(trials):
-        boot_index = np.random.choice(
-            cond_fact_meta_df.shape[0], replace=True, size=cond_fact_meta_df.shape[0]
-        )
-        boot_cond_fact_meta_df = cond_fact_meta_df.iloc[boot_index, :]
-        boot_cond_fact_meta_df.index = [
-            f"{idx}_{i}" if boot_index.tolist().count(idx) > 1 else idx
-            for i, idx in enumerate(boot_index)
-        ]
-        _, plsr_results_both = plsr_acc(X, boot_cond_fact_meta_df, n_components=1)
+    all_meta_df = meta_raw_df(X, all=True)
     
-        type_of_data = ["C19", "nC19"]
+    cell_comp_df, cell_comp_c19_df, cell_comp_nc19_df = find_overlap_meta_cc(cell_comp_df, all_meta_df)
         
-        for i in range(2):
-            x_load = np.abs(plsr_results_both[i].x_loadings_[:, 0])
-            df_xload = pd.DataFrame(data=x_load, columns=["PLSR 1"])
-            df_xload["Component"] = np.arange(df_xload.shape[0]) + 1
-            df_xload["Trial"] = trial
-            df_xload["Status"] = type_of_data[i]
+    c19_meta_df, nc19_meta_df = meta_raw_df(X, all=False)
+    meta = [all_meta_df, c19_meta_df, nc19_meta_df]
+    cell_comp = [cell_comp_df.drop(columns=["patient_category"]), cell_comp_c19_df, cell_comp_nc19_df]
+    
+    for i in range(3):
+        corr_df = correlation_meta_cc_df(cell_comp[i], meta[i])
+        plot_correlation_heatmap(corr_df, xticks=corr_df.columns, 
+                                yticks=corr_df.index, ax=ax[i])
         
-            bootstrapp_plsr_df = pd.concat([bootstrapp_plsr_df, df_xload], axis=0)
-            
-            
-    sns.barplot(bootstrapp_plsr_df, x="Component", y="PLSR 1", hue="Status", ax=ax[0])
+    labels = ["All", "C19", "nC19"]
+    for i in range(3):
+        ax[i].set(title=labels[i])
 
-
-        
     return f
-
 

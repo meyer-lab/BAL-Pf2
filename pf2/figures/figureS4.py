@@ -1,32 +1,23 @@
-"""Figure S4"""
+"""Figure S4: Top/bottom gene loadings for selected components"""
 
-from anndata import read_h5ad
-from .common import (
-    subplotLabel,
-    getSetup,
-)
-import numpy as np
-from ..utilities import bot_top_genes
-from .commonFuncs.plotGeneral import plot_avegene_per_status
-from ..data_import import add_obs
-from .commonFuncs.plotGeneral import rotate_xaxis
+import anndata
+from .common import getSetup
+from .commonFuncs.plotFactors import plot_gene_factors_partial
 
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((24, 10), (4, 5))
-    subplotLabel(ax)
+    ax, f = getSetup((12, 8), (5, 6))
 
-    X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
+    X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
 
-    X = add_obs(X, "binary_outcome")
-    X = add_obs(X, "patient_category")
-    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"]
-
-    genes = bot_top_genes(X, cmp=1, geneAmount=6)
-
-    for i, gene in enumerate(np.ravel(genes)):
-        plot_avegene_per_status(X, gene, ax[i])
-        rotate_xaxis(ax[i])
+    for i, cmp in enumerate([3, 10, 14, 15, 16, 23, 34, 55, 67, 22, 62, 1, 4]):
+        plot_gene_factors_partial(cmp, X, ax[2 * i], geneAmount=10, top=True)
+        plot_gene_factors_partial(cmp, X, ax[2 * i + 1], geneAmount=10, top=False)
+        
+        
+    for i in [26, 27, 28, 29]:
+        ax[i].remove()
+        
 
     return f
