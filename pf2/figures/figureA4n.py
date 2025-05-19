@@ -30,8 +30,8 @@ def makeFigure():
     corr_df = all_meta_df[["Status", meta]].dropna()
     
     corr_df = corr_df[corr_df["Status"].isin(["D-C19", "L-C19"])].reset_index(drop=True)
-    sns.violinplot(corr_df, x="Status", y=meta, ax=ax[0], hue="Status")
-    ax[0].set_ylim(0, 100)
+    sns.violinplot(corr_df, x="Status", y=meta, ax=ax[0], hue="Status", cut=100)
+    # ax[0].set_ylim(0, 100)
     
     print(corr_df.max())
     print(corr_df.min())
