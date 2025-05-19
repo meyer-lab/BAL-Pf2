@@ -1,31 +1,32 @@
 """
-Figure A6b_e
+Figure A6b_g
 """
 
 import numpy as np
-from scipy.stats import spearmanr
 import anndata
-from .common import subplotLabel, getSetup
-from .commonFuncs.plotGeneral import rotate_xaxis, plot_two_gene_factors, plot_avegene_cmps_celltype
-from ..data_import import add_obs, combine_cell_types
-from .commonFuncs.plotPaCMAP import plot_gene_pacmap, plot_labels_pacmap
-from ..utilities import bot_top_genes, add_obs_cmp_both_label, add_obs_cmp_unique_two
-import matplotlib.colors as mcolors
-from ..data_import import add_obs, combine_cell_types, condition_factors_meta, condition_factors_meta_raw
-from .commonFuncs.plotGeneral import rotate_xaxis
-from ..utilities import cell_count_perc_df
 import seaborn as sns
 import pandas as pd
 from matplotlib.axes import Axes
+import matplotlib.colors as mcolors
+from scipy.stats import spearmanr
+from .common import subplotLabel, getSetup
+from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps_celltype, plot_pair_gene_factors
+from .commonFuncs.plotPaCMAP import plot_labels_pacmap
+import matplotlib.colors as mcolors
+from ..data_import import add_obs, combine_cell_types,  condition_factors_meta_raw
+from ..utilities import cell_count_perc_df, add_obs_cmp_both_label, add_obs_cmp_unique_two
+
 
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((14, 14), (4, 4))
+    ax, f = getSetup((10, 10), (3, 3))
 
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
+    factors_meta_df, _ = condition_factors_meta_raw(X)
+    factors_meta_df = factors_meta_df.reset_index()
     add_obs(X, "binary_outcome")
     add_obs(X, "patient_category")
     X = X[~X.obs["patient_category"].isin(["Non-Pneumonia Control", "COVID-19"])]
@@ -43,47 +44,58 @@ def makeFigure():
     for i in colors:
         pal.append(mcolors.CSS4_COLORS[i])
         
-    plot_labels_pacmap(X, "Label", ax[0], color_key=pal)
+    plot_labels_pacmap(X, "Label", ax[1], color_key=pal)
     
     X = X[X.obs["Label"] != "Both"] 
-    plot_avegene_cmps_celltype(X, "LILRA4", ax[1], celltype="pDC", cellType="cell_type")
+    plot_avegene_cmps_celltype(X, "LILRA4", ax[0], celltype="pDC", cellType="cell_type")
 
-    plot_two_gene_factors(X, cmp1, cmp2, ax[2])
+    plot_pair_gene_factors(X, cmp1, cmp2, ax[2])
     
-    # combine_cell_types(X)
-    # celltype_count_perc_df = cell_count_perc_df(X, celltype="cell_type")
+    combine_cell_types(X)
+    celltype_count_perc_df = cell_count_perc_df(X, celltype="cell_type")
     
-    # #### Plot scatter plot of B cells vs pDC percentages
-    # factors_meta_df, _ = condition_factors_meta_raw(X)
-    # factors_meta_df = factors_meta_df.reset_index()
-
-    # df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"].isin(["B cells", "pDC"])]
-    # axs = 0
-    # for i, column in enumerate(["Cell Type Percentage"]):
-    #     merged_df = pd.merge(
-    #         df,
-    #         factors_meta_df[["sample_id", "Cmp. 22", "Cmp. 62", "immunocompromised_flag"]],
-    #         on="sample_id",
-    #         how="inner"
-    #     )
-    #     merged_df["AIC"] = merged_df["immunocompromised_flag"].replace({1: "Yes", 0: "No"})
-    #     plot_celltype_scatter(merged_df=merged_df, columns=column, celltype1="B cells", celltype2="pDC", otherlabel="AIC", ax=ax[axs])
-    #     axs += 1
+    ### Plot correlation of component weights and cell type percentage for pDC/B cells
+    for i, celltype in enumerate(["B cells", "pDC"]):
+        df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"] == celltype]
+        merged_df = pd.merge(
+            df,
+            factors_meta_df[["sample_id"] + [f"Cmp. {i+1}" for i in range(80)]],
+            on="sample_id",
+            how="inner"
+        )
         
-    # ### Plot correlation of component weights and cell type percentage for pDC/B cells
-    # axs=0
-    # for i, celltype in enumerate(["B cells", "pDC"]):
-    #     for j, type in enumerate(["Cell Type Percentage"]):
-    #         df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"] == celltype]
-    #         merged_df = pd.merge(
-    #             df,
-    #             factors_meta_df[["sample_id"] + [f"Cmp. {i+1}" for i in range(80)]],
-    #             on="sample_id",
-    #             how="inner"
-    #         )
-    #         plot_correlation_all_cmps(merged_df=merged_df, ax=ax[axs], cellPerc=(type == "Cell Type Percentage"), celltype=celltype)
-    #         axs += 1
+    plot_correlation_all_cmps(merged_df=merged_df, ax=ax[3], cellPerc=(type == "Cell Type Percentage"), celltype=celltype)
+    
+    
+    ### Plot scatter plot of B cells vs pDC percentages
+    df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"].isin(["B cells", "pDC"])]
+    column = "Cell Type Percentage"
+    merged_df = pd.merge(
+        df,
+        factors_meta_df[["sample_id", "Cmp. 22", "Cmp. 62", "immunocompromised_flag"]],
+        on="sample_id",
+        how="inner"
+    )
+    merged_df["AIC"] = merged_df["immunocompromised_flag"].replace({1: "Yes", 0: "No"})
+    plot_celltype_scatter(merged_df=merged_df, columns=column, celltype1="B cells", celltype2="pDC", otherlabel="AIC", ax=ax[4])
 
+
+
+    XX = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
+    add_obs(X, "patient_category")
+    X = X[~X.obs["patient_category"].isin(["Non-Pneumonia Control", "COVID-19"])]
+    
+    cmp1 = 31; cmp2 = 62
+    pos1 = False; pos2 = True
+    threshold = 0.25
+    XX = add_obs_cmp_both_label(X, cmp1, cmp2, pos1, pos2, top_perc=threshold)
+    XX = add_obs_cmp_unique_two(X, cmp1, cmp2)
+    plot_labels_pacmap(X, "Label", ax[5], color_key=pal)
+    
+    XX = XX[XX.obs["Label"] != "Both"]   
+    plot_avegene_cmps_celltype(XX, "LILRA4", ax[6], celltype="pDC", cellType="cell_type")
+    
+    return f
         
 
 def plot_celltype_scatter(
@@ -131,10 +143,7 @@ def plot_celltype_scatter(
     ax.set(xlim=(0.005, 10), ylim=(0.005, 10))
     ax.set_xscale("log")
     ax.set_yscale("log")
-    
-    # Set axis limits
 
-    return scatter_df
   
   
   
@@ -186,7 +195,6 @@ def plot_correlation_all_cmps(
         )
     ]
 
-    print(correlationdf)
     sns.barplot(
         data=correlationdf,
         x="Component",
