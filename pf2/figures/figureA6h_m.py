@@ -1,5 +1,5 @@
 """
-Figure A6h_m
+Figure A6h_m: Analysis of component correlations, gene expression (SFN, AGER, SCGB3A2), and cell type percentages
 """
 
 import anndata

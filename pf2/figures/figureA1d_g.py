@@ -18,25 +18,26 @@ def makeFigure():
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
-    add_obs(X, "binary_outcome")
-    add_obs(X, "patient_category")
-    combine_cell_types(X)
+    print(X)
+    # add_obs(X, "binary_outcome")
+    # add_obs(X, "patient_category")
+    # combine_cell_types(X)
 
-    cond_fact_meta_df = condition_factors_meta(X)
+    # cond_fact_meta_df = condition_factors_meta(X)
     
-    plot_sample_count(cond_fact_meta_df, ax[0], ax[1], combine_categories=True, include_control=False)
-    plot_sample_count(cond_fact_meta_df, ax[2], ax[3], combine_categories=False, include_control=True)
+    # plot_sample_count(cond_fact_meta_df, ax[0], ax[1], combine_categories=True, include_control=False)
+    # plot_sample_count(cond_fact_meta_df, ax[2], ax[3], combine_categories=False, include_control=True)
 
-    cond_fact_meta_df = cond_fact_meta_df.drop_duplicates(subset=["patient_id"])
-    plot_sample_count(cond_fact_meta_df, ax[4], ax[5], combine_categories=True, include_control=False)
-    plot_sample_count(cond_fact_meta_df, ax[6], ax[7], combine_categories=False, include_control=True)
+    # cond_fact_meta_df = cond_fact_meta_df.drop_duplicates(subset=["patient_id"])
+    # plot_sample_count(cond_fact_meta_df, ax[4], ax[5], combine_categories=True, include_control=False)
+    # plot_sample_count(cond_fact_meta_df, ax[6], ax[7], combine_categories=False, include_control=True)
         
-    for i in [1, 3]:
-        ax[i].set(ylabel="Sample Proportion")
-    for i in [4, 6]:
-        ax[i].set(ylabel="Patient Count")
-    for i in [5, 7]:
-        ax[i].set(ylabel="Patient Proportion")
+    # for i in [1, 3]:
+    #     ax[i].set(ylabel="Sample Proportion")
+    # for i in [4, 6]:
+    #     ax[i].set(ylabel="Patient Count")
+    # for i in [5, 7]:
+    #     ax[i].set(ylabel="Patient Proportion")
 
     return f
 
