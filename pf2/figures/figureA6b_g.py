@@ -1,5 +1,5 @@
 """
-Figure A6b_g
+Figure A6b_g: Analysis of component weights, cell type percentages, and gene expression in pDC/B cells.
 """
 
 import numpy as np
