@@ -1,25 +1,53 @@
-"""Figure S3: PaCMAP visualization of weighted pathway components"""
+"""
+Figure S3: Bootstrapped PLSR component loadings for patients
+"""
 
-from anndata import read_h5ad
-from .common import getSetup, subplotLabel
-from .commonFuncs.plotPaCMAP import plot_wp_pacmap
-from ..data_import import add_obs
-
-
+import pandas as pd
+import anndata
+import numpy as np
+import seaborn as sns
+from ..data_import import condition_factors_meta
+from ..predict import plsr_acc
+from .common import subplotLabel, getSetup
 
 def makeFigure():
-    ax, f = getSetup((12, 12), (4, 4))
+    """Get a list of the axis objects and create a figure."""
+    ax, f = getSetup((20, 4), (1, 1))
     subplotLabel(ax)
 
-    X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
-    add_obs(X, "patient_category")
-    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
-
-    for i, cmp in enumerate([3, 10, 14, 15, 16, 23, 34, 55, 67, 22, 62, 1, 4]):
-        plot_wp_pacmap(X, cmp, ax[i], cbarMax=0.4)
+    X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
+    
+    cond_fact_meta_df = condition_factors_meta(X)
+    trials = 50
+    bootstrapp_plsr_df = pd.DataFrame([])
+    
+    for trial in range(trials):
+        boot_index = np.random.choice(
+            cond_fact_meta_df.shape[0], replace=True, size=cond_fact_meta_df.shape[0]
+        )
+        boot_cond_fact_meta_df = cond_fact_meta_df.iloc[boot_index, :]
+        boot_cond_fact_meta_df.index = [
+            f"{idx}_{i}" if boot_index.tolist().count(idx) > 1 else idx
+            for i, idx in enumerate(boot_index)
+        ]
+        _, plsr_results_both = plsr_acc(X, boot_cond_fact_meta_df, n_components=1)
+    
+        type_of_data = ["C19", "nC19"]
         
-    for i in [13, 14, 15]:
-        ax[i].remove()
+        for i in range(2):
+            x_load = np.abs(plsr_results_both[i].x_loadings_[:, 0])
+            df_xload = pd.DataFrame(data=x_load, columns=["PLSR 1"])
+            df_xload["Component"] = np.arange(df_xload.shape[0]) + 1
+            df_xload["Trial"] = trial
+            df_xload["Status"] = type_of_data[i]
         
+            bootstrapp_plsr_df = pd.concat([bootstrapp_plsr_df, df_xload], axis=0)
+            
+            
+    sns.barplot(bootstrapp_plsr_df, x="Component", y="PLSR 1", hue="Status", ax=ax[0])
 
+
+        
     return f
+
+
