@@ -100,7 +100,7 @@ def plot_eigenstate_factors(data: AnnData, ax: Axes):
     ax.set(xlabel="Component")
 
 
-def plot_gene_factors(data: AnnData, ax: Axes, trim=True):
+def plot_gene_factors(data: AnnData, ax: Axes, trim=True, save_genes=False):
     """Plots Pf2 gene factors"""
     rank = data.varm["Pf2_C"].shape[1]
     X = np.array(data.varm["Pf2_C"])
@@ -129,6 +129,23 @@ def plot_gene_factors(data: AnnData, ax: Axes, trim=True):
         vmax=1,
     )
     ax.set(xlabel="Component")
+    
+    if save_genes is True:
+        geneAmount = 30
+        genesTop = np.empty((geneAmount, X.shape[1]), dtype="<U10")
+        genesBottom = np.empty((geneAmount, X.shape[1]), dtype="<U10")
+        sort_idx = np.argsort(X, axis=0)
+        for j in range(rank):
+            rank_idx = [int(x) for x in sort_idx[:, j]]
+            sortGenes = np.array(yt)[np.array(rank_idx)]
+            genesTop[:, j] = np.flip(sortGenes[-geneAmount:])  
+            genesBottom[:, j] = sortGenes[:geneAmount]
+
+        dfTop = pd.DataFrame(data=genesTop, columns=[f"Cmp. {i}" for i in np.arange(1, rank + 1)])
+        dfBottom = pd.DataFrame(data=genesBottom, columns=[f"Cmp. {i}" for i in np.arange(1, rank + 1)])
+
+        dfTop.to_csv("pf2/data/tableS3a.csv")
+        dfBottom.to_csv("pf2/data/tableS3b.csv")
     
     
 def plot_gene_factors_defined(

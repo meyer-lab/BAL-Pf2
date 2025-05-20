@@ -34,7 +34,7 @@ def makeFigure():
     ax[0].yaxis.set_ticklabels([])
     
     plot_eigenstate_factors(X, ax[1])
-    plot_gene_factors(X, ax[2])
+    plot_gene_factors(X, ax[2], save_genes=True)
     ax[2].yaxis.set_ticklabels([])
     
     X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
