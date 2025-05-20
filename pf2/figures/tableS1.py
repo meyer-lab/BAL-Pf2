@@ -15,7 +15,6 @@ def makeFigure():
 
     all_meta_df = meta_raw_df(X, all=True)
     all_meta_df = bal_combine_bo_covid(all_meta_df)
-    # all_meta_df = all_meta_df[all_meta_df["patient_category"] != "Non-Pneumonia Control"]
 
     total_df = pd.DataFrame([])
     for i, corr in enumerate(meta_correlates):
@@ -33,7 +32,7 @@ def makeFigure():
 
     complete_df = create_comprehensive_table(total_df, total_df["MetaData"].unique())
     print(complete_df)
-    complete_df.to_csv("pf2/data/meta_correlates_summary.csv")
+    complete_df.to_csv("pf2/data/tableS1.csv")
 
     return f
 
