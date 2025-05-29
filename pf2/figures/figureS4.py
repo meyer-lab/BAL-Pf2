@@ -2,7 +2,7 @@
 
 from anndata import read_h5ad
 from .common import getSetup, subplotLabel
-from .commonFuncs.plotPaCMAP import plot_wp_pacmap
+from RISE.figures.commonFuncs.plotPaCMAP import plot_wp_pacmap
 from ..data_import import add_obs
 
 
