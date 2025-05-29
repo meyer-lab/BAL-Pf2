@@ -11,7 +11,7 @@ import matplotlib.colors as mcolors
 from scipy.stats import spearmanr
 from .common import subplotLabel, getSetup
 from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps_celltype, plot_pair_gene_factors
-from .commonFuncs.plotPaCMAP import plot_labels_pacmap
+from RISE.figures.commonFuncs.plotPaCMAP import plot_labels_pacmap
 import matplotlib.colors as mcolors
 from ..data_import import add_obs, combine_cell_types,  condition_factors_meta_raw
 from ..utilities import cell_count_perc_df, add_obs_cmp_both_label, add_obs_cmp_unique_two

@@ -7,7 +7,7 @@ from .common import subplotLabel, getSetup
 from .commonFuncs.plotGeneral import rotate_xaxis,  plot_avegene_cmps, plot_pair_gene_factors
 from ..data_import import add_obs, combine_cell_types
 from ..utilities import add_obs_cmp_both_label, add_obs_cmp_unique_two
-from .commonFuncs.plotPaCMAP import  plot_labels_pacmap
+from RISE.figures.commonFuncs.plotPaCMAP import plot_labels_pacmap
 import matplotlib.colors as mcolors
 from ..utilities import cell_count_perc_df
 import seaborn as sns
