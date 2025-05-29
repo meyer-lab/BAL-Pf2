@@ -441,7 +441,7 @@ requests==2.32.3
 rich==14.0.0
     # via flax
     # via scvi-tools
-rise @ git+https://github.com/meyer-lab/RISE.git@afe512d2c72bf410938597e4da4d09e04d0efc53
+rise @ git+https://github.com/meyer-lab/RISE.git@e210a9d133a2025c9901caa5085536950f09d5d3
     # via pf2
 scanorama==1.7.4
     # via rise

@@ -16,6 +16,7 @@ def plot_condition_factors(
     ax: Axes,
     cond: str = "Condition",
     cond_group_labels: Optional[pd.Series] = None,
+    ThomsonNorm=False,
     color_key = None,
     group_cond = False,
 ):
@@ -23,8 +24,13 @@ def plot_condition_factors(
     pd.set_option("display.max_rows", None)
     yt = pd.Series(np.unique(data.obs[cond]))
     X = np.array(data.uns["Pf2_A"])
+    
+    if ThomsonNorm is True:
+        controls = yt.str.contains("CTRL")
+        XX = X[controls]
+    else:
+        XX = X
 
-    XX = X
     X -= np.median(XX, axis=0)
     X /= np.std(XX, axis=0)
 
@@ -100,7 +106,7 @@ def plot_eigenstate_factors(data: AnnData, ax: Axes):
     ax.set(xlabel="Component")
 
 
-def plot_gene_factors(data: AnnData, ax: Axes, trim=True, save_genes=False):
+def plot_gene_factors(data: AnnData, ax: Axes, trim=True, weight=.08, save_genes=False):
     """Plots Pf2 gene factors"""
     rank = data.varm["Pf2_C"].shape[1]
     X = np.array(data.varm["Pf2_C"])
@@ -108,7 +114,7 @@ def plot_gene_factors(data: AnnData, ax: Axes, trim=True, save_genes=False):
 
     if trim is True:
         max_weight = np.max(np.abs(X), axis=1)
-        kept_idxs = max_weight > 0.04
+        kept_idxs = max_weight > weight
         X = X[kept_idxs]
         yt = yt[kept_idxs]
 
@@ -144,8 +150,8 @@ def plot_gene_factors(data: AnnData, ax: Axes, trim=True, save_genes=False):
         dfTop = pd.DataFrame(data=genesTop, columns=[f"Cmp. {i}" for i in np.arange(1, rank + 1)])
         dfBottom = pd.DataFrame(data=genesBottom, columns=[f"Cmp. {i}" for i in np.arange(1, rank + 1)])
 
-        dfTop.to_csv("pf2/data/tableS3a.csv")
-        dfBottom.to_csv("pf2/data/tableS3b.csv")
+        dfTop.to_csv("pos_gene_factors.csv")
+        dfBottom.to_csv("neg_gene_factors.csv")
     
     
 def plot_gene_factors_defined(

@@ -30,7 +30,7 @@ dependencies = [
 readme = "README.md"
 
 [project.scripts]
-fbuild = "pf2.figures.common:genFigure"
+bal_fbuild = "pf2.figures.common:genFigure"
 factor = "pf2.imports:factorSave"
 
 [build-system]
