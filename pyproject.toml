@@ -15,6 +15,7 @@ dependencies = [
     "tensorly>=0.8.1",
     "numpy>=1.26.2",
     "parafac2 @ git+https://github.com/meyer-lab/parafac2.git@6600c677a77d0f242668babf39559cf7953ff534",
+    "rise @ git+https://github.com/meyer-lab/RISE.git",
     "pacmap>=0.7.3",
     "anndata>=0.10.3",
     "tlviz>=0.1.1",

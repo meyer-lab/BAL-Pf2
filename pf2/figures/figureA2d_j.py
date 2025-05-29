@@ -4,14 +4,15 @@ import anndata
 import pandas as pd
 from ..data_import import combine_cell_types, add_obs
 from .common import getSetup, subplotLabel
-from .commonFuncs.plotFactors import (
-    plot_condition_factors,
-    plot_gene_factors,
-    plot_eigenstate_factors,
-)
+# from .commonFuncs.plotFactors import (
+#     plot_condition_factors,
+#     plot_gene_factors,
+#     plot_eigenstate_factors,
+# )
 from .commonFuncs.plotPaCMAP import plot_labels_pacmap
 from ..data_import import condition_factors_meta, bal_combine_bo_covid
 import seaborn as sns
+from RISE import plot_eigenestate_factors
 
 
 def makeFigure():
