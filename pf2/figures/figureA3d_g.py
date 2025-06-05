@@ -21,14 +21,27 @@ def makeFigure():
     cond_fact_meta_df = condition_factors_meta(X)
     
     labels, plsr_results_both = plsr_acc(X, cond_fact_meta_df, n_components=1)
+    
+    
+    overlapping_idx = cond_fact_meta_df.index.intersection(labels.index)
+    cond_fact_meta_df_filtered = cond_fact_meta_df.loc[overlapping_idx]
+    cond_fact_meta_df_filtered = cond_fact_meta_df_filtered[cond_fact_meta_df_filtered.loc[:, "patient_category"] != "COVID-19"]
+    cond_fact_meta_df_filtered = cond_fact_meta_df_filtered["patient_category"]
+    
+    
+    print(cond_fact_meta_df_filtered)
+    
+    plot_plsr_scores_extra(plsr_results_both, cond_fact_meta_df, cond_fact_meta_df_filtered, ax[0])
+    
 
-    plot_plsr_loadings(plsr_results_both, ax[0], ax[1])
-    ax[0].set(xlim=[-0.35, 0.35])
-    ax[1].set(xlim=[-0.35, 0.35])
+    
+    # plot_plsr_loadings(plsr_results_both, ax[0], ax[1])
+    # ax[0].set(xlim=[-0.35, 0.35])
+    # ax[1].set(xlim=[-0.35, 0.35])
 
-    plot_plsr_scores(plsr_results_both, cond_fact_meta_df, labels, ax[2], ax[3])
-    ax[2].set(xlim=[-7, 7])
-    ax[3].set(xlim=[-9.5, 9.5])
+    # plot_plsr_scores(plsr_results_both, cond_fact_meta_df, labels, ax[2], ax[3])
+    # ax[2].set(xlim=[-7, 7])
+    # ax[3].set(xlim=[-9.5, 9.5])
 
     return f
 
@@ -86,9 +99,9 @@ def plot_plsr_scores(plsr_results, cond_fact_meta_df, labels, ax1, ax2):
 
         pal = sns.color_palette()
         if i == 0: 
-            numb1=0; numb2=2
+            numb1=3; numb2=2
         else:
-            numb1=1; numb2=3
+            numb1=1; numb2=0
         
         x_scores = plsr_results[i].x_scores_[:, 0]
         if i == 1:
@@ -103,3 +116,20 @@ def plot_plsr_scores(plsr_results, cond_fact_meta_df, labels, ax1, ax2):
             hue_order=[1, 0],
         )
         ax[i].set(xlabel="PLSR 1", ylabel="Samples", title=f"{type_of_data[i]}-scores")
+        
+        
+def plot_plsr_scores_extra(plsr_results, cond_fact_meta_df, labels, ax):
+    """Runs PLSR and plots ROC AUC based on actual and prediction labels"""
+    type_of_data = ["nC19"]
+    score_labels = labels.loc[
+                cond_fact_meta_df.loc[:, "patient_category"] != "COVID-19"
+            ]
+    x_scores = plsr_results[1].x_scores_[:, 0]
+    df_xscores = pd.DataFrame(data=x_scores, columns=["PLSR 1"])
+    sns.swarmplot(
+        data=df_xscores,
+        x="PLSR 1",
+        ax=ax,
+        hue=score_labels.to_numpy(),
+    )
+    ax.set(xlabel="PLSR 1", ylabel="Samples", title=f"{type_of_data}-scores")
