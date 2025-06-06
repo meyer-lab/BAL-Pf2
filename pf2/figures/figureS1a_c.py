@@ -30,6 +30,19 @@ def makeFigure():
         {"name": "nC19", "groups": ["D-nC19", "L-nC19"], "ref": "D-nC19"}
     ]
 
+    # Function to convert p-value to significance category
+    def get_significance(p_val):
+        if p_val >= 0.05:
+            return "NS"
+        elif p_val < 0.001:
+            return "***"
+        elif p_val < 0.01:
+            return "**"
+        elif p_val < 0.05:
+            return "*"
+        else:
+            return "NS"
+
     # Track which axis we're using
     current_ax = 0
     
@@ -62,8 +75,8 @@ def makeFigure():
             ax[current_ax].set_title(f"{comparison['name']} - {celltype}")
             rotate_xaxis(ax[current_ax])
             
-            # Perform WLS test for each cell type
-            for cell_type in celltype_order:
+            # Perform WLS test for each cell type and add significance markers
+            for i, cell_type in enumerate(celltype_order):
                 cell_type_data = filtered_df[filtered_df["Cell Type"] == cell_type]
                 if len(cell_type_data) > 0:
                     pval_df = wls_stats_comparison(
@@ -73,17 +86,21 @@ def makeFigure():
                         comparison["ref"]
                     )
                     
+                    p_val = pval_df["p Value"].iloc[0]
+                    significance = get_significance(p_val)
+                    
                     pvalue_results.append({
                         'Cell_Type': cell_type,
                         'Classification': celltype,
-                        'P_Value': pval_df["p Value"].iloc[0],
+                        'P_Value': p_val,
+                        'Significance': significance,
                         'Comparison': comparison["name"],
                         'Ref_Group': comparison["ref"]
                     })
             
             current_ax += 1
     
-    # Print all results in a single dataframe
+    # Print all results in a single dataframe with significance categories
     results_df = pd.DataFrame(pvalue_results)
     print(results_df)
     
