@@ -10,7 +10,7 @@ from ..utilities import add_obs_cmp_both_label, add_obs_cmp_unique_two
 
 def makeFigure():
     """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((12, 12), (6, 6))
+    ax, f = getSetup((9, 9), (4, 4))
 
     subplotLabel(ax)
 
@@ -30,21 +30,18 @@ def makeFigure():
     genes1 = ["SFN", "SCGB3A2"]
     marker_genes = [
     # Club/Clara Cells
-    "SCGB1A1", "SCGB3A1", "CYP4B1",
+    "CYP4B1",
     # Ciliated Cells
-    "FOXJ1", "DNAH5", "TUBA1A",
+    "TUBA1A",
     # Secretory/Goblet Cells
-    "MUC5AC", "MUC5B", "AGR2",
+    "AGR2",
     # Alveolar Type I Cells
-    "AGER", "CAV1", "HOPX",
+    "HOPX",
     # Alveolar Type II Cells
-    "SFTPC", "ABCA3",
-    # Endothelial Cells
-    "PECAM1", 
-    # Fibroblasts/Mesenchymal
-    "VIM",
-]
-
+    "SFTPC",
+    # Epithelial Cells
+    "EPCAM"
+    ]
 
     X = X[X.obs["Label"] != "Both"] 
     
