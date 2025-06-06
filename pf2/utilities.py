@@ -2,7 +2,8 @@ import anndata
 import numpy as np
 import pandas as pd
 import scipy.cluster.hierarchy as sch
-
+import scipy.stats as stats
+import statsmodels.api as sm
 
 def bal_combine_bo_covid(
     df, status1: str = "binary_outcome", status2: str = "patient_category"
@@ -312,3 +313,26 @@ def move_index_to_column(cell_comp_df):
     cell_comp_df = cell_comp_df.fillna(0)
     
     return cell_comp_df
+
+
+def wls_stats_comparison(df, column_comparison_name, category_name, status_name):
+    """Calculates whether cells are statistically significantly different using WLS"""
+    pval_df = pd.DataFrame()
+    df["Y"] = 1
+    df.loc[df[category_name] == status_name, "Y"] = 0
+
+    Y = df[column_comparison_name].to_numpy()
+    X = df["Y"].to_numpy()
+    weights = np.power(df["Cell Count"].values, 1)
+
+    mod_wls = sm.WLS(Y, sm.tools.tools.add_constant(X), weights=weights)
+    res_wls = mod_wls.fit()
+
+    print(res_wls.pvalues)
+
+    pval_df = pd.DataFrame({
+        "Cell Type": ["Other"],
+        "p Value": [res_wls.pvalues[1]]
+    })
+
+    return pval_df

@@ -302,3 +302,29 @@ def plot_avegene_cmps_celltype(
 
     return df
 
+def add_stat_annotation(ax, p_value, test_type):
+    """Adds statistical annotation to the plot"""
+    # Get current y-axis limits
+    y_min, y_max = ax.get_ylim()
+
+    # Determine significance level
+    if p_value < 0.001:
+        stars = '***'
+    elif p_value < 0.01:
+        stars = '**'
+    elif p_value < 0.05:
+        stars = '*'
+    else:
+        stars = 'ns'
+
+    # Position the annotation above the plot
+    text_y = y_max + 0.1 * (y_max - y_min)
+
+    # Add the annotation
+    ax.text(0.5, text_y, 
+            f"{test_type}: p = {p_value:.3f} {stars}", 
+            ha='center', va='center',
+            bbox=dict(facecolor='white', alpha=0.8))
+
+    # Adjust y-axis limits to accommodate the annotation
+    ax.set_ylim(y_min, text_y + 0.1 * (y_max - y_min))
