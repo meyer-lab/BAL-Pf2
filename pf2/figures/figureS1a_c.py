@@ -14,34 +14,40 @@ from ..utilities import bal_combine_bo_covid, cell_count_perc_df, wls_stats_comp
 import pandas as pd
 
 def makeFigure():
-    """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((14, 6), (3, 3))
+    """Get a list of the axis objects and create a figure showing both cell type classifications."""
+    # Create a larger figure with 4 rows (2 comparisons × 2 cell type versions)
+    ax, f = getSetup((14, 12), (4, 2))
     subplotLabel(ax)
 
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     add_obs(X, "binary_outcome")
     add_obs(X, "patient_category")
-    combine_cell_types(X)
-
-    # plot_cell_count(X, ax[0])
+    
     pvalue_results = []
+    cell_type_options = ["cell_type", "combined_cell_type"]
+    status_comparisons = [
+        {"name": "C19", "groups": ["D-C19", "L-C19"], "ref": "D-C19"},
+        {"name": "nC19", "groups": ["D-nC19", "L-nC19"], "ref": "D-nC19"}
+    ]
 
-    # celltype = ["cell_type", "combined_cell_type"]
-    celltype = ["combined_cell_type"]
-    status_filters = [["D-C19", "L-C19"], ["D-nC19", "L-nC19"]]  # C19 categories and nC19 categories
-
-    axs = 0
-    for i, celltypes in enumerate(celltype):
-        celltype_count_perc_df = cell_count_perc_df(X, celltype=celltypes, include_control=False)
-        for j, filt in enumerate(status_filters[i]):
-            # Filter for the specific status categories for this plot
-            filtered_df = celltype_count_perc_df[
-                celltype_count_perc_df["Status"].isin(status_filters[i])
-            ]
-
-            print(filtered_df)
+    # Track which axis we're using
+    current_ax = 0
+    
+    for celltype in cell_type_options:
+        # For combined cell types, we need to process the data differently
+        if celltype == "combined_cell_type":
+            X_combined = X.copy()
+            combine_cell_types(X_combined)
+            df = cell_count_perc_df(X_combined, celltype=celltype, include_control=False)
+        else:
+            df = cell_count_perc_df(X, celltype=celltype, include_control=False)
+        
+        for comparison in status_comparisons:
+            # Filter for the specific status comparison
+            filtered_df = df[df["Status"].isin(comparison["groups"])]
             celltype_order = np.unique(filtered_df["Cell Type"])
-
+            
+            # Create plot
             sns.boxplot(
                 data=filtered_df,
                 x="Cell Type",
@@ -49,47 +55,39 @@ def makeFigure():
                 hue="Status",
                 order=celltype_order,
                 showfliers=False,
-                ax=ax[axs],
+                ax=ax[current_ax],
             )
-            rotate_xaxis(ax[axs])
             
-            # Set reference point for statistical comparison
-            reference_group = "D-C19" if j == 0 else "D-nC19"  # First plot (C19) vs D-nC19, Second plot (nC19) vs D-C19
+            # Add appropriate titles/labels
+            ax[current_ax].set_title(f"{comparison['name']} - {celltype}")
+            rotate_xaxis(ax[current_ax])
             
             # Perform WLS test for each cell type
-            for k, cell_type in enumerate(celltype_order):
-                # print(filtered_df)
+            for cell_type in celltype_order:
                 cell_type_data = filtered_df[filtered_df["Cell Type"] == cell_type]
-                print(cell_type)
-                print(cell_type_data)
-                print(f"Reference Group: {reference_group}")
                 if len(cell_type_data) > 0:
                     pval_df = wls_stats_comparison(
                         cell_type_data, 
                         "Cell Type Percentage", 
                         "Status", 
-                        reference_group
+                        comparison["ref"]
                     )
-                    # print(pval_df)
-    
+                    
                     pvalue_results.append({
                         'Cell_Type': cell_type,
+                        'Classification': celltype,
                         'P_Value': pval_df["p Value"].iloc[0],
-                        'Cell_Type_Category': celltypes,
-                        'Ref_Group': reference_group
+                        'Comparison': comparison["name"],
+                        'Ref_Group': comparison["ref"]
                     })
-            axs += 1
             
-            
-        # ax[3].remove()
-        
-    print(pd.DataFrame(pvalue_results))
-    # print("P-Value Results:")
-    # for result in pvalue_results:
-        # print(f"Cell Type: {result['Cell_Type']}, P-Value: {result['P_Value']}, Category: {result['Cell_Type_Category']}, Reference Group: {result['Ref_Group']}")
+            current_ax += 1
+    
+    # Print all results in a single dataframe
+    results_df = pd.DataFrame(pvalue_results)
+    print(results_df)
     
     return f
-
 
 def plot_cell_count(
     X: anndata.AnnData,
