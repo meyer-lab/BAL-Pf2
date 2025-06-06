@@ -1,67 +1,52 @@
-"""Figure S1: Cell type abundance and distribution across patient statuses"""
-
+"""
+Figure S1: PLSR rank fitting analysis for mortality prediction
+"""
 import anndata
+import cupy
 import numpy as np
-import seaborn as sns
-from matplotlib.axes import Axes
-from .common import (
-    subplotLabel,
-    getSetup,
-)
-from .commonFuncs.plotGeneral import rotate_xaxis
+import pandas as pd
+
+from .common import getSetup, subplotLabel
 from ..data_import import add_obs, combine_cell_types
-from ..utilities import bal_combine_bo_covid, cell_count_perc_df
+from .commonFuncs.plotGeneral import plot_all_bulk_pred
+
+
+MEM_POOL = cupy.get_default_memory_pool()
+DATA_PERCENTAGE = 50
+N_TRIALS = 5
 
 
 def makeFigure():
-    """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((14, 6), (2, 2))
+    ax, f = getSetup((6, 3), (1, 2))
     subplotLabel(ax)
-
+    
     X = anndata.read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
     add_obs(X, "binary_outcome")
     add_obs(X, "patient_category")
     combine_cell_types(X)
-
-    plot_cell_count(X, ax[0])
-
-    celltype = ["cell_type", "combined_cell_type"]
-    for i, celltypes in enumerate(celltype):
-        celltype_count_perc_df = cell_count_perc_df(X, celltype=celltypes, include_control=False)
-        celltype = np.unique(celltype_count_perc_df["Cell Type"])
-        sns.boxplot(
-            data=celltype_count_perc_df,
-            x="Cell Type",
-            y="Cell Type Percentage",
-            hue="Status",
-            order=celltype,
-            showfliers=False,
-            ax=ax[i+1],
-        )
-        rotate_xaxis(ax[i+1])
-
-    ax[3].remove()
-
+    X.obs["condition_unique_idxs"] = pd.Categorical(X.obs["condition_unique_idxs"])
+    ranks = np.arange(5, 70, 5)
+    ranks = [2]
+    r2xs = pd.Series(0, dtype=float, index=ranks)
+    accuracies = pd.Series(0, dtype=float, index=ranks)
+    plot_all_bulk_pred(X, ax[1])
+    
+    # for rank in ranks:
+    #     XX, r2x = pf2(X, rank, do_embedding=False)
+    #     XX.uns["Pf2_A"] = correct_conditions(XX)
+    #     cond_fact_meta_df = condition_factors_meta(XX)
+    #     acc, _, _ = predict_mortality_all(XX, cond_fact_meta_df, 
+    #                                         n_components=1, proba=False)
+    #     r2xs.loc[rank] = r2x
+    #     accuracies.loc[rank] = acc
+    
+    # ax[0].scatter(ranks, r2xs)
+    ax[0].set(xticks = ranks, ylabel = "R2X", xlabel = "Rank")
+    ax[1].scatter(ranks, accuracies,)
+    ax[1].set(xticks = ranks, ylabel = "Accuracy", xlabel = "Rank")
+    ax[0].set(xticks=[0, 10, 20, 30, 40, 50, 60, 70])
+    ax[1].set(xticks=[0, 10, 20, 30, 40, 50, 60, 70])
+    
     return f
 
-
-def plot_cell_count(
-    X: anndata.AnnData,
-    ax: Axes,
-    cond: str = "sample_id",
-    status1: str = "binary_outcome",
-    status2: str = "patient_category",
-):
-    """Plots overall cell count."""
-    df = X.obs[[cond, status1, status2]].reset_index(drop=True)
-
-    df = bal_combine_bo_covid(df)
-    dfCond = (
-        df.groupby([cond, "Status"], observed=True)
-        .size()
-        .reset_index(name="Cell Count")
-    )
-
-    sns.barplot(data=dfCond, x="Status", y="Cell Count", hue="Status", ax=ax)
-    rotate_xaxis(ax)
 

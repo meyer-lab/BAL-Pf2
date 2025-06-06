@@ -6,7 +6,7 @@ import anndata
 from .common import subplotLabel, getSetup
 from .commonFuncs.plotGeneral import rotate_xaxis,  plot_avegene_cmps, plot_pair_gene_factors
 from ..data_import import add_obs, combine_cell_types
-from ..utilities import add_obs_cmp_both_label, add_obs_cmp_unique_two
+from ..utilities import add_obs_cmp_both_label, add_obs_cmp_unique_two, perform_statistical_tests
 from RISE.figures.commonFuncs.plotPaCMAP import plot_labels_pacmap
 import matplotlib.colors as mcolors
 from ..utilities import cell_count_perc_df
@@ -52,7 +52,6 @@ def makeFigure():
         
     celltype = "combined_cell_type"
     type = "Cell Type Percentage"
-    
 
     celltype_count_perc_df = cell_count_perc_df(X, celltype=celltype, include_control=False)
     new_df = celltype_count_perc_df.loc[celltype_count_perc_df["Cell Type"] == "Other"].copy().reset_index(drop=True)
@@ -70,7 +69,13 @@ def makeFigure():
         ax=ax[5],
     )
     rotate_xaxis(ax[5])
-
+    
+    status_comparisons = [
+        {"name": "nC19", "groups": ["D-nC19", "L-nC19"], "ref": "D-nC19"}
+    ]
+    comparison_results = perform_statistical_tests(final_df, "Cell Type", status_comparisons)
+    print(comparison_results)
+    
     return f
 
 
