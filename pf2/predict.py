@@ -1,37 +1,46 @@
 import pandas as pd
 import numpy as np
-from sklearn.cross_decomposition import PLSRegression
+from sklearn.linear_model import LogisticRegressionCV
 from sklearn.metrics import accuracy_score, roc_auc_score
 from sklearn.model_selection import StratifiedGroupKFold, StratifiedKFold
 import anndata
-SKF = StratifiedKFold(n_splits=10)
+
 SGKF = StratifiedGroupKFold(n_splits=10)
 
+def logistic_regression(scoring):
+    """Standardizing LogReg for all functions"""
+    return LogisticRegressionCV(
+        random_state=0,
+        max_iter=10000,
+        penalty="l1",
+        solver="saga",
+        scoring=scoring,
+    )
 
-def run_plsr(
+def run_lr(
     data: pd.DataFrame,
     labels: pd.DataFrame,
     proba: bool = False,
-    n_components: int = 1
-) -> tuple[pd.Series, PLSRegression]:
+    scoring: str = 'accuracy'
+) -> tuple[pd.Series, LogisticRegressionCV]:
     """
-    Predicts labels via PLSR cross-validation.
+    Predicts labels via logistic regression cross-validation.
 
     Args:
         data (pd.DataFrame): data to predict
-        labels (pd.Series): classification labels
+        labels (pd.DataFrame): classification labels
         proba (bool, default:False): return probability of prediction
-        n_components (int, default:1): number of PLSR components to use
+        scoring (str, default:'accuracy'): scoring metric for LogisticRegressionCV
 
     Returns:
         predicted (pd.Series): predicted mortality for patients; if proba is
             True, returns probabilities of mortality
-        plsr (PLSRegression): fitted PLSR model
+        lr (LogisticRegressionCV): fitted logistic regression model
     """
     if not isinstance(data, pd.DataFrame):
         data = pd.DataFrame(data)
 
-    plsr = PLSRegression(n_components=n_components, scale=True, max_iter=int(1e5))
+    lr = logistic_regression(scoring)
 
     probabilities = pd.Series(0, dtype=float, index=data.index)
     for train_index, test_index in SGKF.split(
@@ -42,22 +51,24 @@ def run_plsr(
         train_group_data = data.iloc[train_index, :]
         train_labels = labels.iloc[train_index].loc[:, "binary_outcome"]
         test_group_data = data.iloc[test_index]
-        plsr.fit(train_group_data, train_labels)
-        probabilities.iloc[test_index] = plsr.predict(test_group_data)
+        lr.fit(train_group_data, train_labels)
+        if proba:
+            probabilities.iloc[test_index] = lr.predict_proba(test_group_data)[:, 1]
+        else:
+            probabilities.iloc[test_index] = lr.predict(test_group_data)
 
-    plsr.fit(data, labels.loc[:, "binary_outcome"])
-    plsr.coef_ = pd.Series(plsr.coef_.squeeze(), index=data.columns)
+    lr.fit(data, labels.loc[:, "binary_outcome"])
+    lr.coef_ = pd.Series(lr.coef_.squeeze(), index=data.columns)
 
-    if proba:
-        return probabilities, plsr
-
-    else:
-        predicted = probabilities.round().astype(int)
-        return predicted, plsr
+    return probabilities, lr
 
     
 def predict_mortality_all(
-    X: anndata.AnnData, data: pd.DataFrame, proba: bool = False, n_components=1, bulk=False
+    X: anndata.AnnData, 
+    data: pd.DataFrame, 
+    proba: bool = False, 
+    scoring: str = 'accuracy',
+    bulk: bool = False
 ):
     """
     Predicts mortality via cross-validation without breaking up by status.
@@ -66,6 +77,8 @@ def predict_mortality_all(
         data (pd.DataFrame): data to predict
         meta (pd.DataFrame): patient meta-data
         proba (bool, default:False): return probability of prediction
+        scoring (str, default:'accuracy'): scoring metric for LogisticRegressionCV
+        bulk (bool, default:False): whether to use all features or just components
 
     Returns:
         if proba:
@@ -75,7 +88,7 @@ def predict_mortality_all(
         else:
             accuracy (float): prediction accuracy
             labels (pd.Series): classification targets
-            model: fitted PLSR models
+            model: fitted logistic regression models
     """
     if not isinstance(data, pd.DataFrame):
         data = pd.DataFrame(data)
@@ -86,48 +99,46 @@ def predict_mortality_all(
     predictions = pd.Series(index=cond_fact_meta_df.index)
     
     if bulk is False:
-        predictions[:], all_plsr = run_plsr(
+        predictions[:], all_lr = run_lr(
             cond_fact_meta_df[[f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)]], 
-            labels, proba=proba, n_components=n_components
+            labels, proba=proba, scoring=scoring
         )
     else:
-        predictions[:], all_plsr = run_plsr(
+        predictions[:], all_lr = run_lr(
             cond_fact_meta_df.iloc[:, :-3],
-            labels, proba=proba, n_components=n_components
+            labels, proba=proba, scoring=scoring
         )
         
     if proba:
         return predictions, labels.loc[:, "binary_outcome"]
-
     else:
-        predicted = predictions.round().astype(int)
         return (
-            accuracy_score(labels.loc[:, "binary_outcome"], predicted),
+            accuracy_score(labels.loc[:, "binary_outcome"], predictions),
             labels.loc[:, "binary_outcome"],
-            all_plsr
+            all_lr
         )
     
 
 def predict_mortality(
     X: anndata.AnnData,
     data: pd.DataFrame,
-    n_components: int = 1,
+    scoring: str = 'accuracy',
     proba: bool = False
-) -> tuple[pd.Series, pd.Series, tuple[PLSRegression, PLSRegression]]:
+) -> tuple[pd.Series, pd.Series, tuple[LogisticRegressionCV, LogisticRegressionCV]]:
     """
     Predicts mortality via cross-validation.
 
     Parameters:
         X (anndata.AnnData): factorization results
         data (pd.DataFrame): patient meta-data
-        n_components (int, default:1): number of PLS components to use
+        scoring (str, default:'accuracy'): scoring metric for LogisticRegressionCV
         proba (bool, default:False): return probability of prediction
 
     Returns:
         predictions (pd.Series): if proba, probabilities of mortality for each
             sample; else, predicted mortality outcome
         labels (pd.Series): classification targets
-        models (tuple[COVID, Non-COVID]): fitted PLSR models
+        models (tuple[COVID, Non-COVID]): fitted logistic regression models
     """
     if not isinstance(data, pd.DataFrame):
         data = pd.DataFrame(data)
@@ -154,29 +165,29 @@ def predict_mortality(
     ]
 
     predictions = pd.Series(index=cond_fact_meta_df.index)
-    predictions.loc[cond_fact_meta_df.loc[:, "patient_category"] == "COVID-19"], c_plsr = run_plsr(
+    predictions.loc[cond_fact_meta_df.loc[:, "patient_category"] == "COVID-19"], c_lr = run_lr(
         covid_data[[f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)]],
-        covid_labels, proba=proba, n_components=n_components
+        covid_labels, proba=proba, scoring=scoring
     )
-    predictions.loc[cond_fact_meta_df.loc[:, "patient_category"] != "COVID-19"], nc_plsr = run_plsr(
+    predictions.loc[cond_fact_meta_df.loc[:, "patient_category"] != "COVID-19"], nc_lr = run_lr(
         nc_data[[f"Cmp. {i}" for i in np.arange(1, X.uns["Pf2_A"].shape[1] + 1)]],
-        nc_labels, proba=proba, n_components=n_components
+        nc_labels, proba=proba, scoring=scoring
     )
 
     return (
         predictions,
         labels.loc[:, "binary_outcome"].squeeze(),
-        (c_plsr, nc_plsr)
+        (c_lr, nc_lr)
     )
 
 
-def plsr_acc_proba(X, patient_factor_matrix, n_components=1, roc_auc=True):
-    """Runs PLSR and obtains average prediction accuracy"""
+def lr_acc_proba(X, patient_factor_matrix, scoring='accuracy', roc_auc=True):
+    """Runs logistic regression and obtains average prediction accuracy"""
 
     acc_df = pd.DataFrame(columns=["Overall", "C19", "nC19"])
 
     probabilities_all, labels_all = predict_mortality_all(
-        X, patient_factor_matrix, n_components=n_components, proba=True
+        X, patient_factor_matrix, proba=True, scoring=scoring
     )
 
     if roc_auc:
@@ -186,24 +197,24 @@ def plsr_acc_proba(X, patient_factor_matrix, n_components=1, roc_auc=True):
         
     covid_acc = score(
         labels_all.loc[patient_factor_matrix.loc[:, "patient_category"] == "COVID-19"].to_numpy().astype(int),
-        probabilities_all.loc[patient_factor_matrix.loc[:, "patient_category"] == "COVID-19"].round().astype(int),
+        probabilities_all.loc[patient_factor_matrix.loc[:, "patient_category"] == "COVID-19"],
     )
     nc_acc = score(
         labels_all.loc[patient_factor_matrix.loc[:, "patient_category"] != "COVID-19"].to_numpy().astype(int),
-        probabilities_all.loc[patient_factor_matrix.loc[:, "patient_category"] != "COVID-19"].round().astype(int),
+        probabilities_all.loc[patient_factor_matrix.loc[:, "patient_category"] != "COVID-19"],
     )
-    acc = score(labels_all.to_numpy().astype(int), probabilities_all.round().astype(int))
+    acc = score(labels_all.to_numpy().astype(int), probabilities_all)
 
     acc_df.loc[0, :] = [acc, covid_acc, nc_acc]
 
     return acc_df
 
 
-def plsr_acc(X, patient_factor_matrix, n_components=1):
-    """Runs PLSR and obtains average prediction accuracy for C19 and nC19"""
+def lr_acc(X, patient_factor_matrix, scoring='accuracy'):
+    """Runs logistic regression and obtains average prediction accuracy for C19 and nC19"""
 
-    _, labels, [c19_plsr, nc19_plsr] = predict_mortality(X,
-        patient_factor_matrix, n_components=n_components,
+    _, labels, [c19_lr, nc19_lr] = predict_mortality(X,
+        patient_factor_matrix, scoring=scoring
     )
 
-    return labels, [c19_plsr, nc19_plsr]
+    return labels, [c19_lr, nc19_lr]
