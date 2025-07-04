@@ -5,6 +5,7 @@ from matplotlib.axes import Axes
 import numpy as np
 from ...utilities import bal_combine_bo_covid, cell_count_perc_df, move_index_to_column, aggregate_anndata
 from ...predict import predict_mortality_all
+from sklearn.metrics import accuracy_score, roc_auc_score
 
 def plot_avegene_per_status(
     X: anndata.AnnData,
@@ -216,9 +217,10 @@ def plot_correlation_heatmap(correlation_df: pd.DataFrame, xticks, yticks, ax: A
 
 
 
-def plot_all_bulk_pred(X, ax):
+def plot_all_bulk_pred(X, ax1, ax2):
     """Plots the accuracy of the bulk prediction"""
-    # Cell type percentage as input
+    # Cell type percentage as inputs
+    scoring = "accuracy"
     cell_comp_df = cell_count_perc_df(X, celltype="combined_cell_type")
     cell_comp_df = cell_comp_df.pivot(
         index=["sample_id", "binary_outcome", "patient_id", "patient_category"],
@@ -226,20 +228,25 @@ def plot_all_bulk_pred(X, ax):
         values="Cell Type Percentage",
     )
     cell_comp_df = move_index_to_column(cell_comp_df)
-    cell_comp_score, _, _ = predict_mortality_all(X, cell_comp_df,
-                                n_components=1, proba=False, bulk=True)
-    y_cell_comp = [cell_comp_score, cell_comp_score]
-
+    pred_cell_comp, labels_cell_comp = predict_mortality_all(X, cell_comp_df, proba=True, bulk=True,
+                                scoring=scoring)
     # Cell type gene expression as input
     cell_gene_df = aggregate_anndata(X)
     cell_gene_df = move_index_to_column(cell_gene_df)
-    cell_gene_score, _, _ = predict_mortality_all(X, cell_gene_df, 
-                                n_components=1, proba=False, bulk=True)
-    y_cell_gene = [cell_gene_score, cell_gene_score]
+    pred_cell_gene, labels_cell_gene = predict_mortality_all(X, cell_gene_df, proba=True, bulk=True,
+                                scoring=scoring)
+    
+    cell_comp_score = accuracy_score(labels_cell_comp, pred_cell_comp.round().astype(int))
+    cell_gene_score = accuracy_score(labels_cell_gene, pred_cell_gene.round().astype(int))
+    
+    ax1.axhline(y=cell_comp_score, color='red', linestyle='--')
+    ax1.axhline(y=cell_gene_score, color='green', linestyle='--')
 
-    x = [0, 200]
-    ax.axhline(y=cell_comp_score, color='red', linestyle='--')
-    ax.axhline(y=cell_gene_score, color='green', linestyle='--')
+    cell_comp_score = roc_auc_score(labels_cell_comp, pred_cell_comp)
+    cell_gene_score = roc_auc_score(labels_cell_gene, pred_cell_gene)
+
+    ax2.axhline(y=cell_comp_score, color='red', linestyle='--')
+    ax2.axhline(y=cell_gene_score, color='green', linestyle='--')
 
 
 def plot_two_gene_factors(X: anndata.AnnData, cmp1: int, cmp2: int, ax: Axes):
