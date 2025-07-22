@@ -1,17 +1,17 @@
 """
-Figure J4l: Evolving Treg/CD8 Behaviors
+Figure J5h_l: Evolving Treg/CD8 Behaviors
 """
 
-import anndata
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from anndata import read_h5ad
 from scipy.sparse import find
-from sklearn.model_selection import cross_val_score, StratifiedKFold
+from sklearn.model_selection import StratifiedKFold, cross_val_score
 from sklearn.svm import SVC
 
-from .common import getSetup
 from ..data_import import add_obs
+from .common import getSetup
 
 PATIENTS = [424, 3152, 5469, 6308, 7048]
 
@@ -38,9 +38,8 @@ def makeFigure():
         (4 * len(PATIENTS) + 0.5, 4),
         (1, len(PATIENTS))
     )
-    ax = axs[0]
 
-    data = anndata.read_h5ad(
+    data = read_h5ad(
         "/opt/northwest_bal/full_fitted.h5ad"
     )
 
@@ -49,7 +48,10 @@ def makeFigure():
     add_obs(data, "icu_day")
     add_obs(data, "episode_etiology")
 
-    data = data[data.obs.loc[:, "covid_status"] == True, :]
+    data.obs.loc[:, "covid_status"] = data.obs.loc[:, "covid_status"].fillna(
+        False
+    )
+    data = data[data.obs.loc[:, "covid_status"].astype(bool), :]
     tc_proportions = pd.DataFrame(
         index=data.obs.loc[:, "sample_id"].unique(),
         columns=["FOXP3", "ITGA1", "icu_day", "patient_id", "binary_outcome"]
@@ -85,7 +87,7 @@ def makeFigure():
         svc_data.loc[:, "binary_outcome"].values.astype(int)
     )
 
-    for ax, patient in zip(axs, PATIENTS):
+    for ax, patient in zip(axs, PATIENTS, strict=False):
         patient_samples = tc_proportions.loc[
             tc_proportions.loc[:, "patient_id"] == patient,
             :

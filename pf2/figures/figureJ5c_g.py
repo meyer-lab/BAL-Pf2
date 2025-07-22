@@ -4,12 +4,11 @@ import numpy as np
 import pandas as pd
 from anndata import read_h5ad
 
-from pf2.data_import import convert_to_patients, import_meta
+from pf2.data_import import combine_cell_types, convert_to_patients, import_meta
 from pf2.figures.common import getSetup
-from pf2.data_import import combine_cell_types
 
-CMP_1_GENES = np.array(["NT5E", "TNFSF15", "SCG5", "PADI4"])
 CMP_1_CELL_TYPES = np.array(["Macrophages", "Monocytes"])
+CMP_1_GENES = np.array(["NT5E", "TNFSF15", "SCG5", "PADI4"])
 PATIENTS = [424, 3152, 5469, 6308, 7048]
 
 
@@ -26,7 +25,7 @@ def makeFigure():
 
     axs, fig = getSetup((4, len(PATIENTS) * 2), (len(PATIENTS), 1))
 
-    for patient, ax in zip(PATIENTS, axs):
+    for patient, ax in zip(PATIENTS, axs, strict=False):
         cell_frac = pd.DataFrame(
             index=np.array(["Component"]),
             columns=meta.loc[meta.loc[:, "patient_id"] == patient, "icu_day"],
@@ -34,7 +33,7 @@ def makeFigure():
         )
         for icu_day, sample in zip(
             meta.loc[meta.loc[:, "patient_id"] == patient, "icu_day"],
-            meta.loc[meta.loc[:, "patient_id"] == patient, :].index
+            meta.loc[meta.loc[:, "patient_id"] == patient, :].index, strict=False
         ):
             sample_data = data[
                 data.obs.loc[:, "sample_id"] == sample,
@@ -56,7 +55,7 @@ def makeFigure():
                     / n_cells
                 )
 
-        for index, cell_type in enumerate(cell_frac.index):
+        for cell_type in cell_frac.index:
             ax.plot(
                 cell_frac.columns,
                 cell_frac.loc[cell_type, :],
