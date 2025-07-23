@@ -4,10 +4,10 @@ from decimal import Decimal
 
 import numpy as np
 import pandas as pd
-from scipy.stats import f_oneway, ttest_ind
 import seaborn as sns
 import statsmodels.api as sm
 from anndata import read_h5ad
+from scipy.stats import f_oneway, ttest_ind
 from sklearn.preprocessing import LabelEncoder
 
 from pf2.data_import import convert_to_patients, import_meta
@@ -111,7 +111,7 @@ def makeFigure():
             meta_col = meta.loc[:, variable].dropna()
             _patient_factor = patient_factor.loc[meta_col.index, :]
             _patient_factor.loc[:, variable] = ENCODER.fit_transform(meta_col)
-            for index, value in enumerate(ENCODER.classes_):
+            for index in np.arange(len(ENCODER.classes_)):
                 ax.errorbar(
                     index,
                     _patient_factor.loc[

@@ -4,12 +4,11 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 from anndata import read_h5ad
-from sklearn.preprocessing import LabelEncoder
 from scipy.stats import f_oneway, pearsonr, ttest_ind, tukey_hsd
+from sklearn.preprocessing import LabelEncoder
 
 from pf2.data_import import convert_to_patients, import_meta
 from pf2.figures.common import getSetup
-from pf2.utils import reorder_table
 
 COMPONENTS = np.array([14, 23, 16, 10, 34, 3, 15, 67, 55, 47, 4, 1, 22, 62])
 TTEST = [
@@ -190,18 +189,13 @@ def makeFigure():
             ]
         },
     )
-    merged = pd.concat([corr_coef, t_stats])
-    merged_order = reorder_table(merged.T)
 
     for stat, p_vals, label, ax in zip(
         (corr_coef, t_stats, anova_stats, tukey_stats),
         (corr_p, ttest_p_values, anova_p_values, tukey_p_values),
         ["Pearson Correlation", "T-Statistic", "ANOVA", "Tukey HSD"],
-        axs,
+        axs, strict=False,
     ):
-        # stat = stat.iloc[:, merged_order].loc[:, COMPONENTS]
-        # p_vals = p_vals.iloc[:, merged_order].loc[:, COMPONENTS]
-
         annot = np.empty(p_vals.shape, dtype=np.dtype("U100"))
         annot[p_vals < 0.05] = "*"
         annot[p_vals < 0.01] = "**"

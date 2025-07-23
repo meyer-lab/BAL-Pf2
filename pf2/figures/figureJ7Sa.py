@@ -1,16 +1,13 @@
 """Figure J7b: Protective TCR Subsets"""
 from os.path import join
 
-from anndata import read_h5ad
 import numpy as np
-import pandas as pd
-from scipy.stats import ttest_ind
 import seaborn as sns
-from sklearn.metrics import accuracy_score, roc_auc_score, roc_curve
+from anndata import read_h5ad
+from scipy.stats import ttest_ind
 
-from pf2.data_import import import_meta, condition_factors_meta
+from pf2.data_import import condition_factors_meta, import_meta
 from pf2.figures.common import getSetup
-from pf2.predict import predict_mortality
 
 DATA_PATH = join("/opt", "northwest_bal")
 
@@ -28,7 +25,14 @@ def makeFigure():
 
     meta = import_meta(sample_index=True)
     meta = meta.loc[cond_fact_meta_df.index, :]
-    meta = meta.loc[meta.loc[:, "covid_status"] == True, :]
+    meta.loc[:, "covid_status"] = meta.loc[
+        :,
+        "covid_status"
+    ].fillna(False)
+    meta = meta.loc[
+        meta.loc[:, "covid_status"],
+        :
+    ]
 
     meta.loc[:, "secondary_bacterial"] = False
     to_drop = []
