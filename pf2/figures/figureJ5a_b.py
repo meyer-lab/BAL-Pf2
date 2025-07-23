@@ -1,4 +1,4 @@
-"""Figure J1: Ramping Mortality Risk"""
+"""Figure J5a_b: Ramping Mortality Risk"""
 
 import numpy as np
 from anndata import read_h5ad
@@ -7,7 +7,7 @@ from pf2.data_import import condition_factors_meta
 from pf2.figures.common import getSetup
 from pf2.predict import predict_mortality
 
-PATIENTS = [5429, 5469, 7048]
+PATIENTS = [424, 3152, 5469, 6308, 7048]
 
 
 def makeFigure():
@@ -22,20 +22,19 @@ def makeFigure():
         "ICU Day",
         ascending=True
     )
-    cond_fact_meta_df.iloc[:, :50] /= abs(cond_fact_meta_df.iloc[
+    cond_fact_meta_df.iloc[:, :80] /= abs(cond_fact_meta_df.iloc[
         :,
-        :50
+        :80
     ]).max(axis=0)
 
     components = np.argsort(c_plsr.x_loadings_[:, 0])
-    protective = components[:3] + 1
-    deviant = components[-3:] + 1
-    deviant = deviant[::-1]
+    protective = components[:2] + 1
+    deviant = components[-2:] + 1
 
     axs, fig = getSetup(
-        (8, 4 * 2),
-        (4, 2),
-        gs_kws={"height_ratios": [2] + [1] * 3}
+        (8, 3 * 2),
+        (3, 2),
+        gs_kws={"height_ratios": [2, 1, 1]}
     )
 
     ax = axs[0]
@@ -44,9 +43,15 @@ def makeFigure():
             cond_fact_meta_df.loc[:, "patient_id"] == patient_id,
             :
         ]).index
+
+        color = "tab:green"
+        if cond_fact_meta_df.loc[samples[0], "binary_outcome"] == 1:
+            color = "tab:red"
+
         ax.plot(
             cond_fact_meta_df.loc[samples, "ICU Day"],
-            probabilities.loc[samples]
+            probabilities.loc[samples],
+            color=color
         )
         x_pos = cond_fact_meta_df.loc[samples, "ICU Day"].max() + 1
         y_pos = probabilities.loc[samples].iloc[-1]
@@ -59,7 +64,7 @@ def makeFigure():
             va="center"
         )
 
-    ax.set_xlim((0, 100))
+    ax.set_xlim((0, 80))
     ax.set_yticks(np.arange(0, 1.1, 0.2))
     ax.set_ylabel("Mortality Probability")
     ax.set_xlabel("ICU Day")

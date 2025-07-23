@@ -7,14 +7,25 @@ from parafac2.normalize import prepare_dataset
 from pf2.figures.commonFuncs.plotGeneral import bal_combine_bo_covid
 
 DATA_PATH = join("/opt", "northwest_bal")
+NO_META_SAMPLES = {
+    "Sample_A36J4": 3623,
+    "Sample_L03H9": 4954,
+    "Sample_N63N9": 4954,
+    "Sample_P71K1": 2626,
+    "Sample_T80A2": 2626
+}
 
 
-def import_meta(drop_duplicates: bool = True) -> pd.DataFrame:
+def import_meta(
+    drop_duplicates: bool = True,
+    sample_index: bool = False
+) -> pd.DataFrame:
     """
     Imports meta-data.
 
     Parameters:
         drop_duplicates (bool, default:True): remove duplicate patients
+        sample_index (bool, default:False): index by sample ID
 
     Returns:
         meta (pd.DataFrame): patient metadata
@@ -22,7 +33,18 @@ def import_meta(drop_duplicates: bool = True) -> pd.DataFrame:
     meta = pd.read_csv(join(DATA_PATH, "04_external.csv"), index_col=0)
     meta = meta.loc[meta.loc[:, "BAL_performed"], :]
 
-    if drop_duplicates:
+    if sample_index:
+        meta = meta.set_index("sample_id", drop=True)
+        meta = meta.loc[~meta.index.isna(), :]
+        for sample_id, patient_id in NO_META_SAMPLES.items():
+            meta.loc[sample_id, :] = np.nan
+            meta.loc[sample_id, :"icu_stay"] = meta.loc[
+                meta.loc[:, "patient_id"] == patient_id,
+                :"icu_stay"
+            ].iloc[-1, :]
+
+        meta = meta.sort_values("patient_id")
+    elif drop_duplicates:
         meta = meta.loc[~meta.loc[:, "patient_id"].duplicated(), :]
         meta = meta.set_index("patient_id", drop=True)
 
@@ -100,8 +122,8 @@ def convert_to_patients(data: anndata.AnnData, sample: bool = False) -> pd.Serie
 
 def add_obs(X: anndata.AnnData, new_obs: str):
     """Adds new observation based on meta and patient to individual cells"""
-    meta = import_meta()
-    X.obs[new_obs] = X.obs.loc[:, "patient_id"].replace(meta.loc[:, new_obs])
+    meta = import_meta(sample_index=True)
+    X.obs[new_obs] = meta.loc[X.obs.loc[:, "sample_id"], new_obs].values
 
     return X
 
@@ -170,6 +192,7 @@ def meta_raw_df(X: anndata.AnnData, all=False):
         nc19_meta_df = meta_df.loc[meta_df["patient_category"] != "COVID-19"]
         
         return c19_meta_df, nc19_meta_df
+
 
 def find_overlap_meta_cc(cell_comp_df, all_meta_df):
     """Finds overlap between cell composition and meta data"""
