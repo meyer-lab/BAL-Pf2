@@ -1,21 +1,29 @@
 """
-Figure J4d: COVID-19 Dysfunctional
+Figure J4k_m: COVID-19 Dysfunctional Responses
 """
 
 import anndata
 import matplotlib.colors as mcolors
 import numpy as np
+from RISE.figures.commonFuncs.plotPaCMAP import (
+    plot_gene_pacmap,
+    plot_labels_pacmap,
+    plot_wp_pacmap,
+)
 
 from ..data_import import add_obs, combine_cell_types
 from ..gene_analysis import gsea_overrep_per_cmp
-from ..utilities import (add_obs_cmp_unique_three, add_obs_cmp_unique_two, add_obs_cmp_both_label_three,
-                         bot_top_genes)
+from ..utilities import (
+    add_obs_cmp_both_label_three,
+    add_obs_cmp_unique_three,
+    bot_top_genes,
+)
 from .common import getSetup, subplotLabel
-from .commonFuncs.plotGeneral import (plot_avegene_cmps,
-                                      plot_pair_gene_factors, rotate_xaxis)
-from RISE.figures.commonFuncs.plotPaCMAP import (plot_gene_pacmap,
-                                                 plot_labels_pacmap,
-                                                 plot_wp_pacmap)
+from .commonFuncs.plotGeneral import (
+    plot_avegene_cmps,
+    plot_pair_gene_factors,
+    rotate_xaxis,
+)
 
 COMPONENT_1 = 1
 COMPONENT_2 = 4

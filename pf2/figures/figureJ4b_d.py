@@ -1,4 +1,4 @@
-"""Figure J4b: TCR Diversity"""
+"""Figure J4b_d: TCR Repertoire Comparisons"""
 import numpy as np
 import pandas as pd
 from anndata import read_h5ad
@@ -18,7 +18,10 @@ def makeFigure():
     add_obs(data, "binary_outcome")
     add_obs(data, "covid_status")
 
-    data = data[data.obs.loc[:, "covid_status"] == True, :]
+    data.obs.loc[:, "covid_status"] = data.obs.loc[:, "covid_status"].fillna(
+        False
+    )
+    data = data[data.obs.loc[:, "covid_status"].astype(bool), :]
     tcr_genes = data.var_names[data.var_names.str.match("TR[ABDG][VC]")]
 
     outcomes = pd.DataFrame(

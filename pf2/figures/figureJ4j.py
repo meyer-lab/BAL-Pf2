@@ -1,5 +1,5 @@
 """
-Figure J4f: CD8+ vs. T-reg behaviors
+Figure J4j: CD8+ & T-reg Balance
 """
 
 import anndata
@@ -7,13 +7,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy.sparse import find
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import cross_val_score, StratifiedKFold
+from sklearn.model_selection import StratifiedKFold, cross_val_score
 from sklearn.svm import SVC
 
-from .common import subplotLabel, getSetup
-from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps
-from ..data_import import add_obs, condition_factors_meta, import_meta
+from ..data_import import add_obs
+from .common import getSetup
 
 COMPONENTS = [3, 15]
 
@@ -58,7 +56,10 @@ def makeFigure():
     add_obs(data, "icu_day")
     add_obs(data, "episode_etiology")
 
-    data = data[data.obs.loc[:, "covid_status"] == True, :]
+    data.obs.loc[:, "covid_status"] = data.obs.loc[:, "covid_status"].fillna(
+        False
+    )
+    data = data[data.obs.loc[:, "covid_status"].astype(bool), :]
     data = data[data.obs.loc[:, "icu_day"] > 7, :]
 
     tc_proportions = pd.DataFrame(

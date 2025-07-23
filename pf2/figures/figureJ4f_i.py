@@ -1,21 +1,25 @@
 """
-Figure J4c: COVID-19 Protective
+Figure J4f_i: COVID-19 Protective Responses
 """
 
 import anndata
 import matplotlib.colors as mcolors
 import numpy as np
+from RISE.figures.commonFuncs.plotPaCMAP import (
+    plot_gene_pacmap,
+    plot_labels_pacmap,
+    plot_wp_pacmap,
+)
 
 from ..data_import import add_obs, combine_cell_types
 from ..gene_analysis import gsea_overrep_per_cmp
-from ..utilities import (add_obs_cmp_both_label, add_obs_cmp_unique_two,
-                         bot_top_genes)
+from ..utilities import add_obs_cmp_both_label, add_obs_cmp_unique_two, bot_top_genes
 from .common import getSetup, subplotLabel
-from .commonFuncs.plotGeneral import (plot_avegene_cmps,
-                                      plot_pair_gene_factors, rotate_xaxis)
-from RISE.figures.commonFuncs.plotPaCMAP import (plot_gene_pacmap,
-                                                 plot_labels_pacmap,
-                                                 plot_wp_pacmap)
+from .commonFuncs.plotGeneral import (
+    plot_avegene_cmps,
+    plot_pair_gene_factors,
+    rotate_xaxis,
+)
 
 COMPONENT_1 = 3
 COMPONENT_2 = 15

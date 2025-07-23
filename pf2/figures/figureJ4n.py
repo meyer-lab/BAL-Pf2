@@ -1,5 +1,5 @@
 """
-Figure J4i: Macrophage-Granulocyte Axis
+Figure J4n: Granulocyte-Supporting Monocyte Responses
 """
 
 import anndata
@@ -9,8 +9,8 @@ import pandas as pd
 from scipy.sparse import find
 from sklearn.svm import SVR
 
-from .common import getSetup
 from ..data_import import add_obs
+from .common import getSetup
 
 COMPONENTS = [3, 15]
 
@@ -53,12 +53,12 @@ def makeFigure():
     add_obs(data, "binary_outcome")
     add_obs(data, "covid_status")
     add_obs(data, "icu_day")
-    add_obs(data, "bmi")
-    add_obs(data, "cumulative_icu_days")
-    add_obs(data, "pathogen_bacteria_detected")
     add_obs(data, "BAL_pct_neutrophils")
 
-    data = data[data.obs.loc[:, "covid_status"] == True, :]
+    data.obs.loc[:, "covid_status"] = data.obs.loc[:, "covid_status"].fillna(
+        False
+    )
+    data = data[data.obs.loc[:, "covid_status"].astype(bool), :]
     data = data[data.obs.loc[:, "icu_day"] > 7, :]
 
     tc_proportions = pd.DataFrame(

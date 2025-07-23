@@ -1,19 +1,12 @@
 """
-Figure J4h: TCR Cell Types
+Figure J4e: TCR Component Cell Types
 """
 
 import anndata
-import datashader as ds
-import datashader.transfer_functions as tf
 import numpy as np
-import pandas as pd
-from scipy.stats import ttest_ind
-from sklearn.utils.sparsefuncs import mean_variance_axis
-from statsmodels.stats.multitest import multipletests
 
-from .common import subplotLabel, getSetup
-from .commonFuncs.plotGeneral import rotate_xaxis, plot_avegene_cmps
-from ..data_import import add_obs, combine_cell_types
+from ..data_import import combine_cell_types
+from .common import getSetup
 
 COMPONENTS = [10, 14, 16, 19, 23, 25, 34, 35, 41]
 GENES = [
@@ -48,7 +41,7 @@ def makeFigure():
         ] < thresholds[comp - 1]
         X.obs.loc[index, f"Component {comp}"] = True
 
-    for ax, comp in zip(axs[:-1], COMPONENTS):
+    for ax, comp in zip(axs[:-1], COMPONENTS, strict=False):
         comp_cells = X[
             X.obs.loc[:, f"Component {comp}"],
             :
