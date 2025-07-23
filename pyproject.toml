@@ -14,7 +14,8 @@ dependencies = [
     "scikit-learn>=1.5",
     "tensorly>=0.8.1",
     "numpy>=1.26.2",
-    "parafac2 @ git+https://github.com/meyer-lab/parafac2.git@6600c677a77d0f242668babf39559cf7953ff534",
+    "parafac2 @ git+https://github.com/meyer-lab/parafac2.git@ccf708fe71c78a106151643e893ea006bba865d9",
+    "rise @ git+https://github.com/meyer-lab/RISE.git",
     "pacmap>=0.7.3",
     "anndata>=0.10.3",
     "tlviz>=0.1.1",
@@ -22,14 +23,17 @@ dependencies = [
     "dask[dataframe]>=2024.5.0",
     "setuptools>=69.5",
     "doubletdetection>=4.2",
-    "networkx>=3.3"
-, "gseapy~=1.1.6"]
+    "networkx>=3.3",
+    "gseapy~=1.1.6",
+    "statsmodels>=0.14.5",
+    "scipy<=1.15.3",
+]
 
 
 readme = "README.md"
 
 [project.scripts]
-fbuild = "pf2.figures.common:genFigure"
+bal_fbuild = "pf2.figures.common:genFigure"
 factor = "pf2.imports:factorSave"
 
 [build-system]

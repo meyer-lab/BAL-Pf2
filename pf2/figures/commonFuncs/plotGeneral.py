@@ -88,6 +88,65 @@ def plot_avegene_cmps(
     return df
 
 
+def plot_avegene_scatter_cmps(
+    X: anndata.AnnData,
+    genes: str,
+    ax: Axes,
+    order=None
+):
+    """Plots average gene expression across cell types"""
+    dfs = []
+    for gene in genes:
+        genesV = X[:, gene]
+        dataDF = genesV.to_df()
+        condition = "sample_id"
+        status1 = "binary_outcome"
+        status2 = "patient_category"
+        cellType = "combined_cell_type"
+
+        dataDF[status1] = genesV.obs[status1].values
+        dataDF[status2] = genesV.obs[status2].values
+        dataDF["Condition"] = genesV.obs[condition].values
+        dataDF["Cell Type"] = genesV.obs[cellType].values
+        dataDF["Label"] = genesV.obs["Label"].values
+        dataDF = dataDF.dropna(subset="Label")
+        dataDF = bal_combine_bo_covid(dataDF, status1, status2)
+
+        df = pd.melt(
+            dataDF, id_vars=["Label", "Condition"], value_vars=gene
+        ).rename(columns={"variable": "Gene", "value": "Value"})
+
+        df = df.groupby(["Label", "Gene", "Condition"], observed=False).mean()
+        df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index()
+        dfs.append(df)
+    
+    # Combine the averaged data for both genes
+    merged_df = pd.merge(
+        dfs[0], dfs[1],
+        on=["Label", "Condition"],
+        suffixes=('_1', '_2')
+    )
+    
+    # # Create scatter plot
+    # palette = {"Neither": "gainsboro", 
+    #           "Component 1": "fuchsia",
+    #           "Component 2": "turquoise", 
+    #           "Both": "black"}
+              
+    sns.scatterplot(
+        data=merged_df,
+        x="Average Gene Expression_1",
+        y="Average Gene Expression_2", 
+        hue="Label",
+        ax=ax,
+    )
+    
+    ax.set_xlabel(f"Average {genes[0]}")
+    ax.set_ylabel(f"Average {genes[1]}")
+
+    return df
+
+
 def plot_pair_gene_factors(X: anndata.AnnData, cmp1: int, cmp2: int, ax: Axes):
     """Plots two gene components weights"""
     cmpWeights = np.concatenate(
@@ -181,4 +240,65 @@ def plot_all_bulk_pred(X, ax):
     x = [0, 200]
     ax.axhline(y=cell_comp_score, color='red', linestyle='--')
     ax.axhline(y=cell_gene_score, color='green', linestyle='--')
+
+
+def plot_two_gene_factors(X: anndata.AnnData, cmp1: int, cmp2: int, ax: Axes):
+    """Plots two gene components weights"""
+    cmpWeights = np.concatenate(
+        ([X.varm["Pf2_C"][:, cmp1 - 1]], [X.varm["Pf2_C"][:, cmp2 - 1]])
+    )
+    df = pd.DataFrame(
+        data=cmpWeights.transpose(), columns=[f"Cmp. {cmp1}", f"Cmp. {cmp2}"]
+    )
+    df_melted = df.melt(var_name="Component", value_name="Gene Factor")
+
+    sns.stripplot(data=df_melted, x="Component", y="Gene Factor", ax=ax, color="k", jitter=True)
+
+    ax.set(title="Gene Factors")
+    
+    
+def plot_avegene_cmps_celltype(
+    X: anndata.AnnData,
+    gene: str,
+    ax: Axes,
+    celltype: str,
+    cellType="cell_type",
+):
+    """Plots average gene expression across cell types, combining Label and Cell Type."""
+    genesV = X[:, gene]
+    dataDF = genesV.to_df()
+    condition = "sample_id"
+    status1 = "binary_outcome"
+    status2 = "patient_category"
+    cellType = cellType
+
+    dataDF[status1] = genesV.obs[status1].values
+    dataDF[status2] = genesV.obs[status2].values
+    dataDF["Condition"] = genesV.obs[condition].values
+    dataDF["Cell Type"] = genesV.obs[cellType].values
+    dataDF["Label"] = genesV.obs["Label"].values
+    dataDF = dataDF.dropna(subset="Label")
+    dataDF = bal_combine_bo_covid(dataDF, status1, status2)
+
+    dataDF = dataDF[dataDF["Cell Type"] == celltype]
+    dataDF["Label_CellType"] = dataDF["Label"].astype(str) + " - " + dataDF["Cell Type"].astype(str) + " - " + dataDF["Status"].astype(str)
+    df = pd.melt(
+        dataDF, id_vars=["Label_CellType", "Condition"], value_vars=gene
+    ).rename(columns={"variable": "Gene", "value": "Value"})
+
+    df = df.groupby(["Label_CellType", "Gene", "Condition"], observed=False).mean()
+    df = df.rename(columns={"Value": "Average Gene Expression"}).reset_index().dropna()
+
+    sns.boxplot(
+        data=df.loc[df["Gene"] == gene],
+        x="Label_CellType",
+        y="Average Gene Expression",
+        hue="Label_CellType",
+        ax=ax,
+        showfliers=False,
+    )
+    ax.set(ylabel=f"Average {gene}")
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right")
+
+    return df
 

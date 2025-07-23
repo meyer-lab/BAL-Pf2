@@ -3,15 +3,11 @@
 import anndata
 import pandas as pd
 from ..data_import import combine_cell_types, add_obs
-from .common import getSetup, subplotLabel
-from .commonFuncs.plotFactors import (
-    plot_condition_factors,
-    plot_gene_factors,
-    plot_eigenstate_factors,
-)
-from .commonFuncs.plotPaCMAP import plot_labels_pacmap
+from pf2.figures.common import getSetup, subplotLabel
 from ..data_import import condition_factors_meta, bal_combine_bo_covid
 import seaborn as sns
+from RISE.figures.commonFuncs.plotFactors import plot_condition_factors, plot_gene_factors, plot_eigenstate_factors
+from RISE.figures.commonFuncs.plotPaCMAP import plot_labels_pacmap
 
 
 def makeFigure():
@@ -30,7 +26,7 @@ def makeFigure():
     pal = [f'#{int(r*255):02x}{int(g*255):02x}{int(b*255):02x}' for r, g, b in pal]
     
     plot_condition_factors(
-        X, ax[0], cond="sample_id", cond_group_labels=pd.Series(cond_fact_meta_df["Status"]), color_key=pal, group_cond=True)
+        X, ax[0], cond="sample_id", cond_group_labels=pd.Series(cond_fact_meta_df["Status"]), color_key=pal, group_cond=True, log_transform=False)
     ax[0].yaxis.set_ticklabels([])
     
     plot_eigenstate_factors(X, ax[1])

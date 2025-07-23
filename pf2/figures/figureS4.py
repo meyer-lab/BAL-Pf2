@@ -1,32 +1,25 @@
-"""Figure S4"""
+"""Figure S4: PaCMAP visualization of weighted pathway components"""
 
 from anndata import read_h5ad
-from .common import (
-    subplotLabel,
-    getSetup,
-)
-import numpy as np
-from ..utilities import bot_top_genes
-from .commonFuncs.plotGeneral import plot_avegene_per_status
+from .common import getSetup, subplotLabel
+from RISE.figures.commonFuncs.plotPaCMAP import plot_wp_pacmap
 from ..data_import import add_obs
-from .commonFuncs.plotGeneral import rotate_xaxis
+
 
 
 def makeFigure():
-    """Get a list of the axis objects and create a figure."""
-    ax, f = getSetup((24, 10), (4, 5))
+    ax, f = getSetup((12, 12), (4, 4))
     subplotLabel(ax)
 
-    X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad")
+    X = read_h5ad("/opt/northwest_bal/full_fitted.h5ad", backed="r")
+    add_obs(X, "patient_category")
+    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"] 
 
-    X = add_obs(X, "binary_outcome")
-    X = add_obs(X, "patient_category")
-    X = X[X.obs["patient_category"] != "Non-Pneumonia Control"]
-
-    genes = bot_top_genes(X, cmp=1, geneAmount=6)
-
-    for i, gene in enumerate(np.ravel(genes)):
-        plot_avegene_per_status(X, gene, ax[i])
-        rotate_xaxis(ax[i])
+    for i, cmp in enumerate([3, 10, 14, 15, 16, 23, 34, 55, 67, 22, 62, 1, 4]):
+        plot_wp_pacmap(X, cmp, ax[i], cbarMax=0.4)
+        
+    for i in [13, 14, 15]:
+        ax[i].remove()
+        
 
     return f

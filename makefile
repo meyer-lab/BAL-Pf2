@@ -7,7 +7,7 @@ all: $(allOutput)
 
 output/figure%.svg: pf2/figures/figure%.py
 	@ mkdir -p ./output
-	rye run fbuild $*
+	rye run bal_fbuild $*
 
 test: .venv
 	rye run pytest -s -v -x
